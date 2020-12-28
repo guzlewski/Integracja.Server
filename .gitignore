@@ -360,3 +360,7 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+Integracja.Server/.config/dotnet-tools.json
+Integracja.Server/Properties/serviceDependencies.integracja - Web Deploy.json
+Integracja.Server/Properties/ServiceDependencies/integracja - Web Deploy/mssql1.arm.json
+Integracja.Server/Properties/ServiceDependencies/integracja - Web Deploy/profile.arm.json
