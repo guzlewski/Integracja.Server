@@ -8,4 +8,12 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Controllers\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Integracja.Server.Infrastructure\Integracja.Server.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>
