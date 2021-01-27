@@ -1,15 +1,10 @@
 using System.Collections.Generic;
+using Integracja.Server.Core.Enums;
 using Integracja.Server.Core.Models.Identity;
 using Integracja.Server.Core.Models.Joins;
 
 namespace Integracja.Server.Core.Models.Base
 {
-    public enum QuestionScoringType
-    {
-        ScorePerGoodAnswer,
-        ScoreIfFullyCorrect
-    }
-
     public class Question : SoftDeleteableEntity
     {
         public string Content { get; set; }
@@ -17,7 +12,7 @@ namespace Integracja.Server.Core.Models.Base
         public int CorrectAnswersCount { get; set; }
         public float PositivePoints { get; set; }
         public float NegativePoints { get; set; }
-        public QuestionScoringType QuestionScoringType { get; set; }
+        public QuestionScoring QuestionScoring { get; set; }
 
         public int CategoryId { get; set; }
         public Category Category { get; set; }
