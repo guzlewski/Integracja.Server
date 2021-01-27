@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Integracja.Server.Core.Models.Base;
+using Integracja.Server.Core.Models.Joins;
 using Microsoft.AspNetCore.Identity;
 
 namespace Integracja.Server.Core.Models.Identity

@@ -11,3 +11,4 @@ namespace Integracja.Server.Infrastructure.Configuration
             builder.HasKey(gu => new { gu.GameId, gu.UserId });
         }
     }
+}

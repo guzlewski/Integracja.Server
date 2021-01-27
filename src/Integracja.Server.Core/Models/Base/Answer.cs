@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Integracja.Server.Core.Models.Joins;
 
 namespace Integracja.Server.Core.Models.Base
 {

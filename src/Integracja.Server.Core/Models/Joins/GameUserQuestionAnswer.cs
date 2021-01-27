@@ -1,4 +1,5 @@
 using Integracja.Server.Core.Models.Base;
+using Integracja.Server.Core.Models.Identity;
 
 namespace Integracja.Server.Core.Models.Joins
 {
