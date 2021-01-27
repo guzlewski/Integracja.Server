@@ -15,10 +15,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Integracja.Server.Infrastructure\Integracja.Server.Infrastructure.csproj" />
   </ItemGroup>
 
