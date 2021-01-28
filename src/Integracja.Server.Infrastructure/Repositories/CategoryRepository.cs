@@ -47,7 +47,6 @@ namespace Integracja.Server.Infrastructure.Repositories
             {
                 entity.UpdatedDate = DateTimeOffset.Now;
                 entity.IsDeleted = true;
-                entity.IsPublic = false;
             }
 
             await _dbContext.SaveChangesAsync();
