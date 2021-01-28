@@ -5,7 +5,7 @@ using Integracja.Server.Core.Models.Base;
 using Integracja.Server.Core.Repositories;
 using Integracja.Server.Infrastructure.DTO;
 
-namespace Integracja.Server.Infrastructure.Services
+namespace Integracja.Server.Infrastructure.Services.Implementations
 {
     public class CategoryService : ICategoryService
     {
