@@ -1,3 +1,4 @@
+using Integracja.Server.Api.Services;
 using Integracja.Server.Core.Repositories;
 using Integracja.Server.Infrastructure;
 using Integracja.Server.Infrastructure.Mappers;
@@ -47,6 +48,8 @@ namespace Integracja.Server.Api
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Integracja.Server.Api v1"));
             }
+
+            app.UseMiddleware<ExceptionMiddleware>();
 
             app.UseHttpsRedirection();
 
