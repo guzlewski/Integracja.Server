@@ -8,5 +8,10 @@ namespace Integracja.Server.Core.Models.Base
         public DateTimeOffset? CreatedDate { get; set; }
         public DateTimeOffset? UpdatedDate { get; set; }
         public byte[] Timestamp { get; set; }
+
+        public Entity()
+        {
+            CreatedDate = DateTimeOffset.Now;
+        }
     }
 }

@@ -1,14 +1,15 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Integracja.Server.Core.Models.Base;
 
 namespace Integracja.Server.Core.Repositories
 {
-    interface ICategoryRepository
+    public interface ICategoryRepository
     {
-        Question Get(int id);
-        IEnumerable<Question> GetAll();
-        Question Add(Question note);
-        void Update(Question note);
-        void Delete(Question note);
+        Task<Category> Get(int id);
+        Task<IEnumerable<Category>> GetAll();
+        Task<Category> Add(Category category);
+        Task Update(Category category);
+        Task Delete(Category category);
     }
 }

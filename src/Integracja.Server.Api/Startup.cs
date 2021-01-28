@@ -1,4 +1,8 @@
+using Integracja.Server.Core.Repositories;
 using Integracja.Server.Infrastructure;
+using Integracja.Server.Infrastructure.Mappers;
+using Integracja.Server.Infrastructure.Repositories;
+using Integracja.Server.Infrastructure.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -28,6 +32,11 @@ namespace Integracja.Server.Api
 
             services.AddDbContext<ApplicationDbContext>(options =>
                options.UseSqlServer(Configuration.GetConnectionString("DatabaseConnection")));
+
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
+            services.AddScoped<ICategoryService, CategoryService>();
+
+            services.AddSingleton(AutoMapperConfig.Initialize());
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

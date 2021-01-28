@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Integracja.Server.Core.Models.Identity;
 
@@ -13,5 +12,17 @@ namespace Integracja.Server.Core.Models.Base
         public User Author { get; set; }
 
         public ICollection<Question> Questions { get; set; }
+
+        public Category(string name, bool isPublic, int authorId) : base()
+        {
+            Name = name;
+            IsPublic = isPublic;
+            AuthorId = authorId;
+        }
+
+        public Category()
+        {
+
+        }
     }
 }
