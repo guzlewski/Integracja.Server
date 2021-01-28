@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Integracja.Server.Core.Models.Base;
 using Integracja.Server.Core.Repositories;
+using Integracja.Server.Infrastructure.Exceptions;
 using Microsoft.EntityFrameworkCore;
 
 namespace Integracja.Server.Infrastructure.Repositories
@@ -25,9 +26,7 @@ namespace Integracja.Server.Infrastructure.Repositories
             await _dbContext.AddAsync(category);
             await _dbContext.SaveChangesAsync();
 
-            return await _dbContext.Categories
-                .AsNoTracking()
-                .FirstOrDefaultAsync(c => c.Id == category.Id);
+            return category;
         }
 
         public async Task Delete(Category category)
@@ -37,7 +36,7 @@ namespace Integracja.Server.Infrastructure.Repositories
 
             if (entity == null)
             {
-                return;
+                throw new NotFoundException();
             }
 
             if (entity.QuestionsCount == 0)
@@ -62,6 +61,11 @@ namespace Integracja.Server.Infrastructure.Repositories
                 .Include(c => c.Author)
                 .FirstOrDefaultAsync(c => c.Id == id);
 
+            if (entity == null)
+            {
+                throw new NotFoundException();
+            }
+
             return entity;
         }
 
@@ -83,7 +87,7 @@ namespace Integracja.Server.Infrastructure.Repositories
 
             if (entity == null)
             {
-                throw new NullReferenceException();
+                throw new NotFoundException();
             }
 
             entity.Name = category.Name;

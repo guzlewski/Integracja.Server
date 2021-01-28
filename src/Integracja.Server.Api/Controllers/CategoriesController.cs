@@ -27,14 +27,7 @@ namespace Integracja.Server.Api.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<CategoryDto>> Get(int id)
         {
-            var item = await _categoryService.Get(id);
-
-            if (item == null)
-            {
-                return NotFound();
-            }
-
-            return item;
+            return await _categoryService.Get(id);
         }
 
         [HttpPost]
