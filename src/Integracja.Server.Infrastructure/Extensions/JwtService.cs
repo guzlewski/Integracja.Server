@@ -11,16 +11,13 @@ namespace Integracja.Server.Infrastructure.Extensions
     {
         public static void ConfigureJwt(this IServiceCollection services, IConfiguration configuration)
         {
-            services.Configure<JwtConfig>(configuration.GetSection("Jwt"));
-
-            var config = services.BuildServiceProvider().GetService<JwtConfig>();
-            var signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(configuration["JWT:SecretKey"]));
+            var signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(configuration["Jwt:SecretKey"]));
 
             var tokenValidationParameters = new TokenValidationParameters
             {
                 IssuerSigningKey = signingKey,
-                ValidIssuer = configuration["JWT:ValidIssuer"],
-                ValidAudience = configuration["JWT:ValidAudience"]
+                ValidIssuer = configuration["Jwt:ValidIssuer"],
+                ValidAudience = configuration["Jwt:ValidAudience"]
             };
 
             services.AddAuthentication(o =>

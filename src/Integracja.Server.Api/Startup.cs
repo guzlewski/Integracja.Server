@@ -4,6 +4,7 @@ using Integracja.Server.Core.Repositories;
 using Integracja.Server.Infrastructure.Data;
 using Integracja.Server.Infrastructure.Extensions;
 using Integracja.Server.Infrastructure.Mappers;
+using Integracja.Server.Infrastructure.Models;
 using Integracja.Server.Infrastructure.Repositories;
 using Integracja.Server.Infrastructure.Services;
 using Integracja.Server.Infrastructure.Services.Implementations;
@@ -60,7 +61,6 @@ namespace Integracja.Server.Api
                             System.Array.Empty<string>()
                     }
                 });
-
             });
 
             services.AddDbContext<ApplicationDbContext>(options =>
@@ -68,6 +68,8 @@ namespace Integracja.Server.Api
 
             services.AddIdentity<User, Role>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            services.Configure<JwtConfig>(Configuration.GetSection("Jwt"));
 
             services.ConfigureJwt(Configuration);
 
