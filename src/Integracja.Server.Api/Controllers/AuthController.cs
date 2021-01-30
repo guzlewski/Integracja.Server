@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Integracja.Server.Infrastructure.DTO;
 using Integracja.Server.Infrastructure.Services;
-using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Integracja.Server.Api.Controllers
@@ -22,16 +18,12 @@ namespace Integracja.Server.Api.Controllers
         }
 
         [HttpPost("[action]")]
-        public async Task<TokenDTO> Login(LoginDto dto)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<TokenDto> Login(LoginDto dto)
         {
             return await _tokenService.GenerateToken(dto);
-        }
-
-        [HttpGet("[action]")]
-        [Authorize]
-        public IActionResult Test()
-        {
-            return Ok(User.FindFirstValue(ClaimTypes.NameIdentifier));
         }
     }
 }
