@@ -28,7 +28,12 @@ namespace Integracja.Server.Api
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllers()
+                .ConfigureApiBehaviorOptions(options =>
+                {
+                    options.SuppressMapClientErrors = true;
+                });
+
             services.AddSwaggerGen(swagger =>
             {
                 swagger.SwaggerDoc("v1", new OpenApiInfo { Title = "Integracja.Server.Api", Version = "v1" });
@@ -53,7 +58,6 @@ namespace Integracja.Server.Api
                                 }
                             },
                             System.Array.Empty<string>()
-
                     }
                 });
 
