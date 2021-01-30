@@ -20,9 +20,6 @@ namespace Integracja.Server.Infrastructure.Repositories
 
         public async Task<Category> Add(Category category)
         {
-            category.Id = 0;
-            category.CreatedDate = DateTimeOffset.Now;
-
             await _dbContext.AddAsync(category);
             await _dbContext.SaveChangesAsync();
 
@@ -32,7 +29,7 @@ namespace Integracja.Server.Infrastructure.Repositories
         public async Task Delete(Category category)
         {
             var entity = _dbContext.Categories
-                .FirstOrDefault(c => c.Id == category.Id);
+                .FirstOrDefault(c => c.Id == category.Id && c.AuthorId == category.AuthorId);
 
             if (entity == null)
             {
@@ -52,13 +49,13 @@ namespace Integracja.Server.Infrastructure.Repositories
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task<Category> Get(int id)
+        public async Task<Category> Get(int id, int userId)
         {
             var entity = await _dbContext.Categories
                 .AsNoTracking()
                 .Include(c => c.Questions)
                 .Include(c => c.Author)
-                .FirstOrDefaultAsync(c => c.Id == id);
+                .FirstOrDefaultAsync(c => c.Id == id && (c.IsPublic || c.AuthorId == userId));
 
             if (entity == null)
             {
@@ -68,12 +65,12 @@ namespace Integracja.Server.Infrastructure.Repositories
             return entity;
         }
 
-        public async Task<IEnumerable<Category>> GetAll()
+        public async Task<IEnumerable<Category>> GetAll(int userId)
         {
             var entities = await _dbContext.Categories
                 .AsNoTracking()
-                .Include(c => c.Questions)
                 .Include(c => c.Author)
+                .Where(c => c.IsPublic || c.AuthorId == userId)
                 .ToListAsync();
 
             return entities;
@@ -82,7 +79,7 @@ namespace Integracja.Server.Infrastructure.Repositories
         public async Task Update(Category category)
         {
             var entity = await _dbContext.Categories
-               .FirstOrDefaultAsync(c => c.Id == category.Id);
+               .FirstOrDefaultAsync(c => c.Id == category.Id && c.AuthorId == category.AuthorId);
 
             if (entity == null)
             {

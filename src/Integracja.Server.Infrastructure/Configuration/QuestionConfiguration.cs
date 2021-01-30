@@ -18,6 +18,8 @@ namespace Integracja.Server.Infrastructure.Configuration
                 .WithMany(u => u.CreatedQuestions)
                 .HasForeignKey(g => g.AuthorId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasQueryFilter(q => !q.IsDeleted);
         }
     }
 }
