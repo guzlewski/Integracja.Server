@@ -1,5 +1,4 @@
 ﻿using System.Text;
-using Integracja.Server.Infrastructure.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -7,7 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace Integracja.Server.Infrastructure.Extensions
 {
-    public static class JwtService
+    public static class ConfigureJwtExtension
     {
         public static void ConfigureJwt(this IServiceCollection services, IConfiguration configuration)
         {
