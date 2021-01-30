@@ -5,6 +5,6 @@ namespace Integracja.Server.Infrastructure.Services
 {
     public interface ITokenService
     {
-        Task<TokenDTO> GenerateToken(LoginDto dto);
+        Task<TokenDto> GenerateToken(LoginDto dto);
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Integracja.Server.Infrastructure.DTO
 {
-    public class TokenDTO
+    public class TokenDto
     {
         public DateTime ExpireOnDate { get; set; }
         public long ExpiryIn { get; set; }
