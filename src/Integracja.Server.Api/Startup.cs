@@ -1,7 +1,6 @@
 using Integracja.Server.Api.Services;
 using Integracja.Server.Core.Models.Identity;
 using Integracja.Server.Core.Repositories;
-using Integracja.Server.Infrastructure;
 using Integracja.Server.Infrastructure.Data;
 using Integracja.Server.Infrastructure.Extensions;
 using Integracja.Server.Infrastructure.Mappers;

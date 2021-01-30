@@ -6,7 +6,7 @@ namespace Integracja.Server.Api.Controllers
     [Route("api/[controller]")]
     [ApiController]
     public class GamesController : ControllerBase
-    { 
+    {
         [HttpGet("[action]/{guid}")]
         public IActionResult Join(Guid guid)
         {
