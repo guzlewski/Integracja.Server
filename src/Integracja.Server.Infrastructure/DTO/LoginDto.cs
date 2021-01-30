@@ -5,7 +5,7 @@ namespace Integracja.Server.Infrastructure.DTO
     public class LoginDto
     {
         [Required]
-        public string Nickname { get; set; }
+        public string Username { get; set; }
 
         [Required]
         public string Password { get; set; }

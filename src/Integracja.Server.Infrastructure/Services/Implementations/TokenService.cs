@@ -25,13 +25,13 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
             _userManager = userManager;
         }
 
-        public async Task<TokenDTO> GenerateToken(LoginDto dto)
+        public async Task<TokenDto> GenerateToken(LoginDto dto)
         {
-            var user = await _userManager.FindByNameAsync(dto.Nickname);
+            var user = await _userManager.FindByNameAsync(dto.Username);
 
             if (user == null || !await _userManager.CheckPasswordAsync(user, dto.Password))
             {
-                throw new UnauthorizedException();
+                throw new UnauthorizedException("Invalid username or password.");
             }
 
             var userRoles = await _userManager.GetRolesAsync(user);
@@ -57,7 +57,7 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
                 claims: authClaims,
                 signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256));
 
-            return new TokenDTO()
+            return new TokenDto()
             {
                 ExpiryIn = _options.CurrentValue.TokenExpirationTime,
                 ExpireOnDate = expireDate,
