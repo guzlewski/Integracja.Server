@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Integracja.Server.Core.Models.Base;
 using Integracja.Server.Core.Repositories;
+using Integracja.Server.Infrastructure.Data;
 using Integracja.Server.Infrastructure.Exceptions;
 using Microsoft.EntityFrameworkCore;
 

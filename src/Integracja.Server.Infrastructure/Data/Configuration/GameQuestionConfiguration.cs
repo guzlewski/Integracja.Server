@@ -2,7 +2,7 @@ using Integracja.Server.Core.Models.Joins;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Integracja.Server.Infrastructure.Configuration
+namespace Integracja.Server.Infrastructure.Data.Configuration
 {
     public class GameQuestionConfiguration : IEntityTypeConfiguration<GameQuestion>
     {

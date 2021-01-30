@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Integracja.Server.Infrastructure.Migrations
+namespace Integracja.Server.Infrastructure.Data.Migrations
 {
     public partial class Init : Migration
     {

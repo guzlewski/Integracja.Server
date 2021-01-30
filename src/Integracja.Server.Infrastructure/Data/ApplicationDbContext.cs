@@ -4,7 +4,7 @@ using Integracja.Server.Core.Models.Joins;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace Integracja.Server.Infrastructure
+namespace Integracja.Server.Infrastructure.Data
 {
     public class ApplicationDbContext : IdentityDbContext<User, Role, int>
     {
