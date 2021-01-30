@@ -43,7 +43,6 @@ namespace Integracja.Server.Infrastructure.Repositories
             }
             else
             {
-                entity.UpdatedDate = DateTimeOffset.Now;
                 entity.IsDeleted = true;
             }
 
@@ -89,7 +88,6 @@ namespace Integracja.Server.Infrastructure.Repositories
 
             entity.Name = category.Name;
             entity.IsPublic = category.IsPublic;
-            entity.UpdatedDate = DateTimeOffset.Now;
 
             await _dbContext.SaveChangesAsync();
         }

@@ -1,5 +1,9 @@
-﻿using Integracja.Server.Core.Models.Base;
+﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
+using Integracja.Server.Core.Models.Base;
 using Integracja.Server.Core.Models.Identity;
+using Integracja.Server.Core.Models.Interfaces;
 using Integracja.Server.Core.Models.Joins;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -26,6 +30,34 @@ namespace Integracja.Server.Infrastructure.Data
         {
             base.OnModelCreating(builder);
             builder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
+        }
+
+        public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
+        {
+            BeforeSaving();
+            return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
+        }
+
+        private void BeforeSaving()
+        {
+            var entries = ChangeTracker.Entries();
+            var now = DateTimeOffset.Now;
+
+            foreach (var entry in entries)
+            {
+                if (entry.Entity is IEntity trackable)
+                {
+                    switch (entry.State)
+                    {
+                        case EntityState.Modified:
+                            trackable.UpdatedDate = now;
+                            break;
+                        case EntityState.Added:
+                            trackable.CreatedDate = now;
+                            break;
+                    }
+                }
+            }
         }
     }
 }

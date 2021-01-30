@@ -21,7 +21,7 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
 
         public async Task<CategoryDto> Create(CategoryDto dto, int userId)
         {
-            var category = new Category { Name = dto.Name, IsPublic = dto.IsPublic, AuthorId = userId, CreatedDate = DateTimeOffset.Now };
+            var category = new Category { Name = dto.Name, IsPublic = dto.IsPublic, AuthorId = userId };
             var entity = await _categoryRepository.Add(category);
 
             return _mapper.Map<CategoryDto>(entity);
