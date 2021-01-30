@@ -1,14 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Integracja.Server.Infrastructure.DTO;
 using Integracja.Server.Infrastructure.Services;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Integracja.Server.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public class CategoriesController : ControllerBase
     {
         private readonly ICategoryService _categoryService;
@@ -19,36 +23,57 @@ namespace Integracja.Server.Api.Controllers
         }
 
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IEnumerable<CategoryDto>> GetAll()
         {
-            return await _categoryService.GetAll();
+            var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+
+            return await _categoryService.GetAll(userId);
         }
 
         [HttpGet("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<CategoryDto>> Get(int id)
         {
-            return await _categoryService.Get(id);
+            var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+
+            return await _categoryService.Get(id, userId);
         }
 
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<CategoryDto>> Add(CategoryDto dto)
         {
-            var entity = await _categoryService.Create(dto);
+            var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            var entity = await _categoryService.Create(dto, userId);
 
             return Created($"api/Categories/{entity.Id}", entity);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, [FromBody] CategoryDto dto)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<OkResult> Update(int id, [FromBody] CategoryDto dto)
         {
-            await _categoryService.Update(id, dto);
+            var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            await _categoryService.Update(id, dto, userId);
+
             return Ok();
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<OkResult> Delete(int id)
         {
-            await _categoryService.Delete(id);
+            var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            await _categoryService.Delete(id, userId);
+
             return Ok();
         }
     }
