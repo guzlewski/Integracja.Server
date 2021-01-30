@@ -2,12 +2,18 @@ using System;
 using System.Collections.Generic;
 using Integracja.Server.Core.Enums;
 using Integracja.Server.Core.Models.Identity;
+using Integracja.Server.Core.Models.Interfaces;
 using Integracja.Server.Core.Models.Joins;
 
 namespace Integracja.Server.Core.Models.Base
 {
-    public class Game : Entity
+    public class Game : IEntity
     {
+        public int Id { get; set; }
+        public DateTimeOffset? CreatedDate { get; set; }
+        public DateTimeOffset? UpdatedDate { get; set; }
+        public byte[] Timestamp { get; set; }
+
         public Guid Guid { get; set; }
         public string Name { get; set; }
         public DateTimeOffset StartTime { get; set; }

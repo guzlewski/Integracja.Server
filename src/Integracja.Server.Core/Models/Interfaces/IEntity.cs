@@ -1,17 +1,12 @@
 ﻿using System;
 
-namespace Integracja.Server.Core.Models.Base
+namespace Integracja.Server.Core.Models.Interfaces
 {
-    public class Entity
+    public interface IEntity
     {
         public int Id { get; set; }
         public DateTimeOffset? CreatedDate { get; set; }
         public DateTimeOffset? UpdatedDate { get; set; }
         public byte[] Timestamp { get; set; }
-
-        public Entity()
-        {
-            CreatedDate = DateTimeOffset.Now;
-        }
     }
 }

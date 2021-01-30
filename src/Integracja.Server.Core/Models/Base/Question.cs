@@ -1,12 +1,21 @@
+using System;
 using System.Collections.Generic;
 using Integracja.Server.Core.Enums;
 using Integracja.Server.Core.Models.Identity;
+using Integracja.Server.Core.Models.Interfaces;
 using Integracja.Server.Core.Models.Joins;
 
 namespace Integracja.Server.Core.Models.Base
 {
-    public class Question : SoftDeleteableEntity
+    public class Question : IEntity, ISoftDeleteable, IHideable
     {
+        public int Id { get; set; }
+        public DateTimeOffset? CreatedDate { get; set; }
+        public DateTimeOffset? UpdatedDate { get; set; }
+        public byte[] Timestamp { get; set; }
+        public bool IsPublic { get; set; }
+        public bool IsDeleted { get; set; }
+
         public string Content { get; set; }
         public int AnswersCount { get; set; }
         public int CorrectAnswersCount { get; set; }
