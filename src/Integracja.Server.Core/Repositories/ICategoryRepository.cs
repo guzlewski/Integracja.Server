@@ -6,10 +6,10 @@ namespace Integracja.Server.Core.Repositories
 {
     public interface ICategoryRepository
     {
-        Task<Category> Get(int id);
-        Task<IEnumerable<Category>> GetAll();
         Task<Category> Add(Category category);
-        Task Update(Category category);
         Task Delete(Category category);
+        Task<Category> Get(int id, int userId);
+        Task<IEnumerable<Category>> GetAll(int userId);
+        Task Update(Category category);
     }
 }

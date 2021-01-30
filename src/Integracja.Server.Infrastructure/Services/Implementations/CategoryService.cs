@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using Integracja.Server.Core.Models.Base;
@@ -18,37 +19,38 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
             _mapper = mapper;
         }
 
-        public async Task<CategoryDto> Create(CategoryDto dto)
+        public async Task<CategoryDto> Create(CategoryDto dto, int userId)
         {
-            var category = new Category(dto.Name, dto.IsPublic, dto.AuthorId);
+            var category = new Category { Name = dto.Name, IsPublic = dto.IsPublic, AuthorId = userId, CreatedDate = DateTimeOffset.Now };
             var entity = await _categoryRepository.Add(category);
 
             return _mapper.Map<CategoryDto>(entity);
         }
 
-        public async Task Delete(int id)
+        public async Task Delete(int id, int userId)
         {
-            await _categoryRepository.Delete(new Category { Id = id });
+            await _categoryRepository.Delete(new Category { Id = id, AuthorId = userId });
         }
 
-        public async Task<CategoryDto> Get(int id)
+        public async Task<CategoryDto> Get(int id, int userId)
         {
-            var entity = await _categoryRepository.Get(id);
+            var entity = await _categoryRepository.Get(id, userId);
 
             return _mapper.Map<CategoryDto>(entity);
         }
 
-        public async Task<IEnumerable<CategoryDto>> GetAll()
+        public async Task<IEnumerable<CategoryDto>> GetAll(int userId)
         {
-            var entities = await _categoryRepository.GetAll();
+            var entities = await _categoryRepository.GetAll(userId);
 
             return _mapper.Map<IEnumerable<CategoryDto>>(entities);
         }
 
-        public async Task Update(int id, CategoryDto dto)
+        public async Task Update(int id, CategoryDto dto, int userId)
         {
             var category = _mapper.Map<Category>(dto);
             category.Id = id;
+            category.AuthorId = userId;
 
             await _categoryRepository.Update(category);
         }
