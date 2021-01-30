@@ -2,18 +2,15 @@
 using System.Threading.Tasks;
 using Integracja.Server.Infrastructure.Exceptions;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Logging;
 
 namespace Integracja.Server.Api.Services
 {
     public class ExceptionMiddleware
     {
         private readonly RequestDelegate _next;
-        private readonly ILogger<ExceptionMiddleware> _logger;
 
-        public ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddleware> logger)
+        public ExceptionMiddleware(RequestDelegate next)
         {
-            _logger = logger;
             _next = next;
         }
 
@@ -34,7 +31,12 @@ namespace Integracja.Server.Api.Services
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = exception.StatusCode;
 
-            return context.Response.WriteAsync(JsonSerializer.Serialize(new { exception.Details }));
+            if (exception.Details != null)
+            {
+                return context.Response.WriteAsync(JsonSerializer.Serialize(new { exception.Details }));
+            }
+
+            return Task.CompletedTask;
         }
     }
 }
