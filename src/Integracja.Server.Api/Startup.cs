@@ -70,12 +70,11 @@ namespace Integracja.Server.Api
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.Configure<JwtConfig>(Configuration.GetSection("Jwt"));
-
             services.ConfigureJwt(Configuration);
+            services.AddScoped<ITokenService, TokenService>();
 
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<ICategoryService, CategoryService>();
-            services.AddScoped<ITokenService, TokenService>();
 
             services.AddSingleton(AutoMapperConfig.Initialize());
         }
