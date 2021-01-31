@@ -1,8 +1,10 @@
-﻿namespace Integracja.Server.Infrastructure.Exceptions
+﻿using Microsoft.AspNetCore.Http;
+
+namespace Integracja.Server.Infrastructure.Exceptions
 {
     public class UnauthorizedException : ApiException
     {
-        public UnauthorizedException(string details = null) : base(401, details)
+        public UnauthorizedException(string details = null) : base(StatusCodes.Status401Unauthorized, details)
         {
 
         }
