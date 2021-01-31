@@ -65,7 +65,7 @@ namespace Integracja.Server.Web
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Przeglad}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
         }
