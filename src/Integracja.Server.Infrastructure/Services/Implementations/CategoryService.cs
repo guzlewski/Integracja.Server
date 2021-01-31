@@ -32,11 +32,11 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
             await _categoryRepository.Delete(new Category { Id = id, AuthorId = userId });
         }
 
-        public async Task<CategoryDto> Get(int id, int userId)
+        public async Task<CategoryDetailsDto> Get(int id, int userId)
         {
             var entity = await _categoryRepository.Get(id, userId);
 
-            return _mapper.Map<CategoryDto>(entity);
+            return _mapper.Map<CategoryDetailsDto>(entity);
         }
 
         public async Task<IEnumerable<CategoryDto>> GetAll(int userId)

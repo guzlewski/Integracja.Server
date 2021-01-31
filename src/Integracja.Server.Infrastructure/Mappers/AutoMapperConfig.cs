@@ -13,6 +13,7 @@ namespace Integracja.Server.Infrastructure.Mappers
                 cfg.CreateMap<Category, CategoryDto>()
                     .ForMember(dto => dto.AuthorNickname, m => m.MapFrom(c => c.Author.UserName));
                 cfg.CreateMap<CategoryDto, Category>();
+                cfg.CreateMap<Category, CategoryDetailsDto>();
             })
             .CreateMapper();
         }
