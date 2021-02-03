@@ -18,7 +18,7 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
             _categoryRepository = categoryRepository;
         }
 
-        public async Task<CategoryDto> Create(CategoryDto dto, int userId)
+        public async Task<CategoryDto> Add(CategoryDto dto, int userId)
         {
             if (string.IsNullOrWhiteSpace(dto.Name))
             {
