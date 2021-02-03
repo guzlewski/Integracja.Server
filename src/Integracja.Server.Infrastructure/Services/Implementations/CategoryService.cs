@@ -20,6 +20,11 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
 
         public async Task<CategoryDto> Create(CategoryDto dto, int userId)
         {
+            if (string.IsNullOrWhiteSpace(dto.Name))
+            {
+                throw new BadRequestException();
+            }
+
             var entity = await _categoryRepository.Add(new Category
             {
                 Name = dto.Name,
@@ -98,6 +103,11 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
 
         public async Task Update(int id, CategoryDto dto, int userId)
         {
+            if (string.IsNullOrWhiteSpace(dto.Name))
+            {
+                throw new BadRequestException();
+            }
+
             var category = new Category
             {
                 Id = id,
