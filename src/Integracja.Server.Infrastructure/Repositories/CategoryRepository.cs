@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Integracja.Server.Core.Models.Base;
 using Integracja.Server.Core.Repositories;
@@ -19,8 +17,28 @@ namespace Integracja.Server.Infrastructure.Repositories
             _dbContext = dbContext;
         }
 
+        public IQueryable<Category> Get(int id, int userId)
+        {
+            var entity = _dbContext.Categories
+                .AsNoTracking()
+                .Where(c => c.Id == id && (c.IsPublic || c.AuthorId == userId) && !c.IsDeleted);
+
+            return entity;
+        }
+
+        public IQueryable<Category> GetAll(int userId)
+        {
+            var entities = _dbContext.Categories
+                .AsNoTracking()
+                .Where(c => (c.IsPublic || c.AuthorId == userId) && !c.IsDeleted);
+
+            return entities;
+        }
+
         public async Task<Category> Add(Category category)
         {
+            category.Id = 0;
+
             await _dbContext.AddAsync(category);
             await _dbContext.SaveChangesAsync();
 
@@ -29,8 +47,14 @@ namespace Integracja.Server.Infrastructure.Repositories
 
         public async Task Delete(Category category)
         {
-            var entity = _dbContext.Categories
-                .FirstOrDefault(c => c.Id == category.Id && c.AuthorId == category.AuthorId);
+            var entity = await _dbContext.Categories
+                .Where(c => c.Id == category.Id && c.AuthorId == category.AuthorId && !c.IsDeleted)
+                .Select(c => new
+                {
+                    Category = c,
+                    QuestionsCount = c.Questions.Count
+                })
+                .FirstOrDefaultAsync();
 
             if (entity == null)
             {
@@ -39,47 +63,20 @@ namespace Integracja.Server.Infrastructure.Repositories
 
             if (entity.QuestionsCount == 0)
             {
-                _dbContext.Remove(entity);
+                _dbContext.Remove(entity.Category);
             }
             else
             {
-                entity.IsDeleted = true;
+                entity.Category.IsDeleted = true;
             }
 
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task<Category> Get(int id, int userId)
-        {
-            var entity = await _dbContext.Categories
-                .AsNoTracking()
-                .Include(c => c.Questions)
-                .Include(c => c.Author)
-                .FirstOrDefaultAsync(c => c.Id == id && (c.IsPublic || c.AuthorId == userId));
-
-            if (entity == null)
-            {
-                throw new NotFoundException();
-            }
-
-            return entity;
-        }
-
-        public async Task<IEnumerable<Category>> GetAll(int userId)
-        {
-            var entities = await _dbContext.Categories
-                .AsNoTracking()
-                .Include(c => c.Author)
-                .Where(c => c.IsPublic || c.AuthorId == userId)
-                .ToListAsync();
-
-            return entities;
-        }
-
         public async Task Update(Category category)
         {
             var entity = await _dbContext.Categories
-               .FirstOrDefaultAsync(c => c.Id == category.Id && c.AuthorId == category.AuthorId);
+               .FirstOrDefaultAsync(c => c.Id == category.Id && c.AuthorId == category.AuthorId && !c.IsDeleted);
 
             if (entity == null)
             {
@@ -88,6 +85,7 @@ namespace Integracja.Server.Infrastructure.Repositories
 
             entity.Name = category.Name;
             entity.IsPublic = category.IsPublic;
+            entity.RowVersion++;
 
             await _dbContext.SaveChangesAsync();
         }

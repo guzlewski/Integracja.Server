@@ -4,6 +4,6 @@ namespace Integracja.Server.Infrastructure.DTO
 {
     public class CategoryDetailsDto : CategoryDto
     {
-        public IEnumerable<QuestionDto> Questions { get; set; }
+        public IEnumerable<QuestionShortDto> Questions { get; set; }
     }
 }
