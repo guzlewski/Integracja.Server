@@ -10,18 +10,16 @@ namespace Integracja.Server.Core.Models.Base
     public class Game : IEntity
     {
         public int Id { get; set; }
-        public DateTimeOffset? CreatedDate { get; set; }
-        public DateTimeOffset? UpdatedDate { get; set; }
-        public byte[] Timestamp { get; set; }
+        public DateTimeOffset? CreatedOn { get; set; }
+        public DateTimeOffset? UpdatedOn { get; set; }
+        public int RowVersion { get; set; }
 
         public Guid Guid { get; set; }
         public string Name { get; set; }
         public DateTimeOffset StartTime { get; set; }
         public DateTimeOffset EndTime { get; set; }
         public GameState GameState { get; set; }
-        public int PlayersCount { get; set; }
         public int MaxPlayersCount { get; set; }
-        public int QuestionsCount { get; set; }
 
         public int GamemodeId { get; set; }
         public Gamemode Gamemode { get; set; }
