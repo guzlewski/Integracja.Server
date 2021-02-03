@@ -15,8 +15,8 @@ namespace Integracja.Server.Core.Models.Base
         public bool IsDeleted { get; set; }
 
         public string Name { get; set; }
-        public int? TimeForOneQuestion { get; set; }
-        public int? TimeForFullQuiz { get; set; }
+        public int TimeForFullQuiz { get; set; }
+        public int? TimeForOneQuestion { get; set; }        
         public int? NumberOfLives { get; set; }
 
         public int AuthorId { get; set; }
