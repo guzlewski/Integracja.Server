@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using Integracja.Server.Api.Services;
 using Integracja.Server.Core.Models.Identity;
 using Integracja.Server.Core.Repositories;
@@ -30,6 +31,10 @@ namespace Integracja.Server.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers()
+                .AddJsonOptions(opts =>
+                {
+                    opts.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+                })
                 .ConfigureApiBehaviorOptions(options =>
                 {
                     options.SuppressMapClientErrors = true;
