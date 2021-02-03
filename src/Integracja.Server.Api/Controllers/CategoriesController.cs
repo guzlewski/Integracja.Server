@@ -48,7 +48,7 @@ namespace Integracja.Server.Api.Controllers
         public async Task<ActionResult<CategoryDto>> Add(CategoryDto dto)
         {
             var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-            var entity = await _categoryService.Create(dto, userId);
+            var entity = await _categoryService.Add(dto, userId);
 
             return Created($"api/Categories/{entity.Id}", entity);
         }
