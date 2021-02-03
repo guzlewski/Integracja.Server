@@ -8,8 +8,8 @@ namespace Integracja.Server.Infrastructure.Data.Configuration
     {
         public void Configure(EntityTypeBuilder<Category> builder)
         {
-            builder.Property(c => c.Timestamp)
-                .IsRowVersion();
+            builder.Property(c => c.RowVersion)
+                .IsConcurrencyToken();
 
             builder.Property(c => c.Name)
                 .IsRequired();
