@@ -1,37 +1,133 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using Integracja.Server.Core.Enums;
+using Integracja.Server.Core.Models.Base;
+using Integracja.Server.Core.Repositories;
 using Integracja.Server.Infrastructure.DTO;
+using Integracja.Server.Infrastructure.Exceptions;
+using Microsoft.EntityFrameworkCore;
 
 namespace Integracja.Server.Infrastructure.Services.Implementations
 {
     public class GamemodeService : IGamemodeService
     {
-        public Task<GamemodeDto> Get(int id, int userId)
+        private readonly IGamemodeRepository _gamemodeRepository;
+
+        public GamemodeService(IGamemodeRepository gamemodeRepository)
         {
-            throw new NotImplementedException();
+            _gamemodeRepository = gamemodeRepository;
         }
 
-        public Task<IEnumerable<GamemodeDto>> GetAll(int userId)
+        public async Task<GamemodeDto> Get(int id, int userId)
         {
-            throw new NotImplementedException();
+            var entity = await _gamemodeRepository.Get(id, userId)
+              .Select(gm => new GamemodeDto
+              {
+                  Id = gm.Id,
+                  IsPublic = gm.IsPublic,
+                  Name = gm.Name,
+                  TimeForFullQuiz = gm.TimeForFullQuiz,
+                  TimeForOneQuestion = gm.TimeForOneQuestion,
+                  NumberOfLives = gm.NumberOfLives,
+                  AuthorId = gm.AuthorId,
+                  AuthorUsername = gm.Author.UserName,
+                  GamesCount = gm.Games.Where(g => g.GameState != GameState.Deleted).Count()
+              })
+              .FirstOrDefaultAsync();
+
+            if (entity == null)
+            {
+                throw new NotFoundException();
+            }
+
+            return entity;
         }
 
-        public Task<GamemodeDto> Add(GamemodeDto dto, int userId)
+        public async Task<IEnumerable<GamemodeDto>> GetAll(int userId)
         {
-            throw new NotImplementedException();
+            var entities = await _gamemodeRepository.GetAll(userId)
+                .Select(gm => new GamemodeDto
+                {
+                    Id = gm.Id,
+                    IsPublic = gm.IsPublic,
+                    Name = gm.Name,
+                    TimeForFullQuiz = gm.TimeForFullQuiz,
+                    TimeForOneQuestion = gm.TimeForOneQuestion,
+                    NumberOfLives = gm.NumberOfLives,
+                    AuthorId = gm.AuthorId,
+                    AuthorUsername = gm.Author.UserName,
+                    GamesCount = gm.Games.Where(g => g.GameState != GameState.Deleted).Count()
+                })
+                .ToListAsync();
+
+            return entities;
         }
 
-        public Task Delete(int id, int userId)
+        public async Task<GamemodeDto> Add(GamemodeDto dto, int userId)
         {
-            throw new NotImplementedException();
-        }        
+            if (string.IsNullOrWhiteSpace(dto.Name) ||
+                dto.TimeForFullQuiz < 1 ||
+                dto.TimeForOneQuestion.GetValueOrDefault() < 0 ||
+                dto.NumberOfLives.GetValueOrDefault() < 0)
+            {
+                throw new BadRequestException();
+            }
 
-        public Task Update(int id, GamemodeDto dto, int userId)
+            var entity = await _gamemodeRepository.Add(new Gamemode
+            {
+                IsPublic = dto.IsPublic,
+                AuthorId = userId,
+                Name = dto.Name,
+                TimeForFullQuiz = dto.TimeForFullQuiz,
+                TimeForOneQuestion = dto.TimeForOneQuestion,
+                NumberOfLives = dto.NumberOfLives
+            });
+
+            return new GamemodeDto
+            {
+                Id = entity.Id,
+                IsPublic = entity.IsPublic,
+                AuthorId = entity.AuthorId,
+                Name = entity.Name,
+                TimeForFullQuiz = entity.TimeForFullQuiz,
+                TimeForOneQuestion = entity.TimeForOneQuestion,
+                NumberOfLives = entity.NumberOfLives
+            };
+        }
+
+        public async Task Delete(int id, int userId)
         {
-            throw new NotImplementedException();
+            await _gamemodeRepository.Delete(new Gamemode
+            {
+                Id = id,
+                AuthorId = userId
+            });
+        }
+
+        public async Task Update(int id, GamemodeDto dto, int userId)
+        {
+            if (string.IsNullOrWhiteSpace(dto.Name) ||
+                dto.TimeForFullQuiz < 1 ||
+                dto.TimeForOneQuestion.GetValueOrDefault() < 0 ||
+                dto.NumberOfLives.GetValueOrDefault() < 0)
+            {
+                throw new BadRequestException();
+            }
+
+            var gamemode = new Gamemode
+            {
+                Id = id,
+                IsPublic = dto.IsPublic,
+                AuthorId = userId,
+                Name = dto.Name,
+                TimeForFullQuiz = dto.TimeForFullQuiz,
+                TimeForOneQuestion = dto.TimeForOneQuestion,
+                NumberOfLives = dto.NumberOfLives
+            };
+
+            await _gamemodeRepository.Update(gamemode);
         }
     }
 }
