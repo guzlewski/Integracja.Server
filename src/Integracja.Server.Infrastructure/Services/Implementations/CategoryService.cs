@@ -20,8 +20,7 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
 
         public async Task<CategoryDetailsDto> Get(int id, int userId)
         {
-            var entity = await _categoryRepository
-                .Get(id, userId)
+            var entity = await _categoryRepository.Get(id, userId)
                 .Select(c => new CategoryDetailsDto
                 {
                     Id = c.Id,
@@ -113,8 +112,7 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
                 Id = id,
                 AuthorId = userId,
                 Name = dto.Name,
-                IsPublic
-                = dto.IsPublic
+                IsPublic = dto.IsPublic
             };
 
             await _categoryRepository.Update(category);
