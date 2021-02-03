@@ -50,10 +50,10 @@ namespace Integracja.Server.Infrastructure.Data
                     switch (entry.State)
                     {
                         case EntityState.Modified:
-                            trackable.UpdatedDate = now;
+                            trackable.UpdatedOn = now;
                             break;
                         case EntityState.Added:
-                            trackable.CreatedDate = now;
+                            trackable.CreatedOn = now;
                             break;
                     }
                 }
