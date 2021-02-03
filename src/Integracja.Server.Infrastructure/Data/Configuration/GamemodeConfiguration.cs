@@ -8,8 +8,8 @@ namespace Integracja.Server.Infrastructure.Data.Configuration
     {
         public void Configure(EntityTypeBuilder<Gamemode> builder)
         {
-            builder.Property(gm => gm.Timestamp)
-                .IsRowVersion();
+            builder.Property(gm => gm.RowVersion)
+                .IsConcurrencyToken();
 
             builder.Property(gm => gm.Name)
                 .IsRequired();
