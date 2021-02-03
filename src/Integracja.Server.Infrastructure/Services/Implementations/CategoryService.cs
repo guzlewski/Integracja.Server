@@ -18,38 +18,6 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
             _categoryRepository = categoryRepository;
         }
 
-        public async Task<CategoryDto> Add(CategoryDto dto, int userId)
-        {
-            if (string.IsNullOrWhiteSpace(dto.Name))
-            {
-                throw new BadRequestException();
-            }
-
-            var entity = await _categoryRepository.Add(new Category
-            {
-                Name = dto.Name,
-                IsPublic = dto.IsPublic,
-                AuthorId = userId
-            });
-
-            return new CategoryDto
-            {
-                Id = entity.Id,
-                Name = entity.Name,
-                IsPublic = entity.IsPublic,
-                AuthorId = entity.AuthorId
-            };
-        }
-
-        public async Task Delete(int id, int userId)
-        {
-            await _categoryRepository.Delete(new Category
-            {
-                Id = id,
-                AuthorId = userId
-            });
-        }
-
         public async Task<CategoryDetailsDto> Get(int id, int userId)
         {
             var entity = await _categoryRepository
@@ -99,6 +67,38 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
                 .ToListAsync();
 
             return entities;
+        }
+
+        public async Task<CategoryDto> Add(CategoryDto dto, int userId)
+        {
+            if (string.IsNullOrWhiteSpace(dto.Name))
+            {
+                throw new BadRequestException();
+            }
+
+            var entity = await _categoryRepository.Add(new Category
+            {
+                Name = dto.Name,
+                IsPublic = dto.IsPublic,
+                AuthorId = userId
+            });
+
+            return new CategoryDto
+            {
+                Id = entity.Id,
+                Name = entity.Name,
+                IsPublic = entity.IsPublic,
+                AuthorId = entity.AuthorId
+            };
+        }
+
+        public async Task Delete(int id, int userId)
+        {
+            await _categoryRepository.Delete(new Category
+            {
+                Id = id,
+                AuthorId = userId
+            });
         }
 
         public async Task Update(int id, CategoryDto dto, int userId)
