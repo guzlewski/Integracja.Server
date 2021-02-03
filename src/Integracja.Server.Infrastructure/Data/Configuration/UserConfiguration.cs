@@ -8,7 +8,6 @@ namespace Integracja.Server.Infrastructure.Data.Configuration
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
-            builder.HasQueryFilter(q => !q.IsDeleted);
         }
     }
 }

@@ -18,8 +18,6 @@ namespace Integracja.Server.Infrastructure.Data.Configuration
                 .WithMany(u => u.CreatedGameModes)
                 .HasForeignKey(gm => gm.AuthorId)
                 .OnDelete(DeleteBehavior.Restrict);
-
-            builder.HasQueryFilter(gm => !gm.IsDeleted);
         }
     }
 }
