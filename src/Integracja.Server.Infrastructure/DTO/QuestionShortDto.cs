@@ -1,4 +1,5 @@
-﻿using Integracja.Server.Core.Enums;
+﻿using System.ComponentModel.DataAnnotations;
+using Integracja.Server.Core.Enums;
 
 namespace Integracja.Server.Infrastructure.DTO
 {
@@ -6,6 +7,7 @@ namespace Integracja.Server.Infrastructure.DTO
     {
         public int Id { get; set; }
         public bool IsPublic { get; set; }
+        [Required]
         public string Content { get; set; }
         public int AnswersCount { get; set; }
         public int CorrectAnswersCount { get; set; }
