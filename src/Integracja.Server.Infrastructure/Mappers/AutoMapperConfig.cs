@@ -10,10 +10,6 @@ namespace Integracja.Server.Infrastructure.Mappers
         {
             return new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<Category, CategoryDto>()
-                    .ForMember(dto => dto.AuthorNickname, m => m.MapFrom(c => c.Author.UserName));
-                cfg.CreateMap<CategoryDto, Category>();
-                cfg.CreateMap<Category, CategoryDetailsDto>();
             })
             .CreateMapper();
         }
