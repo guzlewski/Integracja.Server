@@ -8,8 +8,8 @@ namespace Integracja.Server.Infrastructure.Services
     {
         Task<CategoryDetailsDto> Get(int id, int userId);
         Task<IEnumerable<CategoryDto>> GetAll(int userId);
-        Task<CategoryDto> Add(CategoryDto dto, int userId);        
+        Task<int> Add(CategoryDto dto, int userId);        
         Task Delete(int id, int userId);
-        Task Update(int id, CategoryDto dto, int userId);
+        Task<int> Update(int id, CategoryDto dto, int userId);
     }
 }

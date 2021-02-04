@@ -35,14 +35,13 @@ namespace Integracja.Server.Infrastructure.Repositories
             return entities;
         }
 
-        public async Task<Category> Add(Category category)
+        public async Task<int> Add(Category category)
         {
             category.Id = 0;
-
             await _dbContext.AddAsync(category);
             await _dbContext.SaveChangesAsync();
 
-            return category;
+            return category.Id;
         }
 
         public async Task Delete(Category category)
@@ -74,7 +73,7 @@ namespace Integracja.Server.Infrastructure.Repositories
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task Update(Category category)
+        public async Task<int> Update(Category category)
         {
             var entity = await _dbContext.Categories
                .FirstOrDefaultAsync(c => c.Id == category.Id && c.OwnerId == category.OwnerId && !c.IsDeleted);
@@ -89,6 +88,8 @@ namespace Integracja.Server.Infrastructure.Repositories
             entity.RowVersion++;
 
             await _dbContext.SaveChangesAsync();
+
+            return entity.Id;
         }
     }
 }

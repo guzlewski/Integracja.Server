@@ -8,8 +8,8 @@ namespace Integracja.Server.Core.Repositories
     {
         IQueryable<Category> Get(int id, int userId);
         IQueryable<Category> GetAll(int userId);
-        Task<Category> Add(Category category);
+        Task<int> Add(Category category);
         Task Delete(Category category);
-        Task Update(Category category);
+        Task<int> Update(Category category);
     }
 }

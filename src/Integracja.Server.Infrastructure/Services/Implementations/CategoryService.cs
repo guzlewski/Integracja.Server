@@ -68,27 +68,19 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
             return entities;
         }
 
-        public async Task<CategoryDto> Add(CategoryDto dto, int userId)
+        public async Task<int> Add(CategoryDto dto, int userId)
         {
             if (string.IsNullOrWhiteSpace(dto.Name))
             {
                 throw new BadRequestException();
             }
 
-            var entity = await _categoryRepository.Add(new Category
+            return await _categoryRepository.Add(new Category
             {
                 Name = dto.Name,
                 IsPublic = dto.IsPublic,
                 OwnerId = userId
             });
-
-            return new CategoryDto
-            {
-                Id = entity.Id,
-                Name = entity.Name,
-                IsPublic = entity.IsPublic,
-                OwnerId = entity.OwnerId
-            };
         }
 
         public async Task Delete(int id, int userId)
@@ -100,7 +92,7 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
             });
         }
 
-        public async Task Update(int id, CategoryDto dto, int userId)
+        public async Task<int> Update(int id, CategoryDto dto, int userId)
         {
             if (string.IsNullOrWhiteSpace(dto.Name))
             {
@@ -116,6 +108,8 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
             };
 
             await _categoryRepository.Update(category);
+
+            return category.Id;
         }
     }
 }
