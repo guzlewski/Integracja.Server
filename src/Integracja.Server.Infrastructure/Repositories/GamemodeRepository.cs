@@ -68,6 +68,7 @@ namespace Integracja.Server.Infrastructure.Repositories
             else
             {
                 entity.Gamemode.IsDeleted = true;
+                entity.Gamemode.RowVersion++;
             }
 
             await _dbContext.SaveChangesAsync();

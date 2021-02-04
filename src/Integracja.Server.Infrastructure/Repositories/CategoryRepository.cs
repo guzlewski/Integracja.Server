@@ -68,6 +68,7 @@ namespace Integracja.Server.Infrastructure.Repositories
             else
             {
                 entity.Category.IsDeleted = true;
+                entity.Category.RowVersion++;
             }
 
             await _dbContext.SaveChangesAsync();
