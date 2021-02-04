@@ -31,8 +31,8 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
                   TimeForFullQuiz = gm.TimeForFullQuiz,
                   TimeForOneQuestion = gm.TimeForOneQuestion,
                   NumberOfLives = gm.NumberOfLives,
-                  AuthorId = gm.AuthorId,
-                  AuthorUsername = gm.Author.UserName,
+                  OwnerId = gm.OwnerId,
+                  OwnerUsername = gm.Owner.UserName,
                   GamesCount = gm.Games.Where(g => g.GameState != GameState.Deleted).Count()
               })
               .FirstOrDefaultAsync();
@@ -56,8 +56,8 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
                     TimeForFullQuiz = gm.TimeForFullQuiz,
                     TimeForOneQuestion = gm.TimeForOneQuestion,
                     NumberOfLives = gm.NumberOfLives,
-                    AuthorId = gm.AuthorId,
-                    AuthorUsername = gm.Author.UserName,
+                    OwnerId = gm.OwnerId,
+                    OwnerUsername = gm.Owner.UserName,
                     GamesCount = gm.Games.Where(g => g.GameState != GameState.Deleted).Count()
                 })
                 .ToListAsync();
@@ -78,7 +78,7 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
             var entity = await _gamemodeRepository.Add(new Gamemode
             {
                 IsPublic = dto.IsPublic,
-                AuthorId = userId,
+                OwnerId = userId,
                 Name = dto.Name,
                 TimeForFullQuiz = dto.TimeForFullQuiz,
                 TimeForOneQuestion = dto.TimeForOneQuestion,
@@ -89,7 +89,7 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
             {
                 Id = entity.Id,
                 IsPublic = entity.IsPublic,
-                AuthorId = entity.AuthorId,
+                OwnerId = entity.OwnerId,
                 Name = entity.Name,
                 TimeForFullQuiz = entity.TimeForFullQuiz,
                 TimeForOneQuestion = entity.TimeForOneQuestion,
@@ -102,7 +102,7 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
             await _gamemodeRepository.Delete(new Gamemode
             {
                 Id = id,
-                AuthorId = userId
+                OwnerId = userId
             });
         }
 
@@ -120,7 +120,7 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
             {
                 Id = id,
                 IsPublic = dto.IsPublic,
-                AuthorId = userId,
+                OwnerId = userId,
                 Name = dto.Name,
                 TimeForFullQuiz = dto.TimeForFullQuiz,
                 TimeForOneQuestion = dto.TimeForOneQuestion,

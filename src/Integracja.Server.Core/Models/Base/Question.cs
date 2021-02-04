@@ -24,8 +24,8 @@ namespace Integracja.Server.Core.Models.Base
         public int CategoryId { get; set; }
         public Category Category { get; set; }
 
-        public int AuthorId { get; set; }
-        public User Author { get; set; }
+        public int OwnerId { get; set; }
+        public User Owner { get; set; }
 
         public ICollection<Answer> Answers { get; set; }
         public ICollection<GameQuestion> GameQuestions { get; set; }

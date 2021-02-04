@@ -25,9 +25,9 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
                 {
                     Id = c.Id,
                     Name = c.Name,
-                    AuthorId = c.AuthorId,
+                    OwnerId = c.OwnerId,
                     IsPublic = c.IsPublic,
-                    AuthorNickname = c.Author.UserName,
+                    AuthorNickname = c.Owner.UserName,
                     QuestionsCount = c.Questions.Where(q => !q.IsDeleted).Count(),
                     Questions = c.Questions.Where(q => !q.IsDeleted).Select(q => new QuestionShortDto
                     {
@@ -58,9 +58,9 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
                 {
                     Id = c.Id,
                     Name = c.Name,
-                    AuthorId = c.AuthorId,
+                    OwnerId = c.OwnerId,
                     IsPublic = c.IsPublic,
-                    AuthorNickname = c.Author.UserName,
+                    AuthorNickname = c.Owner.UserName,
                     QuestionsCount = c.Questions.Where(q => !q.IsDeleted).Count()
                 })
                 .ToListAsync();
@@ -79,7 +79,7 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
             {
                 Name = dto.Name,
                 IsPublic = dto.IsPublic,
-                AuthorId = userId
+                OwnerId = userId
             });
 
             return new CategoryDto
@@ -87,7 +87,7 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
                 Id = entity.Id,
                 Name = entity.Name,
                 IsPublic = entity.IsPublic,
-                AuthorId = entity.AuthorId
+                OwnerId = entity.OwnerId
             };
         }
 
@@ -96,7 +96,7 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
             await _categoryRepository.Delete(new Category
             {
                 Id = id,
-                AuthorId = userId
+                OwnerId = userId
             });
         }
 
@@ -110,7 +110,7 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
             var category = new Category
             {
                 Id = id,
-                AuthorId = userId,
+                OwnerId = userId,
                 Name = dto.Name,
                 IsPublic = dto.IsPublic
             };

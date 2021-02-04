@@ -22,8 +22,8 @@ namespace Integracja.Server.Infrastructure.Repositories
             var entity = _dbContext.Questions
                 .AsNoTracking()
                 .Where(q => q.Id == id &&
-                (q.IsPublic || q.AuthorId == userId) &&
-                (q.Category.IsPublic || q.Category.AuthorId == userId)
+                (q.IsPublic || q.OwnerId == userId) &&
+                (q.Category.IsPublic || q.Category.OwnerId == userId)
                 && !q.IsDeleted && !q.Category.IsDeleted);
 
             return entity;
@@ -33,8 +33,8 @@ namespace Integracja.Server.Infrastructure.Repositories
         {
             var entities = _dbContext.Questions
                 .AsNoTracking()
-                .Where(q => (q.IsPublic || q.AuthorId == userId) &&
-                (q.Category.IsPublic || q.Category.AuthorId == userId) &&
+                .Where(q => (q.IsPublic || q.OwnerId == userId) &&
+                (q.Category.IsPublic || q.Category.OwnerId == userId) &&
                 !q.IsDeleted && !q.Category.IsDeleted);
 
             return entities;
@@ -46,12 +46,12 @@ namespace Integracja.Server.Infrastructure.Repositories
 
             var categoryOwner = await _dbContext.Categories
                 .Where(c => c.Id == question.CategoryId && !c.IsDeleted)
-                .Select(c => c.AuthorId)
+                .Select(c => c.OwnerId)
                 .FirstOrDefaultAsync();
 
-            if (categoryOwner != question.AuthorId)
+            if (categoryOwner != question.OwnerId)
             {
-                throw new ForbiddenException($"{categoryOwner} != {question.AuthorId}, {question.CategoryId}");
+                throw new ForbiddenException($"{categoryOwner} != {question.OwnerId}, {question.CategoryId}");
             }
 
             await _dbContext.AddAsync(question);
@@ -63,7 +63,7 @@ namespace Integracja.Server.Infrastructure.Repositories
         public async Task Delete(Question question)
         {
             var entity = await _dbContext.Questions
-                .Where(q => q.Id == question.Id && q.AuthorId == question.AuthorId && !q.IsDeleted)
+                .Where(q => q.Id == question.Id && q.OwnerId == question.OwnerId && !q.IsDeleted)
                 .Select(q => new
                 {
                     Question = q,
@@ -96,7 +96,7 @@ namespace Integracja.Server.Infrastructure.Repositories
         {
             var entity = await _dbContext.Questions
                .Include(q => q.Answers)
-               .Where(q => q.Id == question.Id && q.AuthorId == question.AuthorId && !q.IsDeleted)
+               .Where(q => q.Id == question.Id && q.OwnerId == question.OwnerId && !q.IsDeleted)
                .Select(q => new
                {
                    Question = q,

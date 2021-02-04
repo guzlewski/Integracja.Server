@@ -21,7 +21,7 @@ namespace Integracja.Server.Infrastructure.Repositories
         {
             var entity = _dbContext.Categories
                 .AsNoTracking()
-                .Where(c => c.Id == id && (c.IsPublic || c.AuthorId == userId) && !c.IsDeleted);
+                .Where(c => c.Id == id && (c.IsPublic || c.OwnerId == userId) && !c.IsDeleted);
 
             return entity;
         }
@@ -30,7 +30,7 @@ namespace Integracja.Server.Infrastructure.Repositories
         {
             var entities = _dbContext.Categories
                 .AsNoTracking()
-                .Where(c => (c.IsPublic || c.AuthorId == userId) && !c.IsDeleted);
+                .Where(c => (c.IsPublic || c.OwnerId == userId) && !c.IsDeleted);
 
             return entities;
         }
@@ -48,7 +48,7 @@ namespace Integracja.Server.Infrastructure.Repositories
         public async Task Delete(Category category)
         {
             var entity = await _dbContext.Categories
-                .Where(c => c.Id == category.Id && c.AuthorId == category.AuthorId && !c.IsDeleted)
+                .Where(c => c.Id == category.Id && c.OwnerId == category.OwnerId && !c.IsDeleted)
                 .Select(c => new
                 {
                     Category = c,
@@ -77,7 +77,7 @@ namespace Integracja.Server.Infrastructure.Repositories
         public async Task Update(Category category)
         {
             var entity = await _dbContext.Categories
-               .FirstOrDefaultAsync(c => c.Id == category.Id && c.AuthorId == category.AuthorId && !c.IsDeleted);
+               .FirstOrDefaultAsync(c => c.Id == category.Id && c.OwnerId == category.OwnerId && !c.IsDeleted);
 
             if (entity == null)
             {

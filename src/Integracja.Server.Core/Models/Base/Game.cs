@@ -24,8 +24,8 @@ namespace Integracja.Server.Core.Models.Base
         public int GamemodeId { get; set; }
         public Gamemode Gamemode { get; set; }
 
-        public int AuthorId { get; set; }
-        public User Author { get; set; }
+        public int OwnerId { get; set; }
+        public User Owner { get; set; }
 
         public ICollection<GameUser> Players { get; set; }
         public ICollection<GameQuestion> Questions { get; set; }

@@ -6,7 +6,7 @@
         public string Name { get; set; }
         public int QuestionsCount { get; set; }
         public bool IsPublic { get; set; }
-        public int AuthorId { get; set; }
+        public int OwnerId { get; set; }
         public string AuthorNickname { get; set; }
     }
 }

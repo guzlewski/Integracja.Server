@@ -21,7 +21,7 @@ namespace Integracja.Server.Infrastructure.Repositories
         {
             var entity = _dbContext.Gamemodes
                 .AsNoTracking()
-                .Where(gm => gm.Id == id && (gm.IsPublic || gm.AuthorId == userId) && !gm.IsDeleted);
+                .Where(gm => gm.Id == id && (gm.IsPublic || gm.OwnerId == userId) && !gm.IsDeleted);
 
             return entity;
         }
@@ -30,7 +30,7 @@ namespace Integracja.Server.Infrastructure.Repositories
         {
             var entities = _dbContext.Gamemodes
                 .AsNoTracking()
-                .Where(gm => (gm.IsPublic || gm.AuthorId == userId) && !gm.IsDeleted);
+                .Where(gm => (gm.IsPublic || gm.OwnerId == userId) && !gm.IsDeleted);
 
             return entities;
         }
@@ -48,7 +48,7 @@ namespace Integracja.Server.Infrastructure.Repositories
         public async Task Delete(Gamemode gamemode)
         {
             var entity = await _dbContext.Gamemodes
-                .Where(gm => gm.Id == gamemode.Id && gm.AuthorId == gamemode.AuthorId && !gm.IsDeleted)
+                .Where(gm => gm.Id == gamemode.Id && gm.OwnerId == gamemode.OwnerId && !gm.IsDeleted)
                 .Select(gm => new
                 {
                     Gamemode = gm,
@@ -77,7 +77,7 @@ namespace Integracja.Server.Infrastructure.Repositories
         public async Task Update(Gamemode gamemode)
         {
             var entity = await _dbContext.Gamemodes
-               .FirstOrDefaultAsync(gm => gm.Id == gamemode.Id && gm.AuthorId == gamemode.AuthorId && !gm.IsDeleted);
+               .FirstOrDefaultAsync(gm => gm.Id == gamemode.Id && gm.OwnerId == gamemode.OwnerId && !gm.IsDeleted);
 
             if (entity == null)
             {

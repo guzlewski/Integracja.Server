@@ -3,6 +3,6 @@
     public class QuestionDto : QuestionShortDto
     {
         public int CategoryId { get; set; }
-        public int AuthorId { get; set; }
+        public int OwnerId { get; set; }
     }
 }

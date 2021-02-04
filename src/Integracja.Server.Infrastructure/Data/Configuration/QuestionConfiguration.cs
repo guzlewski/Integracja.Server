@@ -14,9 +14,9 @@ namespace Integracja.Server.Infrastructure.Data.Configuration
             builder.Property(q => q.Content)
                 .IsRequired();
 
-            builder.HasOne(q => q.Author)
+            builder.HasOne(q => q.Owner)
                 .WithMany(u => u.CreatedQuestions)
-                .HasForeignKey(g => g.AuthorId)
+                .HasForeignKey(g => g.OwnerId)
                 .OnDelete(DeleteBehavior.Restrict);
         }
     }

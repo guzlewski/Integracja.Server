@@ -19,8 +19,8 @@ namespace Integracja.Server.Core.Models.Base
         public int? TimeForOneQuestion { get; set; }        
         public int? NumberOfLives { get; set; }
 
-        public int AuthorId { get; set; }
-        public User Author { get; set; }
+        public int OwnerId { get; set; }
+        public User Owner { get; set; }
 
         public ICollection<Game> Games { get; set; }
     }

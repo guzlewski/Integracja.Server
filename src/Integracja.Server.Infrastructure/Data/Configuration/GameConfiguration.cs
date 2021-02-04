@@ -17,9 +17,9 @@ namespace Integracja.Server.Infrastructure.Data.Configuration
             builder.HasIndex(g => g.Guid)
                 .IsUnique();
 
-            builder.HasOne(g => g.Author)
+            builder.HasOne(g => g.Owner)
                 .WithMany(u => u.CreatedGames)
-                .HasForeignKey(g => g.AuthorId)
+                .HasForeignKey(g => g.OwnerId)
                 .OnDelete(DeleteBehavior.Restrict);
         }
     }

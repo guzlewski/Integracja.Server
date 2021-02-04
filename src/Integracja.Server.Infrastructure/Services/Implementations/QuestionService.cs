@@ -30,7 +30,7 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
                   CorrectAnswersCount = q.Answers.Where(a => a.IsCorrect).Count(),
                   PositivePoints = q.PositivePoints,
                   NegativePoints = q.NegativePoints,
-                  AuthorId = q.AuthorId,
+                  OwnerId = q.OwnerId,
                   CategoryId = q.CategoryId,
                   Answers = q.Answers.Select(a => new AnswerDto
                   {
@@ -60,7 +60,7 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
                     CorrectAnswersCount = q.Answers.Where(a => a.IsCorrect).Count(),
                     PositivePoints = q.PositivePoints,
                     NegativePoints = q.NegativePoints,
-                    AuthorId = q.AuthorId,
+                    OwnerId = q.OwnerId,
                     CategoryId = q.CategoryId
                 }).ToListAsync();
         }
@@ -70,7 +70,7 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
             var entity = await _questionRepository.Add(new Question
             {
                 IsPublic = dto.IsPublic,
-                AuthorId = userId,
+                OwnerId = userId,
                 Content = dto.Content,
                 PositivePoints = dto.PositivePoints,
                 NegativePoints = dto.NegativePoints,
@@ -87,7 +87,7 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
             {
                 Id = entity.Id,
                 IsPublic = entity.IsPublic,
-                AuthorId = entity.AuthorId,
+                OwnerId = entity.OwnerId,
                 Content = entity.Content,
                 PositivePoints = entity.PositivePoints,
                 NegativePoints = entity.NegativePoints,
@@ -102,7 +102,7 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
             await _questionRepository.Delete(new Question
             {
                 Id = id,
-                AuthorId = userId
+                OwnerId = userId
             });
         }
 
@@ -112,7 +112,7 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
             {
                 Id = id,
                 IsPublic = dto.IsPublic,
-                AuthorId = userId,
+                OwnerId = userId,
                 Content = dto.Content,
                 PositivePoints = dto.PositivePoints,
                 NegativePoints = dto.NegativePoints,

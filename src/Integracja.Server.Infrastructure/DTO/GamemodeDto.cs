@@ -8,8 +8,8 @@
         public int TimeForFullQuiz { get; set; }
         public int? TimeForOneQuestion { get; set; }
         public int? NumberOfLives { get; set; }
-        public int AuthorId { get; set; }
-        public string AuthorUsername { get; set; }
+        public int OwnerId { get; set; }
+        public string OwnerUsername { get; set; }
         public int GamesCount { get; set; }
     }
 }
