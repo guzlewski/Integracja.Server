@@ -1,0 +1,73 @@
+﻿<!DOCTYPE html>
+
+<html lang="pl">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Integracja.Server.Web</title>
+
+    <link rel="stylesheet" href="~/css/site.css">
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/js/site.js">
+</head>
+
+<body>
+    <div class="wrapper">
+        <nav id="sidebar">
+            <div class="sidebar-header">
+                <h3 id="logo"> LOGO </h3>
+            </div>
+
+            <ul class="list-unstyled components">
+
+                <partial name="_LoginPartial" />
+
+                <li class="active">
+                    <a asp-area="" asp-controller="Przeglad" asp-action="Index"> Przegląd </a>
+                </li>
+
+                <li>
+                    <a asp-area="" asp-controller="StworzGre" asp-action="Index"> Stwórz grę </a>
+                </li>
+
+                <li>
+                    <a asp-area="" asp-controller="DodajPytania" asp-action="Index"> Dodaj pytania </a>
+                </li>
+
+                <li>
+                    <a asp-area="" asp-controller="Konto" asp-action="Index"> Konto </a>
+                </li>
+
+                <li>
+                    <a asp-area="" asp-controller="WylogujSie" asp-action="Index"> Wyloguj się </a>
+                </li>
+            </ul>
+
+            <div class="sidebar-footer">
+                <span id="footer">
+                    inte<span id="gra">GRA</span>cja
+                </span>
+            </div>
+        </nav>
+
+        <div class="content">
+            <main role="main" class="pb-3">
+                @RenderBody()
+            </main>
+        </div>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+
+    <!-- jQuery Custom Scroller CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+
+</body>
+
+</html>

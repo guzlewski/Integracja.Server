@@ -1,0 +1,144 @@
+﻿@import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
+
+body {
+    font-family: Poppins, sans-serif;
+    background: #fafafa;
+}
+
+p {
+    font-family: Poppins, sans-serif;
+    font-size: 1.1em;
+    font-weight: 300;
+    line-height: 1.7em;
+    color: #999;
+}
+
+a,
+a:hover,
+a:focus {
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.3s;
+}
+
+
+/* ---------------------------------------------------
+    SIDEBAR
+----------------------------------------------------- */
+
+.wrapper {
+    display: flex;
+    width: 100%;
+}
+
+#sidebar {
+    display: flex;
+    flex-flow: column;
+    width: 250px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    z-index: 999;
+    background: #3E3E3E;
+    color: #fff;
+    transition: all 0.3s;
+}
+
+    /* ---------------------------------------------------
+    LOGO
+----------------------------------------------------- */
+
+    #sidebar .sidebar-header {
+        text-align: center;
+        padding: 20px 50px;
+    }
+
+        #sidebar .sidebar-header #logo {
+            padding: 10px 0;
+            background: yellow;
+            color: #3E3E3E;
+        }
+
+    /* ---------------------------------------------------
+    NAVIGATION
+----------------------------------------------------- */
+
+    #sidebar ul.components {
+        padding: 20px 0;
+        border-bottom: 2px solid #323232;
+        border-top: 2px solid #323232;
+    }
+
+    #sidebar ul li a {
+        display: block;
+        text-decoration: none;
+        text-transform: uppercase;
+        font-size: 1.1em;
+        font-weight: 500;
+        padding: 10px;
+        letter-spacing: 0.05em;
+        color: white;
+    }
+
+        #sidebar ul li a:hover {
+            color: #3E3E3E;
+            background: #fff;
+        }
+
+    /* ---------------------------------------------------
+    FOOTER
+----------------------------------------------------- */
+
+    #sidebar .sidebar-footer {
+        position: relative;
+        flex: 1 1 auto;
+        margin-top: 70px;
+    }
+
+        #sidebar .sidebar-footer #footer {
+            position: absolute;
+            width: 85%;
+            font-size: 2.5em;
+            font-weight: bold;
+            bottom: 25px;
+            left: 0;
+            right: 0;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+            #sidebar .sidebar-footer #footer #gra {
+                color: yellow;
+            }
+
+/* ---------------------------------------------------
+    CONTENT
+----------------------------------------------------- */
+
+.content {
+    width: calc(100% - 250px);
+    margin-left: 250px;
+    padding: 40px;
+    min-height: 100vh;
+    transition: all 0.3s;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+
+/* ---------------------------------------------------
+    MEDIAQUERIES
+----------------------------------------------------- */
+
+@media (max-width: 768px) {
+
+    #sidebar {
+        margin-left: -250px;
+    }
+
+    .content {
+        width: 100%;
+    }
+}
