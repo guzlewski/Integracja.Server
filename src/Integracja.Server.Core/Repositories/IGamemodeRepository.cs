@@ -8,8 +8,8 @@ namespace Integracja.Server.Core.Repositories
     {
         IQueryable<Gamemode> Get(int id, int userId);
         IQueryable<Gamemode> GetAll(int userId);
-        Task<Gamemode> Add(Gamemode gamemode);
+        Task<int> Add(Gamemode gamemode);
         Task Delete(Gamemode gamemode);
-        Task Update(Gamemode gamemode);
+        Task<int> Update(Gamemode gamemode);
     }
 }

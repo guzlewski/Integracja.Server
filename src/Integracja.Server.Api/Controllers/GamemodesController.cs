@@ -21,7 +21,7 @@ namespace Integracja.Server.Api.Controllers
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IEnumerable<GamemodeDto>> GetAll()
+        public async Task<IEnumerable<GamemodeGetAll>> GetAll()
         {
             var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
 
@@ -32,7 +32,7 @@ namespace Integracja.Server.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<GamemodeDto>> Get(int id)
+        public async Task<ActionResult<GamemodeGet>> Get(int id)
         {
             var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
 
@@ -42,36 +42,42 @@ namespace Integracja.Server.Api.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<GamemodeDto>> Add(GamemodeDto dto)
+        public async Task<ActionResult> Add(GamemodeAdd dto)
         {
-            var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-            var entity = await _gamemodeService.Add(dto, userId);
-
-            return Created($"api/Gamemodes/{entity.Id}", entity);
+            var entityId = await _gamemodeService.Add(dto, LoggedUserId());
+            return Created($"{Request.Path}/{entityId}", null);
         }
 
         [HttpPut("{id}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<OkResult> Update(int id, [FromBody] GamemodeDto dto)
+        public async Task<ActionResult> Update(int id, [FromBody] GamemodeModify dto)
         {
-            var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-            await _gamemodeService.Update(id, dto, userId);
+            var entityId = await _gamemodeService.Update(id, dto, LoggedUserId());
 
-            return Ok();
+            if (entityId != id)
+            {
+                return Created($"{Request.Path}/{entityId}", null);
+            }
+
+            return NoContent();
         }
 
         [HttpDelete("{id}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<OkResult> Delete(int id)
+        public async Task<ActionResult> Delete(int id)
         {
-            var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-            await _gamemodeService.Delete(id, userId);
+            await _gamemodeService.Delete(id, LoggedUserId());
+            return NoContent();
+        }
 
-            return Ok();
+        private int LoggedUserId()
+        {
+            return int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
         }
     }
 }

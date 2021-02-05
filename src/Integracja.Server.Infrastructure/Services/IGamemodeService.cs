@@ -6,10 +6,10 @@ namespace Integracja.Server.Infrastructure.Services
 {
     public interface IGamemodeService
     {
-        Task<GamemodeDto> Get(int id, int userId);
-        Task<IEnumerable<GamemodeDto>> GetAll(int userId);
-        Task<GamemodeDto> Add(GamemodeDto dto, int userId);
+        Task<GamemodeGet> Get(int id, int userId);
+        Task<IEnumerable<GamemodeGetAll>> GetAll(int userId);
+        Task<int> Add(GamemodeAdd dto, int userId);
         Task Delete(int id, int userId);
-        Task Update(int id, GamemodeDto dto, int userId);
+        Task<int> Update(int id, GamemodeModify dto, int userId);
     }
 }

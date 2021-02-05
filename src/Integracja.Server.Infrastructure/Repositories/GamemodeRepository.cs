@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Integracja.Server.Core.Models.Base;
 using Integracja.Server.Core.Repositories;
@@ -35,14 +36,12 @@ namespace Integracja.Server.Infrastructure.Repositories
             return entities;
         }
 
-        public async Task<Gamemode> Add(Gamemode gamemode)
+        public async Task<int> Add(Gamemode gamemode)
         {
-            gamemode.Id = 0;
-
             await _dbContext.AddAsync(gamemode);
             await _dbContext.SaveChangesAsync();
 
-            return gamemode;
+            return gamemode.Id;
         }
 
         public async Task Delete(Gamemode gamemode)
@@ -74,24 +73,42 @@ namespace Integracja.Server.Infrastructure.Repositories
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task Update(Gamemode gamemode)
+        public async Task<int> Update(Gamemode gamemode)
         {
             var entity = await _dbContext.Gamemodes
-               .FirstOrDefaultAsync(gm => gm.Id == gamemode.Id && gm.OwnerId == gamemode.OwnerId && !gm.IsDeleted);
+                .Where(gm => gm.Id == gamemode.Id && gm.OwnerId == gamemode.OwnerId && !gm.IsDeleted)
+                .Select(gm => new
+                {
+                    Gamemode = gm,
+                    GamesCount = gm.Games.Count
+                })
+               .FirstOrDefaultAsync();
 
             if (entity == null)
             {
                 throw new NotFoundException();
             }
 
-            entity.Name = gamemode.Name;
-            entity.TimeForFullQuiz = gamemode.TimeForFullQuiz;
-            entity.TimeForOneQuestion = gamemode.TimeForOneQuestion;
-            entity.NumberOfLives = gamemode.NumberOfLives;
-            entity.IsPublic = gamemode.IsPublic;
-            entity.RowVersion++;
+            entity.Gamemode.RowVersion++;
 
-            await _dbContext.SaveChangesAsync();
+            if (entity.GamesCount == 0)
+            {
+                entity.Gamemode.Name = gamemode.Name;
+                entity.Gamemode.TimeForFullQuiz = gamemode.TimeForFullQuiz;
+                entity.Gamemode.TimeForOneQuestion = gamemode.TimeForOneQuestion;
+                entity.Gamemode.NumberOfLives = gamemode.NumberOfLives;
+                entity.Gamemode.IsPublic = gamemode.IsPublic;
+
+                await _dbContext.SaveChangesAsync();
+                return entity.Gamemode.Id;
+            }
+            else
+            {
+                entity.Gamemode.IsDeleted = true;
+                gamemode.Id = 0;
+
+                return await Add(gamemode);
+            }
         }
     }
 }
