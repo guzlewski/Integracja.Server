@@ -8,7 +8,7 @@ namespace Integracja.Server.Infrastructure.Services
     {
         Task<CategoryGet> Get(int id, int userId);
         Task<IEnumerable<CategoryGetAll>> GetAll(int userId);
-        Task<int> Add(CategoryAdd dto, int userId);        
+        Task<int> Add(CategoryAdd dto, int userId);
         Task Delete(int id, int userId);
         Task<int> Update(int id, CategoryModify dto, int userId);
     }

@@ -16,7 +16,7 @@ namespace Integracja.Server.Core.Models.Base
 
         public string Name { get; set; }
         public int TimeForFullQuiz { get; set; }
-        public int? TimeForOneQuestion { get; set; }        
+        public int? TimeForOneQuestion { get; set; }
         public int? NumberOfLives { get; set; }
 
         public int OwnerId { get; set; }

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Integracja.Server.Core.Models.Base;
 using Integracja.Server.Core.Repositories;

@@ -1,5 +1,3 @@
-using System;
-
 namespace Integracja.Server.Web.Models
 {
     public class ErrorViewModel
