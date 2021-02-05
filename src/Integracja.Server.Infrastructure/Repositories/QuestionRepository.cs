@@ -19,45 +19,42 @@ namespace Integracja.Server.Infrastructure.Repositories
 
         public IQueryable<Question> Get(int id, int userId)
         {
-            var entity = _dbContext.Questions
+            return _dbContext.Questions
                 .AsNoTracking()
                 .Where(q => q.Id == id &&
-                (q.IsPublic || q.OwnerId == userId) &&
-                (q.Category.IsPublic || q.Category.OwnerId == userId)
-                && !q.IsDeleted && !q.Category.IsDeleted);
-
-            return entity;
+                (q.IsPublic || q.OwnerId == userId) && !q.IsDeleted &&
+                (q.Category.IsPublic || q.Category.OwnerId == userId) && !q.Category.IsDeleted);
         }
 
         public IQueryable<Question> GetAll(int userId)
         {
-            var entities = _dbContext.Questions
+            return _dbContext.Questions
                 .AsNoTracking()
-                .Where(q => (q.IsPublic || q.OwnerId == userId) &&
-                (q.Category.IsPublic || q.Category.OwnerId == userId) &&
-                !q.IsDeleted && !q.Category.IsDeleted);
-
-            return entities;
+                .Where(q => (q.IsPublic || q.OwnerId == userId) && !q.IsDeleted &&
+                (q.Category.IsPublic || q.Category.OwnerId == userId) && !q.Category.IsDeleted);
         }
 
-        public async Task<Question> Add(Question question)
+        public async Task<int> Add(Question question)
         {
-            question.Id = 0;
+            var category = await _dbContext.Categories
+                .FirstOrDefaultAsync(c => c.Id == question.CategoryId && !c.IsDeleted);
 
-            var categoryOwner = await _dbContext.Categories
-                .Where(c => c.Id == question.CategoryId && !c.IsDeleted)
-                .Select(c => c.OwnerId)
-                .FirstOrDefaultAsync();
-
-            if (categoryOwner != question.OwnerId)
+            if (category == null)
             {
-                throw new ForbiddenException($"{categoryOwner} != {question.OwnerId}, {question.CategoryId}");
+                throw new NotFoundException($"Category with ID {question.CategoryId} not exists.");
             }
+
+            if (category.OwnerId != question.OwnerId)
+            {
+                throw new ForbiddenException();
+            }
+
+            category.RowVersion++;
 
             await _dbContext.AddAsync(question);
             await _dbContext.SaveChangesAsync();
 
-            return question;
+            return question.Id;
         }
 
         public async Task Delete(Question question)
@@ -67,8 +64,8 @@ namespace Integracja.Server.Infrastructure.Repositories
                 .Select(q => new
                 {
                     Question = q,
-                    GameQuestionsCount = q.GameQuestions.Count,
-                    Category = q.Category
+                    Category = q.Category,
+                    GameQuestionsCount = q.GameQuestions.Count
                 })
                 .FirstOrDefaultAsync();
 
@@ -84,22 +81,21 @@ namespace Integracja.Server.Infrastructure.Repositories
             else
             {
                 entity.Question.IsDeleted = true;
-                entity.Question.RowVersion++;
             }
 
             entity.Category.RowVersion++;
-
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task Update(Question question)
+        public async Task<int> Update(Question question)
         {
             var entity = await _dbContext.Questions
                .Include(q => q.Answers)
-               .Where(q => q.Id == question.Id && q.OwnerId == question.OwnerId && !q.IsDeleted)
+               .Where(q => q.Id == question.Id && q.OwnerId == question.OwnerId && !q.IsDeleted && !q.Category.IsDeleted)
                .Select(q => new
                {
                    Question = q,
+                   Category = q.Category,
                    GameQuestionsCount = q.GameQuestions.Count
                })
                .FirstOrDefaultAsync();
@@ -110,6 +106,7 @@ namespace Integracja.Server.Infrastructure.Repositories
             }
 
             entity.Question.RowVersion++;
+            entity.Category.RowVersion++;
 
             if (entity.GameQuestionsCount == 0)
             {
@@ -121,11 +118,15 @@ namespace Integracja.Server.Infrastructure.Repositories
                 entity.Question.Answers = question.Answers;
 
                 await _dbContext.SaveChangesAsync();
+                return entity.Question.Id;
             }
             else
             {
                 entity.Question.IsDeleted = true;
-                await Add(question);
+                question.Id = 0;
+                question.CategoryId = entity.Category.Id;
+
+                return await Add(question);
             }
         }
     }

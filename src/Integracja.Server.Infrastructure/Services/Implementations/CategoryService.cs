@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Integracja.Server.Core.Models.Base;
 using Integracja.Server.Core.Repositories;
 using Integracja.Server.Infrastructure.DTO;
@@ -12,34 +13,35 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
     public class CategoryService : ICategoryService
     {
         private readonly ICategoryRepository _categoryRepository;
+        private readonly IMapper _mapper;
 
-        public CategoryService(ICategoryRepository categoryRepository)
+        public CategoryService(ICategoryRepository categoryRepository, IMapper mapper)
         {
             _categoryRepository = categoryRepository;
+            _mapper = mapper;
         }
 
-        public async Task<CategoryDetailsDto> Get(int id, int userId)
+        public async Task<CategoryGet> Get(int id, int userId)
         {
             var entity = await _categoryRepository.Get(id, userId)
-                .Select(c => new CategoryDetailsDto
+                .Select(c => new CategoryGet
                 {
                     Id = c.Id,
                     Name = c.Name,
-                    OwnerId = c.OwnerId,
                     IsPublic = c.IsPublic,
-                    AuthorNickname = c.Owner.UserName,
-                    QuestionsCount = c.Questions.Where(q => !q.IsDeleted).Count(),
-                    Questions = c.Questions.Where(q => !q.IsDeleted).Select(q => new QuestionShortDto
+                    Questions = c.Questions.Where(q => (q.IsPublic || q.OwnerId == userId) && !q.IsDeleted).Select(q => new QuestionGetAll
                     {
                         Id = q.Id,
-                        IsPublic = q.IsPublic,
                         Content = q.Content,
-                        AnswersCount = q.Answers.Count,
-                        CorrectAnswersCount = q.Answers.Where(a => a.IsCorrect).Count(),
                         PositivePoints = q.PositivePoints,
                         NegativePoints = q.NegativePoints,
-                        QuestionScoring = q.QuestionScoring
-                    })
+                        QuestionScoring = q.QuestionScoring,
+                        IsPublic = q.IsPublic,
+                        AnswersCount = q.Answers.Count,
+                        CorrectAnswersCount = q.Answers.Count(a => a.IsCorrect)
+                    }),
+                    OwnerId = c.OwnerId,
+                    OwnerUsername = c.Owner.UserName
                 })
                 .FirstOrDefaultAsync();
 
@@ -51,36 +53,32 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
             return entity;
         }
 
-        public async Task<IEnumerable<CategoryDto>> GetAll(int userId)
+        public async Task<IEnumerable<CategoryGetAll>> GetAll(int userId)
         {
-            var entities = await _categoryRepository.GetAll(userId)
-                .Select(c => new CategoryDto
+            return await _categoryRepository.GetAll(userId)
+                .Select(c => new CategoryGetAll
                 {
                     Id = c.Id,
                     Name = c.Name,
-                    OwnerId = c.OwnerId,
                     IsPublic = c.IsPublic,
-                    AuthorNickname = c.Owner.UserName,
-                    QuestionsCount = c.Questions.Where(q => !q.IsDeleted).Count()
+                    QuestionsCount = c.Questions.Count(q => (q.IsPublic || q.OwnerId == userId) && !q.IsDeleted),
+                    OwnerId = c.OwnerId,
+                    OwnerUsername = c.Owner.UserName
                 })
                 .ToListAsync();
-
-            return entities;
         }
 
-        public async Task<int> Add(CategoryDto dto, int userId)
+        public async Task<int> Add(CategoryAdd dto, int userId)
         {
-            if (string.IsNullOrWhiteSpace(dto.Name))
+            var category = _mapper.Map<Category>(dto);
+            category.OwnerId = userId;
+
+            foreach (var question in category.Questions)
             {
-                throw new BadRequestException();
+                question.OwnerId = userId;
             }
 
-            return await _categoryRepository.Add(new Category
-            {
-                Name = dto.Name,
-                IsPublic = dto.IsPublic,
-                OwnerId = userId
-            });
+            return await _categoryRepository.Add(category);
         }
 
         public async Task Delete(int id, int userId)
@@ -92,24 +90,14 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
             });
         }
 
-        public async Task<int> Update(int id, CategoryDto dto, int userId)
+        public async Task<int> Update(int id, CategoryModify dto, int userId)
         {
-            if (string.IsNullOrWhiteSpace(dto.Name))
-            {
-                throw new BadRequestException();
-            }
+            var category = _mapper.Map<Category>(dto);
 
-            var category = new Category
-            {
-                Id = id,
-                OwnerId = userId,
-                Name = dto.Name,
-                IsPublic = dto.IsPublic
-            };
+            category.Id = id;
+            category.OwnerId = userId;
 
-            await _categoryRepository.Update(category);
-
-            return category.Id;
+            return await _categoryRepository.Update(category);
         }
     }
 }

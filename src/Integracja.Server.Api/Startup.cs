@@ -34,6 +34,7 @@ namespace Integracja.Server.Api
                 .AddJsonOptions(opts =>
                 {
                     opts.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+                    opts.JsonSerializerOptions.IgnoreNullValues = true;
                 })
                 .ConfigureApiBehaviorOptions(options =>
                 {
@@ -81,7 +82,7 @@ namespace Integracja.Server.Api
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<IGamemodeRepository, GamemodeRepository>();
-            services.AddScoped<IGamemodeService, GamemodeService>();  
+            services.AddScoped<IGamemodeService, GamemodeService>();
             services.AddScoped<IQuestionRepository, QuestionRepository>();
             services.AddScoped<IQuestionService, QuestionService>();
 

@@ -8,8 +8,8 @@ namespace Integracja.Server.Core.Repositories
     {
         IQueryable<Question> Get(int id, int userId);
         IQueryable<Question> GetAll(int userId);
-        Task<Question> Add(Question question);
+        Task<int> Add(Question question);
         Task Delete(Question question);
-        Task Update(Question question);
+        Task<int> Update(Question question);
     }
 }

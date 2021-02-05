@@ -19,25 +19,20 @@ namespace Integracja.Server.Infrastructure.Repositories
 
         public IQueryable<Category> Get(int id, int userId)
         {
-            var entity = _dbContext.Categories
+            return _dbContext.Categories
                 .AsNoTracking()
                 .Where(c => c.Id == id && (c.IsPublic || c.OwnerId == userId) && !c.IsDeleted);
-
-            return entity;
         }
 
         public IQueryable<Category> GetAll(int userId)
         {
-            var entities = _dbContext.Categories
+            return _dbContext.Categories
                 .AsNoTracking()
                 .Where(c => (c.IsPublic || c.OwnerId == userId) && !c.IsDeleted);
-
-            return entities;
         }
 
         public async Task<int> Add(Category category)
         {
-            category.Id = 0;
             await _dbContext.AddAsync(category);
             await _dbContext.SaveChangesAsync();
 

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Integracja.Server.Core.Models.Base;
 using Integracja.Server.Core.Repositories;
 using Integracja.Server.Infrastructure.DTO;
@@ -12,33 +13,35 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
     public class QuestionService : IQuestionService
     {
         private readonly IQuestionRepository _questionRepository;
+        private readonly IMapper _mapper;
 
-        public QuestionService(IQuestionRepository questionRepository)
+        public QuestionService(IQuestionRepository questionRepository, IMapper mapper)
         {
             _questionRepository = questionRepository;
+            _mapper = mapper;
         }
 
-        public async Task<QuestionDetailsDto> Get(int id, int userId)
+        public async Task<QuestionGet> Get(int id, int userId)
         {
             var entity = await _questionRepository.Get(id, userId)
-              .Select(q => new QuestionDetailsDto
-              {
-                  Id = q.Id,
-                  IsPublic = q.IsPublic,
-                  Content = q.Content,
-                  AnswersCount = q.Answers.Count,
-                  CorrectAnswersCount = q.Answers.Where(a => a.IsCorrect).Count(),
-                  PositivePoints = q.PositivePoints,
-                  NegativePoints = q.NegativePoints,
-                  OwnerId = q.OwnerId,
-                  CategoryId = q.CategoryId,
-                  Answers = q.Answers.Select(a => new AnswerDto
-                  {
-                      Content = a.Content,
-                      IsCorrect = a.IsCorrect
-                  })
-              })
-              .FirstOrDefaultAsync();
+                .Select(q => new QuestionGet
+                {
+                    Id = q.Id,
+                    Content = q.Content,
+                    PositivePoints = q.PositivePoints,
+                    NegativePoints = q.NegativePoints,
+                    QuestionScoring = q.QuestionScoring,
+                    IsPublic = q.IsPublic,
+                    CategoryId = q.CategoryId,
+                    Answers = q.Answers.Select(a => new AnswerDto
+                    {
+                        Content = a.Content,
+                        IsCorrect = a.IsCorrect
+                    }),
+                    OwnerId = q.OwnerId,
+                    OwnerUsername = q.Owner.UserName
+                })
+                .FirstOrDefaultAsync();
 
             if (entity == null)
             {
@@ -48,53 +51,32 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
             return entity;
         }
 
-        public async Task<IEnumerable<QuestionDto>> GetAll(int userId)
+        public async Task<IEnumerable<QuestionGetAll>> GetAll(int userId)
         {
             return await _questionRepository.GetAll(userId)
-                .Select(q => new QuestionDto
+                .Select(q => new QuestionGetAll
                 {
                     Id = q.Id,
-                    IsPublic = q.IsPublic,
                     Content = q.Content,
-                    AnswersCount = q.Answers.Count,
-                    CorrectAnswersCount = q.Answers.Where(a => a.IsCorrect).Count(),
                     PositivePoints = q.PositivePoints,
                     NegativePoints = q.NegativePoints,
+                    QuestionScoring = q.QuestionScoring,
+                    IsPublic = q.IsPublic,
+                    CategoryId = q.CategoryId,
+                    AnswersCount = q.Answers.Count,
+                    CorrectAnswersCount = q.Answers.Count(a => a.IsCorrect),
                     OwnerId = q.OwnerId,
-                    CategoryId = q.CategoryId
-                }).ToListAsync();
+                    OwnerUsername = q.Owner.UserName
+                })
+                .ToListAsync();
         }
 
-        public async Task<QuestionDetailsDto> Add(QuestionDetailsDto dto, int userId)
+        public async Task<int> Add(QuestionAdd dto, int userId)
         {
-            var entity = await _questionRepository.Add(new Question
-            {
-                IsPublic = dto.IsPublic,
-                OwnerId = userId,
-                Content = dto.Content,
-                PositivePoints = dto.PositivePoints,
-                NegativePoints = dto.NegativePoints,
-                QuestionScoring = dto.QuestionScoring,
-                CategoryId = dto.CategoryId,
-                Answers = dto.Answers.Select(a => new Answer
-                {
-                    Content = a.Content,
-                    IsCorrect = a.IsCorrect
-                }).ToList()
-            });
+            var question = _mapper.Map<Question>(dto);
+            question.OwnerId = userId;
 
-            return new QuestionDetailsDto
-            {
-                Id = entity.Id,
-                IsPublic = entity.IsPublic,
-                OwnerId = entity.OwnerId,
-                Content = entity.Content,
-                PositivePoints = entity.PositivePoints,
-                NegativePoints = entity.NegativePoints,
-                QuestionScoring = entity.QuestionScoring,
-                CategoryId = entity.CategoryId,
-                Answers = entity.Answers.Select(a => new AnswerDto { Content = a.Content, IsCorrect = a.IsCorrect })
-            };
+            return await _questionRepository.Add(question);
         }
 
         public async Task Delete(int id, int userId)
@@ -106,24 +88,13 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
             });
         }
 
-        public async Task Update(int id, QuestionDetailsDto dto, int userId)
+        public async Task<int> Update(int id, QuestionModify dto, int userId)
         {
-            await _questionRepository.Update(new Question
-            {
-                Id = id,
-                IsPublic = dto.IsPublic,
-                OwnerId = userId,
-                Content = dto.Content,
-                PositivePoints = dto.PositivePoints,
-                NegativePoints = dto.NegativePoints,
-                QuestionScoring = dto.QuestionScoring,
-                CategoryId = dto.CategoryId,
-                Answers = dto.Answers.Select(a => new Answer
-                {
-                    Content = a.Content,
-                    IsCorrect = a.IsCorrect
-                }).ToList()
-            });
+            var question = _mapper.Map<Question>(dto);
+            question.Id = id;
+            question.OwnerId = userId;
+
+            return await _questionRepository.Update(question);
         }
     }
 }

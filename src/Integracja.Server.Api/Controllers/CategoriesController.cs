@@ -24,7 +24,7 @@ namespace Integracja.Server.Api.Controllers
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IEnumerable<CategoryDto>> GetAll()
+        public async Task<IEnumerable<CategoryGetAll>> GetAll()
         {
             return await _categoryService.GetAll(LoggedUserId());
         }
@@ -33,7 +33,7 @@ namespace Integracja.Server.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<CategoryDetailsDto>> Get(int id)
+        public async Task<ActionResult<CategoryGet>> Get(int id)
         {
             return await _categoryService.Get(id, LoggedUserId());
         }
@@ -41,21 +41,27 @@ namespace Integracja.Server.Api.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> Add(CategoryDto dto)
+        public async Task<ActionResult> Add(CategoryAdd dto)
         {
             var entityId = await _categoryService.Add(dto, LoggedUserId());
             return Created($"{Request.Path}/{entityId}", null);
         }
 
         [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult> Update(int id, [FromBody] CategoryDto dto)
+        public async Task<ActionResult> Update(int id, [FromBody] CategoryModify dto)
         {
-            await _categoryService.Update(id, dto, LoggedUserId());
+            var entityId = await _categoryService.Update(id, dto, LoggedUserId());
 
-            return Ok();
+            if (entityId != id)
+            {
+                return Created($"{Request.Path}/{entityId}", null);
+            }
+
+            return NoContent();
         }
 
         [HttpDelete("{id}")]

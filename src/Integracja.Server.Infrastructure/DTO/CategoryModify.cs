@@ -2,11 +2,11 @@
 
 namespace Integracja.Server.Infrastructure.DTO
 {
-    public class AnswerDto
+    public class CategoryModify
     {
         [Required]
-        public string Content { get; set; }
+        public string Name { get; set; }
         [Required]
-        public bool IsCorrect { get; set; }
+        public bool IsPublic { get; set; }
     }
 }

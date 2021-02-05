@@ -10,6 +10,11 @@ namespace Integracja.Server.Infrastructure.Mappers
         {
             return new MapperConfiguration(cfg =>
             {
+                cfg.CreateMap<AnswerDto, Answer>();
+                cfg.CreateMap<QuestionAdd, Question>();
+                cfg.CreateMap<QuestionModify, Question>();
+                cfg.CreateMap<CategoryAdd, Category>();
+                cfg.CreateMap<CategoryModify, Category>();
             })
             .CreateMapper();
         }

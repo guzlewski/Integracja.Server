@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Integracja.Server.Infrastructure.DTO;
@@ -23,57 +21,63 @@ namespace Integracja.Server.Api.Controllers
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IEnumerable<QuestionShortDto>> GetAll()
+        public async Task<IEnumerable<QuestionGetAll>> GetAll()
         {
-            var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-
-            return await _questionService.GetAll(userId);
+            return await _questionService.GetAll(LoggedUserId());
         }
 
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<QuestionDetailsDto>> Get(int id)
+        public async Task<ActionResult<QuestionGet>> Get(int id)
         {
-            var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-
-            return await _questionService.Get(id, userId);
+            return await _questionService.Get(id, LoggedUserId());
         }
 
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<QuestionDetailsDto>> Add(QuestionDetailsDto dto)
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult> Add(QuestionAdd dto)
         {
             var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-            var entity = await _questionService.Add(dto, userId);
+            var entityId = await _questionService.Add(dto, userId);
 
-            return Created($"api/Questions/{entity.Id}", entity);
+            return Created($"api/Questions/{entityId}", null);
         }
 
         [HttpPut("{id}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<OkResult> Update(int id, [FromBody] QuestionDetailsDto dto)
+        public async Task<ActionResult> Update(int id, [FromBody] QuestionModify dto)
         {
-            var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-            await _questionService.Update(id, dto, userId);
+            var entityId = await _questionService.Update(id, dto, LoggedUserId());
 
-            return Ok();
+            if (entityId != id)
+            {
+                return Created($"api/Questions/{entityId}", null);
+            }
+
+            return NoContent();
         }
 
         [HttpDelete("{id}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<OkResult> Delete(int id)
+        public async Task<ActionResult> Delete(int id)
         {
-            var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-            await _questionService.Delete(id, userId);
+            await _questionService.Delete(id, LoggedUserId());
+            return NoContent();
+        }
 
-            return Ok();
+        private int LoggedUserId()
+        {
+            return int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
         }
     }
 }

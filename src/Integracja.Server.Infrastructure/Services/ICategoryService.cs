@@ -6,10 +6,10 @@ namespace Integracja.Server.Infrastructure.Services
 {
     public interface ICategoryService
     {
-        Task<CategoryDetailsDto> Get(int id, int userId);
-        Task<IEnumerable<CategoryDto>> GetAll(int userId);
-        Task<int> Add(CategoryDto dto, int userId);        
+        Task<CategoryGet> Get(int id, int userId);
+        Task<IEnumerable<CategoryGetAll>> GetAll(int userId);
+        Task<int> Add(CategoryAdd dto, int userId);        
         Task Delete(int id, int userId);
-        Task<int> Update(int id, CategoryDto dto, int userId);
+        Task<int> Update(int id, CategoryModify dto, int userId);
     }
 }

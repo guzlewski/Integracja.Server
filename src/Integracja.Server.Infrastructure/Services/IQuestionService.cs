@@ -6,10 +6,10 @@ namespace Integracja.Server.Infrastructure.Services
 {
     public interface IQuestionService
     {
-        Task<QuestionDetailsDto> Get(int id, int userId);
-        Task<IEnumerable<QuestionDto>> GetAll(int userId);
-        Task<QuestionDetailsDto> Add(QuestionDetailsDto dto, int userId);
+        Task<QuestionGet> Get(int id, int userId);
+        Task<IEnumerable<QuestionGetAll>> GetAll(int userId);
+        Task<int> Add(QuestionAdd dto, int userId);
         Task Delete(int id, int userId);
-        Task Update(int id, QuestionDetailsDto dto, int userId);
+        Task<int> Update(int id, QuestionModify dto, int userId);
     }
 }
