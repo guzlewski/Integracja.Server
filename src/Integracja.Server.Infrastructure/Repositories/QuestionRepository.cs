@@ -64,7 +64,7 @@ namespace Integracja.Server.Infrastructure.Repositories
                 .Select(q => new
                 {
                     Question = q,
-                    Category = q.Category,
+                    q.Category,
                     GameQuestionsCount = q.GameQuestions.Count
                 })
                 .FirstOrDefaultAsync();
@@ -95,7 +95,7 @@ namespace Integracja.Server.Infrastructure.Repositories
                .Select(q => new
                {
                    Question = q,
-                   Category = q.Category,
+                   q.Category,
                    GameQuestionsCount = q.GameQuestions.Count
                })
                .FirstOrDefaultAsync();

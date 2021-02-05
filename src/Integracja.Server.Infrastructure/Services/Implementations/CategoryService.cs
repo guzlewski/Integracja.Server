@@ -93,7 +93,6 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
         public async Task<int> Update(int id, CategoryModify dto, int userId)
         {
             var category = _mapper.Map<Category>(dto);
-
             category.Id = id;
             category.OwnerId = userId;
 
