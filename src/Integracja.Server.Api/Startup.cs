@@ -1,3 +1,4 @@
+using System;
 using System.Text.Json.Serialization;
 using Integracja.Server.Api.Services;
 using Integracja.Server.Core.Models.Identity;
@@ -64,7 +65,7 @@ namespace Integracja.Server.Api
                                     Id = "Bearer"
                                 }
                             },
-                            System.Array.Empty<string>()
+                            Array.Empty<string>()
                     }
                 });
             });
