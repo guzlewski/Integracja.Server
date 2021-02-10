@@ -1,57 +1,68 @@
-﻿@model Integracja.Server.Infrastructure.DTO.QuestionAdd
+﻿@model Integracja.Server.Web.Models.DodajPytaniaViewModel
 
 @{
     ViewData["Title"] = "View";
 }
-
 <h1>Dodaj pytania</h1>
 
 <hr />
 <div class="row">
     <div class="col-md-3">
+        <h2>Kategorie</h2>
         <table class="table">
-            <thead class="thead-dark">
+            <tbody>
                 <tr>
-                    <th scope="col">Kategorie</th>
+                    <td>Matematyka</td>
                 </tr>
-            </thead>
+                <tr>
+                    <td>Biologia</td>
+                </tr>
+                <tr>
+                    <td>Fizyka</td>
+                </tr>
+                <tr>
+                    <td>Informatyka</td>
+                </tr>
+            </tbody>
+            
         </table>
     </div>
     <div class="col-md-6">
+        <h2>Twoje pytanie</h2>
         <form asp-action="View">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Content" class="control-label"></label>
-                <input asp-for="Content" class="form-control" />
-                <span asp-validation-for="Content" class="text-danger"></span>
+                <label asp-for="NewQuestion.Content" class="control-label"></label>
+                <input asp-for="NewQuestion.Content" class="form-control" />
+                <span asp-validation-for="NewQuestion.Content" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="PositivePoints" class="control-label"></label>
-                <input asp-for="PositivePoints" class="form-control" />
-                <span asp-validation-for="PositivePoints" class="text-danger"></span>
+                <label asp-for="NewQuestion.PositivePoints" class="control-label"></label>
+                <input asp-for="NewQuestion.PositivePoints" class="form-control" />
+                <span asp-validation-for="NewQuestion.PositivePoints" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="NegativePoints" class="control-label"></label>
-                <input asp-for="NegativePoints" class="form-control" />
-                <span asp-validation-for="NegativePoints" class="text-danger"></span>
+                <label asp-for="NewQuestion.NegativePoints" class="control-label"></label>
+                <input asp-for="NewQuestion.NegativePoints" class="form-control" />
+                <span asp-validation-for="NewQuestion.NegativePoints" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="QuestionScoring" class="control-label"></label>
-                <input asp-for="QuestionScoring" class="form-control" />
-                <span asp-validation-for="QuestionScoring" class="text-danger"></span>
+                <label asp-for="NewQuestion.QuestionScoring" class="control-label"></label>
+                <input asp-for="NewQuestion.QuestionScoring" class="form-control" />
+                <span asp-validation-for="NewQuestion.QuestionScoring" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="IsPublic" class="control-label"></label>
-                <input asp-for="IsPublic" class="form-control" />
-                <span asp-validation-for="IsPublic" class="text-danger"></span>
+                <label asp-for="NewQuestion.IsPublic" class="control-label"></label>
+                <input asp-for="NewQuestion.IsPublic" class="form-control" />
+                <span asp-validation-for="NewQuestion.IsPublic" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="CategoryId" class="control-label"></label>
-                <input asp-for="CategoryId" class="form-control" />
-                <span asp-validation-for="CategoryId" class="text-danger"></span>
+                <label asp-for="NewQuestion.CategoryId" class="control-label"></label>
+                <input asp-for="NewQuestion.CategoryId" class="form-control" />
+                <span asp-validation-for="NewQuestion.CategoryId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Dodaj pytanie" class="yellow-button" />@* btn btn-primary*@
             </div>
         </form>
     </div>
