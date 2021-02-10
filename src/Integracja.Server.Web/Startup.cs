@@ -41,7 +41,7 @@ namespace Integracja.Server.Web
             services.AddTransient<IEmailSender, SmtpEmailSender>();
 
             services.AddControllersWithViews();
-            services.AddRazorPages();
+            services.AddRazorPages().AddRazorRuntimeCompilation();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
