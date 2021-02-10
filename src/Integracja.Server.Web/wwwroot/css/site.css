@@ -1,9 +1,55 @@
 ﻿@import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
 
+* {
+    font-family: "Segoe UI", Verdana, Arial, sans-serif;
+}
+
 body {
     font-family: Poppins, sans-serif;
     background: #fafafa;
 }
+
+h1,h2,h3 {
+    color: #707070;
+    opacity: 1;
+}
+
+h1 {
+    font-size: 3em;
+}
+h2 {
+    font-size: 2em;
+}
+h3 {
+    font-size: 1em;
+}
+
+
+.yellow-button {
+    background-color: #FFDD34;
+    border-radius: 42px;
+    /*border: 3px solid #FFDD34;*/
+    display: inline-block;
+    cursor: pointer;
+    color: #3E3E3E;
+    font-size: 1em;
+    font-weight: bold;
+    padding: 0.5em 1em;
+}
+
+    .yellow-button:hover {
+        color: white;
+    }
+
+    .yellow-button:active {
+        position: relative;
+        top: 1px;
+    }
+
+
+
+
+
 
 p {
     font-family: Poppins, sans-serif;
@@ -126,7 +172,6 @@ a:focus {
     top: 0;
     right: 0;
 }
-
 
 /* ---------------------------------------------------
     MEDIAQUERIES
