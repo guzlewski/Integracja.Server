@@ -1,4 +1,66 @@
-﻿<div class="text-center">
-    <h1 class="display-4"> Dodaj pytania </h1>
-    <p> Tutaj będzie można dodać pytania </p>
+﻿@model Integracja.Server.Infrastructure.DTO.QuestionAdd
+
+@{
+    ViewData["Title"] = "View";
+}
+
+<h1>Dodaj pytania</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-3">
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Kategorie</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+    <div class="col-md-6">
+        <form asp-action="View">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Content" class="control-label"></label>
+                <input asp-for="Content" class="form-control" />
+                <span asp-validation-for="Content" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PositivePoints" class="control-label"></label>
+                <input asp-for="PositivePoints" class="form-control" />
+                <span asp-validation-for="PositivePoints" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NegativePoints" class="control-label"></label>
+                <input asp-for="NegativePoints" class="form-control" />
+                <span asp-validation-for="NegativePoints" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="QuestionScoring" class="control-label"></label>
+                <input asp-for="QuestionScoring" class="form-control" />
+                <span asp-validation-for="QuestionScoring" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IsPublic" class="control-label"></label>
+                <input asp-for="IsPublic" class="form-control" />
+                <span asp-validation-for="IsPublic" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CategoryId" class="control-label"></label>
+                <input asp-for="CategoryId" class="form-control" />
+                <span asp-validation-for="CategoryId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
 </div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
