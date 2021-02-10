@@ -24,8 +24,9 @@ namespace Integracja.Server.Web
         {
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
-                    Configuration.GetConnectionString("DatabaseConnection")));
+                    Configuration.GetConnectionString("LocalDbConnection")));
             services.AddDatabaseDeveloperPageExceptionFilter();
+            
 
             services.AddDefaultIdentity<User>(options =>
             {
@@ -33,12 +34,14 @@ namespace Integracja.Server.Web
                 options.User.RequireUniqueEmail = true;
             })
                 .AddEntityFrameworkStores<ApplicationDbContext>();
-            services.AddControllersWithViews();
+
+            //services.AddControllersWithViews(); // twice ?
 
             services.Configure<SmtpSettings>(Configuration.GetSection("SmtpSettings"));
             services.AddTransient<IEmailSender, SmtpEmailSender>();
 
             services.AddControllersWithViews();
+            services.AddRazorPages();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
