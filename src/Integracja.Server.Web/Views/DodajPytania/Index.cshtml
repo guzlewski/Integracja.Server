@@ -11,21 +11,24 @@
         <h2>Kategorie</h2>
         <table class="table">
             <tbody>
-                <tr>
-                    <td>Matematyka</td>
-                </tr>
-                <tr>
-                    <td>Biologia</td>
-                </tr>
-                <tr>
-                    <td>Fizyka</td>
-                </tr>
-                <tr>
-                    <td>Informatyka</td>
-                </tr>
+                @foreach (var category in Model.Categories)
+                {
+                    <tr>
+                        <td>@category.Name</td>
+                        <td>@category.QuestionsCount</td>
+                    </tr>
+                }
             </tbody>
-            
+
         </table>
+        <form method="post" asp-controller="DodajPytania" asp-action="AddCategory">
+            <div class="form-group">
+                <input type="text" id="categoryName" />
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Dodaj kategorię" class="yellow-button" />
+            </div>
+        </form>
     </div>
     <div class="col-md-6">
         <h2>Twoje pytanie</h2>
@@ -62,7 +65,7 @@
                 <span asp-validation-for="NewQuestion.CategoryId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Dodaj pytanie" class="yellow-button" />@* btn btn-primary*@
+                <input type="submit" value="Dodaj pytanie" class="yellow-button" />
             </div>
         </form>
     </div>
