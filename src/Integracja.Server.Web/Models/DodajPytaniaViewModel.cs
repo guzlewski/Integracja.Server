@@ -7,6 +7,7 @@ using System;
 
 namespace Integracja.Server.Web.Models
 {
+    // potrzebne żeby zaagregować parę modeli które mamy na jednej stronie przykładowo DodajPytania gdzie potrzeba wyświetlać kategorię i będziemy dodawać pytania/odpowiedzi
     public class DodajPytaniaViewModel : PageModel
     {
         public IEnumerable<CategoryGetAll> Categories { get; set; }

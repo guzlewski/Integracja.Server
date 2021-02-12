@@ -14,12 +14,13 @@ using System;
 
 namespace Integracja.Server.Web.Controllers
 {
+    // kontroler jest tworzony za każdym razem gdy ladujesz/odswiezasz
     public class DodajPytaniaController : ApplicationController
     {
         // service 
         private ICategoryService _categoryService;
         private ICategoryService CategoryService { get => _categoryService; }
-        // model
+        // model 
         private DodajPytaniaViewModel _model;
         private DodajPytaniaViewModel Model { get => _model; }
 
@@ -31,6 +32,8 @@ namespace Integracja.Server.Web.Controllers
 
         public IActionResult Index()
         {
+
+            // przykład na wypełnienie kategorii 
             /*int userId = Int32.Parse(UserManager.GetUserId(User));
             Model.Categories = (IEnumerable<CategoryGetAll>)CategoryService.GetAll(userId).Result;*/
 
@@ -41,6 +44,7 @@ namespace Integracja.Server.Web.Controllers
         //[Route("DodajPytania/AddCategory")]
         public IActionResult AddCategory( string categoryName )
         {
+            // to jest post który mi nie działa; patrz na Views/DodajPytania/Index.cshtmml - tam jest coś nie tak
             return Content("post content: " + categoryName);
         }
     }

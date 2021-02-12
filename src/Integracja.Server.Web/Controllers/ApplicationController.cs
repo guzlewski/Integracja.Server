@@ -5,6 +5,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Integracja.Server.Web.Controllers
 {
+    /*
+     bazowa klasa dla kontrolerów naszych stron po to żeby w każdym kontrolerze było ApplicationDbContext i UserManager 
+     DbContext jest potrzebny do użycia z serwisem - serwis potrzebujesz do komunikacji się z bazą danych i dodawania/pobierania rzeczy z bazy danych
+     UserManager przechowuje informacje o zalogowanym uzytkowniku i tez np userid jest potrzebne do polaczenia z bazą danych przez serwis no bo mamy te prywatne kategorie itd*/
     public class ApplicationController : Controller
     {
         private ApplicationDbContext _context;
