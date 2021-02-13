@@ -3,72 +3,86 @@
 @{
     ViewData["Title"] = "View";
 }
+@*nagłówek*@
 <h1>Dodaj pytania</h1>
+<br />
 
-<hr />
 <div class="row">
+    @*kolumna wyboru i dodawania kategorii*@
     <div class="col-md-3">
         <h2>Kategorie</h2>
-        <table class="table">
-            <tbody>
-                @foreach (var category in Model.Categories)
-                {
+        <br/>
+        @*tabela z przeglądem kategorii i możliwością wyboru*@
+        <div class="input-group">
+            <div class="form-outline">
+                <input type="search" placeholder="Nazwa kategorii" class="form-control" />
+            </div>
+            <button type="button" class="btn btn-primary">
+                <i class="bi bi-search"></i>
+            </button>
+        </div>
+        <br />
+        <div class="table-wrapper-scroll-y scrollbar-secondary">
+            <table class="table table-bordered table-striped table-sm ">
+                <thead>
                     <tr>
-                        <td>@category.Name</td>
-                        <td>@category.QuestionsCount</td>
+                        <th scope="col">Nazwa</th>
+                        <th scope="col">Ilość pytań</th>
                     </tr>
-                }
-            </tbody>
-
-        </table>
-        <form asp-action="Index" asp-controller="DodajPytania">
-            <input asp-for="NewCategory.Name" placeholder="Nazwa twojej kategorii"/>
-            <input type="submit" />
+                </thead>
+                <tbody>
+                    @foreach (var category in Model.Categories)
+                    {
+                        <tr>
+                            <td>@category.Name</td>
+                            <td>@category.QuestionsCount</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        @*pole dodawania kategorii*@
+        <form asp-action="AddCategory" asp-controller="DodajPytania">
+            <div class="form-group">
+                <input asp-for="NewCategory.Name" placeholder="Nazwa twojej kategorii" />
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Dodaj kategorię" class="btn btn-primary" />
+            </div>
         </form>
     </div>
-    <div class="col-md-6">
+    @*kolumna tworzenia pytania*@
+    <div class="col-md-7">
         <h2>Twoje pytanie</h2>
-        <form asp-action="View">
+        <br />
+        <form asp-action="AddQuestion">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="NewQuestion.Content" class="control-label"></label>
-                <input asp-for="NewQuestion.Content" class="form-control" />
+                <textarea asp-for="NewQuestion.Content" class="form-control"></textarea>
                 <span asp-validation-for="NewQuestion.Content" class="text-danger"></span>
             </div>
+            @*tworzenie odpowiedzi do pytania*@
+            <h2>Odpowiedzi</h2>
+            <br />
+            @for (int i = 0; i < Model.AnswerCount; ++i)
+            {
+                <div class="form-group">
+                    <input asp-for="NewQuestionAnswers.ElementAt(i).Content" class="form-control" />
+                </div>
+            }
+
+            @* TODO: przyciski do dodawania nowych pól odpowiedzi *@
+            @*<div class="form-group">
+                <button type="button" class="btn btn-light" onclick=@AddAnswerField()>Dodaj nową odpowiedź</button>
+                <button type="button" class="btn btn-light" onclick=@RemoveAnswerField()>Usuń odpowiedź</button>"
+            </div>*@
+
             <div class="form-group">
-                <label asp-for="NewQuestion.PositivePoints" class="control-label"></label>
-                <input asp-for="NewQuestion.PositivePoints" class="form-control" />
-                <span asp-validation-for="NewQuestion.PositivePoints" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="NewQuestion.NegativePoints" class="control-label"></label>
-                <input asp-for="NewQuestion.NegativePoints" class="form-control" />
-                <span asp-validation-for="NewQuestion.NegativePoints" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="NewQuestion.QuestionScoring" class="control-label"></label>
-                <input asp-for="NewQuestion.QuestionScoring" class="form-control" />
-                <span asp-validation-for="NewQuestion.QuestionScoring" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="NewQuestion.IsPublic" class="control-label"></label>
-                <input asp-for="NewQuestion.IsPublic" class="form-control" />
-                <span asp-validation-for="NewQuestion.IsPublic" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="NewQuestion.CategoryId" class="control-label"></label>
-                <input asp-for="NewQuestion.CategoryId" class="form-control" />
-                <span asp-validation-for="NewQuestion.CategoryId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Dodaj pytanie" class="yellow-button" />
+                <input type="submit" value="Dodaj pytanie" class="btn btn-primary" />
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {
