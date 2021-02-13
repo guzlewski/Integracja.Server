@@ -14,7 +14,6 @@ namespace Integracja.Server.Web.Models
         public QuestionAdd NewQuestion { get; set; }
         public IEnumerable<AnswerDto> NewQuestionAnswers { get; set; }
         public CategoryAdd NewCategory { get; set; }
-
         public string TestString { get; set;  }
         public DodajPytaniaViewModel() : base()
         {

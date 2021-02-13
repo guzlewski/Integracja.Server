@@ -21,13 +21,9 @@
             </tbody>
 
         </table>
-        <form method="post" asp-controller="DodajPytania" asp-action="AddCategory">
-            <div class="form-group">
-                <input type="text" id="categoryName" />
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Dodaj kategorię" class="yellow-button" />
-            </div>
+        <form asp-action="Index" asp-controller="DodajPytania">
+            <input asp-for="NewCategory.Name" placeholder="Nazwa twojej kategorii"/>
+            <input type="submit" />
         </form>
     </div>
     <div class="col-md-6">

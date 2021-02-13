@@ -41,11 +41,10 @@ namespace Integracja.Server.Web.Controllers
         }
 
         [HttpPost, ValidateAntiForgeryToken]
-        //[Route("DodajPytania/AddCategory")]
-        public IActionResult AddCategory( string categoryName )
+        // taki post działa i można teraz zmieniać dowolnie nazwy pól w DodajPytaniaViewModel
+        public IActionResult Index( [Bind(Prefix = nameof(DodajPytaniaViewModel.NewCategory))] CategoryAdd category)
         {
-            // to jest post który mi nie działa; patrz na Views/DodajPytania/Index.cshtmml - tam jest coś nie tak
-            return Content("post content: " + categoryName);
+            return Content("post content: " + category.Name );
         }
     }
 }
