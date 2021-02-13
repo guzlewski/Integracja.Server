@@ -2,6 +2,7 @@
 using Integracja.Server.Infrastructure.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System;
 
 namespace Integracja.Server.Web.Controllers
 {
@@ -17,11 +18,23 @@ namespace Integracja.Server.Web.Controllers
         private UserManager<User> _userManager;
         protected UserManager<User> UserManager { get => _userManager; }
 
+        private int? _userId;
+        protected int UserId
+        { 
+            get
+            {
+                if (!_userId.HasValue)
+                    _userId = Int32.Parse(UserManager.GetUserId(User));
+                return _userId.Value;
+            }
+        }
+
         // using dependency injection
         public ApplicationController( UserManager<User> userManager, ApplicationDbContext dbContext ) : base()
         {
             _context = dbContext;
             _userManager = userManager;
+            _userId = null;
         }
     }
 }

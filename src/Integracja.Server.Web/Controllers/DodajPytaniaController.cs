@@ -11,6 +11,8 @@ using Microsoft.AspNetCore.Identity;
 using Integracja.Server.Core.Models.Identity;
 using System.Collections.Generic;
 using System;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Components.Web;
 
 namespace Integracja.Server.Web.Controllers
 {
@@ -30,21 +32,25 @@ namespace Integracja.Server.Web.Controllers
             _model = new DodajPytaniaViewModel();
         }
 
+        [HttpGet]
         public IActionResult Index()
         {
-
             // przykład na wypełnienie kategorii 
-            /*int userId = Int32.Parse(UserManager.GetUserId(User));
-            Model.Categories = (IEnumerable<CategoryGetAll>)CategoryService.GetAll(userId).Result;*/
-
+            Model.Categories = (IEnumerable<CategoryGetAll>)CategoryService.GetAll(UserId).Result;
             return View(Model);
         }
 
         [HttpPost, ValidateAntiForgeryToken]
+        [Route("DodajPytania/AddCategory")]
         // taki post działa i można teraz zmieniać dowolnie nazwy pól w DodajPytaniaViewModel
-        public IActionResult Index( [Bind(Prefix = nameof(DodajPytaniaViewModel.NewCategory))] CategoryAdd category)
+        public async Task<IActionResult> AddCategory([Bind(Prefix = nameof(DodajPytaniaViewModel.NewCategory))] CategoryAdd category)
         {
-            return Content("post content: " + category.Name );
+            // czy jest lepsza metoda niż await async i ewentualnie Route ? 
+            // próbuję tylko odświeżyć stronę po dodaniu kategorii
+            // Nie ogarniam do końca jak to zrobić z View, RedirectToPage itd
+            // zwracają błędy i/lub nie jest dodana kategoria
+            await CategoryService.Add(category, UserId);
+            return RedirectToAction("Index", "DodajPytania");
         }
     }
 }
