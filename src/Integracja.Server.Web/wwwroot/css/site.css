@@ -9,19 +9,13 @@ body {
     background: #fafafa;
 }
 
-h1,h2,h3 {
+h1,h2,h3,h4 {
     color: #707070;
     opacity: 1;
 }
 
-h1 {
-    font-size: 3em;
-}
-h2 {
-    font-size: 2em; 
-}
-h3 {
-    font-size: 1em;
+.input-number {
+    max-width: 5em;
 }
 
 .scrollbar-secondary {

@@ -7,7 +7,6 @@ namespace Integracja.Server.Infrastructure.DTO
     public class QuestionAdd
     {
         [Required]
-        [Display(Name ="Treść")]
         public string Content { get; set; }
         [Required]
         [Range(0, 1000)]
