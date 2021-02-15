@@ -1,27 +1,26 @@
-﻿using Integracja.Server.Infrastructure.DTO;
+﻿using Integracja.Server.Core.Models.Identity;
+using Integracja.Server.Infrastructure.Data;
+using Integracja.Server.Infrastructure.DTO;
+using Integracja.Server.Infrastructure.Mappers;
+using Integracja.Server.Infrastructure.Repositories;
 using Integracja.Server.Infrastructure.Services;
 using Integracja.Server.Infrastructure.Services.Implementations;
-using Integracja.Server.Infrastructure.Repositories;
-using Integracja.Server.Infrastructure.Mappers;
 using Integracja.Server.Web.Models;
-using Microsoft.AspNetCore.Mvc;
-using Integracja.Server.Infrastructure.Data;
-using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
-using Integracja.Server.Core.Models.Identity;
+using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using System;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Components.Web;
 
 namespace Integracja.Server.Web.Controllers
 {
     // kontroler jest tworzony za każdym razem gdy ladujesz/odswiezasz
     public class DodajPytaniaController : ApplicationController
     {
-        // service 
+        // services
         private ICategoryService _categoryService;
         private ICategoryService CategoryService { get => _categoryService; }
+        private IQuestionService _questionService;
+        private IQuestionService QuestionService { get => _questionService; }
         // model 
         private DodajPytaniaViewModel _model;
         private DodajPytaniaViewModel Model { get => _model; }
@@ -29,15 +28,37 @@ namespace Integracja.Server.Web.Controllers
         public DodajPytaniaController(UserManager<User> userManager, ApplicationDbContext dbContext) : base(userManager, dbContext)
         {
             _categoryService = new CategoryService(new CategoryRepository(dbContext), AutoMapperConfig.Initialize());
+            _questionService = new QuestionService(new QuestionRepository(dbContext), AutoMapperConfig.Initialize());
             _model = new DodajPytaniaViewModel();
         }
 
         [HttpGet]
-        public IActionResult Index()
+        public IActionResult Index( int ?id )
         {
+            if( id.HasValue )
+                Model.NewQuestion.CategoryId = id.Value;
             // przykład na wypełnienie kategorii 
             Model.Categories = (IEnumerable<CategoryGetAll>)CategoryService.GetAll(UserId).Result;
             return View(Model);
+        }
+
+        [HttpPost, ValidateAntiForgeryToken]
+        [Route("DodajPytania/Index/{id?}/AddQuestion")]
+        public async Task<IActionResult> AddQuestion(
+            int? id,
+            [Bind(Prefix = nameof(DodajPytaniaViewModel.NewQuestion))] QuestionAdd question,
+            [Bind(Prefix = nameof(DodajPytaniaViewModel.NewQuestionAnswers))] List<AnswerDto> answers)
+        {
+            // dodawanie pytania
+            if( id.HasValue )
+                question.CategoryId = id.Value;
+            await QuestionService.Add(question, UserId);
+            return RedirectToAction("Index", "DodajPytania");
+        }
+
+        public IActionResult SelectCategory( int? categoryId )
+        {
+            return RedirectToAction("Index", "DodajPytania", new { id = categoryId } );
         }
 
         [HttpPost, ValidateAntiForgeryToken]
