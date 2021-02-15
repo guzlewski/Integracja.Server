@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Integracja.Server.Infrastru
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Integracja.Server.Api", "src\Integracja.Server.Api\Integracja.Server.Api.csproj", "{A4784F81-2DF7-45E7-8021-C2AC6B77B8E1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Integracja.Server.Web", "src\Integracja.Server.Web\Integracja.Server.Web.csproj", "{BA011C01-98C5-46DF-B466-7676291E0E25}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Integracja.Server.Web", "src\Integracja.Server.Web\Integracja.Server.Web.csproj", "{BA011C01-98C5-46DF-B466-7676291E0E25}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
