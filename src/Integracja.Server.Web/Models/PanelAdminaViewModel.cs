@@ -9,7 +9,12 @@ namespace Integracja.Server.Web.Models
         public bool ShowCategories { get; set; }
         public bool ShowQuestions { get; set; }
 
-        public List<CategoryGetAll> Categories { get; set; }
-        public List<QuestionGetAll> Questions { get; set; }
+        public IEnumerable<CategoryGetAll> Categories { get; set; }
+        public IEnumerable<QuestionGetAll> Questions { get; set; }
+
+        public PanelAdminaViewModel() : base()
+        {
+            Categories = new List<CategoryGetAll>();
+        }
     }
 }
