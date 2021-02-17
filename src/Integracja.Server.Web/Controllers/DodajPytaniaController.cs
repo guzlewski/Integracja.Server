@@ -1,10 +1,6 @@
 ﻿using Integracja.Server.Core.Models.Identity;
 using Integracja.Server.Infrastructure.Data;
 using Integracja.Server.Infrastructure.DTO;
-using Integracja.Server.Infrastructure.Mappers;
-using Integracja.Server.Infrastructure.Repositories;
-using Integracja.Server.Infrastructure.Services;
-using Integracja.Server.Infrastructure.Services.Implementations;
 using Integracja.Server.Web.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -16,15 +12,10 @@ namespace Integracja.Server.Web.Controllers
     // kontroler jest tworzony za każdym razem gdy ladujesz/odswiezasz
     public class DodajPytaniaController : ApplicationController
     {
-        private ICategoryService CategoryService { get; set; }
-        private IQuestionService QuestionService { get; set; }
-
         private DodajPytaniaViewModel Model { get; set; }
 
         public DodajPytaniaController(UserManager<User> userManager, ApplicationDbContext dbContext) : base(userManager, dbContext)
         {
-            CategoryService = new CategoryService(new CategoryRepository(dbContext), AutoMapperConfig.Initialize());
-            QuestionService = new QuestionService(new QuestionRepository(dbContext), AutoMapperConfig.Initialize());
             Model = new DodajPytaniaViewModel();
         }
 

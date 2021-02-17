@@ -14,15 +14,10 @@ namespace Integracja.Server.Web.Controllers
 {
     public class PanelAdminaController : ApplicationController
     {
-        private ICategoryService CategoryService { get; set; }
-        private IQuestionService QuestionService { get; set; }
-
         private PanelAdminaViewModel Model { get; set; }
 
         public PanelAdminaController(UserManager<User> userManager, ApplicationDbContext dbContext) : base(userManager, dbContext)
         {
-            CategoryService = new CategoryService(new CategoryRepository(dbContext), Mapper);
-            QuestionService = new QuestionService(new QuestionRepository(dbContext), Mapper);
             Model = new PanelAdminaViewModel();
         }
 
