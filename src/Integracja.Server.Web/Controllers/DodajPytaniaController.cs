@@ -16,20 +16,16 @@ namespace Integracja.Server.Web.Controllers
     // kontroler jest tworzony za każdym razem gdy ladujesz/odswiezasz
     public class DodajPytaniaController : ApplicationController
     {
-        // services
-        private ICategoryService _categoryService;
-        private ICategoryService CategoryService { get => _categoryService; }
-        private IQuestionService _questionService;
-        private IQuestionService QuestionService { get => _questionService; }
-        // model 
-        private DodajPytaniaViewModel _model;
-        private DodajPytaniaViewModel Model { get => _model; }
+        private ICategoryService CategoryService { get; set; }
+        private IQuestionService QuestionService { get; set; }
+
+        private DodajPytaniaViewModel Model { get; set; }
 
         public DodajPytaniaController(UserManager<User> userManager, ApplicationDbContext dbContext) : base(userManager, dbContext)
         {
-            _categoryService = new CategoryService(new CategoryRepository(dbContext), AutoMapperConfig.Initialize());
-            _questionService = new QuestionService(new QuestionRepository(dbContext), AutoMapperConfig.Initialize());
-            _model = new DodajPytaniaViewModel();
+            CategoryService = new CategoryService(new CategoryRepository(dbContext), AutoMapperConfig.Initialize());
+            QuestionService = new QuestionService(new QuestionRepository(dbContext), AutoMapperConfig.Initialize());
+            Model = new DodajPytaniaViewModel();
         }
 
         [HttpGet]
@@ -37,8 +33,7 @@ namespace Integracja.Server.Web.Controllers
         {
             if( id.HasValue )
                 Model.QuestionViewModel.Question.CategoryId = id.Value;
-            // przykład na wypełnienie kategorii 
-            Model.Categories = (IEnumerable<CategoryGetAll>)CategoryService.GetAll(UserId).Result;
+            Model.Categories = CategoryService.GetAll(UserId).Result;
             return View(Model);
         }
 
@@ -64,7 +59,7 @@ namespace Integracja.Server.Web.Controllers
         }
 
         [HttpPost, ValidateAntiForgeryToken]
-        [Route("DodajPytania/AddCategory")]
+        [Route("DodajPytania/CategoryAdd")]
         // taki post działa i można teraz zmieniać dowolnie nazwy pól w DodajPytaniaViewModel
         public async Task<IActionResult> CategoryAdd([Bind(Prefix = nameof(DodajPytaniaViewModel.NewCategory))] CategoryAdd category)
         {
