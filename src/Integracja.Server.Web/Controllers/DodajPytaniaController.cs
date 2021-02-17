@@ -43,8 +43,8 @@ namespace Integracja.Server.Web.Controllers
         }
 
         [HttpPost, ValidateAntiForgeryToken]
-        [Route("DodajPytania/Index/{id?}/AddQuestion")]
-        public async Task<IActionResult> AddQuestion(
+        [Route("DodajPytania/Index/{id?}/QuestionAdd")]
+        public async Task<IActionResult> QuestionAdd(
             int? id,
             [Bind(Prefix = nameof(DodajPytaniaViewModel.QuestionViewModel.Question))] QuestionAdd question,
             [Bind(Prefix = nameof(DodajPytaniaViewModel.QuestionViewModel.Answers))] List<AnswerDto> answers)
@@ -52,11 +52,13 @@ namespace Integracja.Server.Web.Controllers
             // dodawanie pytania
             if( id.HasValue )
                 question.CategoryId = id.Value;
+
+            question.Answers = answers;
             await QuestionService.Add(question, UserId);
             return RedirectToAction("Index", "DodajPytania");
         }
 
-        public IActionResult SelectCategory( int? categoryId )
+        public IActionResult CategorySelect( int? categoryId )
         {
             return RedirectToAction("Index", "DodajPytania", new { id = categoryId } );
         }
@@ -64,7 +66,7 @@ namespace Integracja.Server.Web.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         [Route("DodajPytania/AddCategory")]
         // taki post działa i można teraz zmieniać dowolnie nazwy pól w DodajPytaniaViewModel
-        public async Task<IActionResult> AddCategory([Bind(Prefix = nameof(DodajPytaniaViewModel.NewCategory))] CategoryAdd category)
+        public async Task<IActionResult> CategoryAdd([Bind(Prefix = nameof(DodajPytaniaViewModel.NewCategory))] CategoryAdd category)
         {
             // czy jest lepsza metoda niż await async i ewentualnie Route ? 
             // próbuję tylko odświeżyć stronę po dodaniu kategorii

@@ -18,7 +18,7 @@ namespace Integracja.Server.Web.Models
         public DodajPytaniaViewModel() : base()
         {
             Categories = new List<CategoryGetAll>();
-            QuestionViewModel = new QuestionViewModel("Twoje pytanie", true);
+            QuestionViewModel = new QuestionViewModel("Twoje pytanie", true, "DodajPytania");
             NewCategory = new CategoryAdd();
         }
     }

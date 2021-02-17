@@ -3,15 +3,16 @@
 @{
     ViewData["Title"] = "View";
 }
-@*nagłówek*@
 <h1>Dodaj pytania</h1>
 <br />
 
 <div class="row">
-    @*kolumna wyboru i dodawania kategorii*@
+
+    @*wybór i dodawanie kategorii*@
     <div class="col-md-3">
         <h2>Kategorie</h2>
         <br />
+
         @*tabela z przeglądem kategorii i możliwością wyboru*@
         <div class="input-group">
             <div class="form-outline">
@@ -35,7 +36,7 @@
                     @foreach (var category in Model.Categories)
                     {
                     <tr>
-                        <td><a asp-action="SelectCategory" asp-route-categoryId="@category.Id">Select</a></td>
+                        <td><a asp-action="CategorySelect" asp-route-categoryId="@category.Id">Select</a></td>
                         <td>@category.Name</td>
                         <td>@category.QuestionsCount</td>
                     </tr>
@@ -43,8 +44,9 @@
                 </tbody>
             </table>
         </div>
-        @*pole dodawania kategorii*@
-        <form asp-action="AddCategory" asp-controller="DodajPytania">
+
+        @*dodawanie kategorii*@
+        <form asp-action="CategoryAdd" asp-controller="DodajPytania">
             <div class="form-group">
                 <input asp-for="NewCategory.Name" placeholder="Nazwa twojej kategorii" />
             </div>
@@ -53,7 +55,8 @@
             </div>
         </form>
     </div>
-    @*kolumna tworzenia pytania*@
+
+    @*tworzenie pytania*@
     <div class="col-md-7">
         @{ await Html.RenderPartialAsync("~/Views/Shared/_Question.cshtml", Model.QuestionViewModel); }
     </div>
