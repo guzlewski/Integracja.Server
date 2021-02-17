@@ -29,16 +29,24 @@ namespace Integracja.Server.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index( int ?id )
+        public IActionResult Index(int? id)
+        {
+            return RedirectToAction("Category", new { id = id });
+        }
+
+        [HttpGet]
+        [ActionName("Category")]
+        public IActionResult Category( int ?id )
         {
             if( id.HasValue )
                 Model.QuestionViewModel.Question.CategoryId = id.Value;
             Model.Categories = CategoryService.GetAll(UserId).Result;
-            return View(Model);
+            return View("~/Views/DodajPytania/Index.cshtml",Model);
         }
 
         [HttpPost, ValidateAntiForgeryToken]
         [Route("DodajPytania/Index/{id?}/QuestionAdd")]
+        [ActionName("QuestionAdd")]
         public async Task<IActionResult> QuestionAdd(
             int? id,
             [Bind(Prefix = nameof(DodajPytaniaViewModel.QuestionViewModel.Question))] QuestionAdd question,
@@ -50,7 +58,7 @@ namespace Integracja.Server.Web.Controllers
 
             question.Answers = answers;
             await QuestionService.Add(question, UserId);
-            return RedirectToAction("Index", "DodajPytania");
+            return RedirectToAction("Index", "DodajPytania", new { id = id } );
         }
 
         public IActionResult CategorySelect( int? categoryId )
@@ -60,15 +68,12 @@ namespace Integracja.Server.Web.Controllers
 
         [HttpPost, ValidateAntiForgeryToken]
         [Route("DodajPytania/CategoryAdd")]
-        // taki post działa i można teraz zmieniać dowolnie nazwy pól w DodajPytaniaViewModel
-        public async Task<IActionResult> CategoryAdd([Bind(Prefix = nameof(DodajPytaniaViewModel.NewCategory))] CategoryAdd category)
+        [ActionName("CategoryAdd")]
+        public async Task<IActionResult> CategoryAdd(
+            [Bind(Prefix = nameof(DodajPytaniaViewModel.NewCategory))] CategoryAdd category)
         {
-            // czy jest lepsza metoda niż await async i ewentualnie Route ? 
-            // próbuję tylko odświeżyć stronę po dodaniu kategorii
-            // Nie ogarniam do końca jak to zrobić z View, RedirectToPage itd
-            // zwracają błędy i/lub nie jest dodana kategoria
-            await CategoryService.Add(category, UserId);
-            return RedirectToAction("Index", "DodajPytania");
+            int categoryId = await CategoryService.Add(category, UserId);
+            return RedirectToAction("Index", "DodajPytania", new { id = categoryId });
         }
     }
 }
