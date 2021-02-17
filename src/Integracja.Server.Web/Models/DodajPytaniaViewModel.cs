@@ -13,23 +13,13 @@ namespace Integracja.Server.Web.Models
         
         public IEnumerable<CategoryGetAll> Categories { get; set; }
         public CategoryAdd NewCategory { get; set; }
-        public QuestionAdd NewQuestion { get; set; }
-        public List<AnswerDto> NewQuestionAnswers { get; set; }
-
-        // dla mozliwosci rozszerzenia pól ?
-        public const int DefaultAnswerCount = 4;
-        public int AnswerCount { get; set; }
+        public QuestionViewModel QuestionViewModel { get; set; }
 
         public DodajPytaniaViewModel() : base()
         {
             Categories = new List<CategoryGetAll>();
-            NewQuestion = new QuestionAdd();
-            NewQuestionAnswers = new List<AnswerDto>();
+            QuestionViewModel = new QuestionViewModel("Twoje pytanie", true);
             NewCategory = new CategoryAdd();
-
-            AnswerCount = DefaultAnswerCount;
-            for (int i = 0; i < AnswerCount; ++i)
-                NewQuestionAnswers.Add(new AnswerDto());
         }
     }
 }

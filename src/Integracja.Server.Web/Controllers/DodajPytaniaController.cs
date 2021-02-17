@@ -36,7 +36,7 @@ namespace Integracja.Server.Web.Controllers
         public IActionResult Index( int ?id )
         {
             if( id.HasValue )
-                Model.NewQuestion.CategoryId = id.Value;
+                Model.QuestionViewModel.Question.CategoryId = id.Value;
             // przykład na wypełnienie kategorii 
             Model.Categories = (IEnumerable<CategoryGetAll>)CategoryService.GetAll(UserId).Result;
             return View(Model);
@@ -46,8 +46,8 @@ namespace Integracja.Server.Web.Controllers
         [Route("DodajPytania/Index/{id?}/AddQuestion")]
         public async Task<IActionResult> AddQuestion(
             int? id,
-            [Bind(Prefix = nameof(DodajPytaniaViewModel.NewQuestion))] QuestionAdd question,
-            [Bind(Prefix = nameof(DodajPytaniaViewModel.NewQuestionAnswers))] List<AnswerDto> answers)
+            [Bind(Prefix = nameof(DodajPytaniaViewModel.QuestionViewModel.Question))] QuestionAdd question,
+            [Bind(Prefix = nameof(DodajPytaniaViewModel.QuestionViewModel.Answers))] List<AnswerDto> answers)
         {
             // dodawanie pytania
             if( id.HasValue )

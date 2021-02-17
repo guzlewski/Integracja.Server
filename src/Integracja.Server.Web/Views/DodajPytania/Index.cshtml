@@ -55,68 +55,7 @@
     </div>
     @*kolumna tworzenia pytania*@
     <div class="col-md-7">
-        <h2>Twoje pytanie</h2>
-        <br />
-        <form asp-controller="DodajPytania" asp-action="AddQuestion" asp-route-id="@Model.NewQuestion.CategoryId">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="NewQuestion.Content" class="control-label"></label>
-                <textarea asp-for="NewQuestion.Content" class="form-control"></textarea>
-                <span asp-validation-for="NewQuestion.Content" class="text-danger"></span>
-            </div>
-            @*tworzenie odpowiedzi do pytania*@
-            <h2>Odpowiedzi</h2>
-            <br />
-            @for (int i = 0; i < Model.AnswerCount; ++i)
-            {
-                <div class="form-group">
-                    <div class="form-inline">
-                            <input asp-for="NewQuestionAnswers[i].Content" class="form-control" />
-                            <input asp-for="NewQuestionAnswers[i].IsCorrect" class="form-check" type="checkbox" />
-                    </div>
-                </div>
-            }
-
-            @* TODO: przyciski do dodawania/usuwania pól odpowiedzi *@
-            @*<div class="form-group">
-            <button type="button" class="btn btn-light">Dodaj nową odpowiedź</button>
-            <button type="button" class="btn btn-light">Usuń odpowiedź</button>"
-        </div>*@
-            <h2>Punktacja</h2>
-            <br />
-
-            <div class="form-group">
-                <input asp-for="NewQuestion.PositivePoints" type="number" class="form-control input-number" />
-            </div>
-
-            <h4>Tryb</h4>
-            <div class="form-group">
-                <div class="radio">
-                    <label class="radio">
-                        <input asp-for="NewQuestion.QuestionScoring" value="@Integracja.Server.Core.Enums.QuestionScoring.ScoreIfFullyCorrect" type="radio" checked>
-                        Tylko za komplet poprawnych odpowiedzi
-                    </label>
-                </div>
-                <div class="radio">
-                    <label class="radio">
-                        <input asp-for="NewQuestion.QuestionScoring" value="@Integracja.Server.Core.Enums.QuestionScoring.ScorePerGoodAnswer" type="radio">
-                        Za pojedynczą poprawną odpowiedź
-                    </label>
-                </div>
-            </div>
-
-            <h4>Złe odpowiedzi</h4>
-
-            <div class="form-group">
-                <input asp-for="NewQuestion.NegativePoints" type="number" class="form-control input-number" />
-            </div>
-
-            <br />
-
-            <div class="form-group">
-                <input type="submit" value="Dodaj pytanie" class="btn btn-primary" />
-            </div>
-        </form>
+        @{ await Html.RenderPartialAsync("~/Views/Shared/_Question.cshtml", Model.QuestionViewModel); }
     </div>
 </div>
 
