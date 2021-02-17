@@ -8,29 +8,22 @@ using Integracja.Server.Infrastructure.Services.Implementations;
 using Integracja.Server.Web.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Integracja.Server.Web.Controllers
 {
     public class PanelAdminaController : ApplicationController
     {
-        // services
-        private ICategoryService _categoryService;
-        private ICategoryService CategoryService { get => _categoryService; }
-        private IQuestionService _questionService;
-        private IQuestionService QuestionService { get => _questionService; }
-        // model 
-        private PanelAdminaViewModel _model;
-        private PanelAdminaViewModel Model { get => _model; }
+        private ICategoryService CategoryService { get; set; }
+        private IQuestionService QuestionService { get; set; }
+
+        private PanelAdminaViewModel Model { get; set; }
 
         public PanelAdminaController(UserManager<User> userManager, ApplicationDbContext dbContext) : base(userManager, dbContext)
         {
-            _categoryService = new CategoryService(new CategoryRepository(dbContext), AutoMapperConfig.Initialize());
-            _questionService = new QuestionService(new QuestionRepository(dbContext), AutoMapperConfig.Initialize());
-            _model = new PanelAdminaViewModel();
+            CategoryService = new CategoryService(new CategoryRepository(dbContext), Mapper);
+            QuestionService = new QuestionService(new QuestionRepository(dbContext), Mapper);
+            Model = new PanelAdminaViewModel();
         }
 
         public IActionResult Index()
@@ -56,6 +49,13 @@ namespace Integracja.Server.Web.Controllers
             var question = await QuestionService.Get(id.Value, UserId);
             viewModel.Question = mapper.Map<QuestionAdd>(question);
             return View("~/Views/Shared/_Question.cshtml", viewModel );
+        }
+
+        public async Task<IActionResult> QuestionDelete(int? id)
+        {
+            if( id.HasValue )
+                await QuestionService.Delete(id.Value, UserId);
+            return RedirectToAction("Index");
         }
     }
 }
