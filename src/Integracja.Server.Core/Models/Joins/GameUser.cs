@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Integracja.Server.Core.Enums;
 using Integracja.Server.Core.Models.Base;
 using Integracja.Server.Core.Models.Identity;
 
@@ -10,6 +11,7 @@ namespace Integracja.Server.Core.Models.Joins
         public float? GameScore { get; set; }
         public DateTimeOffset? GameStartTime { get; set; }
         public DateTimeOffset? GameEndTime { get; set; }
+        public GameUserState State { get; set; }
 
         public int GameId { get; set; }
         public Game Game { get; set; }
