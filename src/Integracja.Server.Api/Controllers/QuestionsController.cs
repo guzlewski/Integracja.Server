@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Integracja.Server.Infrastructure.DTO;
 using Integracja.Server.Infrastructure.Services;
@@ -9,7 +10,7 @@ namespace Integracja.Server.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class QuestionsController : DefaultController
+    public class QuestionsController : ControllerBase
     {
         private readonly IQuestionService _questionService;
 
@@ -22,7 +23,7 @@ namespace Integracja.Server.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IEnumerable<QuestionGetAll>> GetAll()
         {
-            return await _questionService.GetAll(UserId.Value);
+            return await _questionService.GetAll(LoggedUserId());
         }
 
         [HttpGet("{id}")]
@@ -31,7 +32,7 @@ namespace Integracja.Server.Api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<QuestionGet>> Get(int id)
         {
-            return await _questionService.Get(id, UserId.Value);
+            return await _questionService.Get(id, LoggedUserId());
         }
 
         [HttpPost]
@@ -41,8 +42,10 @@ namespace Integracja.Server.Api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult> Add(QuestionAdd dto)
         {
-            var entityId = await _questionService.Add(dto, UserId.Value);
-            return Created($"{Request.Path}/{entityId}", null);
+            var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            var entityId = await _questionService.Add(dto, userId);
+
+            return Created($"api/Questions/{entityId}", null);
         }
 
         [HttpPut("{id}")]
@@ -52,11 +55,11 @@ namespace Integracja.Server.Api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult> Update(int id, [FromBody] QuestionModify dto)
         {
-            var entityId = await _questionService.Update(id, dto, UserId.Value);
+            var entityId = await _questionService.Update(id, dto, LoggedUserId());
 
             if (entityId != id)
             {
-                return Created($"{Request.Path}/{entityId}", null);
+                return Created($"api/Questions/{entityId}", null);
             }
 
             return NoContent();
@@ -68,8 +71,13 @@ namespace Integracja.Server.Api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult> Delete(int id)
         {
-            await _questionService.Delete(id, UserId.Value);
+            await _questionService.Delete(id, LoggedUserId());
             return NoContent();
+        }
+
+        private int LoggedUserId()
+        {
+            return int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
         }
     }
 }
