@@ -4,12 +4,14 @@ using Integracja.Server.Infrastructure.Mappers;
 using Integracja.Server.Infrastructure.Repositories;
 using Integracja.Server.Infrastructure.Services;
 using Integracja.Server.Infrastructure.Services.Implementations;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
 
 namespace Integracja.Server.Web.Controllers
 {
+    [Authorize]
     public class ApplicationController : Controller
     {
         // using dependency injection
