@@ -8,13 +8,16 @@ namespace Integracja.Server.Api.Controllers
     [ApiController]
     public class DefaultController : ControllerBase
     {
-        public int? UserId { get; }
-
-        public DefaultController()
+        public int? UserId
         {
-            if (int.TryParse(User?.FindFirstValue(ClaimTypes.NameIdentifier), out var id))
+            get
             {
-                UserId = id;
+                if (int.TryParse(User?.FindFirstValue(ClaimTypes.NameIdentifier), out var id))
+                {
+                    return id;
+                }
+
+                return null;
             }
         }
     }
