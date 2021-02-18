@@ -3,20 +3,32 @@
 <h2>@Model.Title</h2>
 <br />
 <form asp-controller="@Model.Controller" asp-action="QuestionAdd" asp-route-id="@Model.Question.CategoryId">
+
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="form-group">
         <label asp-for="Question.Content" class="control-label"></label>
         <textarea asp-for="Question.Content" class="form-control"></textarea>
         <span asp-validation-for="Question.Content" class="text-danger"></span>
     </div>
+
     @*tworzenie odpowiedzi do pytania*@
     <h2>Odpowiedzi</h2>
     <br />
-    @for (int i = 0; i < Model.Answers.Count; ++i)
+    @{ int N;
+        if (Model.EditMode)
+        {
+            N = Model.Answers.Count;
+        }
+        else
+        {
+            N = Model.Question.Answers.Count();
+        }
+    }
+    @for (int i = 0; i < N; ++i)
     {
         <div class="form-group">
             <div class="form-inline">
-                @{ if ( @Model.EditMode )
+                @{ if (Model.EditMode)
                     {
                         <input asp-for="Answers[i].Content" class="form-control" />
                     }
@@ -31,10 +43,14 @@
     }
 
     @* TODO: przyciski do dodawania/usuwania pól odpowiedzi *@
-    @*<div class="form-group">
-            <button type="button" class="btn btn-light">Dodaj nową odpowiedź</button>
-            <button type="button" class="btn btn-light">Usuń odpowiedź</button>"
-        </div>*@
+    @if (Model.EditMode)
+    {
+        <div class="form-group">
+            <input type="submit" asp-action="AnswerFieldAdd" formnovalidate value="Dodaj nową odpowiedź" class="btn btn-light"/>
+            <input type="submit" asp-action="AnswerFieldAdd" formnovalidate value="Usuń odpowiedź" class="btn btn-light"/>
+        </div>
+    }
+
     <h2>Punktacja</h2>
     <br />
 
