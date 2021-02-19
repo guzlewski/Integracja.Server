@@ -26,7 +26,7 @@
 
             <ul class="list-unstyled components">
 
-                <partial name="_LoginPartial" />
+                @*<partial name="_LoginPartial" />*@
 
                 <li>
                     <a asp-area="" asp-controller="PanelAdmina" asp-action="Index"><i class="bi-braces"></i> Panel admina </a>
@@ -49,7 +49,11 @@
                 </li>
 
                 <li>
-                    <a asp-area="" asp-controller="WylogujSie" asp-action="Index"><i class="bi-box-arrow-in-left"></i> Wyloguj się </a>
+                    <a asp-area="Identity"
+                       asp-page="/Account/Logout"
+                       asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                    <i class="bi-box-arrow-in-left"></i> Wyloguj się 
+                    </a>
                 </li>
             </ul>
 
