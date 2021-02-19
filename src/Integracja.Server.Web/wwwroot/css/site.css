@@ -9,6 +9,10 @@ body {
     background: #fafafa;
 }
 
+.main {
+    height: 100vh !important;
+}
+
 h1,h2,h3,h4 {
     color: #707070;
     opacity: 1;

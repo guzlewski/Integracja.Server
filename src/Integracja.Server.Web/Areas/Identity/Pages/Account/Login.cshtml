@@ -5,53 +5,54 @@
     ViewData["Title"] = "Log in";
 }
 
-<link rel="stylesheet" href="~/css/login.css" asp-append-version="true">
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
-<div class="container">
-
-    <div class="d-flex flex-column justify-content-center h-100">
-        <div class="logo">inte<span id="integration">GRA</span>cja</div>
-        <div class="login d-flex flex-row justify-content-center">
-            <div class="card">
-
-                <div class="card-header d-flex justify-content-center mt-2">
-                    <h2>Logowanie</h2>
-                </div>
-                <div class="card-body">
-                    <form id="account" method="post">
-                        <div asp-validation-summary="All" class="text-danger"></div>
-                        <div class="input-group form-group data">
-                            <div class="input-group-prepend input-icon">
-                                <span class="input-group-text "><i class="fas fa-user"></i></span>
-                            </div>
-                            <input asp-for="Input.Username" class="form-control" placeholder="nazwa użytkownika">
-                        </div>
-                        <div class="input-group form-group data">
-                            <div class="input-group-prepend input-icon">
-                                <span class="input-group-text"><i class="fas fa-key"></i></span>
-                            </div>
-                            <input asp-for="Input.Password" class="form-control" placeholder="hasło">
-                        </div>
-                        <div class="row align-items-center remember">
-                            <input type="checkbox" asp-for="Input.RememberMe"/> Zapamiętaj mnie
-                        </div>
-                        <div class="form-group d-flex justify-content-center mt-4 button">
-                            <input type="submit" value="Zaloguj się" class="btn btn-primary float-right log_in">
-                        </div>
-                    </form>
-                </div>
-                <div class="card-footer">
-                    <div class="d-flex justify-content-center links">
-                        Nie masz konta?<a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Zarejestruj się</a>
+<div class="picture h-100">
+    <div class="container h-100">
+        <div class="d-flex flex-column justify-content-center h-100">
+            <div class="logo">inte<span id="integration">GRA</span>cja</div>
+            <div class="login d-flex flex-row justify-content-center">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-center mt-2">
+                        <h2>Logowanie</h2>
                     </div>
-                    <div class="d-flex justify-content-center links">
-                        <a asp-page="./ForgotPassword">Nie pamiętasz hasła?</a>
+                    <div class="card-body">
+                        <form id="account" method="post">
+                            <div asp-validation-summary="All" class="text-danger"></div>
+                            <div class="input-group form-group data">
+                                <div class="input-group-prepend input-icon">
+                                    <span class="input-group-text "><i class="fas fa-user"></i></span>
+                                </div>
+                                <input asp-for="Input.Username" class="form-control" placeholder="nazwa użytkownika">
+                            </div>
+                            <div class="input-group form-group data">
+                                <div class="input-group-prepend input-icon">
+                                    <span class="input-group-text"><i class="fas fa-key"></i></span>
+                                </div>
+                                <input asp-for="Input.Password" class="form-control" placeholder="hasło">
+                            </div>
+                            <div class="row align-items-center remember">
+                                <input type="checkbox" asp-for="Input.RememberMe" /> Zapamiętaj mnie
+                            </div>
+                            <div class="form-group d-flex justify-content-center mt-4 mb-2 button">
+                                <input type="submit" value="Zaloguj się" class="btn btn-primary float-right log_in">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="card-footer">
+                        <div class="d-flex justify-content-center links">
+                            Nie masz konta?<a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Zarejestruj się</a>
+                        </div>
+                        <div class="d-flex justify-content-center links">
+                            <a asp-page="./ForgotPassword">Nie pamiętasz hasła?</a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<link href="~/css/login_and_register.css" rel="stylesheet" asp-append-version="true">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
