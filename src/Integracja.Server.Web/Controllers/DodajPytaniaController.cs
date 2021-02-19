@@ -2,17 +2,21 @@
 using Integracja.Server.Infrastructure.Data;
 using Integracja.Server.Infrastructure.DTO;
 using Integracja.Server.Web.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace Integracja.Server.Web.Controllers
 {
-    // kontroler jest tworzony za każdym razem gdy ladujesz/odswiezasz
     public class DodajPytaniaController : ApplicationController
     {
         private DodajPytaniaViewModel Model { get; set; }
+
+        private string FormDataKey = "TemporaryFormData";
 
         public DodajPytaniaController(UserManager<User> userManager, ApplicationDbContext dbContext) : base(userManager, dbContext)
         {
@@ -25,14 +29,66 @@ namespace Integracja.Server.Web.Controllers
             return RedirectToAction("Category", new { id = id });
         }
 
+        private void TryRetrieveQuestionForm()
+        {
+            try
+            {
+                if (TempData.ContainsKey(FormDataKey))
+                {
+                    string jsonString = TempData[FormDataKey] as string;
+                    //QuestionFormData questionForm = JsonSerializer.Deserialize<QuestionFormData>(jsonString);
+                    //return questionForm;
+                }
+                else return;
+            }
+            catch( Exception e )
+            {
+                return;
+            }
+            finally
+            {
+                TempData.Clear();
+            }
+        }
+
         [HttpGet]
         [ActionName("Category")]
-        public IActionResult Category( int ?id )
+        public IActionResult Category(int? id)
         {
-            if( id.HasValue )
+            //TryRetrieveQuestionForm();
+
+            if ( id.HasValue )
                 Model.QuestionViewModel.Question.CategoryId = id.Value;
             Model.Categories = CategoryService.GetAll(UserId).Result;
             return View("~/Views/DodajPytania/Index.cshtml",Model);
+        }
+
+        [HttpPost, ValidateAntiForgeryToken]
+        //[Route("DodajPytania/Index/{id?}/AnswerFieldAdd")]
+        [ActionName("AnswerFieldAdd")]
+        public IActionResult AnswerFieldAdd(
+            int? id,
+            [Bind(Prefix = nameof(DodajPytaniaViewModel.QuestionViewModel.Question))] QuestionAdd question,
+            [Bind(Prefix = nameof(DodajPytaniaViewModel.QuestionViewModel.Answers))] List<AnswerDto> answers)
+        {
+            if (id.HasValue)
+                question.CategoryId = id.Value;
+
+            /*QuestionFormData formData = new QuestionFormData();
+            formData.Answers = answers;
+            formData.Question = question;
+
+            string jsonString = JsonSerializer.Serialize(formData);
+
+            TempData[FormDataKey] = jsonString;*/
+
+            return RedirectToAction("Index", "DodajPytania", new { id = id });
+
+        }
+
+        public IActionResult CategorySelect(int? categoryId)
+        {
+            return RedirectToAction("Index", "DodajPytania", new { id = categoryId });
         }
 
         [HttpPost, ValidateAntiForgeryToken]
@@ -43,18 +99,12 @@ namespace Integracja.Server.Web.Controllers
             [Bind(Prefix = nameof(DodajPytaniaViewModel.QuestionViewModel.Question))] QuestionAdd question,
             [Bind(Prefix = nameof(DodajPytaniaViewModel.QuestionViewModel.Answers))] List<AnswerDto> answers)
         {
-            // dodawanie pytania
             if( id.HasValue )
                 question.CategoryId = id.Value;
 
             question.Answers = answers;
             await QuestionService.Add(question, UserId);
             return RedirectToAction("Index", "DodajPytania", new { id = id } );
-        }
-
-        public IActionResult CategorySelect( int? categoryId )
-        {
-            return RedirectToAction("Index", "DodajPytania", new { id = categoryId } );
         }
 
         [HttpPost, ValidateAntiForgeryToken]
