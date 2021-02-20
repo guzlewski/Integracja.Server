@@ -23,18 +23,16 @@ namespace Integracja.Server.Infrastructure.Repositories
             return _dbContext.Games
                 .AsNoTracking()
                 .Where(g => g.Id == id &&
-                (g.OwnerId == userId ||
-                    g.Players.Any(gu => gu.UserId == userId && gu.State != GameUserState.Left)) &&
-                g.GameState != GameState.Deleted);
+                    g.OwnerId == userId &&
+                    g.GameState != GameState.Deleted);
         }
 
         public IQueryable<Game> GetAll(int userId)
         {
             return _dbContext.Games
                 .AsNoTracking()
-                .Where(g => (g.OwnerId == userId ||
-                    g.Players.Any(gu => gu.UserId == userId && gu.State != GameUserState.Left)) &&
-                g.GameState != GameState.Deleted);
+                .Where(g => g.OwnerId == userId &&
+                    g.GameState != GameState.Deleted);
         }
 
         public async Task<int> Add(Game game)
