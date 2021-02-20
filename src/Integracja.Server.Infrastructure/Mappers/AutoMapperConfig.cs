@@ -17,6 +17,8 @@ namespace Integracja.Server.Infrastructure.Mappers
                 cfg.CreateMap<CategoryModify, Category>();
                 cfg.CreateMap<GamemodeAdd, Gamemode>();
                 cfg.CreateMap<GamemodeModify, Gamemode>();
+                cfg.CreateMap<GameAdd, Game>();
+                cfg.CreateMap<GameModify, Game>();
             })
             .CreateMapper();
         }
