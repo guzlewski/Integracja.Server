@@ -2,7 +2,7 @@
 
 namespace Integracja.Server.Infrastructure.Exceptions
 {
-    public abstract class ApiException : Exception
+    public class ApiException : Exception
     {
         public int StatusCode { get; set; }
         public string Details { get; set; }
