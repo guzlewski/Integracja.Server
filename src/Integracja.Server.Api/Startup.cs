@@ -73,6 +73,9 @@ namespace Integracja.Server.Api
             services.AddScoped<IGamemodeService, GamemodeService>();
             services.AddScoped<IQuestionRepository, QuestionRepository>();
             services.AddScoped<IQuestionService, QuestionService>();
+            services.AddScoped<IGameRepository, GameRepository>();
+            services.AddScoped<IGameService, GameService>();
+            services.AddSingleton<Random, ThreadSafeRandom>();
 
             services.AddSingleton(AutoMapperConfig.Initialize());
         }
