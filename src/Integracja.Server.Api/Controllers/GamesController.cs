@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Integracja.Server.Infrastructure.DTO;
 using Integracja.Server.Infrastructure.Services;
@@ -12,10 +13,12 @@ namespace Integracja.Server.Api.Controllers
     public class GamesController : DefaultController
     {
         private readonly IGameService _gameService;
+        private readonly IGameUserService _gameUserService;
 
-        public GamesController(IGameService gameService)
+        public GamesController(IGameService gameService, IGameUserService gameUserService)
         {
             _gameService = gameService;
+            _gameUserService = gameUserService;
         }
 
         [HttpGet]
@@ -61,6 +64,20 @@ namespace Integracja.Server.Api.Controllers
         {
             await _gameService.Delete(id, UserId.Value);
             return NoContent();
+        }
+
+        [HttpGet("[action]/{guid}")]
+        public async Task<ActionResult> Join(Guid guid)
+        {
+            await _gameUserService.Join(guid, UserId.Value);
+            return Ok();
+        }
+
+        [HttpGet("[action]/{guid}")]
+        public async Task<ActionResult> Leave(Guid guid)
+        {
+            await _gameUserService.Leave(guid, UserId.Value);
+            return Ok();
         }
     }
 }
