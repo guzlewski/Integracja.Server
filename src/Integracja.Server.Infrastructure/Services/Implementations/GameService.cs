@@ -108,10 +108,13 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
 
             game.Questions = new List<GameQuestion>();
 
+            int index = 0;
+
             foreach (var gameQuestionAdd in questions)
             {
                 game.Questions.Add(new GameQuestion
                 {
+                    Index = index++,
                     QuestionId = gameQuestionAdd.QuestionId,
                     OverridePositivePoints = gameQuestionAdd.PositivePointsOverride,
                     OverrideNegativePoints = gameQuestionAdd.NegativePointsOverride
