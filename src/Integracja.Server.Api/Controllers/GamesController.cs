@@ -86,7 +86,7 @@ namespace Integracja.Server.Api.Controllers
         public async Task<ActionResult> Join(Guid guid)
         {
             var entityId = await _gameUserService.Join(guid, UserId.Value);
-            return Created($"{Request.Path}/{entityId}", null);
+            return CreatedAtAction(nameof(GetMyGames), new { id = entityId }, null);
         }
 
         [HttpGet("[action]/{id}")]
