@@ -25,7 +25,6 @@ namespace Integracja.Server.Infrastructure.Repositories
         public async Task<GameQuestion> GetQuestion(int gameId, int userId)
         {
             var x = await _dbContext.GameUsers
-                .AsNoTracking()
                 .Where(gu => gu.GameId == gameId &&
                     gu.UserId == userId && gu.State == GameUserState.Active &&
                     gu.Game.GameState == GameState.Normal &&
