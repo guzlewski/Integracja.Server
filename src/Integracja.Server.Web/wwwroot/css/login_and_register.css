@@ -16,8 +16,7 @@ body {
     margin-bottom: auto;
     width: 500px;
     background-color: rgba(22,22,22,0.6) !important;
-    
-    border: 5px solid rgba(33,33,33,0.6);
+    border: 5px solid rgba(33,33,33,0.6) !important;
 }
 
 .card-body {
@@ -83,6 +82,11 @@ input:focus {
     font-family: Numans, sans-serif;
 }
 
+.button input {
+    background-color: #fed136 !important;
+    border-color: #fed136 !important;
+}
+
 .button input:hover {
     background-color: #e8af14 !important;
     border-color: #e8af14 !important;
@@ -90,4 +94,8 @@ input:focus {
 
 .input-icon {
     color: yellow !important;
+}
+
+input:focus {
+    border: 1px solid #fed136 !important;
 }

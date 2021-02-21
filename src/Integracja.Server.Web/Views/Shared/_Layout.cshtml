@@ -10,7 +10,6 @@
     <title>Integracja.Server.Web</title>
 
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true">
-
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
     <link rel="stylesheet" href="~/js/site.js">
@@ -18,67 +17,68 @@
 </head>
 
 <body>
-    <div class="wrapper">
-        <nav id="sidebar">
-            <div class="sidebar-header">
-                <h3 id="logo"> LOGO </h3>
+        <div class="wrapper">
+            <nav id="sidebar">
+                <div class="sidebar-header">
+                    <h3 id="logo"> LOGO </h3>
+                </div>
+
+                <ul class="list-unstyled components">
+
+                    @*<partial name="_LoginPartial" />*@
+
+                    <li>
+                        <a asp-area="" asp-controller="PanelAdmina" asp-action="Index"><i class="bi-braces"></i> Panel admina </a>
+                    </li>
+
+                    <li>
+                        <a asp-area="" asp-controller="Przeglad" asp-action="Index"><i class="bi-collection"></i> Przegląd </a>
+                    </li>
+
+                    <li>
+                        <a asp-area="" asp-controller="StworzGre" asp-action="Index"><i class="bi-clipboard-check"></i> Stwórz grę </a>
+                    </li>
+
+                    <li>
+                        <a asp-area="" asp-controller="DodajPytania" asp-action="Index"><i class="bi-patch-question"></i> Dodaj pytania </a>
+                    </li>
+
+                    <li>
+                        <a asp-area="" asp-controller="Konto" asp-action="Index"><i class="bi-gear-fill"></i> Konto </a>
+                    </li>
+
+                    <li>
+                        <a asp-area="Identity"
+                           asp-page="/Account/Logout"
+                           asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                            <i class="bi-box-arrow-in-left"></i> Wyloguj się
+                        </a>
+                    </li>
+                </ul>
+
+                <div class="sidebar-footer">
+                    <span id="footer">
+                        inte<span id="gra">GRA</span>cja
+                    </span>
+                </div>
+            </nav>
+
+            <div class="content">
+                <main role="main" class="h-100">
+                    @RenderBody()
+                </main>
             </div>
-
-            <ul class="list-unstyled components">
-
-                @*<partial name="_LoginPartial" />*@
-
-                <li>
-                    <a asp-area="" asp-controller="PanelAdmina" asp-action="Index"><i class="bi-braces"></i> Panel admina </a>
-                </li>
-
-                <li class="active">
-                    <a asp-area="" asp-controller="Przeglad" asp-action="Index"><i class="bi-collection"></i> Przegląd </a>
-                </li>
-
-                <li>
-                    <a asp-area="" asp-controller="StworzGre" asp-action="Index"><i class="bi-clipboard-check"></i> Stwórz grę </a>
-                </li>
-
-                <li>
-                    <a asp-area="" asp-controller="DodajPytania" asp-action="Index"><i class="bi-patch-question"></i> Dodaj pytania </a>
-                </li>
-
-                <li>
-                    <a asp-area="" asp-controller="Konto" asp-action="Index"><i class="bi-gear-fill"></i> Konto </a>
-                </li>
-
-                <li>
-                    <a asp-area="Identity"
-                       asp-page="/Account/Logout"
-                       asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-                    <i class="bi-box-arrow-in-left"></i> Wyloguj się 
-                    </a>
-                </li>
-            </ul>
-
-            <div class="sidebar-footer">
-                <span id="footer">
-                    inte<span id="gra">GRA</span>cja
-                </span>
-            </div>
-        </nav>
-
-        <div class="content">
-            <main role="main" class="h-100">
-                @RenderBody()
-            </main>
         </div>
-    </div>
 
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+        <script src="~/lib/jquery/dist/jquery.min.js"></script>
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+        @await RenderSectionAsync("Scripts", required: false)
 
-    <!-- jQuery Custom Scroller CDN -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+        <!-- jQuery Custom Scroller CDN -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
 
-</body>
+    </body>
 
 </html>
