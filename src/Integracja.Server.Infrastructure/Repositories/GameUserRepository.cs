@@ -118,5 +118,24 @@ namespace Integracja.Server.Infrastructure.Repositories
             entity.Game.RowVersion++;
             await _dbContext.SaveChangesAsync();
         }
+
+        public IQueryable<GameUser> Get(int gameId, int userId)
+        {
+            return _dbContext.GameUsers
+                .AsNoTracking()
+                .Where(gu => gu.GameId == gameId &&
+                    gu.UserId == userId &&
+                    gu.State != GameUserState.Left &&
+                    gu.Game.GameState != GameState.Deleted);
+        }
+
+        public IQueryable<GameUser> GetAll(int userId)
+        {
+            return _dbContext.GameUsers
+                .AsNoTracking()
+                .Where(gu => gu.UserId == userId &&
+                    gu.State != GameUserState.Left &&
+                    gu.Game.GameState != GameState.Deleted);
+        }
     }
 }
