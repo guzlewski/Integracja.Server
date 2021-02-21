@@ -35,7 +35,6 @@ namespace Integracja.Server.Api
                 .AddJsonOptions(opts =>
                 {
                     opts.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
-                    opts.JsonSerializerOptions.IgnoreNullValues = true;
                 })
                 .ConfigureApiBehaviorOptions(options =>
                 {
