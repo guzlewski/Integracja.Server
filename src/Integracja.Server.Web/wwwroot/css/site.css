@@ -85,21 +85,26 @@ a:active {
     position: fixed;
     top: 0;
     left: 0;
-    height: 100vh;
+    height: 100%;
     z-index: 999;
     background: #3E3E3E;
     color: #fff;
     transition: all 0.3s;
+    overflow-y: auto;
 }
 
-    /* ---------------------------------------------------
+#sidebar.active {
+    margin-left: -250px;
+}
+
+
+/* ---------------------------------------------------
     LOGO
 ----------------------------------------------------- */
-
     #sidebar .sidebar-header {
-        text-align: center;
-        padding: 20px 50px;
-    }
+    text-align: center;
+    padding: 20px 50px;
+}
 
         #sidebar .sidebar-header #logo {
             padding: 10px 0;
@@ -140,7 +145,7 @@ a:active {
     #sidebar .sidebar-footer {
         position: relative;
         flex: 1 1 auto;
-        margin-top: 70px;
+        margin-top: 85px;
     }
 
         #sidebar .sidebar-footer #footer {
@@ -174,6 +179,47 @@ a:active {
     right: 0;
 }
 
+.content.active {
+    width: 100%;
+}
+
+/* ---------------------------------------------------
+    NAVBAR
+----------------------------------------------------- */
+
+.navbar {
+    padding: 15px 10px;
+    background: #fff;
+    border: none;
+    border-radius: 0;
+    margin-bottom: 40px;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+#sidebarCollapse {
+    color: #fff;
+    background-color: #fed136;
+    border-color: #fed136;
+}
+
+    #sidebarCollapse:hover {
+        color: #fff;
+        background-color: #e8af14;
+        border-color: #e8af14;
+    }
+
+.btn.focus, .btn:focus {
+    display: none;
+}
+
+.navbar a {
+    font-family: Poppins, sans-serif;
+    font-size: 1.1em;
+    font-weight: 300;
+    line-height: 1.7em;
+    color: #999;
+}
+
 /* ---------------------------------------------------
     MEDIAQUERIES
 ----------------------------------------------------- */
@@ -198,6 +244,7 @@ a:active {
     #sidebar {
         min-width: 90px;
         max-width: 90px;
+        height: 100%;
         text-align: center;
     }
 
@@ -212,13 +259,12 @@ a:active {
                 display: block;  
             }
 
-    #sidebar .sidebar-footer #footer {
-        font-size: 0.9em;
-    }
-
     #sidebar .sidebar-footer {
         position: relative;
-        flex: 1 1 auto;
         margin-top: 40px;
     }
+
+            #sidebar .sidebar-footer #footer {
+                font-size: 0.9em;
+            }
 }
