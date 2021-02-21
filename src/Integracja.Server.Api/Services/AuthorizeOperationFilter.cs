@@ -36,7 +36,7 @@ namespace Integracja.Server.Api.Services
             }
         }
 
-        private bool HasAttribute<T>(OperationFilterContext context)
+        private static bool HasAttribute<T>(OperationFilterContext context)
         {
             return context.MethodInfo.DeclaringType.GetCustomAttributes(true).OfType<T>().Any() ||
               context.MethodInfo.GetCustomAttributes(true).OfType<T>().Any();

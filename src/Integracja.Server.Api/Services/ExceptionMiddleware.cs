@@ -26,7 +26,7 @@ namespace Integracja.Server.Api.Services
             }
         }
 
-        private async Task HandleExceptionAsync(HttpContext context, ApiException exception)
+        private static async Task HandleExceptionAsync(HttpContext context, ApiException exception)
         {
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = exception.StatusCode;

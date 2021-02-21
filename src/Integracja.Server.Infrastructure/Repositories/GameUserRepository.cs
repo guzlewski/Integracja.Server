@@ -105,7 +105,7 @@ namespace Integracja.Server.Infrastructure.Repositories
                 .Select(gu => new
                 {
                     GameUser = gu,
-                    Game = gu.Game
+                    gu.Game
                 })
                 .FirstOrDefaultAsync();
 
