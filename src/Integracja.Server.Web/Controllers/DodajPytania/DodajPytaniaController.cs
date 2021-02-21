@@ -29,36 +29,12 @@ namespace Integracja.Server.Web.Controllers
             return RedirectToAction("Category", new { id = id });
         }
 
-        private void TryRetrieveQuestionForm()
-        {
-            try
-            {
-                if (TempData.ContainsKey(FormDataKey))
-                {
-                    string jsonString = TempData[FormDataKey] as string;
-                    //QuestionFormData questionForm = JsonSerializer.Deserialize<QuestionFormData>(jsonString);
-                    //return questionForm;
-                }
-                else return;
-            }
-            catch( Exception e )
-            {
-                return;
-            }
-            finally
-            {
-                TempData.Clear();
-            }
-        }
-
         [HttpGet]
         [ActionName("Category")]
         public IActionResult Category(int? id)
         {
-            //TryRetrieveQuestionForm();
-
-            if ( id.HasValue )
-                Model.QuestionViewModel.Question.CategoryId = id.Value;
+            if (id.HasValue)
+                Model.QuestionViewModel.QuestionForm.CategoryId = id.Value;
             Model.Categories = CategoryService.GetAll(UserId).Result;
             return View("~/Views/DodajPytania/Index.cshtml",Model);
         }
@@ -68,22 +44,10 @@ namespace Integracja.Server.Web.Controllers
         [ActionName("AnswerFieldAdd")]
         public IActionResult AnswerFieldAdd(
             int? id,
-            [Bind(Prefix = nameof(DodajPytaniaViewModel.QuestionViewModel.Question))] QuestionAdd question,
-            [Bind(Prefix = nameof(DodajPytaniaViewModel.QuestionViewModel.Answers))] List<AnswerDto> answers)
+            [Bind(Prefix = nameof(DodajPytaniaViewModel.QuestionViewModel.QuestionForm))] QuestionFormModel question )
         {
-            if (id.HasValue)
-                question.CategoryId = id.Value;
-
-            /*QuestionFormData formData = new QuestionFormData();
-            formData.Answers = answers;
-            formData.Question = question;
-
-            string jsonString = JsonSerializer.Serialize(formData);
-
-            TempData[FormDataKey] = jsonString;*/
 
             return RedirectToAction("Index", "DodajPytania", new { id = id });
-
         }
 
         public IActionResult CategorySelect(int? categoryId)
@@ -96,14 +60,10 @@ namespace Integracja.Server.Web.Controllers
         [ActionName("QuestionAdd")]
         public async Task<IActionResult> QuestionAdd(
             int? id,
-            [Bind(Prefix = nameof(DodajPytaniaViewModel.QuestionViewModel.Question))] QuestionAdd question,
-            [Bind(Prefix = nameof(DodajPytaniaViewModel.QuestionViewModel.Answers))] List<AnswerDto> answers)
+            [Bind(Prefix = nameof(DodajPytaniaViewModel.QuestionViewModel.QuestionForm))] QuestionFormModel question )
         {
-            if( id.HasValue )
-                question.CategoryId = id.Value;
-
-            question.Answers = answers;
-            await QuestionService.Add(question, UserId);
+            // Assemble to QuestionAdd and Add
+            string test = question.QuestionContent;
             return RedirectToAction("Index", "DodajPytania", new { id = id } );
         }
 

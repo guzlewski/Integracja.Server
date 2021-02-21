@@ -39,11 +39,11 @@ namespace Integracja.Server.Web.Controllers
 
         public async Task<IActionResult> QuestionUpdate( int? id )
         {
-            QuestionViewModel viewModel = new QuestionViewModel("Pytanie", false, "");
+            /*QuestionViewModel viewModel = new QuestionViewModel("Pytanie", false, "");
             var mapper = AutoMapperConfig.Initialize();
             var question = await QuestionService.Get(id.Value, UserId);
-            viewModel.Question = mapper.Map<QuestionAdd>(question);
-            return View("~/Views/Shared/_Question.cshtml", viewModel );
+            viewModel.Question = mapper.Map<QuestionAdd>(question);*/
+            return View("~/Views/Shared/_Question.cshtml" );
         }
 
         public async Task<IActionResult> QuestionDelete(int? id)

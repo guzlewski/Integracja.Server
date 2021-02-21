@@ -2,42 +2,27 @@
 
 <h2>@Model.Title</h2>
 <br />
-<form asp-controller="@Model.Controller" asp-action="QuestionAdd" asp-route-id="@Model.Question.CategoryId">
+<form asp-controller="@Model.Controller" asp-action="QuestionAdd" asp-route-id="@Model.QuestionForm.CategoryId">
 
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="form-group">
-        <label asp-for="Question.Content" class="control-label"></label>
-        <textarea asp-for="Question.Content" class="form-control"></textarea>
-        <span asp-validation-for="Question.Content" class="text-danger"></span>
+        <label asp-for="QuestionForm.QuestionContent" class="control-label"></label>
+        <textarea asp-for="QuestionForm.QuestionContent" class="form-control"></textarea>
+        <span asp-validation-for="QuestionForm.QuestionContent" class="text-danger"></span>
     </div>
 
     @*tworzenie odpowiedzi do pytania*@
     <h2>Odpowiedzi</h2>
     <br />
-    @{ int N;
-        if (Model.EditMode)
-        {
-            N = Model.Answers.Count;
-        }
-        else
-        {
-            N = Model.Question.Answers.Count();
-        }
-    }
-    @for (int i = 0; i < N; ++i)
+    
+    @for (int i = 0; i < Model.QuestionForm.Answers.Count; ++i)
     {
         <div class="form-group">
             <div class="form-inline">
-                @{ if (Model.EditMode)
-                    {
-                        <input asp-for="Answers[i].Content" class="form-control" />
-                    }
-                    else
-                    {
-                        <input asp-for="Question.Answers.ToList()[i].Content" class="form-control" disabled />
-                    }
-                }
-                <input asp-for="Answers[i].IsCorrect" class="form-check" type="checkbox" />
+
+                <input asp-for="QuestionForm.Answers[i].Content" class="form-control" />
+
+                <input asp-for="QuestionForm.Answers[i].isCorrect" class="form-check" type="checkbox" />
             </div>
         </div>
     }
@@ -55,20 +40,20 @@
     <br />
 
     <div class="form-group">
-        <input asp-for="Question.PositivePoints" type="number" class="form-control input-number" />
+        <input asp-for="QuestionForm.PositivePoints" type="number" class="form-control input-number" />
     </div>
 
     <h4>Tryb</h4>
     <div class="form-group">
         <div class="radio">
             <label class="radio">
-                <input asp-for="Question.QuestionScoring" value="@Integracja.Server.Core.Enums.QuestionScoring.ScoreIfFullyCorrect" type="radio" checked>
+                <input asp-for="QuestionForm.Scoring" value="@Integracja.Server.Core.Enums.QuestionScoring.ScoreIfFullyCorrect" type="radio" checked>
                 Tylko za komplet poprawnych odpowiedzi
             </label>
         </div>
         <div class="radio">
             <label class="radio">
-                <input asp-for="Question.QuestionScoring" value="@Integracja.Server.Core.Enums.QuestionScoring.ScorePerGoodAnswer" type="radio">
+                <input asp-for="QuestionForm.Scoring" value="@Integracja.Server.Core.Enums.QuestionScoring.ScorePerGoodAnswer" type="radio">
                 Za pojedynczą poprawną odpowiedź
             </label>
         </div>
@@ -77,7 +62,7 @@
     <h4>Złe odpowiedzi</h4>
 
     <div class="form-group">
-        <input asp-for="Question.NegativePoints" type="number" class="form-control input-number" />
+        <input asp-for="QuestionForm.NegativePoints" type="number" class="form-control input-number" />
     </div>
 
     <br />
