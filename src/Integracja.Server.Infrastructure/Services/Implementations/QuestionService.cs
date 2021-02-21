@@ -35,6 +35,7 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
                     CategoryId = q.CategoryId,
                     Answers = q.Answers.Select(a => new AnswerDto
                     {
+                        Id = a.Id,
                         Content = a.Content,
                         IsCorrect = a.IsCorrect
                     }),
