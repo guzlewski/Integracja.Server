@@ -13,14 +13,19 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
             _gameUserRepository = gameUserRepository;
         }
 
-        public async Task Join(Guid gameGuid, int userId)
+        public async Task Accept(int gameId, int userId)
         {
-            await _gameUserRepository.Join(gameGuid, userId);
+            await _gameUserRepository.Accept(gameId, userId);
         }
 
-        public async Task Leave(Guid gameGuid, int userId)
+        public async Task<int> Join(Guid gameGuid, int userId)
         {
-            await _gameUserRepository.Leave(gameGuid, userId);
+            return await _gameUserRepository.Join(gameGuid, userId);
+        }
+
+        public async Task Leave(int gameId, int userId)
+        {
+            await _gameUserRepository.Leave(gameId, userId);
         }
     }
 }
