@@ -14,11 +14,13 @@ namespace Integracja.Server.Api.Controllers
     {
         private readonly IGameService _gameService;
         private readonly IGameUserService _gameUserService;
+        private readonly IGameQuestionService _gameQuestionService;
 
-        public GamesController(IGameService gameService, IGameUserService gameUserService)
+        public GamesController(IGameService gameService, IGameUserService gameUserService, IGameQuestionService gameQuestionService)
         {
             _gameService = gameService;
             _gameUserService = gameUserService;
+            _gameQuestionService = gameQuestionService;
         }
 
         [HttpGet]
@@ -111,6 +113,22 @@ namespace Integracja.Server.Api.Controllers
         public async Task<ActionResult<GameUserGet>> GetMyGames(int id)
         {
             return await _gameUserService.Get(id, UserId.Value);
+        }
+
+        [HttpGet("Play/{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<GameQuestionGet> Play(int id)
+        {
+            return await _gameQuestionService.GetQuestion(id, UserId.Value);
+        }
+
+        [HttpPost("Play/{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<GameUserQuestionGet> Play(ICollection<int> answers, int id)
+        {
+            return await _gameQuestionService.SaveAnswers(id, UserId.Value, answers);
         }
     }
 }
