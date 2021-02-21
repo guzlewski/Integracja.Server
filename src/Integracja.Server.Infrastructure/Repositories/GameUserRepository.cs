@@ -19,7 +19,24 @@ namespace Integracja.Server.Infrastructure.Repositories
             _dbContext = dbContext;
         }
 
-        public async Task Join(Guid gameGuid, int userId)
+        public async Task Accept(int gameId, int userId)
+        {
+            var entity = await _dbContext.GameUsers
+                .Where(gu => gu.GameId == gameId &&
+                    gu.UserId == userId &&
+                    gu.State == GameUserState.Invited)
+                .FirstOrDefaultAsync();
+
+            if (entity == null)
+            {
+                throw new NotFoundException();
+            }
+
+            entity.State = GameUserState.Active;
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task<int> Join(Guid gameGuid, int userId)
         {
             var entity = await _dbContext.Games
                 .Where(g => g.Guid == gameGuid && g.GameState == GameState.Normal && g.EndTime > DateTimeOffset.Now)
@@ -35,14 +52,26 @@ namespace Integracja.Server.Infrastructure.Repositories
                 })
                 .FirstOrDefaultAsync();
 
-            if (entity.Game == null)
+            if (entity == null)
             {
                 throw new NotFoundException();
             }
 
+            if (entity.GameUser != null && entity.GameUser.State != GameUserState.Left)
+            {
+                if (entity.GameUser.State == GameUserState.Invited)
+                {
+                    entity.GameUser.State = GameUserState.Active;
+                    await _dbContext.SaveChangesAsync();
+                    return entity.Game.Id;
+                }
+
+                throw new ConflictException("You already joined this game.");
+            }
+
             if (entity.Game.MaxPlayersCount != 0 && entity.GameUserCount >= entity.Game.MaxPlayersCount)
             {
-                throw new ApiException(500, $"Game '{entity.Game.Name}' is full.");
+                throw new ConflictException($"Game '{entity.Game.Guid}' is full.");
             }
 
             if (entity.GameUser == null)
@@ -61,22 +90,26 @@ namespace Integracja.Server.Infrastructure.Repositories
 
             entity.Game.RowVersion++;
             await _dbContext.SaveChangesAsync();
+
+            return entity.Game.Id;
         }
 
-        public async Task Leave(Guid gameGuid, int userId)
+        public async Task Leave(int gameId, int userId)
         {
-            var entity = await _dbContext.Games
-                .Where(g => g.Guid == gameGuid && g.GameState == GameState.Normal && g.EndTime > DateTimeOffset.Now)
-                .Select(g => new
+            var entity = await _dbContext.GameUsers
+                .Where(gu => gu.GameId == gameId &&
+                    gu.UserId == userId &&
+                    gu.State != GameUserState.Left &&
+                    gu.Game.GameState == GameState.Normal &&
+                    gu.Game.EndTime > DateTimeOffset.Now)
+                .Select(gu => new
                 {
-                    Game = g,
-                    GameUser = g.Players
-                        .Where(gu => gu.UserId == userId)
-                        .FirstOrDefault()
+                    GameUser = gu,
+                    gu.Game
                 })
                 .FirstOrDefaultAsync();
 
-            if (entity == null || entity.GameUser == null)
+            if (entity == null)
             {
                 throw new NotFoundException();
             }
@@ -84,6 +117,25 @@ namespace Integracja.Server.Infrastructure.Repositories
             entity.GameUser.State = GameUserState.Left;
             entity.Game.RowVersion++;
             await _dbContext.SaveChangesAsync();
+        }
+
+        public IQueryable<GameUser> Get(int gameId, int userId)
+        {
+            return _dbContext.GameUsers
+                .AsNoTracking()
+                .Where(gu => gu.GameId == gameId &&
+                    gu.UserId == userId &&
+                    gu.State != GameUserState.Left &&
+                    gu.Game.GameState != GameState.Deleted);
+        }
+
+        public IQueryable<GameUser> GetAll(int userId)
+        {
+            return _dbContext.GameUsers
+                .AsNoTracking()
+                .Where(gu => gu.UserId == userId &&
+                    gu.State != GameUserState.Left &&
+                    gu.Game.GameState != GameState.Deleted);
         }
     }
 }

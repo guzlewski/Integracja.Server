@@ -35,7 +35,6 @@ namespace Integracja.Server.Api
                 .AddJsonOptions(opts =>
                 {
                     opts.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
-                    opts.JsonSerializerOptions.IgnoreNullValues = true;
                 })
                 .ConfigureApiBehaviorOptions(options =>
                 {
@@ -78,6 +77,8 @@ namespace Integracja.Server.Api
             services.AddSingleton<Random, ThreadSafeRandom>();
             services.AddScoped<IGameUserRepository, GameUserRepository>();
             services.AddScoped<IGameUserService, GameUserService>();
+            services.AddScoped<IGameQuestionRepository, GameQuestionRepository>();
+            services.AddScoped<IGameQuestionService, GameQuestionService>();
 
             services.AddSingleton(AutoMapperConfig.Initialize());
         }

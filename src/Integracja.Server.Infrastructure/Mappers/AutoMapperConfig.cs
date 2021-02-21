@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Integracja.Server.Core.Models.Base;
+using Integracja.Server.Core.Models.Joins;
 using Integracja.Server.Infrastructure.DTO;
 
 namespace Integracja.Server.Infrastructure.Mappers
@@ -11,7 +12,9 @@ namespace Integracja.Server.Infrastructure.Mappers
             return new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<AnswerDto, Answer>();
+                cfg.CreateMap<Answer, AnswerDto>();
                 cfg.CreateMap<QuestionAdd, Question>();
+                cfg.CreateMap<Question, QuestionGet>();
                 cfg.CreateMap<QuestionModify, Question>();
                 cfg.CreateMap<CategoryAdd, Category>();
                 cfg.CreateMap<CategoryModify, Category>();
@@ -19,6 +22,8 @@ namespace Integracja.Server.Infrastructure.Mappers
                 cfg.CreateMap<GamemodeModify, Gamemode>();
                 cfg.CreateMap<GameAdd, Game>();
                 cfg.CreateMap<GameModify, Game>();
+                cfg.CreateMap<GameQuestion, GameQuestionGet>();
+                cfg.CreateMap<GameUserQuestion, GameUserQuestionGet>();
             })
             .CreateMapper();
         }

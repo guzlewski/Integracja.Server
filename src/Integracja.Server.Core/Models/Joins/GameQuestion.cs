@@ -5,6 +5,7 @@ namespace Integracja.Server.Core.Models.Joins
 {
     public class GameQuestion
     {
+        public int Index { get; set; }
         public float? OverridePositivePoints { get; set; }
         public float? OverrideNegativePoints { get; set; }
 

@@ -2,7 +2,7 @@
 using System.Security.Cryptography;
 using System.Threading;
 
-namespace Integracja.Server.Infrastructure.Services
+namespace Integracja.Server.Infrastructure.Services.Implementations
 {
     public class ThreadSafeRandom : Random
     {

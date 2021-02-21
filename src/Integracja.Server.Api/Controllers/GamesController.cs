@@ -14,11 +14,13 @@ namespace Integracja.Server.Api.Controllers
     {
         private readonly IGameService _gameService;
         private readonly IGameUserService _gameUserService;
+        private readonly IGameQuestionService _gameQuestionService;
 
-        public GamesController(IGameService gameService, IGameUserService gameUserService)
+        public GamesController(IGameService gameService, IGameUserService gameUserService, IGameQuestionService gameQuestionService)
         {
             _gameService = gameService;
             _gameUserService = gameUserService;
+            _gameQuestionService = gameQuestionService;
         }
 
         [HttpGet]
@@ -66,18 +68,67 @@ namespace Integracja.Server.Api.Controllers
             return NoContent();
         }
 
-        [HttpGet("[action]/{guid}")]
-        public async Task<ActionResult> Join(Guid guid)
+        [HttpGet("[action]/{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult> Accept(int id)
         {
-            await _gameUserService.Join(guid, UserId.Value);
-            return Ok();
+            await _gameUserService.Accept(id, UserId.Value);
+            return NoContent();
         }
 
         [HttpGet("[action]/{guid}")]
-        public async Task<ActionResult> Leave(Guid guid)
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status409Conflict)]
+        public async Task<ActionResult> Join(Guid guid)
         {
-            await _gameUserService.Leave(guid, UserId.Value);
-            return Ok();
+            var entityId = await _gameUserService.Join(guid, UserId.Value);
+            return CreatedAtAction(nameof(GetMyGames), new { id = entityId }, null);
+        }
+
+        [HttpGet("[action]/{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult> Leave(int id)
+        {
+            await _gameUserService.Leave(id, UserId.Value);
+            return NoContent();
+        }
+
+        [HttpGet("MyGames")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IEnumerable<GameUserGetAll>> GetMyGames()
+        {
+            return await _gameUserService.GetAll(UserId.Value);
+        }
+
+        [HttpGet("MyGames/{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<GameUserGet>> GetMyGames(int id)
+        {
+            return await _gameUserService.Get(id, UserId.Value);
+        }
+
+        [HttpGet("Play/{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<GameQuestionGet> Play(int id)
+        {
+            return await _gameQuestionService.GetQuestion(id, UserId.Value);
+        }
+
+        [HttpPost("Play/{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<GameUserQuestionGet> Play(ICollection<int> answers, int id)
+        {
+            return await _gameQuestionService.SaveAnswers(id, UserId.Value, answers);
         }
     }
 }

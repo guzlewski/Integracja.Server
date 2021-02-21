@@ -26,17 +26,16 @@ namespace Integracja.Server.Api.Services
             }
         }
 
-        private Task HandleExceptionAsync(HttpContext context, ApiException exception)
+        private static async Task HandleExceptionAsync(HttpContext context, ApiException exception)
         {
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = exception.StatusCode;
 
-            if (exception.Details != null)
+            await context.Response.WriteAsync(JsonSerializer.Serialize(new
             {
-                return context.Response.WriteAsync(JsonSerializer.Serialize(new { exception.Details }));
-            }
-
-            return Task.CompletedTask;
+                exception.StatusCode,
+                exception.Details
+            }));
         }
     }
 }
