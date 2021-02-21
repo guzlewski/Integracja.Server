@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Integracja.Server.Infrastructure.DTO;
-using Integracja.Server.Infrastructure.Exceptions;
 using Integracja.Server.Infrastructure.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -96,6 +95,22 @@ namespace Integracja.Server.Api.Controllers
         {
             await _gameUserService.Leave(id, UserId.Value);
             return NoContent();
+        }
+
+        [HttpGet("MyGames")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IEnumerable<GameUserGetAll>> GetMyGames()
+        {
+            return await _gameUserService.GetAll(UserId.Value);
+        }
+
+        [HttpGet("MyGames/{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<GameUserGet>> GetMyGames(int id)
+        {
+            return await _gameUserService.Get(id, UserId.Value);
         }
     }
 }
