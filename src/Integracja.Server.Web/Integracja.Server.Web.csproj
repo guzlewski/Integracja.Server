@@ -20,4 +20,8 @@
     <ProjectReference Include="..\Integracja.Server.Infrastructure\Integracja.Server.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Models\StworzGre\" />
+  </ItemGroup>
+
 </Project>

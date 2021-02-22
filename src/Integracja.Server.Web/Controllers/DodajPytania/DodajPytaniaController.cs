@@ -16,8 +16,6 @@ namespace Integracja.Server.Web.Controllers
     {
         private DodajPytaniaViewModel Model { get; set; }
 
-        private const string TempDataQuestionModelKey = "QuestionModel";
-
         public DodajPytaniaController(UserManager<User> userManager, ApplicationDbContext dbContext) : base(userManager, dbContext)
         {
             Model = new DodajPytaniaViewModel();
@@ -33,9 +31,9 @@ namespace Integracja.Server.Web.Controllers
         [ActionName("Category")]
         public IActionResult Category(int? id)
         {
-            QuestionModel savedForm = TryRetrieveSavedForm();
+            QuestionModel savedForm = TryRetrieveForm<QuestionModel>();
 
-            if (savedForm != null)
+            if (savedForm != default(QuestionModel))
             {
                 Model.QuestionViewModel.Question = savedForm;
             }
@@ -58,7 +56,7 @@ namespace Integracja.Server.Web.Controllers
 
             question.Answers.Add(new AnswerModel());
 
-            SaveQuestionForm(question);
+            SaveForm<QuestionModel>(question);
 
             return RedirectToAction("Index", "DodajPytania", new { id = question.CategoryId });
         }
@@ -74,7 +72,7 @@ namespace Integracja.Server.Web.Controllers
             if( question.Answers.Count > 2 )
                 question.Answers.RemoveAt( question.Answers.Count-1 );
 
-            SaveQuestionForm(question);
+            SaveForm<QuestionModel>(question);
 
             return RedirectToAction("Index", "DodajPytania", new { id = question.CategoryId });
         }
@@ -84,7 +82,7 @@ namespace Integracja.Server.Web.Controllers
             int? id,
             [Bind(Prefix = nameof(QuestionViewModel.Question))] QuestionModel question)
         {
-            SaveQuestionForm(question);
+            SaveForm<QuestionModel>(question);
             return RedirectToAction("Index", "DodajPytania", new { id = id });
         }
 
@@ -114,33 +112,9 @@ namespace Integracja.Server.Web.Controllers
             return RedirectToAction("Index", "DodajPytania", new { id = categoryId });
         }
 
-        public async Task<IActionResult> CategoryRead(int? categoryId) // receives categoryid from asp-route in form
+        public async Task<IActionResult> CategoryRead(int? categoryId)
         {
             return RedirectToAction("Index", "DodajPytania", new { id = categoryId });
-        }
-
-        private void SaveQuestionForm(QuestionModel form)
-        {
-            string jsonString = JsonSerializer.Serialize<QuestionModel>(form);
-            TempData[TempDataQuestionModelKey] = jsonString;
-        }
-        private QuestionModel TryRetrieveSavedForm()
-        {
-            try
-            {
-                string jsonString = TempData[TempDataQuestionModelKey] as string;
-                if (jsonString == null)
-                    return null;
-                else return JsonSerializer.Deserialize<QuestionModel>(jsonString);
-            }
-            catch (Exception e)
-            {
-                return null;
-            }
-            finally
-            {
-                TempData.Clear();
-            }
         }
     }
 }

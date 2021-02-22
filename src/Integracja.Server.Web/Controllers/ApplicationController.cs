@@ -8,13 +8,13 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Text.Json;
 
 namespace Integracja.Server.Web.Controllers
 {
     [Authorize]
     public class ApplicationController : Controller
     {
-        // using dependency injection
         public ApplicationController(UserManager<User> userManager, ApplicationDbContext dbContext) : base()
         {
             _context = dbContext;
@@ -48,5 +48,29 @@ namespace Integracja.Server.Web.Controllers
 
         protected IQuestionService QuestionService { get =>
         new QuestionService(new QuestionRepository(DbContext), Mapper); }
+
+        protected void SaveForm<T>(T form)
+        {
+            string jsonString = JsonSerializer.Serialize<T>(form);
+            TempData[nameof(T)] = jsonString;
+        }
+        protected T TryRetrieveForm<T>()
+        {
+            try
+            {
+                string jsonString = TempData[nameof(T)] as string;
+                if (jsonString == null)
+                    return default(T);
+                else return JsonSerializer.Deserialize<T>(jsonString);
+            }
+            catch (Exception e)
+            {
+                return default(T);
+            }
+            finally
+            {
+                TempData.Clear();
+            }
+        }
     }
 }
