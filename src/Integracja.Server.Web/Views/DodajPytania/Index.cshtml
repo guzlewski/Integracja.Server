@@ -29,23 +29,28 @@
                     <tr>
                         <th scope="col">Nazwa</th>
                         <th scope="col">Ilość pytań</th>
-                        
+
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var category in Model.Categories)
                     {
-                    <tr>
-                        <td><a asp-action="CategorySelect" asp-route-categoryId="@category.Id">@category.Name</a></td>
-                        <td>@category.QuestionsCount</td>
-                    </tr>
+                        <tr>
+                            <td>
+                                <button type="submit" form="@QuestionViewModel.FormId" asp-action="@DodajPytaniaViewModel.ActionNames.SaveQuestionForm" asp-route-id="@category.Id">
+                                    @*<a asp-action="@DodajPytaniaViewModel.ActionNames.CategoryRead" asp-route-categoryId="@category.Id">@category.Name</a>*@
+                                    @category.Name
+                                </button>
+                            </td>
+                            <td>@category.QuestionsCount</td>
+                        </tr>
                     }
                 </tbody>
             </table>
         </div>
 
         @*dodawanie kategorii*@
-        <form asp-action="CategoryAdd" asp-controller="DodajPytania">
+        <form asp-action="@DodajPytaniaViewModel.ActionNames.CategoryCreate" asp-controller="DodajPytania">
             <div class="form-group">
                 <input asp-for="NewCategory.Name" placeholder="Nazwa twojej kategorii" />
             </div>
