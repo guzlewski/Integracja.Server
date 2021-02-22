@@ -1,49 +1,30 @@
 ﻿@import url('https://fonts.googleapis.com/css?family=Numans');
 
-.content {
+body {
+    height: 100vh;
+}
+
+.picture {
     background-image: url("../img/integration.jpg");
     background-size: cover;
     background-repeat: no-repeat;
     font-family: Numans, sans-serif;
 }
 
-.container {
-    height: 100vh;
-    align-content: center;
-}
-
 .card {
-    height: 480px;
     margin-top: auto;
     margin-bottom: auto;
     width: 500px;
-    background-color: rgba(0,0,0,0.5) !important;
-    border-radius: 1rem !important;
+    background-color: rgba(22,22,22,0.6) !important;
+    border: 5px solid rgba(33,33,33,0.6) !important;
 }
 
 .card-body {
-    padding: 0.5rem 3rem 0 3rem !important;
+    padding: 1.25rem 2.5rem 1.25rem 2.5rem !important;
 }
-
-.social_icon span {
-    font-size: 60px;
-    margin-left: 10px;
-    color: #FFC312;
-}
-
-    .social_icon span:hover {
-        color: white;
-        cursor: pointer;
-    }
 
 .card-header h2 {
     color: white;
-}
-
-.social_icon {
-    position: absolute;
-    right: 20px;
-    top: -45px;
 }
 
 .input-group-prepend span {
@@ -69,24 +50,17 @@ input:focus {
         margin-right: 5px;
     }
 
-.login_btn {
-    color: black;
-    background-color: #FFC312;
-    width: 100px;
-}
-
-    .login_btn:hover {
-        color: black;
-        background-color: white;
-    }
-
 .links {
     color: white;
 }
-
     .links a {
+        color: #fed136;
         margin-left: 4px;
     }
+        .links a:hover {
+            color: #e8af14;
+            text-decoration: none;
+        }
 
 .logo {
     margin-bottom: 40px;
@@ -102,18 +76,26 @@ input:focus {
 }
 
 .log_in {
-    margin-top: 25px;
     color: black !important;
-    background-color: #fed136 !important;
-    font-family: Numans, sans-serif;
+    background: #fed136;
     border-color: #fed136;
+    font-family: Numans, sans-serif;
+}
+
+.button input {
+    background-color: #fed136 !important;
+    border-color: #fed136 !important;
+}
+
+.button input:hover {
+    background-color: #e8af14 !important;
+    border-color: #e8af14 !important;
 }
 
 .input-icon {
     color: yellow !important;
 }
 
-.button input:hover {
-    background-color: #e8af14 !important;
-    border-color: #e8af14 !important;
+input:focus {
+    border: 1px solid #fed136 !important;
 }
