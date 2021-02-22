@@ -1,4 +1,5 @@
-﻿@model QuestionViewModel
+﻿@using Integracja.Server.Web.Models.Shared.Question
+@model QuestionViewModel
 
 <h2>@Model.Title</h2>
 <br />
@@ -14,7 +15,7 @@
     @*tworzenie odpowiedzi do pytania*@
     <h2>Odpowiedzi</h2>
     <br />
-    
+
     @for (int i = 0; i < Model.Question.Answers.Count; ++i)
     {
         <div class="form-group">
@@ -31,8 +32,8 @@
     @if (Model.EditMode)
     {
         <div class="form-group">
-            <input type="submit" asp-action="@QuestionViewModel.ActionNames.AddAnswerField" asp-route-id="@Model.Question.CategoryId" formnovalidate value="Dodaj nową odpowiedź" class="btn btn-light"/>
-            <input type="submit" asp-action="@QuestionViewModel.ActionNames.RemoveAnswerField" asp-route-id="@Model.Question.CategoryId" formnovalidate value="Usuń odpowiedź" class="btn btn-light"/>
+            <input type="submit" asp-action="@QuestionViewModel.ActionNames.AddAnswerField" asp-route-id="@Model.Question.CategoryId" formnovalidate value="Dodaj nową odpowiedź" class="btn btn-light" />
+            <input type="submit" asp-action="@QuestionViewModel.ActionNames.RemoveAnswerField" asp-route-id="@Model.Question.CategoryId" formnovalidate value="Usuń odpowiedź" class="btn btn-light" />
         </div>
     }
 
