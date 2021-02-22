@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 namespace Integracja.Server.Web.Models.Question
 {
-    /* służy reprezentacji formy w widoku i w kontrolerze */
     public class QuestionModel
     {
         public string Content { get; set; }

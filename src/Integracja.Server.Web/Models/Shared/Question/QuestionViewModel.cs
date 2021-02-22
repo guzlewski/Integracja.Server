@@ -26,6 +26,7 @@ namespace Integracja.Server.Web.Models
         }
 
         public const int DefaultAnswerCount = 4;
+        public const string FormId = "QuestionFormId";
 
         public static class ActionNames
         {

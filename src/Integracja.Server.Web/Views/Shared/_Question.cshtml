@@ -2,27 +2,27 @@
 
 <h2>@Model.Title</h2>
 <br />
-<form asp-controller="@Model.Controller" asp-action="QuestionAdd" asp-route-id="@Model.QuestionForm.CategoryId">
+<form id="@QuestionViewModel.FormId" asp-controller="@Model.Controller" asp-action="@QuestionViewModel.ActionNames.ProcessForm" asp-route-id="@Model.Question.CategoryId">
 
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="form-group">
-        <label asp-for="QuestionForm.QuestionContent" class="control-label"></label>
-        <textarea asp-for="QuestionForm.QuestionContent" class="form-control"></textarea>
-        <span asp-validation-for="QuestionForm.QuestionContent" class="text-danger"></span>
+        <label asp-for="Question.Content" class="control-label"></label>
+        <textarea asp-for="Question.Content" class="form-control"></textarea>
+        <span asp-validation-for="Question.Content" class="text-danger"></span>
     </div>
 
     @*tworzenie odpowiedzi do pytania*@
     <h2>Odpowiedzi</h2>
     <br />
     
-    @for (int i = 0; i < Model.QuestionForm.Answers.Count; ++i)
+    @for (int i = 0; i < Model.Question.Answers.Count; ++i)
     {
         <div class="form-group">
             <div class="form-inline">
 
-                <input asp-for="QuestionForm.Answers[i].Content" class="form-control" />
+                <input asp-for="Question.Answers[i].Content" class="form-control" />
 
-                <input asp-for="QuestionForm.Answers[i].isCorrect" class="form-check" type="checkbox" />
+                <input asp-for="Question.Answers[i].IsCorrect" class="form-check" type="checkbox" />
             </div>
         </div>
     }
@@ -31,8 +31,8 @@
     @if (Model.EditMode)
     {
         <div class="form-group">
-            <input type="submit" asp-action="AnswerFieldAdd" formnovalidate value="Dodaj nową odpowiedź" class="btn btn-light"/>
-            <input type="submit" asp-action="AnswerFieldAdd" formnovalidate value="Usuń odpowiedź" class="btn btn-light"/>
+            <input type="submit" asp-action="@QuestionViewModel.ActionNames.AddAnswerField" asp-route-id="@Model.Question.CategoryId" formnovalidate value="Dodaj nową odpowiedź" class="btn btn-light"/>
+            <input type="submit" asp-action="@QuestionViewModel.ActionNames.RemoveAnswerField" asp-route-id="@Model.Question.CategoryId" formnovalidate value="Usuń odpowiedź" class="btn btn-light"/>
         </div>
     }
 
@@ -40,20 +40,20 @@
     <br />
 
     <div class="form-group">
-        <input asp-for="QuestionForm.PositivePoints" type="number" class="form-control input-number" />
+        <input asp-for="Question.PositivePoints" type="number" class="form-control input-number" />
     </div>
 
     <h4>Tryb</h4>
     <div class="form-group">
         <div class="radio">
             <label class="radio">
-                <input asp-for="QuestionForm.Scoring" value="@Integracja.Server.Core.Enums.QuestionScoring.ScoreIfFullyCorrect" type="radio" checked>
+                <input asp-for="Question.Scoring" value="@ModelExpressionProvider.CreateModelExpression(ViewData, __model => __model.Question.PositivePoints)" type="radio" checked>
                 Tylko za komplet poprawnych odpowiedzi
             </label>
         </div>
         <div class="radio">
             <label class="radio">
-                <input asp-for="QuestionForm.Scoring" value="@Integracja.Server.Core.Enums.QuestionScoring.ScorePerGoodAnswer" type="radio">
+                <input asp-for="Question.Scoring" value="@Integracja.Server.Core.Enums.QuestionScoring.ScoreIfFullyCorrect" type="radio">
                 Za pojedynczą poprawną odpowiedź
             </label>
         </div>
@@ -62,7 +62,7 @@
     <h4>Złe odpowiedzi</h4>
 
     <div class="form-group">
-        <input asp-for="QuestionForm.NegativePoints" type="number" class="form-control input-number" />
+        <input asp-for="Question.Scoring" type="number" class="form-control input-number" />
     </div>
 
     <br />
