@@ -209,7 +209,8 @@ a:active {
     }
 
 .btn.focus, .btn:focus {
-    display: none;
+    outline: none !important;
+    box-shadow: none !important;
 }
 
 .navbar a {
