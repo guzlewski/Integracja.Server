@@ -1,7 +1,7 @@
 ﻿using Integracja.Server.Core.Enums;
 using System.Collections.Generic;
 
-namespace Integracja.Server.Web.Models.Question
+namespace Integracja.Server.Web.Models.Shared.Question
 {
     public class QuestionModel
     {

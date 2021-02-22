@@ -1,15 +1,13 @@
 ﻿using Integracja.Server.Core.Models.Identity;
 using Integracja.Server.Infrastructure.Data;
 using Integracja.Server.Infrastructure.DTO;
-using Integracja.Server.Web.Models;
-using Integracja.Server.Web.Models.Question;
+using Integracja.Server.Web.Models.DodajPytania;
+using Integracja.Server.Web.Models.Shared.Question;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace Integracja.Server.Web.Controllers
+namespace Integracja.Server.Web.Controllers.DodajPytania
 {
 
     public class DodajPytaniaController : ApplicationController, DodajPytaniaViewModel.IActions, QuestionViewModel.IActions
@@ -24,7 +22,7 @@ namespace Integracja.Server.Web.Controllers
         [HttpGet]
         public IActionResult Index(int? id)
         {
-            return RedirectToAction("Category", new { id = id });
+            return RedirectToAction("Category", new { id });
         }
 
         [HttpGet]
@@ -39,7 +37,7 @@ namespace Integracja.Server.Web.Controllers
             }
 
             // gdyby nie było kategorii z zapisanej formy ?
-            if (id.HasValue && !Model.QuestionViewModel.Question.CategoryId.HasValue )
+            if (id.HasValue && !Model.QuestionViewModel.Question.CategoryId.HasValue)
                 Model.QuestionViewModel.Question.CategoryId = id.Value;
 
             Model.Categories = CategoryService.GetAll(UserId).Result;
@@ -49,14 +47,14 @@ namespace Integracja.Server.Web.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public async Task<IActionResult> AddAnswerField(
             int? id,
-            [Bind(Prefix = nameof(QuestionViewModel.Question))] QuestionModel question )
+            [Bind(Prefix = nameof(QuestionViewModel.Question))] QuestionModel question)
         {
             if (id.HasValue)
                 question.CategoryId = id.Value;
 
             question.Answers.Add(new AnswerModel());
 
-            SaveForm<QuestionModel>(question);
+            SaveForm(question);
 
             return RedirectToAction("Index", "DodajPytania", new { id = question.CategoryId });
         }
@@ -69,10 +67,10 @@ namespace Integracja.Server.Web.Controllers
             if (id.HasValue)
                 question.CategoryId = id.Value;
 
-            if( question.Answers.Count > 2 )
-                question.Answers.RemoveAt( question.Answers.Count-1 );
+            if (question.Answers.Count > 2)
+                question.Answers.RemoveAt(question.Answers.Count - 1);
 
-            SaveForm<QuestionModel>(question);
+            SaveForm(question);
 
             return RedirectToAction("Index", "DodajPytania", new { id = question.CategoryId });
         }
@@ -82,8 +80,8 @@ namespace Integracja.Server.Web.Controllers
             int? id,
             [Bind(Prefix = nameof(QuestionViewModel.Question))] QuestionModel question)
         {
-            SaveForm<QuestionModel>(question);
-            return RedirectToAction("Index", "DodajPytania", new { id = id });
+            SaveForm(question);
+            return RedirectToAction("Index", "DodajPytania", new { id });
         }
 
         [HttpPost, ValidateAntiForgeryToken]
@@ -95,13 +93,13 @@ namespace Integracja.Server.Web.Controllers
             if (id.HasValue)
                 question.CategoryId = id.Value;
 
-            var mapper = Web.Mappers.AutoMapperWebConfig.Initialize();
+            var mapper = Mappers.AutoMapperWebConfig.Initialize();
 
             QuestionAdd questionAdd = mapper.Map<QuestionAdd>(question);
 
             await QuestionService.Add(questionAdd, UserId);
 
-            return RedirectToAction("Index", "DodajPytania", new { id = id });
+            return RedirectToAction("Index", "DodajPytania", new { id });
         }
 
         [HttpPost, ValidateAntiForgeryToken]

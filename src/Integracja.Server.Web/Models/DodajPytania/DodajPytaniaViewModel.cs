@@ -1,11 +1,11 @@
 ﻿using Integracja.Server.Infrastructure.DTO;
-using Integracja.Server.Web.Models.Question;
+using Integracja.Server.Web.Models.Shared.Question;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Integracja.Server.Web.Models
+namespace Integracja.Server.Web.Models.DodajPytania
 {
     public class DodajPytaniaViewModel : PageModel
     {
@@ -20,7 +20,7 @@ namespace Integracja.Server.Web.Models
             QuestionViewModel = new QuestionViewModel("Twoje pytanie", true, "DodajPytania");
         }
 
-        public static class ActionNames 
+        public static class ActionNames
         {
             public const string CategoryCreate = nameof(IActions.CategoryCreate);
             public const string CategoryRead = nameof(IActions.CategoryRead);
@@ -29,7 +29,7 @@ namespace Integracja.Server.Web.Models
         public interface IActions
         {
             Task<IActionResult> CategoryCreate(
-            [Bind(Prefix = nameof(DodajPytaniaViewModel.NewCategory))] CategoryAdd newCategory);
+            [Bind(Prefix = nameof(NewCategory))] CategoryAdd newCategory);
 
             Task<IActionResult> SaveQuestionForm(
             int? id,

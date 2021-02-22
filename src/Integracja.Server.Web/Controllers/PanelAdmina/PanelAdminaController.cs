@@ -1,16 +1,11 @@
 ﻿using Integracja.Server.Core.Models.Identity;
 using Integracja.Server.Infrastructure.Data;
-using Integracja.Server.Infrastructure.DTO;
-using Integracja.Server.Infrastructure.Mappers;
-using Integracja.Server.Infrastructure.Repositories;
-using Integracja.Server.Infrastructure.Services;
-using Integracja.Server.Infrastructure.Services.Implementations;
-using Integracja.Server.Web.Models;
+using Integracja.Server.Web.Models.PanelAdmina;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
-namespace Integracja.Server.Web.Controllers
+namespace Integracja.Server.Web.Controllers.PanelAdmina
 {
     public class PanelAdminaController : ApplicationController
     {
@@ -28,7 +23,7 @@ namespace Integracja.Server.Web.Controllers
             return View(Model);
         }
 
-        public async Task<IActionResult> CategoryDelete( int? id )
+        public async Task<IActionResult> CategoryDelete(int? id)
         {
             if (!id.HasValue)
                 return NotFound();
@@ -37,18 +32,18 @@ namespace Integracja.Server.Web.Controllers
             return RedirectToAction("Index");
         }
 
-        public async Task<IActionResult> QuestionUpdate( int? id )
+        public async Task<IActionResult> QuestionUpdate(int? id)
         {
             /*QuestionViewModel viewModel = new QuestionViewModel("Pytanie", false, "");
             var mapper = AutoMapperConfig.Initialize();
             var question = await QuestionService.Get(id.Value, UserId);
             viewModel.Question = mapper.Map<QuestionAdd>(question);*/
-            return View("~/Views/Shared/_Question.cshtml" );
+            return View("~/Views/Shared/_Question.cshtml");
         }
 
         public async Task<IActionResult> QuestionDelete(int? id)
         {
-            if( id.HasValue )
+            if (id.HasValue)
                 await QuestionService.Delete(id.Value, UserId);
             return RedirectToAction("Index");
         }

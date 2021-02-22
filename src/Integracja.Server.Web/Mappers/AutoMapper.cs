@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Integracja.Server.Infrastructure.DTO;
-using Integracja.Server.Web.Models.Question;
+using Integracja.Server.Web.Models.Shared.Question;
 
 namespace Integracja.Server.Web.Mappers
 {

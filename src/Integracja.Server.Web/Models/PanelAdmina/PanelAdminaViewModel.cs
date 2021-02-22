@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Collections.Generic;
 
-namespace Integracja.Server.Web.Models
+namespace Integracja.Server.Web.Models.PanelAdmina
 {
     public class PanelAdminaViewModel : PageModel
     {

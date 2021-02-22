@@ -1,9 +1,8 @@
-﻿using Integracja.Server.Web.Models.Question;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Threading.Tasks;
 
-namespace Integracja.Server.Web.Models
+namespace Integracja.Server.Web.Models.Shared.Question
 {
 
     public class QuestionViewModel : PageModel
@@ -15,7 +14,7 @@ namespace Integracja.Server.Web.Models
         [BindProperty]
         public QuestionModel Question { get; set; }
 
-        public QuestionViewModel( string title, bool editMode, string controllerName, int answerCount = DefaultAnswerCount ) : base()
+        public QuestionViewModel(string title, bool editMode, string controllerName, int answerCount = DefaultAnswerCount) : base()
         {
             Controller = controllerName;
             Title = title;
@@ -38,15 +37,15 @@ namespace Integracja.Server.Web.Models
         {
             Task<IActionResult> AddAnswerField(
             int? id,
-            [Bind(Prefix = nameof(QuestionViewModel.Question))] QuestionModel question);
+            [Bind(Prefix = nameof(Question))] QuestionModel question);
 
             Task<IActionResult> RemoveAnswerField(
             int? id,
-            [Bind(Prefix = nameof(QuestionViewModel.Question))] QuestionModel question);
+            [Bind(Prefix = nameof(Question))] QuestionModel question);
 
             Task<IActionResult> ProcessQuestionForm(
             int? id,
-            [Bind(Prefix = nameof(QuestionViewModel.Question))] QuestionModel question);
+            [Bind(Prefix = nameof(Question))] QuestionModel question);
         }
     }
 }

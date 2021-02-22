@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace Integracja.Server.Web.Controllers
+namespace Integracja.Server.Web.Controllers.StworzGre
 {
     public class StworzGreController : Controller
     {
