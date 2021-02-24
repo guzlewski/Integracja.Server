@@ -24,18 +24,16 @@ namespace Integracja.Server.Web.Models.DodajPytania
         {
             public const string CategoryCreate = nameof(IActions.CategoryCreate);
             public const string CategoryRead = nameof(IActions.CategoryRead);
-            public const string SaveQuestionForm = nameof(IActions.SaveQuestionForm);
         }
         public interface IActions
         {
+            // QuestionModel jest tutaj po to by umożliwić zapisanie formy przy zmianie/dodaniu kategorii
             Task<IActionResult> CategoryCreate(
             [Bind(Prefix = nameof(NewCategory))] CategoryAdd newCategory);
 
-            Task<IActionResult> SaveQuestionForm(
+            Task<IActionResult> CategoryRead(
             int? id,
             [Bind(Prefix = nameof(QuestionViewModel.Question))] QuestionModel question);
-
-            Task<IActionResult> CategoryRead(int? categoryId);
         }
     }
 }

@@ -76,7 +76,7 @@ namespace Integracja.Server.Web.Controllers.DodajPytania
         }
 
         [HttpPost, ValidateAntiForgeryToken]
-        public async Task<IActionResult> SaveQuestionForm(
+        public async Task<IActionResult> CategoryRead(
             int? id,
             [Bind(Prefix = nameof(QuestionViewModel.Question))] QuestionModel question)
         {
@@ -107,11 +107,6 @@ namespace Integracja.Server.Web.Controllers.DodajPytania
             [Bind(Prefix = nameof(DodajPytaniaViewModel.NewCategory))] CategoryAdd newCategory)
         {
             int categoryId = await CategoryService.Add(newCategory, UserId);
-            return RedirectToAction("Index", "DodajPytania", new { id = categoryId });
-        }
-
-        public async Task<IActionResult> CategoryRead(int? categoryId)
-        {
             return RedirectToAction("Index", "DodajPytania", new { id = categoryId });
         }
     }
