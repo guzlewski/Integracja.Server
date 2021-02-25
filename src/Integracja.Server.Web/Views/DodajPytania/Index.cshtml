@@ -51,7 +51,7 @@
         </div>
 
         @*dodawanie kategorii*@
-        <form id="CategoryForm" asp-action="@DodajPytaniaViewModel.ActionNames.CategoryCreate" asp-controller="DodajPytania">
+        <form id="@DodajPytaniaViewModel.CategoryFormId" asp-action="@DodajPytaniaViewModel.ActionNames.CategoryCreate" asp-controller="DodajPytania">
             <div class="form-group">
                 <input asp-for="NewCategory.Name" placeholder="Nazwa twojej kategorii" />
             </div>
@@ -67,7 +67,7 @@
                 return $.ajax(
                     {
                         type: "POST",
-                        url: "@Url.Action("SaveQuestionForm")",
+                        url: "@Url.Action(DodajPytaniaViewModel.ActionNames.SaveQuestionForm)",
                         data: $("#@QuestionViewModel.FormId").serialize(),
                         success: callback
                     }
@@ -75,7 +75,7 @@
             }
             categoryCreateScript = function () {
                 saveQuestionForm(function () {
-                    $("#CategoryForm").submit();
+                    $("#@DodajPytaniaViewModel.CategoryFormId").submit();
                 });
             }
         </script>

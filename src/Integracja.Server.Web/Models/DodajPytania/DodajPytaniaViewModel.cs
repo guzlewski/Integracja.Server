@@ -13,6 +13,8 @@ namespace Integracja.Server.Web.Models.DodajPytania
         public CategoryModel NewCategory { get; set; }
         public QuestionViewModel QuestionViewModel { get; set; }
 
+        public const string CategoryFormId = "CategoryFormId";
+
         public DodajPytaniaViewModel() : base()
         {
             Categories = new List<CategoryGetAll>();
@@ -24,6 +26,7 @@ namespace Integracja.Server.Web.Models.DodajPytania
         {
             public const string CategoryCreate = nameof(IActions.CategoryCreate);
             public const string CategoryRead = nameof(IActions.CategoryRead);
+            public const string SaveQuestionForm = nameof(IActions.SaveQuestionForm);
         }
         public interface IActions
         {   
