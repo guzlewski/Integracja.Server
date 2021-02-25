@@ -5,8 +5,6 @@ using Integracja.Server.Core.Models.Identity;
 using Integracja.Server.Core.Repositories;
 using Integracja.Server.Infrastructure.Data;
 using Integracja.Server.Infrastructure.Extensions;
-using Integracja.Server.Infrastructure.Mappers;
-using Integracja.Server.Infrastructure.Models;
 using Integracja.Server.Infrastructure.Repositories;
 using Integracja.Server.Infrastructure.Services;
 using Integracja.Server.Infrastructure.Services.Implementations;
@@ -82,8 +80,6 @@ namespace Integracja.Server.Api
             services.AddScoped<IGameUserService, GameUserService>();
             services.AddScoped<IGameQuestionRepository, GameQuestionRepository>();
             services.AddScoped<IGameQuestionService, GameQuestionService>();
-
-            services.AddSingleton(AutoMapperConfig.Initialize());
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
