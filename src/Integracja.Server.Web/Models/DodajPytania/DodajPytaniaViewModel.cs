@@ -10,13 +10,13 @@ namespace Integracja.Server.Web.Models.DodajPytania
     public class DodajPytaniaViewModel : PageModel
     {
         public IEnumerable<CategoryGetAll> Categories { get; set; }
-        public CategoryAdd NewCategory { get; set; }
+        public CategoryModel NewCategory { get; set; }
         public QuestionViewModel QuestionViewModel { get; set; }
 
         public DodajPytaniaViewModel() : base()
         {
             Categories = new List<CategoryGetAll>();
-            NewCategory = new CategoryAdd();
+            NewCategory = new CategoryModel();
             QuestionViewModel = new QuestionViewModel("Twoje pytanie", true, "DodajPytania");
         }
 
@@ -26,14 +26,14 @@ namespace Integracja.Server.Web.Models.DodajPytania
             public const string CategoryRead = nameof(IActions.CategoryRead);
         }
         public interface IActions
-        {
-            // QuestionModel jest tutaj po to by umożliwić zapisanie formy przy zmianie/dodaniu kategorii
-            Task<IActionResult> CategoryCreate(
-            [Bind(Prefix = nameof(NewCategory))] CategoryAdd newCategory);
-
+        {   
             Task<IActionResult> CategoryRead(
             int? id,
             [Bind(Prefix = nameof(QuestionViewModel.Question))] QuestionModel question);
+            Task<IActionResult> CategoryCreate(
+            [Bind(Prefix = nameof(NewCategory))] CategoryModel newCategory);
+
+            void SaveQuestionForm(QuestionModel question);
         }
     }
 }

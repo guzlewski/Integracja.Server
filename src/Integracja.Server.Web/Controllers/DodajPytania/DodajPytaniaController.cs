@@ -93,7 +93,7 @@ namespace Integracja.Server.Web.Controllers.DodajPytania
             if (id.HasValue)
                 question.CategoryId = id.Value;
 
-            var mapper = Mappers.AutoMapperWebConfig.Initialize();
+            var mapper = Mappers.WebAutoMapper.Initialize();
 
             QuestionAdd questionAdd = mapper.Map<QuestionAdd>(question);
 
@@ -104,9 +104,14 @@ namespace Integracja.Server.Web.Controllers.DodajPytania
 
         [HttpPost, ValidateAntiForgeryToken]
         public async Task<IActionResult> CategoryCreate(
-            [Bind(Prefix = nameof(DodajPytaniaViewModel.NewCategory))] CategoryAdd newCategory)
+            [Bind(Prefix = nameof(DodajPytaniaViewModel.NewCategory))] CategoryModel newCategory)
         {
-            int categoryId = await CategoryService.Add(newCategory, UserId);
+             var mapper = Mappers.WebAutoMapper.Initialize();
+
+            CategoryAdd categoryAdd = mapper.Map<CategoryAdd>(newCategory);
+
+            int categoryId = await CategoryService.Add(categoryAdd, UserId);
+
             return RedirectToAction("Index", "DodajPytania", new { id = categoryId });
         }
 
