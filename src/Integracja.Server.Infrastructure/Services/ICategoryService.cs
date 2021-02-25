@@ -1,15 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Integracja.Server.Infrastructure.DTO;
+using Integracja.Server.Infrastructure.Models;
 
 namespace Integracja.Server.Infrastructure.Services
 {
     public interface ICategoryService
     {
-        Task<CategoryGet> Get(int id, int userId);
-        Task<IEnumerable<CategoryGetAll>> GetAll(int userId);
-        Task<int> Add(CategoryAdd dto, int userId);
+        Task<DetailCategoryDto> Get(int id, int userId);
+        Task<IEnumerable<CategoryDto>> GetAll(int userId);
+        Task<int> Add(CreateCategoryDto createCategoryDto, int userId);
         Task Delete(int id, int userId);
-        Task<int> Update(int id, CategoryModify dto, int userId);
+        Task<int> Update(int id, EditCategoryDto editCategoryDto, int userId);
     }
 }

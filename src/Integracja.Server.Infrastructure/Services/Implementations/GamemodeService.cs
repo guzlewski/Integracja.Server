@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using Integracja.Server.Core.Enums;
+using AutoMapper.QueryableExtensions;
 using Integracja.Server.Core.Models.Base;
 using Integracja.Server.Core.Repositories;
-using Integracja.Server.Infrastructure.DTO;
 using Integracja.Server.Infrastructure.Exceptions;
+using Integracja.Server.Infrastructure.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Integracja.Server.Infrastructure.Services.Implementations
@@ -15,27 +14,19 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
     {
         private readonly IGamemodeRepository _gamemodeRepository;
         private readonly IMapper _mapper;
+        private readonly IConfigurationProvider _configuration;
 
-        public GamemodeService(IGamemodeRepository gamemodeRepository, IMapper mapper)
+        public GamemodeService(IGamemodeRepository gamemodeRepository, IMapper mapper, IConfigurationProvider configuration)
         {
             _gamemodeRepository = gamemodeRepository;
             _mapper = mapper;
+            _configuration = configuration;
         }
 
-        public async Task<GamemodeGet> Get(int id, int userId)
+        public async Task<DetailGamemodeDto> Get(int id, int userId)
         {
             var entity = await _gamemodeRepository.Get(id, userId)
-              .Select(gm => new GamemodeGet
-              {
-                  Id = gm.Id,
-                  Name = gm.Name,
-                  TimeForFullQuiz = gm.TimeForFullQuiz,
-                  TimeForOneQuestion = gm.TimeForOneQuestion.GetValueOrDefault(),
-                  NumberOfLives = gm.NumberOfLives.GetValueOrDefault(),
-                  IsPublic = gm.IsPublic,
-                  OwnerId = gm.OwnerId,
-                  OwnerUsername = gm.Owner.UserName
-              })
+              .ProjectTo<DetailGamemodeDto>(_configuration)
               .FirstOrDefaultAsync();
 
             if (entity == null)
@@ -46,27 +37,16 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
             return entity;
         }
 
-        public async Task<IEnumerable<GamemodeGetAll>> GetAll(int userId)
+        public async Task<IEnumerable<GamemodeDto>> GetAll(int userId)
         {
             return await _gamemodeRepository.GetAll(userId)
-                .Select(gm => new GamemodeGetAll
-                {
-                    Id = gm.Id,
-                    Name = gm.Name,
-                    TimeForFullQuiz = gm.TimeForFullQuiz,
-                    TimeForOneQuestion = gm.TimeForOneQuestion.GetValueOrDefault(),
-                    NumberOfLives = gm.NumberOfLives.GetValueOrDefault(),
-                    IsPublic = gm.IsPublic,
-                    GamesCount = gm.Games.Where(g => g.GameState != GameState.Deleted).Count(),
-                    OwnerId = gm.OwnerId,
-                    OwnerUsername = gm.Owner.UserName
-                })
+                .ProjectTo<GamemodeDto>(_configuration)
                 .ToListAsync();
         }
 
-        public async Task<int> Add(GamemodeAdd dto, int userId)
+        public async Task<int> Add(CreateGamemodeDto createGamemodeDto, int userId)
         {
-            var gamemode = _mapper.Map<Gamemode>(dto);
+            var gamemode = _mapper.Map<Gamemode>(createGamemodeDto);
             gamemode.OwnerId = userId;
 
             return await _gamemodeRepository.Add(gamemode);
@@ -81,10 +61,9 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
             });
         }
 
-        public async Task<int> Update(int id, GamemodeModify dto, int userId)
+        public async Task<int> Update(int id, EditGamemodeDto editGamemodeDto, int userId)
         {
-            var gamemode = _mapper.Map<Gamemode>(dto);
-
+            var gamemode = _mapper.Map<Gamemode>(editGamemodeDto);
             gamemode.Id = id;
             gamemode.OwnerId = userId;
 

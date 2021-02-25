@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Integracja.Server.Core.Models.Base;
 using Integracja.Server.Core.Repositories;
-using Integracja.Server.Infrastructure.DTO;
 using Integracja.Server.Infrastructure.Exceptions;
+using Integracja.Server.Infrastructure.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Integracja.Server.Infrastructure.Services.Implementations
@@ -14,34 +14,19 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
     {
         private readonly IQuestionRepository _questionRepository;
         private readonly IMapper _mapper;
+        private readonly IConfigurationProvider _configuration;
 
-        public QuestionService(IQuestionRepository questionRepository, IMapper mapper)
+        public QuestionService(IQuestionRepository questionRepository, IMapper mapper, IConfigurationProvider configuration)
         {
             _questionRepository = questionRepository;
             _mapper = mapper;
+            _configuration = configuration;
         }
 
-        public async Task<QuestionGet> Get(int id, int userId)
+        public async Task<DetailQuestionDto> Get(int id, int userId)
         {
             var entity = await _questionRepository.Get(id, userId)
-                .Select(q => new QuestionGet
-                {
-                    Id = q.Id,
-                    Content = q.Content,
-                    PositivePoints = q.PositivePoints,
-                    NegativePoints = q.NegativePoints,
-                    QuestionScoring = q.QuestionScoring,
-                    IsPublic = q.IsPublic,
-                    CategoryId = q.CategoryId,
-                    Answers = q.Answers.Select(a => new AnswerDto
-                    {
-                        Id = a.Id,
-                        Content = a.Content,
-                        IsCorrect = a.IsCorrect
-                    }),
-                    OwnerId = q.OwnerId,
-                    OwnerUsername = q.Owner.UserName
-                })
+                .ProjectTo<DetailQuestionDto>(_configuration)
                 .FirstOrDefaultAsync();
 
             if (entity == null)
@@ -52,29 +37,16 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
             return entity;
         }
 
-        public async Task<IEnumerable<QuestionGetAll>> GetAll(int userId)
+        public async Task<IEnumerable<QuestionDto>> GetAll(int userId)
         {
             return await _questionRepository.GetAll(userId)
-                .Select(q => new QuestionGetAll
-                {
-                    Id = q.Id,
-                    Content = q.Content,
-                    PositivePoints = q.PositivePoints,
-                    NegativePoints = q.NegativePoints,
-                    QuestionScoring = q.QuestionScoring,
-                    IsPublic = q.IsPublic,
-                    CategoryId = q.CategoryId,
-                    AnswersCount = q.Answers.Count,
-                    CorrectAnswersCount = q.Answers.Count(a => a.IsCorrect),
-                    OwnerId = q.OwnerId,
-                    OwnerUsername = q.Owner.UserName
-                })
+                .ProjectTo<QuestionDto>(_configuration)
                 .ToListAsync();
         }
 
-        public async Task<int> Add(QuestionAdd dto, int userId)
+        public async Task<int> Add(CreateQuestionDto createQuestionDto, int userId)
         {
-            var question = _mapper.Map<Question>(dto);
+            var question = _mapper.Map<Question>(createQuestionDto);
             question.OwnerId = userId;
 
             return await _questionRepository.Add(question);
@@ -89,9 +61,9 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
             });
         }
 
-        public async Task<int> Update(int id, QuestionModify dto, int userId)
+        public async Task<int> Update(int id, EditQuestionDto editQuestionDto, int userId)
         {
-            var question = _mapper.Map<Question>(dto);
+            var question = _mapper.Map<Question>(editQuestionDto);
             question.Id = id;
             question.OwnerId = userId;
 
