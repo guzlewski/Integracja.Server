@@ -11,11 +11,12 @@ namespace Integracja.Server.Api.Services
     {
         public void Apply(OpenApiOperation operation, OperationFilterContext context)
         {
-            var authorize = HasAttribute<AuthorizeAttribute>(context) && !HasAttribute<AllowAnonymousAttribute>(context);
-
-            if (authorize)
+            if (HasAttribute<AuthorizeAttribute>(context) && !HasAttribute<AllowAnonymousAttribute>(context))
             {
-                operation.Responses.Add("401", new OpenApiResponse { Description = "Unauthorized" });
+                operation.Responses.Add("401", new OpenApiResponse
+                {
+                    Description = "Unauthorized"
+                });
 
                 operation.Security = new List<OpenApiSecurityRequirement>
                 {
