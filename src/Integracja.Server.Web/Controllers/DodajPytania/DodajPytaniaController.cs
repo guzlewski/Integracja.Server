@@ -109,5 +109,12 @@ namespace Integracja.Server.Web.Controllers.DodajPytania
             int categoryId = await CategoryService.Add(newCategory, UserId);
             return RedirectToAction("Index", "DodajPytania", new { id = categoryId });
         }
+
+        [HttpPost, ValidateAntiForgeryToken]
+        public void SaveQuestionForm(QuestionModel question)
+        {
+            SaveForm<QuestionModel>(question);
+            return;
+        }
     }
 }
