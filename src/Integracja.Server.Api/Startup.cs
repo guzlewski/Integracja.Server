@@ -100,8 +100,6 @@ namespace Integracja.Server.Api
                 c.RoutePrefix = "";
             });
 
-            app.UseMiddleware<ExceptionMiddleware>();
-
             app.UseHttpsRedirection();
 
             app.UseRouting();
@@ -109,6 +107,8 @@ namespace Integracja.Server.Api
             app.UseAuthentication();
 
             app.UseAuthorization();
+
+            app.UseMiddleware<ExceptionMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {
