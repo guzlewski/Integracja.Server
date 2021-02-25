@@ -12,7 +12,11 @@ namespace Integracja.Server.Web.Mappers
             return new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<AnswerModel, AnswerDto>();
+                cfg.CreateMap<AnswerDto, AnswerModel>();
+
                 cfg.CreateMap<QuestionModel, QuestionAdd>();
+                cfg.CreateMap<QuestionGet, QuestionModel>();
+
                 cfg.CreateMap<CategoryModel, CategoryAdd>();
             })
             .CreateMapper();

@@ -52,7 +52,7 @@ namespace Integracja.Server.Web.Controllers.DodajPytania
             if (id.HasValue)
                 question.CategoryId = id.Value;
 
-            question.Answers.Add(new AnswerModel());
+            question.AddAnswer();
 
             SaveForm(question);
 
@@ -67,8 +67,7 @@ namespace Integracja.Server.Web.Controllers.DodajPytania
             if (id.HasValue)
                 question.CategoryId = id.Value;
 
-            if (question.Answers.Count > 2)
-                question.Answers.RemoveAt(question.Answers.Count - 1);
+            question.RemoveAnswer();
 
             SaveForm(question);
 
@@ -81,6 +80,7 @@ namespace Integracja.Server.Web.Controllers.DodajPytania
             [Bind(Prefix = nameof(QuestionViewModel.Question))] QuestionModel question)
         {
             SaveForm(question);
+
             return RedirectToAction("Index", "DodajPytania", new { id });
         }
 
@@ -89,15 +89,10 @@ namespace Integracja.Server.Web.Controllers.DodajPytania
             int? id,
             [Bind(Prefix = nameof(QuestionViewModel.Question))] QuestionModel question)
         {
-
             if (id.HasValue)
                 question.CategoryId = id.Value;
 
-            var mapper = Mappers.WebAutoMapper.Initialize();
-
-            QuestionAdd questionAdd = mapper.Map<QuestionAdd>(question);
-
-            await QuestionService.Add(questionAdd, UserId);
+            await QuestionService.Add(question.ToQuestionAdd(), UserId);
 
             return RedirectToAction("Index", "DodajPytania", new { id });
         }

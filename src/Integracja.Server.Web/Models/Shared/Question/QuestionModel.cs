@@ -1,4 +1,5 @@
 ﻿using Integracja.Server.Core.Enums;
+using Integracja.Server.Infrastructure.DTO;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -23,6 +24,23 @@ namespace Integracja.Server.Web.Models.Shared.Question
             Answers = new List<AnswerModel>();
             for (int i = 0; i < answersCount; ++i)
                 Answers.Add(new AnswerModel());
+        }
+
+        public void AddAnswer()
+        {
+            this.Answers.Add(new AnswerModel());
+        }
+
+        public void RemoveAnswer()
+        {
+            if (this.Answers.Count > 2)
+                this.Answers.RemoveAt(this.Answers.Count - 1);
+        }
+
+        public QuestionAdd ToQuestionAdd()
+        {
+            var mapper = Mappers.WebAutoMapper.Initialize();
+            return mapper.Map<QuestionAdd>(this);
         }
     }
 }
