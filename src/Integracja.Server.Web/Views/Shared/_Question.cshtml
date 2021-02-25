@@ -28,7 +28,6 @@
         </div>
     }
 
-    @* TODO: przyciski do dodawania/usuwania pól odpowiedzi *@
     @if (Model.EditMode)
     {
         <div class="form-group">
@@ -48,13 +47,13 @@
     <div class="form-group">
         <div class="radio">
             <label class="radio">
-                <input asp-for="Question.Scoring" value="@ModelExpressionProvider.CreateModelExpression(ViewData, __model => __model.Question.PositivePoints)" type="radio" checked>
+                <input asp-for="Question.Scoring" value="@Integracja.Server.Core.Enums.QuestionScoring.ScoreIfFullyCorrect" type="radio" checked>
                 Tylko za komplet poprawnych odpowiedzi
             </label>
         </div>
         <div class="radio">
             <label class="radio">
-                <input asp-for="Question.Scoring" value="@Integracja.Server.Core.Enums.QuestionScoring.ScoreIfFullyCorrect" type="radio">
+                <input asp-for="Question.Scoring" value="@Integracja.Server.Core.Enums.QuestionScoring.ScorePerGoodAnswer" type="radio">
                 Za pojedynczą poprawną odpowiedź
             </label>
         </div>
