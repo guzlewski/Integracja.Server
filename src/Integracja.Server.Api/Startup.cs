@@ -67,6 +67,8 @@ namespace Integracja.Server.Api
             services.ConfigureJwt(Configuration);
             services.AddScoped<ITokenService, TokenService>();
 
+            services.AddAutoMapper(typeof(ApplicationDbContext).Assembly);
+
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<IGamemodeRepository, GamemodeRepository>();
