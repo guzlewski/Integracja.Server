@@ -8,9 +8,6 @@ namespace Integracja.Server.Infrastructure.Data.Configuration
     {
         public void Configure(EntityTypeBuilder<Answer> builder)
         {
-            builder.Property(a => a.RowVersion)
-                .IsConcurrencyToken();
-
             builder.Property(a => a.Content)
                 .IsRequired();
         }
