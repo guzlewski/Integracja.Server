@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Integracja.Server.Infrastructure.DTO;
+using Integracja.Server.Infrastructure.Models;
 using Integracja.Server.Infrastructure.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -25,7 +25,7 @@ namespace Integracja.Server.Api.Controllers
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IEnumerable<GameGetAll>> GetAll()
+        public async Task<IEnumerable<GameDto>> GetAll()
         {
             return await _gameService.GetAll(UserId.Value);
         }
@@ -34,7 +34,7 @@ namespace Integracja.Server.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<GameGet>> Get(int id)
+        public async Task<ActionResult<DetailGameDto>> Get(int id)
         {
             return await _gameService.Get(id, UserId.Value);
         }
@@ -42,19 +42,19 @@ namespace Integracja.Server.Api.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> Add(GameAdd dto)
+        public async Task<ActionResult> Add(CreateGameDto createGameDto)
         {
-            var entityId = await _gameService.Add(dto, UserId.Value);
-            return Created($"{Request.Path}/{entityId}", null);
+            var entityId = await _gameService.Add(createGameDto, UserId.Value);
+            return CreatedAtAction(nameof(Get), new { id = entityId }, null);
         }
 
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult> Update(int id, [FromBody] GameModify dto)
+        public async Task<ActionResult> Update(int id, [FromBody] EditGameDto editGameDto)
         {
-            await _gameService.Update(id, dto, UserId.Value);
+            await _gameService.Update(id, editGameDto, UserId.Value);
             return NoContent();
         }
 
