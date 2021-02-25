@@ -1,6 +1,6 @@
-﻿namespace Integracja.Server.Infrastructure.Models
+﻿namespace Integracja.Server.Infrastructure.Settings
 {
-    public class JwtConfig
+    public class JwtSettings
     {
         public string SecretKey { get; set; }
         public string ValidIssuer { get; set; }

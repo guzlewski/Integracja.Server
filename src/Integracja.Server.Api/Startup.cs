@@ -10,6 +10,7 @@ using Integracja.Server.Infrastructure.Models;
 using Integracja.Server.Infrastructure.Repositories;
 using Integracja.Server.Infrastructure.Services;
 using Integracja.Server.Infrastructure.Services.Implementations;
+using Integracja.Server.Infrastructure.Settings;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -62,7 +63,7 @@ namespace Integracja.Server.Api
             services.AddIdentity<User, Role>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
-            services.Configure<JwtConfig>(Configuration.GetSection("Jwt"));
+            services.Configure<JwtSettings>(Configuration.GetSection("Jwt"));
             services.ConfigureJwt(Configuration);
             services.AddScoped<ITokenService, TokenService>();
 

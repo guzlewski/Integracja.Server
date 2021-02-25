@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Integracja.Server.Core.Models.Identity;
 using Integracja.Server.Infrastructure.DTO;
 using Integracja.Server.Infrastructure.Exceptions;
-using Integracja.Server.Infrastructure.Models;
+using Integracja.Server.Infrastructure.Settings;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -16,12 +16,12 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
 {
     public class TokenService : ITokenService
     {
-        private readonly IOptionsMonitor<JwtConfig> _options;
+        private readonly JwtSettings _jwtSettings;
         private readonly UserManager<User> _userManager;
 
-        public TokenService(IOptionsMonitor<JwtConfig> options, UserManager<User> userManager)
+        public TokenService(IOptions<JwtSettings> options, UserManager<User> userManager)
         {
-            _options = options;
+            _jwtSettings = options.Value;
             _userManager = userManager;
         }
 
@@ -47,19 +47,19 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
                 authClaims.Add(new Claim(ClaimTypes.Role, userRole));
             }
 
-            var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_options.CurrentValue.SecretKey));
-            var expireDate = DateTime.UtcNow.AddSeconds(_options.CurrentValue.TokenExpirationTime);
+            var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.SecretKey));
+            var expireDate = DateTime.UtcNow.AddSeconds(_jwtSettings.TokenExpirationTime);
 
             var token = new JwtSecurityToken(
-                issuer: _options.CurrentValue.ValidIssuer,
-                audience: _options.CurrentValue.ValidAudience,
+                issuer: _jwtSettings.ValidIssuer,
+                audience: _jwtSettings.ValidAudience,
                 expires: expireDate,
                 claims: authClaims,
                 signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256));
 
             return new TokenDto()
             {
-                ExpiryIn = _options.CurrentValue.TokenExpirationTime,
+                ExpiryIn = _jwtSettings.TokenExpirationTime,
                 ExpireOnDate = expireDate,
                 Token = new JwtSecurityTokenHandler().WriteToken(token)
             };
