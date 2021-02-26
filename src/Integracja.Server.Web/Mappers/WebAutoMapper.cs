@@ -19,6 +19,7 @@ namespace Integracja.Server.Web.Mappers
                 cfg.CreateMap<QuestionGet, QuestionModel>();
 
                 cfg.CreateMap<CategoryModel, CategoryAdd>();
+                cfg.CreateMap<CategoryGetAll, CategoryModel>();
             })
             .CreateMapper();
         }

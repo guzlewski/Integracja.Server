@@ -5,6 +5,7 @@ using Integracja.Server.Web.Models.DodajPytania;
 using Integracja.Server.Web.Models.Shared.Question;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Integracja.Server.Web.Controllers.DodajPytania
@@ -40,17 +41,17 @@ namespace Integracja.Server.Web.Controllers.DodajPytania
             if (id.HasValue && !Model.QuestionViewModel.Question.CategoryId.HasValue)
                 Model.QuestionViewModel.Question.CategoryId = id.Value;
 
-            Model.Categories = CategoryService.GetAll(UserId).Result;
+            Model.Categories = CategoryModel.ToList(CategoryService.GetAll(UserId).Result);
             return View("~/Views/DodajPytania/Index.cshtml", Model);
         }
 
         [HttpPost, ValidateAntiForgeryToken]
         public async Task<IActionResult> AddAnswerField(
-            int? id,
+            int? categoryId,
             [Bind(Prefix = nameof(QuestionViewModel.Question))] QuestionModel question)
         {
-            if (id.HasValue)
-                question.CategoryId = id.Value;
+            if (categoryId.HasValue)
+                question.CategoryId = categoryId.Value;
 
             question.AddAnswer();
 
@@ -61,11 +62,11 @@ namespace Integracja.Server.Web.Controllers.DodajPytania
 
         [HttpPost, ValidateAntiForgeryToken]
         public async Task<IActionResult> RemoveAnswerField(
-            int? id,
+            int? categoryId,
             [Bind(Prefix = nameof(QuestionViewModel.Question))] QuestionModel question)
         {
-            if (id.HasValue)
-                question.CategoryId = id.Value;
+            if (categoryId.HasValue)
+                question.CategoryId = categoryId.Value;
 
             question.RemoveAnswer();
 
@@ -75,31 +76,23 @@ namespace Integracja.Server.Web.Controllers.DodajPytania
         }
 
         [HttpPost, ValidateAntiForgeryToken]
-        public async Task<IActionResult> CategoryRead(
-            int? id,
-            [Bind(Prefix = nameof(QuestionViewModel.Question))] QuestionModel question)
-        {
-            SaveForm(question);
-
-            return RedirectToAction("Index", "DodajPytania", new { id });
-        }
-
-        [HttpPost, ValidateAntiForgeryToken]
         public async Task<IActionResult> ProcessQuestionForm(
-            int? id,
+            int? categoryId,
             [Bind(Prefix = nameof(QuestionViewModel.Question))] QuestionModel question)
         {
-            if (id.HasValue)
-                question.CategoryId = id.Value;
+            if (categoryId.HasValue)
+                question.CategoryId = categoryId.Value;
 
-            await QuestionService.Add(question.ToQuestionAdd(), UserId);
+            var q = question.ToQuestionAdd();
 
-            return RedirectToAction("Index", "DodajPytania", new { id });
+            await QuestionService.Add(q, UserId);
+
+            return RedirectToAction("Index", "DodajPytania", new { categoryId });
         }
 
         [HttpPost, ValidateAntiForgeryToken]
         public async Task<IActionResult> CategoryCreate(
-            [Bind(Prefix = nameof(DodajPytaniaViewModel.NewCategory))] CategoryModel newCategory)
+            [Bind(Prefix = nameof(DodajPytaniaViewModel.Category))] CategoryModel newCategory)
         {
              var mapper = Mappers.WebAutoMapper.Initialize();
 
@@ -108,6 +101,13 @@ namespace Integracja.Server.Web.Controllers.DodajPytania
             int categoryId = await CategoryService.Add(categoryAdd, UserId);
 
             return RedirectToAction("Index", "DodajPytania", new { id = categoryId });
+        }
+
+        [HttpPost, ValidateAntiForgeryToken]
+        public async Task<IActionResult> CategoryRead(
+            [Bind(Prefix = nameof(DodajPytaniaViewModel.Category))] CategoryModel category)
+        {
+            return RedirectToAction("Index", "DodajPytania", new { id = category.Id });
         }
 
         [HttpPost, ValidateAntiForgeryToken]

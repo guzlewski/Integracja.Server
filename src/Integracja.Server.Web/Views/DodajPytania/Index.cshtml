@@ -5,6 +5,10 @@
 @{
     ViewData["Title"] = "View";
 }
+
+<script src="~/js/DodajPytania.js"></script>
+<script src="~/js/_Question.js"></script>
+
 <h1>Dodaj pytania</h1>
 <br />
 
@@ -25,6 +29,7 @@
             </button>
         </div>
         <br />
+
         <div class="table-wrapper-scroll-y scrollbar-secondary">
             <table class="table table-bordered table-striped table-sm ">
                 <thead>
@@ -35,15 +40,21 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var category in Model.Categories)
+                    @for (int i = 0; i < Model.Categories.Count; i++)
                     {
                         <tr>
                             <td>
-                                <button type="submit" class="btn btn-light" form="@QuestionViewModel.FormId" asp-action="@DodajPytaniaViewModel.ActionNames.CategoryRead" asp-route-id="@category.Id">
-                                    @category.Name
-                                </button>
+                                @{
+                                    string formId = DodajPytaniaViewModel.CategoryReadFormId(Model.Categories[i].Id);
+                                }
+                                <form id="@formId" asp-action="@DodajPytaniaViewModel.ActionNames.CategoryRead" asp-controller="DodajPytania" novalidate>
+                                    <button type="button" class="btn btn-light" value="@formId" onclick="categoryReadScript(this)">
+                                        @Model.Categories[i].Name
+                                    </button>
+                                    <input type="hidden" asp-for="Category.Id" value="@Model.Categories[i].Id" />
+                                </form>
                             </td>
-                            <td>@category.QuestionsCount</td>
+                            <td>@Model.Categories[i].QuestionsCount</td>
                         </tr>
                     }
                 </tbody>
@@ -51,9 +62,10 @@
         </div>
 
         @*dodawanie kategorii*@
-        <form id="@DodajPytaniaViewModel.CategoryFormId" asp-action="@DodajPytaniaViewModel.ActionNames.CategoryCreate" asp-controller="DodajPytania">
+        <form id="@DodajPytaniaViewModel.CategoryCreateFormId" asp-action="@DodajPytaniaViewModel.ActionNames.CategoryCreate" asp-controller="DodajPytania">
             <div class="form-group">
-                <input asp-for="NewCategory.Name" placeholder="Nazwa twojej kategorii" />
+                <input asp-for="Category.Name" placeholder="Nazwa twojej kategorii" />
+                <span asp-validation-for="Category.Name" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <button type="button" class="btn btn-primary" onclick="categoryCreateScript()">
@@ -62,30 +74,39 @@
             </div>
         </form>
 
-        <script type="text/javascript">
-            saveQuestionForm = function (callback) {
-                return $.ajax(
-                    {
-                        type: "POST",
-                        url: "@Url.Action(DodajPytaniaViewModel.ActionNames.SaveQuestionForm)",
-                        data: $("#@QuestionViewModel.FormId").serialize(),
-                        success: callback
-                    }
-                );
-            }
-            categoryCreateScript = function () {
-                saveQuestionForm(function () {
-                    $("#@DodajPytaniaViewModel.CategoryFormId").submit();
-                });
-            }
-        </script>
-
-    </div>    
+    </div>
 
     @*tworzenie pytania*@
     <div class="col-md-7">
         @{ await Html.RenderPartialAsync("~/Views/Shared/_Question.cshtml", Model.QuestionViewModel); }
     </div>
+
+    @* wrzucanie tych funkcji do plików .js oznacza że muszą też przyjmować jako parametry zmienne które są tu z modelu *@
+    <script type="text/javascript">
+
+        saveQuestionForm = function(callback) {
+            return $.ajax({
+                type: "POST",
+                url: "@Url.Action(DodajPytaniaViewModel.ActionNames.SaveQuestionForm)",
+                data: $("#@QuestionViewModel.FormId").serialize(),
+                success: callback
+            });
+        }
+
+        categoryReadScript = function(element) {
+            saveQuestionForm(function() {
+                $("#" + element.value).submit();
+            });
+        }
+
+        categoryCreateScript = function() {
+            saveQuestionForm(function() {
+                $("#@DodajPytaniaViewModel.CategoryCreateFormId").submit();
+            });
+        }
+
+    </script>
+
 </div>
 
 @section Scripts {

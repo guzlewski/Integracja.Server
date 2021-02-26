@@ -9,34 +9,42 @@ namespace Integracja.Server.Web.Models.DodajPytania
 {
     public class DodajPytaniaViewModel : PageModel
     {
-        public IEnumerable<CategoryGetAll> Categories { get; set; }
-        public CategoryModel NewCategory { get; set; }
-        public QuestionViewModel QuestionViewModel { get; set; }
+        public List<CategoryModel> Categories { get; set; }
+        public CategoryModel Category { get; set; }
 
-        public const string CategoryFormId = "CategoryFormId";
+        // DodajPytania używa częściowego widoku _Question.cshtml więc załączam
+        public QuestionViewModel QuestionViewModel { get; set; }
 
         public DodajPytaniaViewModel() : base()
         {
-            Categories = new List<CategoryGetAll>();
-            NewCategory = new CategoryModel();
+            Categories = new List<CategoryModel>();
+            Category = new CategoryModel();
             QuestionViewModel = new QuestionViewModel("Twoje pytanie", true, "DodajPytania");
         }
 
+        // id używane w .cshtml
+        public const string CategoryCreateFormId = "CategoryCreateFormId";
+        public static string CategoryReadFormId( int id ) => ("CategoryReadFormId"+id);
+
+        // używane do połączenia akcji od .cshtml do kontrolera
         public static class ActionNames
         {
             public const string CategoryCreate = nameof(IActions.CategoryCreate);
             public const string CategoryRead = nameof(IActions.CategoryRead);
             public const string SaveQuestionForm = nameof(IActions.SaveQuestionForm);
         }
+
+        // do implementacji w kontrolerze
+        // gdyby były problemy z wiązaniem w kontrolerze
+        // to uzupełnić argumenty o atrybut [Bind(Prefix=...)]
         public interface IActions
         {   
             Task<IActionResult> CategoryRead(
-            int? id,
-            [Bind(Prefix = nameof(QuestionViewModel.Question))] QuestionModel question);
+            [Bind(Prefix = nameof(Category))] CategoryModel category);
             Task<IActionResult> CategoryCreate(
-            [Bind(Prefix = nameof(NewCategory))] CategoryModel newCategory);
-
-            void SaveQuestionForm(QuestionModel question);
+            [Bind(Prefix = nameof(Category))] CategoryModel category);
+            void SaveQuestionForm(
+            [Bind(Prefix = nameof(QuestionViewModel.Question))] QuestionModel question);
         }
     }
 }
