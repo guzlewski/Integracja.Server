@@ -3,7 +3,7 @@
 
 <h2>@Model.Title</h2>
 <br />
-<form id="@QuestionViewModel.FormId" asp-controller="@Model.Controller" asp-action="@QuestionViewModel.ActionNames.ProcessForm" asp-route-id="@Model.Question.CategoryId">
+<form id="@QuestionViewModel.FormId" asp-controller="@Model.Controller" asp-action="@QuestionViewModel.ActionNames.ProcessForm" asp-route-categoryId="@Model.Question.CategoryId">
 
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="form-group">
@@ -31,8 +31,8 @@
     @if (Model.EditMode)
     {
         <div class="form-group">
-            <input type="submit" asp-action="@QuestionViewModel.ActionNames.AddAnswerField" asp-route-id="@Model.Question.CategoryId" formnovalidate value="Dodaj nową odpowiedź" class="btn btn-light" />
-            <input type="submit" asp-action="@QuestionViewModel.ActionNames.RemoveAnswerField" asp-route-id="@Model.Question.CategoryId" formnovalidate value="Usuń odpowiedź" class="btn btn-light" />
+            <input type="submit" asp-action="@QuestionViewModel.ActionNames.AddAnswerField" asp-route-categoryId="@Model.Question.CategoryId" formnovalidate value="Dodaj nową odpowiedź" class="btn btn-light" />
+            <input type="submit" asp-action="@QuestionViewModel.ActionNames.RemoveAnswerField" asp-route-categoryId="@Model.Question.CategoryId" formnovalidate value="Usuń odpowiedź" class="btn btn-light" />
         </div>
     }
 
@@ -70,4 +70,5 @@
     <div class="form-group">
         <input type="submit" value="Dodaj pytanie" class="btn btn-primary" />
     </div>
+
 </form>
