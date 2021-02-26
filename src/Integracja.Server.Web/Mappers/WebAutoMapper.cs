@@ -14,7 +14,8 @@ namespace Integracja.Server.Web.Mappers
                 cfg.CreateMap<AnswerModel, AnswerDto>();
                 cfg.CreateMap<AnswerDto, AnswerModel>();
 
-                cfg.CreateMap<QuestionModel, QuestionAdd>();
+                cfg.CreateMap<QuestionModel, QuestionAdd>()
+                .ForMember( dest => dest.QuestionScoring, opt => opt.MapFrom( src => src.Scoring ) );
                 cfg.CreateMap<QuestionGet, QuestionModel>();
 
                 cfg.CreateMap<CategoryModel, CategoryAdd>();
