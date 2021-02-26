@@ -1,13 +1,14 @@
 ﻿using Integracja.Server.Core.Models.Identity;
 using Integracja.Server.Infrastructure.Data;
 using Integracja.Server.Web.Models.PanelAdmina;
+using Integracja.Server.Web.Models.Shared.Question;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
 namespace Integracja.Server.Web.Controllers.PanelAdmina
 {
-    public class PanelAdminaController : ApplicationController
+    public class PanelAdminaController : ApplicationController, QuestionViewModel.IActions
     {
         private PanelAdminaViewModel Model { get; set; }
 
@@ -34,17 +35,53 @@ namespace Integracja.Server.Web.Controllers.PanelAdmina
 
         public async Task<IActionResult> QuestionUpdate(int? id)
         {
-            /*QuestionViewModel viewModel = new QuestionViewModel("Pytanie", false, "");
-            var mapper = AutoMapperConfig.Initialize();
+            QuestionViewModel viewModel = new QuestionViewModel("Pytanie", true, "PanelAdmina");
+
             var question = await QuestionService.Get(id.Value, UserId);
-            viewModel.Question = mapper.Map<QuestionAdd>(question);*/
-            return View("~/Views/Shared/_Question.cshtml");
+
+            var mapper = Mappers.WebAutoMapper.Initialize();
+
+            viewModel.Question = mapper.Map<QuestionModel>(question);
+
+            return View("~/Views/Shared/_Question.cshtml", viewModel);
         }
 
         public async Task<IActionResult> QuestionDelete(int? id)
         {
             if (id.HasValue)
                 await QuestionService.Delete(id.Value, UserId);
+            return RedirectToAction("Index");
+        }
+
+        public async Task<IActionResult> AddAnswerField(int? id, [Bind(Prefix = "Question")] QuestionModel question)
+        {
+            question.AddAnswer();
+
+            QuestionViewModel viewModel = new QuestionViewModel("Pytanie", true, "PanelAdmina");
+
+            viewModel.Question = question;
+
+            return View("~/Views/Shared/_Question.cshtml", viewModel);
+        }
+
+        public async Task<IActionResult> RemoveAnswerField(int? id, [Bind( Prefix = "Question")] QuestionModel question)
+        {
+            question.RemoveAnswer();
+
+            QuestionViewModel viewModel = new QuestionViewModel("Pytanie", true, "PanelAdmina");
+
+            viewModel.Question = question;
+
+            return View("~/Views/Shared/_Question.cshtml", viewModel);
+        }
+
+        public async Task<IActionResult> ProcessQuestionForm(int? id, [Bind( Prefix = "Question")] QuestionModel question)
+        {
+            if (id.HasValue)
+                question.CategoryId = id.Value;
+
+            await QuestionService.Add(question.ToQuestionAdd() , UserId);
+
             return RedirectToAction("Index");
         }
     }
