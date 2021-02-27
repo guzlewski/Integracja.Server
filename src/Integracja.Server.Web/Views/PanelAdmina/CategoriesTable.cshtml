@@ -1,0 +1,35 @@
+﻿@using Integracja.Server.Web.Models.PanelAdmina
+@model PanelAdminaViewModel
+
+<h2>Kategorie</h2>
+<div class="table-wrapper-scroll-y scrollbar-secondary">
+    <table class="table table-bordered table-striped table-sm ">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Nazwa</th>
+                <th scope="col">ID właściciela</th>
+                <th scope="col">Nazwa właściciela</th>
+                <th scope="col">Publiczna</th>
+                <th scope="col">Pytania</th>
+                <th scope="col">Akcje</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var category in Model.Categories)
+            {
+                <tr>
+                    <td>@category.Id</td>
+                    <td>@category.Name</td>
+                    <td>@category.OwnerId</td>
+                    <td>@category.OwnerUsername</td>
+                    <td>@category.IsPublic</td>
+                    <td>@category.QuestionsCount</td>
+                    <td>
+                        <a asp-action="CategoryDelete" asp-route-id="@category.Id">Usuń</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

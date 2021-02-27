@@ -2,66 +2,11 @@
 @model PanelAdminaViewModel
 <h1>Panel admina</h1>
 <br />
-<h2>Kategorie</h2>
-<div class="table-wrapper-scroll-y scrollbar-secondary">
-    <table class="table table-bordered table-striped table-sm ">
-        <thead>
-            <tr>
-                <th scope="col">ID</th>
-                <th scope="col">Nazwa</th>
-                <th scope="col">ID właściciela</th>
-                <th scope="col">Nazwa właściciela</th>
-                <th scope="col">Publiczna</th>
-                <th scope="col">Pytania</th>
-                <th scope="col">Akcje</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var category in Model.Categories)
-            {
-            <tr>
-                <td>@category.Id</td>
-                <td>@category.Name</td>
-                <td>@category.OwnerId</td>
-                <td>@category.OwnerUsername</td>
-                <td>@category.IsPublic</td>
-                <td>@category.QuestionsCount</td>
-                <td>
-                <a asp-action="CategoryDelete" asp-route-id="@category.Id">Usuń</a>
-                </td>
-            </tr>
-            }
-        </tbody>
-    </table>
+
+<div class="col-md-10">
+    @{ await Html.RenderPartialAsync("~/Views/PanelAdmina/CategoriesTable.cshtml", Model); }
 </div>
 
-<h2>Pytania</h2>
-<div class="table-wrapper-scroll-y scrollbar-secondary">
-    <table class="table table-bordered table-striped table-sm ">
-        <thead>
-            <tr>
-                <th scope="col">ID</th>
-                <th scope="col">ID właściciela</th>
-                <th scope="col">Nazwa właściciela</th>
-                <th scope="col">ID kategorii</th>
-                <th scope="col">Publiczna</th>
-                <th scope="col">Akcje</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var question in Model.Questions )
-            {
-            <tr>
-                <td>@question.Id</td>
-                <td>@question.OwnerId</td>
-                <td>@question.OwnerUsername</td>
-                <td>@question.CategoryId</td>
-                <td>@question.IsPublic</td>
-                <td>
-                <a asp-action="QuestionUpdate" asp-route-id="@question.Id">Edycja</a> | 
-                <a asp-action="QuestionDelete" asp-route-id="@question.Id">Usuń</a></td>
-            </tr>
-            }
-        </tbody>
-    </table>
+<div class="col-md-10">
+    @{ await Html.RenderPartialAsync("~/Views/PanelAdmina/QuestionsTable.cshtml", Model); }
 </div>
