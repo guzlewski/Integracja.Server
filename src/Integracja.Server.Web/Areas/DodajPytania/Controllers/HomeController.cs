@@ -1,23 +1,23 @@
 ﻿using Integracja.Server.Core.Models.Identity;
 using Integracja.Server.Infrastructure.Data;
 using Integracja.Server.Infrastructure.DTO;
-using Integracja.Server.Web.Models.DodajPytania;
+using Integracja.Server.Web.Areas.DodajPytania.Models;
+using Integracja.Server.Web.Controllers;
 using Integracja.Server.Web.Models.Shared.Question;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Integracja.Server.Web.Controllers.DodajPytania
+namespace Integracja.Server.Web.Areas.DodajPytania.Controllers
 {
-
-    public class DodajPytaniaController : ApplicationController, DodajPytaniaViewModel.IActions, QuestionViewModel.IActions
+    [Area("DodajPytania")]
+    public class HomeController : ApplicationController, HomeViewModel.IActions, QuestionViewModel.IActions
     {
-        private DodajPytaniaViewModel Model { get; set; }
+        private HomeViewModel Model { get; set; }
 
-        public DodajPytaniaController(UserManager<User> userManager, ApplicationDbContext dbContext) : base(userManager, dbContext)
+        public HomeController(UserManager<User> userManager, ApplicationDbContext dbContext) : base(userManager, dbContext)
         {
-            Model = new DodajPytaniaViewModel();
+            Model = new HomeViewModel();
         }
 
         [HttpGet]
@@ -42,7 +42,7 @@ namespace Integracja.Server.Web.Controllers.DodajPytania
                 Model.QuestionViewModel.Question.CategoryId = id.Value;
 
             Model.Categories = CategoryModel.ToList(CategoryService.GetAll(UserId).Result);
-            return View("~/Views/DodajPytania/Index.cshtml", Model);
+            return View("Index",Model);
         }
 
         [HttpPost, ValidateAntiForgeryToken]
@@ -57,7 +57,7 @@ namespace Integracja.Server.Web.Controllers.DodajPytania
 
             SaveForm(question);
 
-            return RedirectToAction("Index", "DodajPytania", new { id = question.CategoryId });
+            return RedirectToAction("Index", new { id = question.CategoryId });
         }
 
         [HttpPost, ValidateAntiForgeryToken]
@@ -72,7 +72,7 @@ namespace Integracja.Server.Web.Controllers.DodajPytania
 
             SaveForm(question);
 
-            return RedirectToAction("Index", "DodajPytania", new { id = question.CategoryId });
+            return RedirectToAction("Index", new { id = question.CategoryId });
         }
 
         [HttpPost, ValidateAntiForgeryToken]
@@ -87,12 +87,12 @@ namespace Integracja.Server.Web.Controllers.DodajPytania
 
             await QuestionService.Add(q, UserId);
 
-            return RedirectToAction("Index", "DodajPytania", new { categoryId });
+            return RedirectToAction("Index", new { categoryId });
         }
 
         [HttpPost, ValidateAntiForgeryToken]
         public async Task<IActionResult> CategoryCreate(
-            [Bind(Prefix = nameof(DodajPytaniaViewModel.Category))] CategoryModel newCategory)
+            [Bind(Prefix = nameof(HomeViewModel.Category))] CategoryModel newCategory)
         {
              var mapper = Mappers.WebAutoMapper.Initialize();
 
@@ -100,14 +100,14 @@ namespace Integracja.Server.Web.Controllers.DodajPytania
 
             int categoryId = await CategoryService.Add(categoryAdd, UserId);
 
-            return RedirectToAction("Index", "DodajPytania", new { id = categoryId });
+            return RedirectToAction("Index", "Home", new { id = categoryId });
         }
 
         [HttpPost, ValidateAntiForgeryToken]
         public async Task<IActionResult> CategoryRead(
-            [Bind(Prefix = nameof(DodajPytaniaViewModel.Category))] CategoryModel category)
+            [Bind(Prefix = nameof(HomeViewModel.Category))] CategoryModel category)
         {
-            return RedirectToAction("Index", "DodajPytania", new { id = category.Id });
+            return RedirectToAction("Index", new { id = category.Id });
         }
 
         [HttpPost, ValidateAntiForgeryToken]

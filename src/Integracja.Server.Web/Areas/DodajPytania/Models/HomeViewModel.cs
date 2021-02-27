@@ -1,13 +1,12 @@
-﻿using Integracja.Server.Infrastructure.DTO;
-using Integracja.Server.Web.Models.Shared.Question;
+﻿using Integracja.Server.Web.Models.Shared.Question;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Integracja.Server.Web.Models.DodajPytania
+namespace Integracja.Server.Web.Areas.DodajPytania.Models
 {
-    public class DodajPytaniaViewModel : PageModel
+    public class HomeViewModel : PageModel
     {
         public List<CategoryModel> Categories { get; set; }
         public CategoryModel Category { get; set; }
@@ -15,11 +14,11 @@ namespace Integracja.Server.Web.Models.DodajPytania
         // DodajPytania używa częściowego widoku _Question.cshtml więc załączam
         public QuestionViewModel QuestionViewModel { get; set; }
 
-        public DodajPytaniaViewModel() : base()
+        public HomeViewModel() : base()
         {
             Categories = new List<CategoryModel>();
             Category = new CategoryModel();
-            QuestionViewModel = new QuestionViewModel("Twoje pytanie", true, "DodajPytania");
+            QuestionViewModel = new QuestionViewModel("Twoje pytanie", true, "Home");
         }
 
         // id używane w .cshtml

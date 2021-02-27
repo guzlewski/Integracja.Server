@@ -1,13 +1,10 @@
-﻿@using Integracja.Server.Web.Models.DodajPytania
+﻿@using Integracja.Server.Web.Areas.DodajPytania.Models
 @using Integracja.Server.Web.Models.Shared.Question
-@model DodajPytaniaViewModel
+@model HomeViewModel
 
 @{
     ViewData["Title"] = "View";
 }
-
-<script src="~/js/DodajPytania.js"></script>
-<script src="~/js/_Question.js"></script>
 
 <h1>Dodaj pytania</h1>
 <br />
@@ -45,9 +42,9 @@
                         <tr>
                             <td>
                                 @{
-                                    string formId = DodajPytaniaViewModel.CategoryReadFormId(Model.Categories[i].Id);
+                                    string formId = HomeViewModel.CategoryReadFormId(Model.Categories[i].Id);
                                 }
-                                <form id="@formId" asp-action="@DodajPytaniaViewModel.ActionNames.CategoryRead" asp-controller="DodajPytania" novalidate>
+                                <form id="@formId" asp-action="@HomeViewModel.ActionNames.CategoryRead" novalidate>
                                     <button type="button" class="btn btn-light" value="@formId" onclick="categoryReadScript(this)">
                                         @Model.Categories[i].Name
                                     </button>
@@ -62,7 +59,7 @@
         </div>
 
         @*dodawanie kategorii*@
-        <form id="@DodajPytaniaViewModel.CategoryCreateFormId" asp-action="@DodajPytaniaViewModel.ActionNames.CategoryCreate" asp-controller="DodajPytania">
+        <form id="@HomeViewModel.CategoryCreateFormId" asp-action="@HomeViewModel.ActionNames.CategoryCreate">
             <div class="form-group">
                 <input asp-for="Category.Name" placeholder="Nazwa twojej kategorii" />
                 <span asp-validation-for="Category.Name" class="text-danger"></span>
@@ -87,7 +84,7 @@
         saveQuestionForm = function(callback) {
             return $.ajax({
                 type: "POST",
-                url: "@Url.Action(DodajPytaniaViewModel.ActionNames.SaveQuestionForm)",
+                url: "@Url.Action(HomeViewModel.ActionNames.SaveQuestionForm)",
                 data: $("#@QuestionViewModel.FormId").serialize(),
                 success: callback
             });
@@ -101,7 +98,7 @@
 
         categoryCreateScript = function() {
             saveQuestionForm(function() {
-                $("#@DodajPytaniaViewModel.CategoryCreateFormId").submit();
+                $("#@HomeViewModel.CategoryCreateFormId").submit();
             });
         }
 
