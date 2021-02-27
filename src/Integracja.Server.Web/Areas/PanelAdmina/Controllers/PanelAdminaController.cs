@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace Integracja.Server.Web.Controllers.PanelAdmina
 {
+    [Area("PanelAdmina")]
     public class PanelAdminaController : ApplicationController, QuestionViewModel.IActions
     {
         private PanelAdminaViewModel Model { get; set; }
@@ -20,7 +21,7 @@ namespace Integracja.Server.Web.Controllers.PanelAdmina
         public IActionResult Index()
         {
             Model.Questions = QuestionService.GetAll(UserId).Result;
-            return View(Model);
+            return View("Index",Model);
         }
 
         public async Task<IActionResult> CategoryDelete(int? id)

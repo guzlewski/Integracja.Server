@@ -80,6 +80,11 @@ namespace Integracja.Server.Web
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapAreaControllerRoute(
+                    name: "PanelAdminaArea",
+                    areaName: "PanelAdmina",
+                    pattern: "PanelAdmina/{controller=PanelAdmina}/{action=Index}");
+
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Przeglad}/{action=Index}/{id?}");
