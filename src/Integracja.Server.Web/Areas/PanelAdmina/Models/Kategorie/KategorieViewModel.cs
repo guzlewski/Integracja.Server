@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Collections.Generic;
 
-namespace Integracja.Server.Web.Models.PanelAdmina.Kategorie
+namespace Integracja.Server.Web.Areas.PanelAdmina.Models.Kategorie
 {
     public class KategorieViewModel : PageModel
     {

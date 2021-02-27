@@ -1,6 +1,6 @@
 ﻿using Integracja.Server.Core.Models.Identity;
 using Integracja.Server.Infrastructure.Data;
-using Integracja.Server.Web.Models.PanelAdmina;
+using Integracja.Server.Web.Areas.PanelAdmina.Models;
 using Integracja.Server.Web.Models.Shared.Question;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;

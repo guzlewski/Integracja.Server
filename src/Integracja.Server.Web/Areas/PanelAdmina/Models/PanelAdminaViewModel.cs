@@ -3,7 +3,7 @@ using Integracja.Server.Infrastructure.DTO;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Collections.Generic;
 
-namespace Integracja.Server.Web.Models.PanelAdmina
+namespace Integracja.Server.Web.Areas.PanelAdmina.Models
 {
     public class PanelAdminaViewModel : PageModel
     {

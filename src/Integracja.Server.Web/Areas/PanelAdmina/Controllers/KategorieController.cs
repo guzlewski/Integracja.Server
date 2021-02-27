@@ -1,6 +1,6 @@
 ﻿using Integracja.Server.Core.Models.Identity;
 using Integracja.Server.Infrastructure.Data;
-using Integracja.Server.Web.Models.PanelAdmina.Kategorie;
+using Integracja.Server.Web.Areas.PanelAdmina.Models.Kategorie;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
