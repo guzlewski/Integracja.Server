@@ -10,7 +10,6 @@ namespace Integracja.Server.Web.Models.PanelAdmina
         public bool ShowCategories { get; set; }
         public bool ShowQuestions { get; set; }
 
-        public IEnumerable<CategoryGetAll> Categories { get; set; }
         public IEnumerable<QuestionGetAll> Questions { get; set; }
         public IEnumerable<User> Users { get; set; }
 

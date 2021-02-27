@@ -19,7 +19,6 @@ namespace Integracja.Server.Web.Controllers.PanelAdmina
 
         public IActionResult Index()
         {
-            Model.Categories = CategoryService.GetAll(UserId).Result;
             Model.Questions = QuestionService.GetAll(UserId).Result;
             return View(Model);
         }

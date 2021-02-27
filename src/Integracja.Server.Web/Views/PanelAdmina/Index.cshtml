@@ -3,9 +3,20 @@
 <h1>Panel admina</h1>
 <br />
 
-<div class="col-md-10">
-    @{ await Html.RenderPartialAsync("~/Views/PanelAdmina/CategoriesTable.cshtml", Model); }
+
+<div class="row col-12">
+
+    <div class="card col-2">
+        <a asp-controller="Kategorie" asp-action="Index" class="btn btn-primary">Kategorie</a>
+    </div>
+
+    <div class="card col-2">
+        <a href="#" class="btn btn-primary">Pytania</a>
+    </div>
+
 </div>
+
+<br />
 
 <div class="col-md-10">
     @{ await Html.RenderPartialAsync("~/Views/PanelAdmina/QuestionsTable.cshtml", Model); }
