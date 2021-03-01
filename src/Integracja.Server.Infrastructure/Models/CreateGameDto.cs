@@ -12,7 +12,7 @@ namespace Integracja.Server.Infrastructure.Models
         public bool? RandomizeQuestionOrder { get; set; }
         [Required]
         public string Name { get; set; }
-        [Required]
+        [Required, Range(1, int.MaxValue)]
         public int? QuestionsCount { get; set; }
         [Required]
         public DateTimeOffset? EndTime { get; set; }
