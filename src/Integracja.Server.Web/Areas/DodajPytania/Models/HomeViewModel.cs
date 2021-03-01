@@ -11,7 +11,7 @@ namespace Integracja.Server.Web.Areas.DodajPytania.Models
         public List<CategoryModel> Categories { get; set; }
         public CategoryModel Category { get; set; }
 
-        // DodajPytania używa częściowego widoku _Question.cshtml więc załączam
+        // widok używa częściowego widoku _Question.cshtml więc załączam
         public QuestionViewModel QuestionViewModel { get; set; }
 
         public HomeViewModel() : base()
