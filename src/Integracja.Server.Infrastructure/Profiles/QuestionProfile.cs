@@ -11,9 +11,6 @@ namespace Integracja.Server.Infrastructure.Profiles
         {
             CreateMap<Question, QuestionDto>()
                 .ForMember(
-                    questionDto => questionDto.AnswersCount,
-                    opt => opt.MapFrom(question => question.Answers.Count))
-                .ForMember(
                     questionDto => questionDto.CorrectAnswersCount,
                     opt => opt.MapFrom(question => question.Answers.Where(a => a.IsCorrect).Count()));
 
