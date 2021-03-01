@@ -1,4 +1,5 @@
 ﻿@using Integracja.Server.Web.Areas.PanelAdmina.Models.Categories
+@using static Integracja.Server.Web.Areas.PanelAdmina.Models.Categories.CategoriesViewModel.ActionNames
 @model CategoriesViewModel
 
 <h2>Kategorie</h2>
@@ -26,7 +27,8 @@
                     <td>@category.IsPublic</td>
                     <td>@category.QuestionsCount</td>
                     <td>
-                        <a asp-action="CategoryDelete" asp-route-id="@category.Id">Usuń</a>
+                        <a asp-action="@CategoryDelete" asp-route-id="@category.Id">Usuń</a>
+                        <a asp-action="@CategoryUpdate" asp-route-id="@category.Id">Edycja</a>
                     </td>
                 </tr>
             }
