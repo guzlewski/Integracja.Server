@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Integracja.Server.Infrastructure.DTO;
-using Integracja.Server.Web.Areas.DodajPytania.Models;
+using Integracja.Server.Web.Models.Shared.Answer;
+using Integracja.Server.Web.Models.Shared.Category;
 using Integracja.Server.Web.Models.Shared.Question;
 
 namespace Integracja.Server.Web.Mappers

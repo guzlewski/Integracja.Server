@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace Integracja.Server.Web.Areas.DodajPytania.Models
+namespace Integracja.Server.Web.Models.Shared.Category
 {
     public class CategoryModel
     {

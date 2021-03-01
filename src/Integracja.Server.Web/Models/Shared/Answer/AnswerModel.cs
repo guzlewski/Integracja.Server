@@ -1,4 +1,4 @@
-﻿namespace Integracja.Server.Web.Models.Shared.Question
+﻿namespace Integracja.Server.Web.Models.Shared.Answer
 {
     public class AnswerModel
     {

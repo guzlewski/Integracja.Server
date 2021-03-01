@@ -1,5 +1,6 @@
 ﻿using Integracja.Server.Core.Enums;
 using Integracja.Server.Infrastructure.DTO;
+using Integracja.Server.Web.Models.Shared.Answer;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
