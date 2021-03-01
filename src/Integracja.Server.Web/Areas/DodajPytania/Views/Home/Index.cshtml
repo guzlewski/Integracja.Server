@@ -75,7 +75,7 @@
 
     @*tworzenie pytania*@
     <div class="col-md-7">
-        @{ await Html.RenderPartialAsync("~/Views/Shared/_Question.cshtml", Model.QuestionViewModel); }
+        @{ await Html.RenderPartialAsync("~/Views/Shared/Question/_Question.cshtml", Model.QuestionViewModel); }
     </div>
 
     @* wrzucanie tych funkcji do plików .js oznacza że muszą też przyjmować jako parametry zmienne które są tu z modelu *@

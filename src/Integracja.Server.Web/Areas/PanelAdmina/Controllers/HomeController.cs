@@ -44,7 +44,7 @@ namespace Integracja.Server.Web.Areas.PanelAdmina.Controllers
 
             viewModel.Question = mapper.Map<QuestionModel>(question);
 
-            return View("~/Views/Shared/_Question.cshtml", viewModel);
+            return View("~/Views/Shared/Question/_Question.cshtml", viewModel);
         }
 
         public async Task<IActionResult> QuestionDelete(int? id)
@@ -62,7 +62,7 @@ namespace Integracja.Server.Web.Areas.PanelAdmina.Controllers
 
             viewModel.Question = question;
 
-            return View("~/Views/Shared/_Question.cshtml", viewModel);
+            return View("~/Views/Shared/Question/_Question.cshtml", viewModel);
         }
 
         public async Task<IActionResult> RemoveAnswerField(int? id, [Bind( Prefix = "Question")] QuestionModel question)
@@ -73,7 +73,7 @@ namespace Integracja.Server.Web.Areas.PanelAdmina.Controllers
 
             viewModel.Question = question;
 
-            return View("~/Views/Shared/_Question.cshtml", viewModel);
+            return View("~/Views/Shared/Question/_Question.cshtml", viewModel);
         }
 
         public async Task<IActionResult> ProcessQuestionForm(int? id, [Bind( Prefix = "Question")] QuestionModel question)
