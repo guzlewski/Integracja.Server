@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Integracja.Server.Infrastructure.Models;
 using Integracja.Server.Infrastructure.Services;
@@ -52,6 +51,7 @@ namespace Integracja.Server.Api.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status409Conflict)]
         public async Task<ActionResult> Update(int id, [FromBody] EditGameDto editGameDto)
         {
             await _gameService.Update(id, editGameDto, UserId.Value);
