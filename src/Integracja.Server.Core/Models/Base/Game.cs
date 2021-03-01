@@ -27,8 +27,8 @@ namespace Integracja.Server.Core.Models.Base
         public int OwnerId { get; set; }
         public User Owner { get; set; }
 
-        public ICollection<GameUser> Players { get; set; }
         public ICollection<GameQuestion> Questions { get; set; }
+        public ICollection<GameUser> GameUsers { get; set; }
         public ICollection<GameUserQuestion> GameUserQuestions { get; set; }
         public ICollection<GameUserQuestionAnswer> GameUserQuestionAnswer { get; set; }
     }

@@ -11,7 +11,7 @@ namespace Integracja.Server.Core.Models.Joins
         public float? GameScore { get; set; }
         public DateTimeOffset? GameStartTime { get; set; }
         public DateTimeOffset? GameEndTime { get; set; }
-        public GameUserState State { get; set; }
+        public GameUserState GameUserState { get; set; }
 
         public int AnsweredQuestions { get; set; }
         public int CorrectlyAnsweredQuestions { get; set; }
