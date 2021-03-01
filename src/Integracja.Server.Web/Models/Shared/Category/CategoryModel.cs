@@ -12,7 +12,13 @@ namespace Integracja.Server.Web.Models.Shared.Category
         public string Name { get; set; }
         public int QuestionsCount { get; set; }
 
-        public static List<CategoryModel> ToList( IEnumerable<CategoryGetAll> dtoList )
+        public static CategoryModel ConvertToCategoryModel( CategoryGet category )
+        {
+            var mapper = Mappers.WebAutoMapper.Initialize();
+            return mapper.Map<CategoryModel>(category);
+        }
+
+        public static List<CategoryModel> ConvertToList( IEnumerable<CategoryGetAll> dtoList )
         {
             var mapper = Mappers.WebAutoMapper.Initialize();
             List<CategoryModel> resultList = new List<CategoryModel>();

@@ -21,6 +21,7 @@ namespace Integracja.Server.Web.Mappers
 
                 cfg.CreateMap<CategoryModel, CategoryAdd>();
                 cfg.CreateMap<CategoryGetAll, CategoryModel>();
+                cfg.CreateMap<CategoryGet, CategoryModel>();
             })
             .CreateMapper();
         }

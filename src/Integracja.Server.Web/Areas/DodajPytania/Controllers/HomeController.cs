@@ -42,7 +42,7 @@ namespace Integracja.Server.Web.Areas.DodajPytania.Controllers
             if (id.HasValue && !Model.QuestionViewModel.Question.CategoryId.HasValue)
                 Model.QuestionViewModel.Question.CategoryId = id.Value;
 
-            Model.Categories = CategoryModel.ToList(CategoryService.GetAll(UserId).Result);
+            Model.Categories = CategoryModel.ConvertToList(CategoryService.GetAll(UserId).Result);
             return View("Index",Model);
         }
 
