@@ -8,7 +8,7 @@ namespace Integracja.Server.Core.Repositories
     {
         IQueryable<Game> Get(int id, int userId);
         IQueryable<Game> GetAll(int userId);
-        Task<int> Add(Game game);
+        Task<int> Add(Game game, int questionsCount, bool randomizeQuestionOrder = false);
         Task Delete(Game game);
         Task<int> Update(Game game);
     }

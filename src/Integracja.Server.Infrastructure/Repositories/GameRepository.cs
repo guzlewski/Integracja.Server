@@ -1,9 +1,13 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Integracja.Server.Core.Enums;
 using Integracja.Server.Core.Models.Base;
+using Integracja.Server.Core.Models.Joins;
 using Integracja.Server.Core.Repositories;
 using Integracja.Server.Infrastructure.Data;
+using Integracja.Server.Infrastructure.EqualityComparers;
 using Integracja.Server.Infrastructure.Exceptions;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,10 +16,12 @@ namespace Integracja.Server.Infrastructure.Repositories
     public class GameRepository : IGameRepository
     {
         private readonly ApplicationDbContext _dbContext;
+        private readonly Random _random;
 
-        public GameRepository(ApplicationDbContext dbContext)
+        public GameRepository(ApplicationDbContext dbContext, Random random)
         {
             _dbContext = dbContext;
+            _random = random;
         }
 
         public IQueryable<Game> Get(int id, int userId)
@@ -35,8 +41,27 @@ namespace Integracja.Server.Infrastructure.Repositories
                     g.GameState != GameState.Deleted);
         }
 
-        public async Task<int> Add(Game game)
+        public async Task<int> Add(Game game, int questionsCount, bool randomizeQuestionOrder = false)
         {
+            var ids = game.Questions.Select(gq => gq.QuestionId);
+            var entities = await _dbContext.Questions
+                .Where(q => !q.IsDeleted &&
+                    (q.IsPublic || q.OwnerId == game.OwnerId) &&
+                    ids.Contains(q.Id))
+                .Select(q => new GameQuestion
+                {
+                    QuestionId = q.Id,
+                    Question = q
+                })
+                .ToListAsync();
+
+            if (entities.Count == 0)
+            {
+                throw new BadRequestException("None question from pool is available.");
+            }
+
+            game.Questions = SelectQuestions(game.Questions, entities, questionsCount, randomizeQuestionOrder);
+
             await _dbContext.AddAsync(game);
             await _dbContext.SaveChangesAsync();
 
@@ -50,7 +75,7 @@ namespace Integracja.Server.Infrastructure.Repositories
                 .Select(g => new
                 {
                     Game = g,
-                    PlayersCount = g.Players.Where(p => p.State != GameUserState.Left).Count()
+                    PlayersCount = g.GameUsers.Where(p => p.GameUserState != GameUserState.Left).Count()
                 })
                 .FirstOrDefaultAsync();
 
@@ -79,7 +104,7 @@ namespace Integracja.Server.Infrastructure.Repositories
               .Select(g => new
               {
                   Game = g,
-                  PlayersCount = g.Players.Where(p => p.State != GameUserState.Left).Count()
+                  PlayersCount = g.GameUsers.Where(p => p.GameUserState == GameUserState.Active).Count()
               })
               .FirstOrDefaultAsync();
 
@@ -88,14 +113,55 @@ namespace Integracja.Server.Infrastructure.Repositories
                 throw new NotFoundException();
             }
 
-            entity.Game.Name = game.Name;
-            entity.Game.StartTime = game.StartTime;
-            entity.Game.EndTime = game.EndTime;
-            entity.Game.MaxPlayersCount = game.MaxPlayersCount;
-            entity.Game.RowVersion++;
-            await _dbContext.SaveChangesAsync();
+            if (entity.Game.StartTime <= DateTimeOffset.Now && entity.PlayersCount != 0)
+            {
+                throw new ConflictException("Game is in progress and has active players, can't edit.");
+            }
 
+            entity.Game.RowVersion++;
+            UpdateGame(entity.Game, game);
+
+            await _dbContext.SaveChangesAsync();
             return entity.Game.Id;
+        }
+
+        private static void UpdateGame(Game orginal, Game modified)
+        {
+            orginal.Name = modified.Name;
+            orginal.StartTime = modified.StartTime;
+            orginal.EndTime = modified.EndTime;
+            orginal.MaxPlayersCount = modified.MaxPlayersCount;
+        }
+
+        private ICollection<GameQuestion> SelectQuestions(ICollection<GameQuestion> gameQuestionsPool, ICollection<GameQuestion> gameQuestionsRemote, int questionsCount, bool randomizeQuestionOrder)
+        {
+            var poolSet = new HashSet<GameQuestion>(gameQuestionsPool, new GameQuestionEqualityComparer());
+            var selectedRemote = RandAndTake(gameQuestionsRemote, randomizeQuestionOrder, questionsCount);
+            var selected = new List<GameQuestion>();
+            var index = 0;
+
+            foreach (var question in selectedRemote)
+            {
+                poolSet.TryGetValue(question, out var questionPool);
+
+                questionPool.Question = question.Question;
+                questionPool.Question.RowVersion++;
+                questionPool.Index = index++;
+
+                selected.Add(questionPool);
+            }
+
+            return selected;
+        }
+
+        private IEnumerable<T> RandAndTake<T>(IEnumerable<T> source, bool random, int count)
+        {
+            if (random)
+            {
+                return source.OrderBy(o => _random.Next()).Take(count);
+            }
+
+            return source.Take(count);
         }
     }
 }

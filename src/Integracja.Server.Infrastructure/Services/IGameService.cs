@@ -1,18 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Integracja.Server.Infrastructure.DTO;
+using Integracja.Server.Infrastructure.Models;
 
 namespace Integracja.Server.Infrastructure.Services
 {
     public interface IGameService
     {
-        Task<GameGet> Get(int id, int userId);
-        Task<IEnumerable<GameGetAll>> GetAll(int userId);
-        Task<int> Add(GameAdd dto, int userId);
+        Task<DetailGameDto> Get(int id, int userId);
+        Task<IEnumerable<GameDto>> GetAll(int userId);
+        Task<int> Add(CreateGameDto createGameDto, int userId);
         Task Delete(int id, int userId);
-        Task<int> Update(int id, GameModify dto, int userId);
+        Task<int> Update(int id, EditGameDto editGameDto, int userId);
     }
 }
