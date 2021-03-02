@@ -23,8 +23,14 @@ namespace Integracja.Server.Web.Areas.PanelAdmina.Controllers
         {
             if( id.HasValue )
             {
-                Model.QuestionViewModel.Question = (QuestionModel)await QuestionService.Get(id.Value, UserId);
+                QuestionModel savedForm = TryRetrieveFromTempData<QuestionModel>();
+                if (savedForm != default(QuestionModel)) // ==/!= not implemented ? 
+                {
+                    Model.QuestionViewModel.Question = savedForm;
+                }
+                else Model.QuestionViewModel.Question = (QuestionModel)await QuestionService.Get(id.Value, UserId);
             }
+
             Model.Questions = (System.Collections.Generic.List<Infrastructure.DTO.QuestionGetAll>)await QuestionService.GetAll(UserId);
             return View("Questions", Model);
         }
