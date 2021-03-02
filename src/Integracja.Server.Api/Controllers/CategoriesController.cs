@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using Integracja.Server.Infrastructure.DTO;
 using Integracja.Server.Infrastructure.Services;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,9 +9,7 @@ namespace Integracja.Server.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
-    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public class CategoriesController : ControllerBase
+    public class CategoriesController : DefaultController
     {
         private readonly ICategoryService _categoryService;
 
@@ -26,7 +22,7 @@ namespace Integracja.Server.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IEnumerable<CategoryGetAll>> GetAll()
         {
-            return await _categoryService.GetAll(LoggedUserId());
+            return await _categoryService.GetAll(UserId.Value);
         }
 
         [HttpGet("{id}")]
@@ -35,7 +31,7 @@ namespace Integracja.Server.Api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<CategoryGet>> Get(int id)
         {
-            return await _categoryService.Get(id, LoggedUserId());
+            return await _categoryService.Get(id, UserId.Value);
         }
 
         [HttpPost]
@@ -43,7 +39,7 @@ namespace Integracja.Server.Api.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> Add(CategoryAdd dto)
         {
-            var entityId = await _categoryService.Add(dto, LoggedUserId());
+            var entityId = await _categoryService.Add(dto, UserId.Value);
             return Created($"{Request.Path}/{entityId}", null);
         }
 
@@ -54,7 +50,7 @@ namespace Integracja.Server.Api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult> Update(int id, [FromBody] CategoryModify dto)
         {
-            var entityId = await _categoryService.Update(id, dto, LoggedUserId());
+            var entityId = await _categoryService.Update(id, dto, UserId.Value);
 
             if (entityId != id)
             {
@@ -70,13 +66,8 @@ namespace Integracja.Server.Api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult> Delete(int id)
         {
-            await _categoryService.Delete(id, LoggedUserId());
+            await _categoryService.Delete(id, UserId.Value);
             return NoContent();
-        }
-
-        private int LoggedUserId()
-        {
-            return int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
         }
     }
 }
