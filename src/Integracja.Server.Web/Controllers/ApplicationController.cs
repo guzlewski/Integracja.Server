@@ -49,12 +49,12 @@ namespace Integracja.Server.Web.Controllers
         protected IQuestionService QuestionService { get =>
         new QuestionService(new QuestionRepository(DbContext), Mapper); }
 
-        protected void SaveForm<T>(T form)
+        protected void SaveToTempData<T>(T form)
         {
             string jsonString = JsonSerializer.Serialize<T>(form);
             TempData[nameof(T)] = jsonString;
         }
-        protected T TryRetrieveForm<T>()
+        protected T TryRetrieveFromTempData<T>()
         {
             try
             {

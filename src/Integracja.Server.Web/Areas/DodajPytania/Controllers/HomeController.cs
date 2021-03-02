@@ -31,7 +31,7 @@ namespace Integracja.Server.Web.Areas.DodajPytania.Controllers
         [ActionName("Category")]
         public IActionResult Category(int? id)
         {
-            QuestionModel savedForm = TryRetrieveForm<QuestionModel>();
+            QuestionModel savedForm = TryRetrieveFromTempData<QuestionModel>();
 
             if (savedForm != default(QuestionModel))
             {
@@ -56,7 +56,7 @@ namespace Integracja.Server.Web.Areas.DodajPytania.Controllers
 
             question.AddAnswer();
 
-            SaveForm(question);
+            SaveToTempData(question);
 
             return RedirectToAction("Index", new { id = question.CategoryId });
         }
@@ -71,7 +71,7 @@ namespace Integracja.Server.Web.Areas.DodajPytania.Controllers
 
             question.RemoveAnswer();
 
-            SaveForm(question);
+            SaveToTempData(question);
 
             return RedirectToAction("Index", new { id = question.CategoryId });
         }
@@ -108,7 +108,7 @@ namespace Integracja.Server.Web.Areas.DodajPytania.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public void SaveQuestionForm(QuestionModel question)
         {
-            SaveForm<QuestionModel>(question);
+            SaveToTempData<QuestionModel>(question);
             return;
         }
 
