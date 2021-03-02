@@ -19,7 +19,7 @@ namespace Integracja.Server.Web.Areas.DodajPytania.Models
         {
             Categories = new List<CategoryModel>();
             Category = new CategoryModel();
-            QuestionViewModel = new QuestionViewModel();
+            QuestionViewModel = new QuestionViewModel( allowUpdate: false, allowEdit: true );
         }
 
         // id używane w .cshtml
@@ -37,7 +37,7 @@ namespace Integracja.Server.Web.Areas.DodajPytania.Models
         // do implementacji w kontrolerze
         // gdyby były problemy z wiązaniem w kontrolerze
         // to uzupełnić argumenty o atrybut [Bind(Prefix=...)]
-        public interface IActions
+        public interface IActions : QuestionViewModel.IActions
         {   
             Task<IActionResult> CategoryRead(
             [Bind(Prefix = nameof(Category))] CategoryModel category);

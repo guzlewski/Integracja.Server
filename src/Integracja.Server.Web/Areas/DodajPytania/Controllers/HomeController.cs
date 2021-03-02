@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 namespace Integracja.Server.Web.Areas.DodajPytania.Controllers
 {
     [Area("DodajPytania")]
-    public class HomeController : ApplicationController, HomeViewModel.IActions, QuestionViewModel.IActions
+    public class HomeController : ApplicationController, HomeViewModel.IActions
     {
         private HomeViewModel Model { get; set; }
 
@@ -110,6 +110,11 @@ namespace Integracja.Server.Web.Areas.DodajPytania.Controllers
         {
             SaveForm<QuestionModel>(question);
             return;
+        }
+
+        public Task<IActionResult> QuestionUpdate(int? categoryId, QuestionModel question)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }
