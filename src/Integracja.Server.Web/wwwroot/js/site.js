@@ -1,3 +1,3 @@
-﻿$('#sidebarCollapse').on('click touchstart', function () {
+﻿$('#sidebarCollapse').on('click touchstart touchend', function () {
     $('#sidebar, .content').toggleClass('active');
 });
