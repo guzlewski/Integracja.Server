@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Integracja.Server.Core.Models.Base;
 using Integracja.Server.Core.Models.Interfaces;
@@ -9,6 +10,7 @@ namespace Integracja.Server.Core.Models.Identity
     public class User : IdentityUser<int>, ISoftDeleteable
     {
         public bool IsDeleted { get; set; }
+        public Guid? SessionGuid { get; set; }
 
         public byte[] Picture { get; set; }
 
