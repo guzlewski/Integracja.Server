@@ -1,5 +1,5 @@
-﻿@using Integracja.Server.Web.Models.Konto
-@model KontoViewModel
+﻿@using Integracja.Server.Web.Areas.Konto.Models
+@model HomeViewModel
 
 <link rel="stylesheet" href="~/css/konto.css" />
 
@@ -11,7 +11,7 @@
             <div class="form-group">
              
 
-                    <form enctype="multipart/form-data" method="post" asp-action="@KontoViewModel.ActionNames.UploadPicture">
+                    <form enctype="multipart/form-data" method="post" asp-action="@HomeViewModel.ActionNames.UploadPicture">
                         <div asp-validation-summary="All" class="text-danger"></div>
                         <dl>
                             <dt>

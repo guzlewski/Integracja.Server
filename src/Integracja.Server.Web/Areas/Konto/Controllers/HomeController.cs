@@ -1,21 +1,22 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Integracja.Server.Core.Models.Identity;
+using Integracja.Server.Infrastructure.Data;
+using Integracja.Server.Web.Areas.Konto.Models;
+using Integracja.Server.Web.Controllers;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using System.IO;
 using System.Threading.Tasks;
-using Integracja.Server.Web.Models.Konto;
-using Microsoft.AspNetCore.Identity;
-using Integracja.Server.Infrastructure.Data;
-using Integracja.Server.Core.Models.Identity;
-using Microsoft.AspNetCore.Http;
-using System.ComponentModel.DataAnnotations;
 
-namespace Integracja.Server.Web.Controllers.Konto
+namespace Integracja.Server.Web.Areas.Konto.Controllers
 {
-    public class KontoController : ApplicationController, KontoViewModel.IActions
+    [Area("Konto")]
+    public class HomeController : ApplicationController, HomeViewModel.IActions
     {
-        private KontoViewModel Model { get; set; }
-        public KontoController(UserManager<User> userManager, ApplicationDbContext dbContext) : base(userManager, dbContext)
+        private HomeViewModel Model { get; set; }
+        public HomeController(UserManager<User> userManager, ApplicationDbContext dbContext) : base(userManager, dbContext)
         {
-            Model = new KontoViewModel();
+            Model = new HomeViewModel();
         }
         
         [HttpGet]

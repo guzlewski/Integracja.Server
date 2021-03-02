@@ -90,6 +90,11 @@ namespace Integracja.Server.Web
                     areaName: "PanelAdmina",
                     pattern: "PanelAdmina/{controller=Home}/{action=Index}");
 
+                endpoints.MapAreaControllerRoute(
+                    name: "KontoArea",
+                    areaName: "Konto",
+                    pattern: "Konto/{controller=Home}/{action=Index}");
+
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Przeglad}/{action=Index}/{id?}");

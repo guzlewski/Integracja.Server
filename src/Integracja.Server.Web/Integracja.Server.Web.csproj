@@ -23,4 +23,8 @@
     <ProjectReference Include="..\Integracja.Server.Infrastructure\Integracja.Server.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Areas\Konto\Data\" />
+  </ItemGroup>
+
 </Project>
