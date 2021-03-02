@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using Integracja.Server.Core.Enums;
 using Integracja.Server.Core.Models.Base;
 using Integracja.Server.Core.Repositories;
 using Integracja.Server.Infrastructure.Exceptions;
@@ -26,21 +28,23 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
 
         public async Task<DetailGameDto> Get(int id, int userId)
         {
-            var entity = await _gameRepository.Get(id, userId)
-               .ProjectTo<DetailGameDto>(_configuration)
-               .FirstOrDefaultAsync();
+            var detailGameDto = await _gameRepository.Get(id)
+                .Where(g => g.OwnerId == userId && g.GameState != GameState.Deleted)
+                .ProjectTo<DetailGameDto>(_configuration)
+                .FirstOrDefaultAsync();
 
-            if (entity == null)
+            if (detailGameDto == null)
             {
                 throw new NotFoundException();
             }
 
-            return entity;
+            return detailGameDto;
         }
 
         public async Task<IEnumerable<GameDto>> GetAll(int userId)
         {
-            return await _gameRepository.GetAll(userId)
+            return await _gameRepository.GetAll()
+                .Where(g => g.OwnerId == userId && g.GameState != GameState.Deleted)
                 .ProjectTo<GameDto>(_configuration)
                 .ToListAsync();
         }

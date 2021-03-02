@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
@@ -25,21 +26,23 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
 
         public async Task<DetailGamemodeDto> Get(int id, int userId)
         {
-            var entity = await _gamemodeRepository.Get(id, userId)
-              .ProjectTo<DetailGamemodeDto>(_configuration)
-              .FirstOrDefaultAsync();
+            var detailGamemodeDto = await _gamemodeRepository.Get(id)
+                .Where(gm => (gm.IsPublic || gm.OwnerId == userId) && !gm.IsDeleted)
+                .ProjectTo<DetailGamemodeDto>(_configuration)
+                .FirstOrDefaultAsync();
 
-            if (entity == null)
+            if (detailGamemodeDto == null)
             {
                 throw new NotFoundException();
             }
 
-            return entity;
+            return detailGamemodeDto;
         }
 
         public async Task<IEnumerable<GamemodeDto>> GetAll(int userId)
         {
-            return await _gamemodeRepository.GetAll(userId)
+            return await _gamemodeRepository.GetAll()
+                .Where(gm => (gm.IsPublic || gm.OwnerId == userId) && !gm.IsDeleted)
                 .ProjectTo<GamemodeDto>(_configuration)
                 .ToListAsync();
         }

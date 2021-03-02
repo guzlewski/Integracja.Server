@@ -17,21 +17,17 @@ namespace Integracja.Server.Infrastructure.Repositories
             _dbContext = dbContext;
         }
 
-        public IQueryable<Category> Get(int id, int userId)
+        public IQueryable<Category> Get(int id)
         {
             return _dbContext.Categories
                 .AsNoTracking()
-                .Where(c => c.Id == id &&
-                    (c.IsPublic || c.OwnerId == userId) &&
-                    !c.IsDeleted);
+                .Where(c => c.Id == id);
         }
 
-        public IQueryable<Category> GetAll(int userId)
+        public IQueryable<Category> GetAll()
         {
             return _dbContext.Categories
-                .AsNoTracking()
-                .Where(c => (c.IsPublic || c.OwnerId == userId) &&
-                    !c.IsDeleted);
+                .AsNoTracking();
         }
 
         public async Task<int> Add(Category category)

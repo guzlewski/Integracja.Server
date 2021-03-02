@@ -17,21 +17,17 @@ namespace Integracja.Server.Infrastructure.Repositories
             _dbContext = dbContext;
         }
 
-        public IQueryable<Gamemode> Get(int id, int userId)
+        public IQueryable<Gamemode> Get(int id)
         {
             return _dbContext.Gamemodes
                 .AsNoTracking()
-                .Where(gm => gm.Id == id &&
-                    (gm.IsPublic || gm.OwnerId == userId) &&
-                    !gm.IsDeleted);
+                .Where(gm => gm.Id == id);
         }
 
-        public IQueryable<Gamemode> GetAll(int userId)
+        public IQueryable<Gamemode> GetAll()
         {
             return _dbContext.Gamemodes
-                .AsNoTracking()
-                .Where(gm => (gm.IsPublic || gm.OwnerId == userId) &&
-                    !gm.IsDeleted);
+                .AsNoTracking();
         }
 
         public async Task<int> Add(Gamemode gamemode)

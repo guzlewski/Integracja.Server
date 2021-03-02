@@ -17,25 +17,17 @@ namespace Integracja.Server.Infrastructure.Repositories
             _dbContext = dbContext;
         }
 
-        public IQueryable<Question> Get(int id, int userId)
+        public IQueryable<Question> Get(int id)
         {
             return _dbContext.Questions
                 .AsNoTracking()
-                .Where(q => q.Id == id &&
-                    (q.IsPublic || q.OwnerId == userId) &&
-                    !q.IsDeleted &&
-                    (q.Category.IsPublic || q.Category.OwnerId == userId) &&
-                    !q.Category.IsDeleted);
+                .Where(q => q.Id == id);
         }
 
-        public IQueryable<Question> GetAll(int userId)
+        public IQueryable<Question> GetAll()
         {
             return _dbContext.Questions
-                .AsNoTracking()
-                .Where(q => (q.IsPublic || q.OwnerId == userId) &&
-                    !q.IsDeleted &&
-                    (q.Category.IsPublic || q.Category.OwnerId == userId) &&
-                    !q.Category.IsDeleted);
+                .AsNoTracking();
         }
 
         public async Task<int> Add(Question question)

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
@@ -25,21 +26,25 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
 
         public async Task<DetailQuestionDto> Get(int id, int userId)
         {
-            var entity = await _questionRepository.Get(id, userId)
+            var detailQuestionDto = await _questionRepository.Get(id)
+                .Where(q => (q.IsPublic || q.OwnerId == userId) && !q.IsDeleted &&
+                    (q.Category.IsPublic || q.Category.OwnerId == userId) && !q.Category.IsDeleted)
                 .ProjectTo<DetailQuestionDto>(_configuration)
                 .FirstOrDefaultAsync();
 
-            if (entity == null)
+            if (detailQuestionDto == null)
             {
                 throw new NotFoundException();
             }
 
-            return entity;
+            return detailQuestionDto;
         }
 
         public async Task<IEnumerable<QuestionDto>> GetAll(int userId)
         {
-            return await _questionRepository.GetAll(userId)
+            return await _questionRepository.GetAll()
+                .Where(q => (q.IsPublic || q.OwnerId == userId) && !q.IsDeleted &&
+                    (q.Category.IsPublic || q.Category.OwnerId == userId) && !q.Category.IsDeleted)
                 .ProjectTo<QuestionDto>(_configuration)
                 .ToListAsync();
         }

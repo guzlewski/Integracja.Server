@@ -24,21 +24,17 @@ namespace Integracja.Server.Infrastructure.Repositories
             _random = random;
         }
 
-        public IQueryable<Game> Get(int id, int userId)
+        public IQueryable<Game> Get(int id)
         {
             return _dbContext.Games
                 .AsNoTracking()
-                .Where(g => g.Id == id &&
-                    g.OwnerId == userId &&
-                    g.GameState != GameState.Deleted);
+                .Where(g => g.Id == id);
         }
 
-        public IQueryable<Game> GetAll(int userId)
+        public IQueryable<Game> GetAll()
         {
             return _dbContext.Games
-                .AsNoTracking()
-                .Where(g => g.OwnerId == userId &&
-                    g.GameState != GameState.Deleted);
+                .AsNoTracking();
         }
 
         public async Task<int> Add(Game game, int questionsCount, bool randomizeQuestionOrder = false)
