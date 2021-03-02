@@ -21,69 +21,7 @@ namespace Integracja.Server.Web.Areas.PanelAdmina.Controllers
 
         public IActionResult Index()
         {
-            Model.Questions = QuestionService.GetAll(UserId).Result;
-            return View("Index",Model);
-        }
-
-        public async Task<IActionResult> CategoryDelete(int? id)
-        {
-            if (!id.HasValue)
-                return NotFound();
-
-            await CategoryService.Delete(id.Value, UserId);
-            return RedirectToAction("Index");
-        }
-
-        public async Task<IActionResult> QuestionUpdate(int? id)
-        {
-            QuestionViewModel viewModel = new QuestionViewModel("Pytanie", true, "PanelAdmina");
-
-            var question = await QuestionService.Get(id.Value, UserId);
-
-            var mapper = Mappers.WebAutoMapper.Initialize();
-
-            viewModel.Question = mapper.Map<QuestionModel>(question);
-
-            return View("~/Views/Shared/Question/_Question.cshtml", viewModel);
-        }
-
-        public async Task<IActionResult> QuestionDelete(int? id)
-        {
-            if (id.HasValue)
-                await QuestionService.Delete(id.Value, UserId);
-            return RedirectToAction("Index");
-        }
-
-        public async Task<IActionResult> AddAnswerField(int? id, [Bind(Prefix = "Question")] QuestionModel question)
-        {
-            question.AddAnswer();
-
-            QuestionViewModel viewModel = new QuestionViewModel("Pytanie", true, "PanelAdmina");
-
-            viewModel.Question = question;
-
-            return View("~/Views/Shared/Question/_Question.cshtml", viewModel);
-        }
-
-        public async Task<IActionResult> RemoveAnswerField(int? id, [Bind( Prefix = "Question")] QuestionModel question)
-        {
-            question.RemoveAnswer();
-
-            QuestionViewModel viewModel = new QuestionViewModel("Pytanie", true, "PanelAdmina");
-
-            viewModel.Question = question;
-
-            return View("~/Views/Shared/Question/_Question.cshtml", viewModel);
-        }
-
-        public async Task<IActionResult> ProcessQuestionForm(int? id, [Bind( Prefix = "Question")] QuestionModel question)
-        {
-            if (id.HasValue)
-                question.CategoryId = id.Value;
-
-            await QuestionService.Add(question.ToQuestionAdd() , UserId);
-
-            return RedirectToAction("Index");
+            return View("Index", Model);
         }
     }
 }

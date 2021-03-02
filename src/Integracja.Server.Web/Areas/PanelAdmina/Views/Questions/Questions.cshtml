@@ -1,7 +1,11 @@
-﻿@using Integracja.Server.Web.Areas.PanelAdmina.Models.Home
-@model HomeViewModel
+﻿@using Integracja.Server.Web.Areas.PanelAdmina.Models.Questions
+@using Integracja.Server.Web.Models.Shared.Question;
+@using static Integracja.Server.Web.Areas.PanelAdmina.Models.Questions.QuestionsViewModel;
+@model QuestionsViewModel
 
 <h2>Pytania</h2>
+<br />
+
 <div class="table-wrapper-scroll-y scrollbar-secondary">
     <table class="table table-bordered table-striped table-sm ">
         <thead>
@@ -24,11 +28,23 @@
                     <td>@question.CategoryId</td>
                     <td>@question.IsPublic</td>
                     <td>
-                        <a asp-action="QuestionUpdate" asp-route-id="@question.Id">Edycja</a> |
-                        <a asp-action="QuestionDelete" asp-route-id="@question.Id">Usuń</a>
+                        <a asp-action="@ActionNames.QuestionRead" asp-route-id="@question.Id">Edycja</a> |
+                        <a asp-action="@ActionNames.QuestionDelete" asp-route-id="@question.Id">Usuń</a>
                     </td>
                 </tr>
             }
         </tbody>
     </table>
+</div>
+
+<br />
+@{
+    string h2String = "Stwórz pytanie";
+    if (Model.QuestionViewModel.Question != default(QuestionModel)) // ==/!= not implemented actually
+        h2String = "Edytuj pytanie";
+}
+<h2>@h2String</h2>
+<br />
+<div>
+    @{ await Html.RenderPartialAsync("~/Views/Shared/Question/_Question.cshtml", Model.QuestionViewModel);}
 </div>
