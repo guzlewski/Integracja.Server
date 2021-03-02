@@ -17,6 +17,7 @@ namespace Integracja.Server.Web.Models.Shared.Question
         public int NegativePoints { get; set; }
         public QuestionScoring Scoring { get; set; }
         public int? CategoryId { get; set; }
+        public int? Id { get; set; }
 
         public const int DefaultAnswerCount = 4;
 
@@ -48,7 +49,11 @@ namespace Integracja.Server.Web.Models.Shared.Question
             var mapper = Mappers.WebAutoMapper.Initialize();
             return mapper.Map<QuestionAdd>(this);
         }
-
+        public QuestionModify ToQuestionModify()
+        {
+            var mapper = Mappers.WebAutoMapper.Initialize();
+            return mapper.Map<QuestionModify>(this);
+        }
         static public List<QuestionModel> ConvertToList( IEnumerable<QuestionGetAll> dtoList )
         {
             var mapper = Mappers.WebAutoMapper.Initialize();

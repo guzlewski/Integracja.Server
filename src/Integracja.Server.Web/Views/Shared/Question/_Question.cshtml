@@ -3,6 +3,8 @@
 
 <form id="@QuestionViewModel.FormId" asp-controller="@Model.Controller" asp-route-categoryId="@Model.Question.CategoryId">
 
+    <input type="hidden" asp-for="Question.Id" />
+
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="form-group">
         <label asp-for="Question.Content" class="control-label"></label>
