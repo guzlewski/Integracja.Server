@@ -17,10 +17,14 @@ namespace Integracja.Server.Web.Models.Shared.Question
         public QuestionScoring Scoring { get; set; }
         public int? CategoryId { get; set; }
 
-        public QuestionModel()
-        {
+        public const int DefaultAnswerCount = 4;
+
+        // taki domyślny konstruktor jest konieczny bo asp.net core nie ogarnia z domyślnym parametrem
+        public QuestionModel() : this(DefaultAnswerCount)
+        { 
         }
-        public QuestionModel(int answersCount)
+
+        public QuestionModel(int answersCount = DefaultAnswerCount)
         {
             Answers = new List<AnswerModel>();
             for (int i = 0; i < answersCount; ++i)

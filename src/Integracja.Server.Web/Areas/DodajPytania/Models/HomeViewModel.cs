@@ -19,7 +19,7 @@ namespace Integracja.Server.Web.Areas.DodajPytania.Models
         {
             Categories = new List<CategoryModel>();
             Category = new CategoryModel();
-            QuestionViewModel = new QuestionViewModel("Twoje pytanie", true, "Home");
+            QuestionViewModel = new QuestionViewModel();
         }
 
         // id używane w .cshtml

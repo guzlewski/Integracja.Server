@@ -1,8 +1,6 @@
 ﻿@using Integracja.Server.Web.Models.Shared.Question
 @model QuestionViewModel
 
-<h2>@Model.Title</h2>
-<br />
 <form id="@QuestionViewModel.FormId" asp-controller="@Model.Controller" asp-action="@QuestionViewModel.ActionNames.ProcessForm" asp-route-categoryId="@Model.Question.CategoryId">
 
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>

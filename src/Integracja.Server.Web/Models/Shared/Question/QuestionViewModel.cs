@@ -8,21 +8,19 @@ namespace Integracja.Server.Web.Models.Shared.Question
     public class QuestionViewModel : PageModel
     {
         public string Controller { get; private set; }
-        public string Title { get; private set; }
         public bool EditMode { get; private set; }
 
         [BindProperty]
         public QuestionModel Question { get; set; }
 
-        public const int DefaultAnswerCount = 4;
-
-        public QuestionViewModel(string title, bool editMode, string controllerName, int answerCount = DefaultAnswerCount) : base()
+        // EditMode miałby służyć wyświetlaniu widoku w wersji tylko do przeglądu dla użytkownika np.: dla strony przeglądania pytań
+        // nie wiem do końca jeszcze czy takie coś będzie, w jakiej postaci itd. więc na razie to martwy kod
+        public QuestionViewModel( bool editMode = true, string controllerName = "") : base()
         {
             Controller = controllerName;
-            Title = title;
             EditMode = editMode;
 
-            Question = new QuestionModel(answerCount);
+            Question = new QuestionModel();
         }
         
         public const string FormId = "QuestionFormId";
