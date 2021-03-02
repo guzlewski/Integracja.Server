@@ -1,6 +1,7 @@
 ﻿using Integracja.Server.Core.Enums;
 using Integracja.Server.Infrastructure.DTO;
 using Integracja.Server.Web.Models.Shared.Answer;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -46,6 +47,21 @@ namespace Integracja.Server.Web.Models.Shared.Question
         {
             var mapper = Mappers.WebAutoMapper.Initialize();
             return mapper.Map<QuestionAdd>(this);
+        }
+
+        static public List<QuestionModel> ConvertToList( IEnumerable<QuestionGetAll> dtoList )
+        {
+            var mapper = Mappers.WebAutoMapper.Initialize();
+            List<QuestionModel> resultList = new List<QuestionModel>();
+            foreach (var dtoQuestion in dtoList)
+                resultList.Add(mapper.Map<QuestionModel>(dtoQuestion));
+            return resultList;
+        }
+
+        public static explicit operator QuestionModel(QuestionGet v)
+        {
+            var mapper = Mappers.WebAutoMapper.Initialize();
+            return mapper.Map<QuestionModel>(v);
         }
     }
 }
