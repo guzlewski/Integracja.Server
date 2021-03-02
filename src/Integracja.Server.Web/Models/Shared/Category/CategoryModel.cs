@@ -11,6 +11,18 @@ namespace Integracja.Server.Web.Models.Shared.Category
         [Required(ErrorMessage = "Podaj nazwę kategorii")]
         public string Name { get; set; }
         public int QuestionsCount { get; set; }
+        public bool IsPublic { get; set; }
+
+        public CategoryModify ToCategoryModify()
+        {
+            var mapper = Mappers.WebAutoMapper.Initialize();
+            return mapper.Map<CategoryModify>(this);
+        }
+        public CategoryAdd ToCategoryAdd()
+        {
+            var mapper = Mappers.WebAutoMapper.Initialize();
+            return mapper.Map<CategoryAdd>(this);
+        }
 
         public static CategoryModel ConvertToCategoryModel( CategoryGet category )
         {

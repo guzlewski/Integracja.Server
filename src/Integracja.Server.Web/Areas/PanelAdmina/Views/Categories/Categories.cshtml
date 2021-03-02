@@ -1,7 +1,10 @@
 ﻿@using Integracja.Server.Web.Areas.PanelAdmina.Models.Categories
+@using static Integracja.Server.Web.Areas.PanelAdmina.Models.Categories.CategoriesViewModel.ActionNames
 @model CategoriesViewModel
 
 <h2>Kategorie</h2>
+<br />
+
 <div class="table-wrapper-scroll-y scrollbar-secondary">
     <table class="table table-bordered table-striped table-sm ">
         <thead>
@@ -26,10 +29,16 @@
                     <td>@category.IsPublic</td>
                     <td>@category.QuestionsCount</td>
                     <td>
-                        <a asp-action="CategoryDelete" asp-route-id="@category.Id">Usuń</a>
+                        <a asp-action="@CategoryRead" asp-route-id="@category.Id">Edycja</a> | 
+                        <a asp-action="@CategoryDelete" asp-route-id="@category.Id">Usuń</a>
                     </td>
                 </tr>
             }
         </tbody>
     </table>
+</div>
+
+<br />
+<div>
+    @{ await Html.RenderPartialAsync("_Category.cshtml", Model.Category);}
 </div>

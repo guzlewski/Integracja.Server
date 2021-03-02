@@ -1,0 +1,27 @@
+﻿@using Integracja.Server.Web.Models.Shared.Category
+@using static Integracja.Server.Web.Areas.PanelAdmina.Models.Categories.CategoriesViewModel
+@model CategoryModel
+
+@{ 
+    string h2String = "Stwórz kategorię";
+    if (Model.Name != null )
+        h2String = "Edytuj kategorię: " + Model.Name;
+}
+<h2>@h2String</h2>
+<br />
+
+<form>
+    <div class="form-group">
+        <input asp-for="Name" />
+        <input asp-for="IsPublic" class="form-check" type="checkbox" />
+        <input asp-for="Id" type="hidden"/>
+    </div>
+    <div class="form-group">
+        <button type="submit" asp-action="@ActionNames.CategoryUpdate">
+            Zaaktualizuj
+        </button>
+        <button type="submit" asp-action="@ActionNames.CategoryCreate">
+            Stwórz
+        </button>
+    </div>
+</form>
