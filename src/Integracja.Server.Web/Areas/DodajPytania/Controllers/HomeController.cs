@@ -77,7 +77,7 @@ namespace Integracja.Server.Web.Areas.DodajPytania.Controllers
         }
 
         [HttpPost, ValidateAntiForgeryToken]
-        public async Task<IActionResult> ProcessQuestionForm(
+        public async Task<IActionResult> QuestionCreate(
             int? categoryId,
             [Bind(Prefix = nameof(QuestionViewModel.Question))] QuestionModel question)
         {

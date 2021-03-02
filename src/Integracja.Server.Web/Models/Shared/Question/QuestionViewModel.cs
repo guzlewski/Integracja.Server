@@ -27,7 +27,7 @@ namespace Integracja.Server.Web.Models.Shared.Question
 
         public static class ActionNames
         {
-            public const string ProcessForm = nameof(IActions.ProcessQuestionForm);
+            public const string ProcessForm = nameof(IActions.QuestionCreate);
             public const string AddAnswerField = nameof(IActions.AddAnswerField);
             public const string RemoveAnswerField = nameof(IActions.RemoveAnswerField);
         }
@@ -44,7 +44,7 @@ namespace Integracja.Server.Web.Models.Shared.Question
             int? categoryId,
             [Bind(Prefix = nameof(Question))] QuestionModel question);
 
-            Task<IActionResult> ProcessQuestionForm(
+            Task<IActionResult> QuestionCreate(
             int? categoryId,
             [Bind(Prefix = nameof(Question))] QuestionModel question);
         }
