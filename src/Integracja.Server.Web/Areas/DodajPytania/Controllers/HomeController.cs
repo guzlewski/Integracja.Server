@@ -84,9 +84,7 @@ namespace Integracja.Server.Web.Areas.DodajPytania.Controllers
             if (categoryId.HasValue)
                 question.CategoryId = categoryId.Value;
 
-            var q = question.ToQuestionAdd();
-
-            await QuestionService.Add(q, UserId);
+            await QuestionService.Add(question.ToQuestionAdd(), UserId);
 
             return RedirectToAction("Index", new { categoryId });
         }
@@ -95,11 +93,7 @@ namespace Integracja.Server.Web.Areas.DodajPytania.Controllers
         public async Task<IActionResult> CategoryCreate(
             [Bind(Prefix = nameof(HomeViewModel.Category))] CategoryModel newCategory)
         {
-             var mapper = Mappers.WebAutoMapper.Initialize();
-
-            CategoryAdd categoryAdd = mapper.Map<CategoryAdd>(newCategory);
-
-            int categoryId = await CategoryService.Add(categoryAdd, UserId);
+            int categoryId = await CategoryService.Add(newCategory.ToCategoryAdd(), UserId);
 
             return RedirectToAction("Index", "Home", new { id = categoryId });
         }
