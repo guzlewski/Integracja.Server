@@ -93,5 +93,12 @@ namespace Integracja.Server.Web.Areas.PanelAdmina.Controllers
 
             return RedirectToAction("Index", new { question.Id });
         }
+
+        public async Task<IActionResult> QuestionReadToModal( int? id )
+        {
+            QuestionViewModel viewModel = new QuestionViewModel();
+            viewModel.Question = (QuestionModel)await QuestionService.Get(id.Value, UserId);
+            return PartialView("~/Views/Shared/Question/_Question.cshtml", viewModel);
+        }
     }
 }
