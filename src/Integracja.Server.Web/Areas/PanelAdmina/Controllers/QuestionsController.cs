@@ -96,7 +96,7 @@ namespace Integracja.Server.Web.Areas.PanelAdmina.Controllers
 
         public async Task<IActionResult> QuestionReadToModal( int? id )
         {
-            QuestionViewModel viewModel = new QuestionViewModel();
+            QuestionViewModel viewModel = new QuestionViewModel(false,false);
             viewModel.Question = (QuestionModel)await QuestionService.Get(id.Value, UserId);
             return PartialView("~/Views/Shared/Question/_Question.cshtml", viewModel);
         }
