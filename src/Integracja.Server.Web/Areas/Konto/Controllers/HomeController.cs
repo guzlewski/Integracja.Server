@@ -41,7 +41,7 @@ namespace Integracja.Server.Web.Areas.Konto.Controllers
                 {
                     await file.CopyToAsync(memoryStream);
 
-                    if (memoryStream.Length < 20971521111111111)
+                    if (memoryStream.Length < 209715211)
                     {
                         var user = await UserManager.FindByNameAsync(User.Identity.Name);
                         user.Picture = memoryStream.ToArray();
@@ -55,7 +55,7 @@ namespace Integracja.Server.Web.Areas.Konto.Controllers
                 }
             }
 
-            return RedirectToAction("Index", "Konto");
+            return RedirectToAction("Index");
         }
     }
 }

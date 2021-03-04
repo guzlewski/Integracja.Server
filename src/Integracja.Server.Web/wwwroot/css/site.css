@@ -171,7 +171,7 @@ a:active {
 .content {
     width: calc(100% - 250px);
     margin-left: 250px;
-    padding: 40px;
+    padding: 0 40px;
     min-height: 100vh;
     transition: all 0.3s;
     position: absolute;
@@ -188,12 +188,14 @@ a:active {
 ----------------------------------------------------- */
 
 .navbar {
-    padding: 15px 10px;
+    padding: 0 !important;
     background: #fff;
     border: none;
     border-radius: 0;
     margin-bottom: 40px;
     box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+    height: 70px;
+
 }
 
 #sidebarCollapse {
@@ -219,6 +221,11 @@ a:active {
     font-weight: 300;
     line-height: 1.7em;
     color: #999;
+}
+
+.btn{
+    margin-top: auto;
+    margin-bottom: auto;
 }
 
 /* ---------------------------------------------------

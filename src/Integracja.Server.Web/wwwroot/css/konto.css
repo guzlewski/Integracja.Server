@@ -7,8 +7,7 @@
 .profile_picture {
     width: 17rem;
     height: 17rem;
-    border: 0.5rem solid rgba(0, 0, 0, 0.1);
-    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+    border: 0.2rem solid rgba(0, 0, 0, 0.1);
 }
 
 @media (max-width: 992px) {
