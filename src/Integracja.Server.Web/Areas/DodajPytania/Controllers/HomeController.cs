@@ -116,5 +116,12 @@ namespace Integracja.Server.Web.Areas.DodajPytania.Controllers
         {
             throw new System.NotImplementedException();
         }
+
+        public FileContentResult Picture()
+        {
+            var user = UserManager.GetUserAsync(User);
+
+            return new FileContentResult(user.Result.Picture, "image/jpeg");
+        }
     }
 }
