@@ -1,19 +1,10 @@
 ﻿@using Integracja.Server.Web.Models.Shared.Question
 @model QuestionViewModel
 
-<script>
-
-    @* coś takiego by się przydało do przeglądania dla usera powiedzmy
-        ale to selectionchange może być problematyczne *@
-    document.addEventListener("selectionchange", function () {
-        @if(!Model.AllowEdit)
-        {
-            @:$("#@QuestionViewModel.FormId :input").attr("disabled", true);
-        }
-        }
-    );
-
-</script>
+@if (!Model.AllowEdit)
+{
+<script>disableFormInputs("@QuestionViewModel.FormId");</script>
+}
 
 <form id="@QuestionViewModel.FormId" asp-controller="@Model.Controller" asp-route-categoryId="@Model.Question.CategoryId">
 

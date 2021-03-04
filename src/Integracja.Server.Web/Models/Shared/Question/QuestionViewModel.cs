@@ -27,7 +27,7 @@ namespace Integracja.Server.Web.Models.Shared.Question
             Question = new QuestionModel();
         }
         
-        public const string FormId = "QuestionFormId";
+        public const string FormId = "question_form";
 
         public static class ActionNames
         {

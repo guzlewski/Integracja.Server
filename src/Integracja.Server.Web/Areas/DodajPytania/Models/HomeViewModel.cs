@@ -23,8 +23,8 @@ namespace Integracja.Server.Web.Areas.DodajPytania.Models
         }
 
         // id używane w .cshtml
-        public const string CategoryCreateFormId = "CategoryCreateFormId";
-        public static string CategoryReadFormId( int id ) => ("CategoryReadFormId"+id);
+        public const string CategoryCreateFormId = "category_form";
+        public static string CategoryReadFormId( int id ) => ("category_form_"+id);
 
         // używane do połączenia akcji od .cshtml do kontrolera
         public static class ActionNames
