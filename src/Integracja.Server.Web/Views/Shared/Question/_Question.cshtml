@@ -1,6 +1,20 @@
 ﻿@using Integracja.Server.Web.Models.Shared.Question
 @model QuestionViewModel
 
+<script>
+
+    @* coś takiego by się przydało do przeglądania dla usera powiedzmy
+        ale to selectionchange może być problematyczne *@
+    document.addEventListener("selectionchange", function () {
+        @if(!Model.AllowEdit)
+        {
+            @:$("#@QuestionViewModel.FormId :input").attr("disabled", true);
+        }
+        }
+    );
+
+</script>
+
 <form id="@QuestionViewModel.FormId" asp-controller="@Model.Controller" asp-route-categoryId="@Model.Question.CategoryId">
 
     <input type="hidden" asp-for="Question.Id" />
@@ -20,9 +34,7 @@
     {
         <div class="form-group">
             <div class="form-inline">
-
                 <input asp-for="Question.Answers[i].Content" class="form-control" />
-
                 <input asp-for="Question.Answers[i].IsCorrect" class="form-check" type="checkbox" />
             </div>
         </div>
@@ -67,18 +79,22 @@
 
     <br />
 
-    <div class="form-group">
-        <input type="submit" value="Dodaj pytanie" class="btn btn-primary" 
-               asp-action="@QuestionViewModel.ActionNames.QuestionCreate"
-               asp-route-categoryId="@Model.Question.CategoryId"/>
-        @{
-            if (Model.AllowUpdate)
+    @if (Model.AllowEdit)
+    {
+        <div class="form-group">
+            <input type="submit" value="Dodaj pytanie" class="btn btn-primary"
+                   asp-action="@QuestionViewModel.ActionNames.QuestionCreate"
+                   asp-route-categoryId="@Model.Question.CategoryId" />
+
+            @if (Model.AllowUpdate)
             {
-                <input type="submit" value="Zaaktualizuj pytanie" class="btn btn-primary" 
-                       asp-action="@QuestionViewModel.ActionNames.QuestionUpdate" 
-                       asp-route-categoryId="@Model.Question.CategoryId"/>
+                <input type="submit" value="Zaaktualizuj pytanie" class="btn btn-primary"
+                       asp-action="@QuestionViewModel.ActionNames.QuestionUpdate"
+                       asp-route-categoryId="@Model.Question.CategoryId" />
             }
-        }
-    </div>
+
+        </div>
+    }
+
 
 </form>

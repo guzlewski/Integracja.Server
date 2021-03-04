@@ -19,8 +19,10 @@ namespace Integracja.Server.Web.Models.Shared.Question
         public QuestionViewModel( bool allowUpdate = false, bool allowEdit = true, string controllerName = "") : base()
         {
             Controller = controllerName;
-            AllowUpdate = allowUpdate;
             AllowEdit = allowEdit;
+            if (AllowEdit == false) // jeśli nie można edytować nie można updatować
+                AllowUpdate = false;
+            else AllowUpdate = allowUpdate;
 
             Question = new QuestionModel();
         }

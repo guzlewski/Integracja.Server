@@ -28,6 +28,7 @@
                     <td>@question.CategoryId</td>
                     <td>@question.IsPublic</td>
                     <td>
+                        <a id="@question.Id" data-toggle="modal" data-target="#@ModalId" onclick="showQuestionModal(@question.Id)">Podgląd</a> | 
                         <a asp-action="@ActionNames.QuestionRead" asp-route-id="@question.Id">Edycja</a> |
                         <a asp-action="@ActionNames.QuestionDelete" asp-route-id="@question.Id">Usuń</a>
                     </td>
@@ -36,6 +37,27 @@
         </tbody>
     </table>
 </div>
+
+<div id="@ModalId" class="modal fade modal-scroll" tabindex="-1" data-replace="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                @* scroller psuje *@
+                @*
+                <div class="scroller" style="height:100px" data-always-visible="1" data-rail-visible1="1">
+                </div>
+                *@
+                <div id="@ModalContentId"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    showQuestionModal = function (id) {
+        $("#@ModalContentId").load("@Url.Action(ActionNames.QuestionReadToModal)", { id: id });
+    }
+</script>
 
 <br />
 @{
