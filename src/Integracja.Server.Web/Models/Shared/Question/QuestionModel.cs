@@ -18,6 +18,7 @@ namespace Integracja.Server.Web.Models.Shared.Question
         public QuestionScoring Scoring { get; set; }
         public int? CategoryId { get; set; }
         public int? Id { get; set; }
+        public bool IsPublic { get; set; }
 
         public const int DefaultAnswerCount = 4;
 
@@ -61,6 +62,12 @@ namespace Integracja.Server.Web.Models.Shared.Question
             foreach (var dtoQuestion in dtoList)
                 resultList.Add(mapper.Map<QuestionModel>(dtoQuestion));
             return resultList;
+        }
+
+        public static explicit operator QuestionModel(QuestionGetAll v)
+        {
+            var mapper = Mappers.WebAutoMapper.Initialize();
+            return mapper.Map<QuestionModel>(v);
         }
 
         public static explicit operator QuestionModel(QuestionGet v)

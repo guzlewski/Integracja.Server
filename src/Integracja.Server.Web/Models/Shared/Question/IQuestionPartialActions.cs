@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace Integracja.Server.Web.Models.Shared.Question
 {
-    interface IQuestionPartialActions
+    public interface IQuestionPartialActions
     {
         public const string NameOfQuestionCreate = nameof(IQuestionPartialActions.QuestionCreate);
         public const string NameOfQuestionUpdate = nameof(IQuestionPartialActions.QuestionUpdate);
