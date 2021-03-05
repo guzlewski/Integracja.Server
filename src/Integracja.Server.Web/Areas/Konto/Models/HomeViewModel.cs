@@ -8,20 +8,10 @@ namespace Integracja.Server.Web.Areas.Konto.Models
     public class HomeViewModel : PageModel
     {
         public KontoModel NewFile { get; set; }
-        
+
         public HomeViewModel() : base()
         {
             NewFile = new KontoModel();
-        }
-
-        public static class ActionNames
-        {
-            public const string UploadPicture = nameof(IActions.UploadPicture);
-        }
-
-        public interface IActions
-        {
-            Task<IActionResult> UploadPicture([Bind(Prefix = nameof(NewFile))] IFormFile file); 
         }
     }
 

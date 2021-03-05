@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace Integracja.Server.Web.Areas.Konto.Controllers
 {
     [Area("Konto")]
-    public class HomeController : ApplicationController, HomeViewModel.IActions
+    public class HomeController : ApplicationController, IHomeActions
     {
         private HomeViewModel Model { get; set; }
         public HomeController(UserManager<User> userManager, ApplicationDbContext dbContext) : base(userManager, dbContext)

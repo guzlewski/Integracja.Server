@@ -1,4 +1,6 @@
 ﻿@using Integracja.Server.Web.Areas.Konto.Models
+@using static Integracja.Server.Web.Areas.Konto.Models.HomeViewModel
+@using static Integracja.Server.Web.Areas.Konto.Models.IHomeActions
 @model HomeViewModel
 
 <link rel="stylesheet" href="~/css/konto.css" />
@@ -9,22 +11,22 @@
             <img src="@Url.Action("Picture")" class="profile_picture d-flex" />
 
             <div class="form-group">
-             
 
-                    <form enctype="multipart/form-data" method="post" asp-action="@HomeViewModel.ActionNames.UploadPicture">
-                        <div asp-validation-summary="All" class="text-danger"></div>
-                        <dl>
-                            <dt>
-                                <label> </label>
-                            </dt>
-                            <dd>
-                                <input asp-for="NewFile.File" name="file" type="file" accept=".jpg, .png">
-                            </dd>
-                        </dl>
-                        <input class="btn" type="submit" value="Upload">
-                    </form>
 
-          
+                <form enctype="multipart/form-data" method="post" asp-action="@NameOfUploadPicture">
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <dl>
+                        <dt>
+                            <label> </label>
+                        </dt>
+                        <dd>
+                            <input asp-for="NewFile.File" name="file" type="file" accept=".jpg, .png">
+                        </dd>
+                    </dl>
+                    <input class="btn" type="submit" value="Upload">
+                </form>
+
+
             </div>
         </div>
         <div class="col-xl-7 col-lg-6 col-12">
