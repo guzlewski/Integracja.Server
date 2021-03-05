@@ -17,21 +17,10 @@ namespace Integracja.Server.Web.Areas.PanelAdmina.Models.Questions
             QuestionViewModel = new QuestionPartialViewModel(Web.Models.Shared.Enums.ViewMode.Updating);
         }
 
-        public const string ModalId = "ModalId";
-        public const string ModalContentId = "ModalContentId";
-
-        public static class ActionNames
+        public static class Ids
         {
-            public const string QuestionRead = nameof(IActions.QuestionRead);
-            public const string QuestionReadToModal = nameof(IActions.QuestionReadToModal);
-            public const string QuestionDelete = nameof(IActions.QuestionDelete);
-        }
-
-        public interface IActions : IQuestionPartialActions
-        {
-            Task<IActionResult> QuestionReadToModal(int? id);
-            Task<IActionResult> QuestionRead(int? id);
-            Task<IActionResult> QuestionDelete(int? id);
+            public const string Modal = "ModalId";
+            public const string ModalContent = "ModalContentId";
         }
     }
 }

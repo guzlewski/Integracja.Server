@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace Integracja.Server.Web.Areas.PanelAdmina.Controllers
 {
     [Area("PanelAdmina")]
-    public class CategoriesController : ApplicationController, CategoriesViewModel.IActions
+    public class CategoriesController : ApplicationController, ICategoriesActions
     {
         private CategoriesViewModel Model { get; set; }
 

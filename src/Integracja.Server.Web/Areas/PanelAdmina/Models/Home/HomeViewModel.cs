@@ -1,7 +1,4 @@
-﻿using Integracja.Server.Core.Models.Identity;
-using Integracja.Server.Infrastructure.DTO;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Integracja.Server.Web.Areas.PanelAdmina.Models.Home
 {

@@ -1,10 +1,11 @@
 ﻿@using Integracja.Server.Web.Models.Shared.Category
 @using static Integracja.Server.Web.Areas.PanelAdmina.Models.Categories.CategoriesViewModel
+@using static Integracja.Server.Web.Areas.PanelAdmina.Models.Categories.ICategoriesActions
 @model CategoryModel
 
-@{ 
+@{
     string h2String = "Stwórz kategorię";
-    if (Model.Name != null )
+    if (Model.Name != null)
         h2String = "Edytuj kategorię: " + Model.Name;
 }
 <h2>@h2String</h2>
@@ -14,13 +15,13 @@
     <div class="form-group">
         <input asp-for="Name" />
         <input asp-for="IsPublic" class="form-check" type="checkbox" />
-        <input asp-for="Id" type="hidden"/>
+        <input asp-for="Id" type="hidden" />
     </div>
     <div class="form-group">
-        <button type="submit" asp-action="@ActionNames.CategoryUpdate">
+        <button type="submit" asp-action="@NameOfCategoryUpdate">
             Zaaktualizuj
         </button>
-        <button type="submit" asp-action="@ActionNames.CategoryCreate">
+        <button type="submit" asp-action="@NameOfCategoryCreate">
             Stwórz nową
         </button>
     </div>
