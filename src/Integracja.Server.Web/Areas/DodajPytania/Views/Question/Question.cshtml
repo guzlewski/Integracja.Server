@@ -1,0 +1,13 @@
+﻿@using Integracja.Server.Web.Areas.DodajPytania.Models.Question
+@using static Integracja.Server.Web.Areas.DodajPytania.Models.Question.QuestionViewModel
+@using static Integracja.Server.Web.Areas.DodajPytania.Models.Question.IQuestionActions
+@model QuestionViewModel
+
+<h2>Pytanie</h2>
+<br />
+
+<div class="row">
+    <div class="col-md-10">
+        @{ await Html.RenderPartialAsync("~/Views/Shared/Question/_Question.cshtml", Model); }
+    </div>
+</div>

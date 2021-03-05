@@ -1,97 +1,45 @@
-﻿@using Integracja.Server.Web.Areas.DodajPytania.Models
-@using Integracja.Server.Web.Models.Shared.Question
+﻿@using Integracja.Server.Web.Areas.DodajPytania.Models.Home
+@using static Integracja.Server.Web.Areas.DodajPytania.Models.Home.HomeViewModel
+@using static Integracja.Server.Web.Areas.DodajPytania.Models.Home.IHomeActions
 @model HomeViewModel
 
-@{
-    ViewData["Title"] = "View";
-}
-
-<h1>Dodaj pytania</h1>
+<h2>Pytania</h2>
 <br />
 
-<div class="row">
-
-    @*wybór i dodawanie kategorii*@
-    <div class="col-md-3">
-        <h2>Kategorie</h2>
-        <br />
-
-        @*tabela z przeglądem kategorii i możliwością wyboru*@
-        <div class="input-group">
-            <div class="form-outline">
-                <input type="search" placeholder="Nazwa kategorii" class="form-control" />
-            </div>
-            <button type="button" class="btn btn-primary">
-                <i class="bi bi-search"></i>
-            </button>
-        </div>
-        <br />
-
-        <div class="table-wrapper-scroll-y scrollbar-secondary">
-            <table class="table table-bordered table-striped table-sm ">
-                <thead>
-                    <tr>
-                        <th scope="col">Nazwa</th>
-                        <th scope="col">Ilość pytań</th>
-
-                    </tr>
-                </thead>
-                <tbody>
-                    @for (int i = 0; i < Model.Categories.Count; i++)
-                    {
-                        <tr>
-                            <td>
-                                @{
-                                    string formId = HomeViewModel.CategoryReadFormId(Model.Categories[i].Id);
-                                }
-                                <form id="@formId" asp-action="@HomeViewModel.ActionNames.CategoryRead" novalidate>
-                                    <button type="button" class="btn btn-light script-save-submit"
-                                            data-submit-form="@formId"
-                                            data-save-form="@QuestionViewModel.FormId"
-                                            data-save-url="@Url.Action(HomeViewModel.ActionNames.SaveQuestionForm)"
-                                            @*onclick="saveFormThenSubmitForm(this.dataset.saveForm,this.dataset.saveUrl,this.dataset.submitForm)"*@>
-                                        @Model.Categories[i].Name
-                                    </button>
-                                    <input type="hidden" asp-for="Category.Id" value="@Model.Categories[i].Id" />
-                                </form>
-                            </td>
-                            <td>@Model.Categories[i].QuestionsCount</td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
-
-        @*dodawanie kategorii*@
-        <form id="@HomeViewModel.CategoryCreateFormId" asp-action="@HomeViewModel.ActionNames.CategoryCreate">
-            <div class="form-group">
-                <input asp-for="Category.Name" placeholder="Nazwa twojej kategorii" />
-                <span asp-validation-for="Category.Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <button type="button" class="btn btn-primary script-save-submit"
-                        data-submit-form="@HomeViewModel.CategoryCreateFormId"
-                        data-save-form="@QuestionViewModel.FormId"
-                        data-save-url="@Url.Action(HomeViewModel.ActionNames.SaveQuestionForm)"
-                        @*onclick="saveFormThenSubmitForm(this.dataset.saveForm,this.dataset.saveUrl,this.dataset.submitForm)"*@>
-                    Dodaj kategorię
-                </button>
-            </div>
-        </form>
-
-    </div>
-
-    @*tworzenie pytania*@
-    <div class="col-md-7">
-        <h2>Twoje Pytanie</h2>
-        <br />
-        @{ await Html.RenderPartialAsync("~/Views/Shared/Question/_Question.cshtml", Model.QuestionViewModel); }
-    </div>
-
+<div class="table-wrapper-scroll-y scrollbar-secondary">
+    <table class="table table-bordered table-striped table-sm ">
+        <thead>
+            <tr>
+                <th scope="col">Treść</th>
+                <th scope="col">Kategoria</th>
+                <th scope="col">Twoje</th>
+                <th scope="col">Akcje</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var question in Model.Questions)
+            {
+                <tr>
+                    <td>@question.Content</td>
+                    <td>@question.CategoryId</td>
+                    <td>@(!question.IsPublic)</td>
+                    <td>
+                        <a asp-action="@NameOfGotoQuestionRead" asp-route-id="@question.Id">Podgląd</a> |
+                        <a asp-action="@NameOfGotoQuestionUpdate" asp-route-id="@question.Id">Edycja</a> |
+                        <a asp-action="@NameOfGotoQuestionDelete" asp-route-id="@question.Id">Usuń</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 </div>
 
-<script src="~/js/dodajPytania/index.js"></script>
+<br />
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+<div>
+    <a class="btn btn-primary"
+            asp-action="@NameOfGotoQuestionCreate">
+        Stwórz nowe pytanie
+    </a>
+</div>
+

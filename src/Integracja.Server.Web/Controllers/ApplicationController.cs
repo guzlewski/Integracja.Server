@@ -43,6 +43,8 @@ namespace Integracja.Server.Web.Controllers
             }
         }
 
+        public static string Name { get; private set; }
+
         protected ICategoryService CategoryService { get =>
         new CategoryService(new CategoryRepository(DbContext), Mapper); }
 
