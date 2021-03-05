@@ -20,26 +20,34 @@ namespace Integracja.Server.Web.Areas.DodajPytania.Controllers
         {
         }
 
-        public async Task<IActionResult> QuestionCreateStep1()
+        public async Task<IActionResult> QuestionCreateViewStep1()
         {
             return RedirectToAction("Index", CategorySelectController.Name);
         }
 
-        public async Task<IActionResult> QuestionCreateStep2(int categoryId)
+        public async Task<IActionResult> QuestionCreateViewStep2(int categoryId)
         {
             Model = new QuestionViewModel(ViewMode.Creating);
             Model.Question.CategoryId = categoryId;
             return View("Question", Model);
         }
 
-        public async Task<IActionResult> QuestionRead(int? id, bool? allowEdit)
+        public async Task<IActionResult> QuestionReadView(int? id )
         {
             Model = new QuestionViewModel();
             if( id.HasValue )
                 Model.Question = (QuestionModel)await QuestionService.Get(id.Value, UserId);
-            if (allowEdit.HasValue && allowEdit.Value == true)
-                Model.ViewMode = ViewMode.Updating;
-            else Model.ViewMode = ViewMode.Reading;
+            Model.ViewMode = ViewMode.Reading;
+            return View("Question", Model);
+        }
+
+
+        public async Task<IActionResult> QuestionUpdateView(int? id)
+        {
+            Model = new QuestionViewModel();
+            if (id.HasValue)
+                Model.Question = (QuestionModel)await QuestionService.Get(id.Value, UserId);
+            Model.ViewMode = ViewMode.Updating;
             return View("Question", Model);
         }
 
@@ -69,5 +77,6 @@ namespace Integracja.Server.Web.Areas.DodajPytania.Controllers
                 await QuestionService.Delete(id.Value, UserId);
             return RedirectToAction("Index", HomeController.Name);
         }
+
     }
 }

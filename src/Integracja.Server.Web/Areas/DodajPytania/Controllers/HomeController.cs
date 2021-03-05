@@ -38,17 +38,17 @@ namespace Integracja.Server.Web.Areas.DodajPytania.Controllers
 
         public async Task<IActionResult> GotoQuestionCreate()
         {
-            return RedirectToAction(IQuestionActions.NameOfQuestionCreateStep1, QuestionController.Name);
+            return RedirectToAction(IQuestionActions.NameOfQuestionCreateViewStep1, QuestionController.Name);
         }
 
         public async Task<IActionResult> GotoQuestionRead(int? id)
         {
-            return RedirectToAction(IQuestionActions.NameOfQuestionRead, QuestionController.Name, new { id = id });
+            return RedirectToAction(IQuestionActions.NameOfQuestionReadView, QuestionController.Name, new { id = id });
         }
 
         public async Task<IActionResult> GotoQuestionUpdate(int? id)
         {
-            return RedirectToAction(IQuestionActions.NameOfQuestionRead, QuestionController.Name, new { id = id, allowEdit = true });
+            return RedirectToAction(IQuestionActions.NameOfQuestionUpdateView, QuestionController.Name, new { id = id });
         }
 
         public async Task<IActionResult> GotoQuestionDelete(int? id)

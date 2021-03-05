@@ -42,7 +42,7 @@ namespace Integracja.Server.Web.Areas.DodajPytania.Controllers
 
         public async Task<IActionResult> GotoQuestionCreate(int id)
         {
-            return RedirectToAction(IQuestionActions.NameOfQuestionCreateStep2, QuestionController.Name, new { categoryId = id });
+            return RedirectToAction(IQuestionActions.NameOfQuestionCreateViewStep2, QuestionController.Name, new { categoryId = id });
         }
     }
 }

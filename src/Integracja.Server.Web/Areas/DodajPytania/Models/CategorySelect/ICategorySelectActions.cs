@@ -12,6 +12,6 @@ namespace Integracja.Server.Web.Areas.DodajPytania.Models.CategorySelect
 
         Task<IActionResult> CategoryRead(int? id);
         Task<IActionResult> CategoryCreate(CategoryModel category);
-        Task<IActionResult> GotoQuestionCreate(int id);
+        Task<IActionResult> GotoQuestionCreate(int categoryId);
     }
 }
