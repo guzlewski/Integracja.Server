@@ -9,12 +9,12 @@ namespace Integracja.Server.Web.Areas.PanelAdmina.Models.Questions
     public class QuestionsViewModel
     {
         public List<QuestionGetAll> Questions { get; set; }
-        public QuestionViewModel QuestionViewModel { get; set; }
+        public QuestionPartialViewModel QuestionViewModel { get; set; }
 
         public QuestionsViewModel() : base()
         {
             Questions = new List<QuestionGetAll>();
-            QuestionViewModel = new QuestionViewModel( true, true );
+            QuestionViewModel = new QuestionPartialViewModel(Web.Models.Shared.Enums.ViewMode.Updating);
         }
 
         public const string ModalId = "ModalId";
@@ -27,7 +27,7 @@ namespace Integracja.Server.Web.Areas.PanelAdmina.Models.Questions
             public const string QuestionDelete = nameof(IActions.QuestionDelete);
         }
 
-        public interface IActions : QuestionViewModel.IActions
+        public interface IActions : IQuestionPartialActions
         {
             Task<IActionResult> QuestionReadToModal(int? id);
             Task<IActionResult> QuestionRead(int? id);
