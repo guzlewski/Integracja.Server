@@ -1,12 +1,14 @@
 ﻿@using Integracja.Server.Web.Models.Shared.Question
-@model QuestionViewModel
+@using static Integracja.Server.Web.Models.Shared.Question.QuestionPartialViewModel
+@using static Integracja.Server.Web.Models.Shared.Question.IQuestionPartialActions
+@model QuestionPartialViewModel
 
 @if (!Model.AllowEdit)
 {
-<script>disableFormInputs("@QuestionViewModel.FormId");</script>
+    <script>disableFormInputs("@Ids.Form");</script>
 }
 
-<form id="@QuestionViewModel.FormId" asp-controller="@Model.Controller" asp-route-categoryId="@Model.Question.CategoryId">
+<form id="@Ids.Form" asp-controller="@Model.Controller" asp-route-categoryId="@Model.Question.CategoryId">
 
     <input type="hidden" asp-for="Question.Id" />
 
@@ -34,8 +36,8 @@
     @if (Model.AllowEdit)
     {
         <div class="form-group">
-            <input type="submit" asp-action="@QuestionViewModel.ActionNames.AddAnswerField" asp-route-categoryId="@Model.Question.CategoryId" formnovalidate value="Dodaj nową odpowiedź" class="btn btn-light" />
-            <input type="submit" asp-action="@QuestionViewModel.ActionNames.RemoveAnswerField" asp-route-categoryId="@Model.Question.CategoryId" formnovalidate value="Usuń odpowiedź" class="btn btn-light" />
+            <input type="submit" asp-action="@NameOfAddAnswerField" asp-route-categoryId="@Model.Question.CategoryId" formnovalidate value="Dodaj nową odpowiedź" class="btn btn-light" />
+            <input type="submit" asp-action="@NameOfRemoveAnswerField" asp-route-categoryId="@Model.Question.CategoryId" formnovalidate value="Usuń odpowiedź" class="btn btn-light" />
         </div>
     }
 
@@ -74,13 +76,13 @@
     {
         <div class="form-group">
             <input type="submit" value="Dodaj pytanie" class="btn btn-primary"
-                   asp-action="@QuestionViewModel.ActionNames.QuestionCreate"
+                   asp-action="@NameOfQuestionCreate"
                    asp-route-categoryId="@Model.Question.CategoryId" />
 
             @if (Model.AllowUpdate)
             {
                 <input type="submit" value="Zaaktualizuj pytanie" class="btn btn-primary"
-                       asp-action="@QuestionViewModel.ActionNames.QuestionUpdate"
+                       asp-action="@NameOfQuestionUpdate"
                        asp-route-categoryId="@Model.Question.CategoryId" />
             }
 
