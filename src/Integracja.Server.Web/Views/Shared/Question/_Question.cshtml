@@ -1,16 +1,13 @@
 ﻿@using Integracja.Server.Web.Models.Shared.Question
 @using static Integracja.Server.Web.Models.Shared.Question.QuestionPartialViewModel
 @using static Integracja.Server.Web.Models.Shared.Question.IQuestionPartialActions
+@using static Integracja.Server.Web.Models.Shared.Enums.ViewMode
 @model QuestionPartialViewModel
 
-@if (!Model.AllowEdit)
-{
-    <script>disableFormInputs("@Ids.Form");</script>
-}
-
-<form id="@Ids.Form" asp-controller="@Model.Controller" asp-route-categoryId="@Model.Question.CategoryId">
+<form id="@Ids.Form" asp-route-categoryId="@Model.Question.CategoryId">
 
     <input type="hidden" asp-for="Question.Id" />
+    <input type="hidden" asp-for="Question.CategoryId" />
 
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="form-group">
@@ -33,7 +30,7 @@
         </div>
     }
 
-    @if (Model.AllowEdit)
+    @if (Model.ViewMode == Updating || Model.ViewMode == Creating)
     {
         <div class="form-group">
             <input type="submit" asp-action="@NameOfAddAnswerField" asp-route-categoryId="@Model.Question.CategoryId" formnovalidate value="Dodaj nową odpowiedź" class="btn btn-light" />
@@ -72,14 +69,14 @@
 
     <br />
 
-    @if (Model.AllowEdit)
+    @if (Model.ViewMode == Creating)
     {
         <div class="form-group">
             <input type="submit" value="Dodaj pytanie" class="btn btn-primary"
                    asp-action="@NameOfQuestionCreate"
                    asp-route-categoryId="@Model.Question.CategoryId" />
 
-            @if (Model.AllowUpdate)
+            @if (Model.ViewMode == Updating)
             {
                 <input type="submit" value="Zaaktualizuj pytanie" class="btn btn-primary"
                        asp-action="@NameOfQuestionUpdate"
@@ -89,5 +86,9 @@
         </div>
     }
 
-
 </form>
+
+@if (Model.ViewMode == Reading)
+{
+    <script>disableFormInputs("@Ids.Form")</script>
+}
