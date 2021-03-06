@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Integracja.Server.Web.Areas.DodajPytania.Controllers
 {
-    [Area("DodajPytania")]
+    [Area("Pytania")]
     public class QuestionController : ApplicationController, IQuestionActions
     {
         private QuestionViewModel Model { get; set; }

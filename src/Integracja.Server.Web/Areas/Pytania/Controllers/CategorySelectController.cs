@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Integracja.Server.Web.Areas.DodajPytania.Controllers
 {
-    [Area("DodajPytania")]
+    [Area("Pytania")]
     public class CategorySelectController : ApplicationController, ICategorySelectActions
     {
         private CategorySelectViewModel Model { get; set; }
