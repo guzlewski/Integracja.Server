@@ -1,5 +1,6 @@
 ﻿using Integracja.Server.Core.Models.Identity;
 using Integracja.Server.Infrastructure.Data;
+using Integracja.Server.Infrastructure.DTO;
 using Integracja.Server.Web.Areas.DodajPytania.Models.Question;
 using Integracja.Server.Web.Controllers;
 using Integracja.Server.Web.Models.Shared.Enums;
@@ -18,6 +19,17 @@ namespace Integracja.Server.Web.Areas.DodajPytania.Controllers
 
         public QuestionController(UserManager<User> userManager, ApplicationDbContext dbContext) : base(userManager, dbContext)
         {
+        }
+
+        public IActionResult Index( string returnUrl )
+        {
+            if (returnUrl == null )
+            {
+                var question = TryRetrieveFromTempData<QuestionModel>();
+                Model = new QuestionViewModel(question);
+                return View("Question", Model);
+            }
+            else return RedirectToAction(returnUrl);
         }
 
         public async Task<IActionResult> QuestionCreateViewStep1()
@@ -41,7 +53,6 @@ namespace Integracja.Server.Web.Areas.DodajPytania.Controllers
             return View("Question", Model);
         }
 
-
         public async Task<IActionResult> QuestionUpdateView(int? id)
         {
             Model = new QuestionViewModel();
@@ -51,24 +62,52 @@ namespace Integracja.Server.Web.Areas.DodajPytania.Controllers
             return View("Question", Model);
         }
 
-        public Task<IActionResult> AddAnswerField(int? categoryId, QuestionModel question)
+        public async Task<IActionResult> AddAnswerField(int? categoryId, QuestionModel question)
         {
-            throw new System.NotImplementedException();
+            if (categoryId.HasValue)
+                question.CategoryId = categoryId.Value;
+
+            question.AddAnswer();
+
+            SaveToTempData(question);
+
+            /*Model = new QuestionViewModel(question);*/
+
+            return RedirectToAction("Index");
         }
 
-        public Task<IActionResult> RemoveAnswerField(int? categoryId, QuestionModel question)
+        public async Task<IActionResult> RemoveAnswerField(int? categoryId, QuestionModel question)
         {
-            throw new System.NotImplementedException();
+            if (categoryId.HasValue)
+                question.CategoryId = categoryId.Value;
+
+            question.RemoveAnswer();
+
+            SaveToTempData(question);
+
+            /*Model = new QuestionViewModel(question);*/
+
+            return RedirectToAction("Index");
         }
 
-        public Task<IActionResult> QuestionCreate(int? categoryId, QuestionModel question)
+        public async Task<IActionResult> QuestionCreate(int? categoryId, QuestionModel question)
         {
-            throw new System.NotImplementedException();
+            if (categoryId.HasValue)
+                question.CategoryId = categoryId.Value;
+
+            int questionId = await QuestionService.Add(question.ToQuestionAdd(), UserId);
+
+            return RedirectToAction("Index", new { id = categoryId });
         }
 
-        public Task<IActionResult> QuestionUpdate(int? categoryId, QuestionModel question)
+        public async Task<IActionResult> QuestionUpdate(int? categoryId, QuestionModel question)
         {
-            throw new System.NotImplementedException();
+            if (categoryId.HasValue)
+                question.CategoryId = categoryId.Value;
+
+            int questionId = await QuestionService.Update( question.Id.Value, question.ToQuestionModify(), UserId );
+
+            return RedirectToAction("Index", new { id = categoryId });
         }
 
         public async Task<IActionResult> QuestionDelete(int? id)
@@ -77,6 +116,5 @@ namespace Integracja.Server.Web.Areas.DodajPytania.Controllers
                 await QuestionService.Delete(id.Value, UserId);
             return RedirectToAction("Index", HomeController.Name);
         }
-
     }
 }

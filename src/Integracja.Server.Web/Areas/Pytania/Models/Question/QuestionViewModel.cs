@@ -12,5 +12,13 @@ namespace Integracja.Server.Web.Areas.DodajPytania.Models.Question
         public QuestionViewModel(ViewMode mode) : base(mode)
         {
         }
+
+        public QuestionViewModel(QuestionModel question)
+        {
+            this.Question = question;
+            if (question.Id.HasValue)
+                this.ViewMode = ViewMode.Updating;
+            else this.ViewMode = ViewMode.Creating;
+        }
     }
 }
