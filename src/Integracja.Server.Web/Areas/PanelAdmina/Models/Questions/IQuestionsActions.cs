@@ -7,14 +7,16 @@ using System.Threading.Tasks;
 
 namespace Integracja.Server.Web.Areas.PanelAdmina.Models.Questions
 {
-    public interface IQuestionsActions : IQuestionPartialActions
+    public interface IQuestionsActions
     {
-        public const string NameOfQuestionRead = nameof(QuestionRead);
-        public const string NameOfQuestionReadToModal = nameof(QuestionReadToModal);
-        public const string NameOfQuestionDelete = nameof(QuestionDelete);
+        public const string NameOfGotoQuestionRead = nameof(GotoQuestionRead);
+        public const string NameOfGotoQuestionDelete = nameof(GotoQuestionDelete);
+        public const string NameOfGotoQuestionUpdate = nameof(GotoQuestionUpdate);
+        public const string NameOfGotoQuestionCreate = nameof(GotoQuestionCreate);
 
-        Task<IActionResult> QuestionReadToModal(int? id);
-        Task<IActionResult> QuestionRead(int? id);
-        Task<IActionResult> QuestionDelete(int? id);
+        Task<IActionResult> GotoQuestionCreate(int? id);
+        Task<IActionResult> GotoQuestionRead(int? id);
+        Task<IActionResult> GotoQuestionDelete(int? id);
+        Task<IActionResult> GotoQuestionUpdate(int? id);
     }
 }

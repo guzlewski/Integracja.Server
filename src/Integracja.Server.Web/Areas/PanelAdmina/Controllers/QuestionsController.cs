@@ -21,84 +21,30 @@ namespace Integracja.Server.Web.Areas.PanelAdmina.Controllers
 
         public async Task<IActionResult> Index( int? id )
         {
-            if( id.HasValue )
-            {
-                QuestionModel savedForm = TryRetrieveFromTempData<QuestionModel>();
-                if (savedForm != default(QuestionModel)) // ==/!= not implemented ? 
-                {
-                    Model.QuestionViewModel.Question = savedForm;
-                }
-                else Model.QuestionViewModel.Question = (QuestionModel)await QuestionService.Get(id.Value, UserId);
-            }
-
             Model.Questions = (System.Collections.Generic.List<Infrastructure.DTO.QuestionGetAll>)await QuestionService.GetAll(UserId);
             return View("Questions", Model);
         }
 
-        public async Task<IActionResult> QuestionRead(int? id)
+        public async Task<IActionResult> GotoQuestionRead(int? id)
         {
             return RedirectToAction("Index", new { id = id });
         }
 
-        public async Task<IActionResult> QuestionDelete(int? id)
+        public async Task<IActionResult> GotoQuestionDelete(int? id)
         {
             if (id.HasValue)
                 await QuestionService.Delete(id.Value, UserId);
             return RedirectToAction("Index");
         }
 
-        public async Task<IActionResult> AddAnswerField(int? categoryId, QuestionModel question)
+        public Task<IActionResult> GotoQuestionCreate(int? id)
         {
-            if (categoryId.HasValue)
-                question.CategoryId = categoryId.Value;
-
-            question.AddAnswer();
-
-            SaveToTempData(question);
-
-            return RedirectToAction("Index", new { id = question.Id });
+            throw new System.NotImplementedException();
         }
 
-        public async Task<IActionResult> RemoveAnswerField(int? categoryId, QuestionModel question)
+        public Task<IActionResult> GotoQuestionUpdate(int? id)
         {
-            if (categoryId.HasValue)
-                question.CategoryId = categoryId.Value;
-
-            question.RemoveAnswer();
-
-            SaveToTempData(question);
-
-            return RedirectToAction("Index", new { id = question.Id });
-        }
-
-        public async Task<IActionResult> QuestionCreate(int? categoryId, QuestionModel question)
-        {
-            if (categoryId.HasValue)
-                question.CategoryId = categoryId.Value;
-
-            var q = question.ToQuestionAdd();
-            q.IsPublic = true; // dodane z panelu admina więc publiczne
-
-            int questionId = await QuestionService.Add(q, UserId);
-
-            return RedirectToAction("Index", new { id = questionId });
-        }
-
-        public async Task<IActionResult> QuestionUpdate(int? categoryId, QuestionModel question)
-        {
-            var q = question.ToQuestionModify();
-
-            if( question.Id.HasValue) // zawsze powinien mieć ale ¯\_(ツ)_/¯
-                await QuestionService.Update( question.Id.Value, q, UserId);
-
-            return RedirectToAction("Index", new { question.Id });
-        }
-
-        public async Task<IActionResult> QuestionReadToModal( int? id )
-        {
-            QuestionPartialViewModel viewModel = new QuestionPartialViewModel(Web.Models.Shared.Enums.ViewMode.Reading);
-            viewModel.Question = (QuestionModel)await QuestionService.Get(id.Value, UserId);
-            return PartialView("~/Views/Shared/Question/_Question.cshtml", viewModel);
+            throw new System.NotImplementedException();
         }
     }
 }

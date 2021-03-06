@@ -29,9 +29,9 @@
                     <td>@question.CategoryId</td>
                     <td>@question.IsPublic</td>
                     <td>
-                        <a id="@question.Id" data-toggle="modal" data-target="#@Ids.Modal" onclick="showQuestionModal(@question.Id)">Podgląd</a> |
-                        <a asp-action="@NameOfQuestionRead" asp-route-id="@question.Id">Edycja</a> |
-                        <a asp-action="@NameOfQuestionDelete" asp-route-id="@question.Id">Usuń</a>
+                        <a asp-action="@NameOfGotoQuestionRead">Podgląd</a> |
+                        <a asp-action="@NameOfGotoQuestionUpdate" asp-route-id="@question.Id">Edycja</a> |
+                        <a asp-action="@NameOfGotoQuestionDelete" asp-route-id="@question.Id">Usuń</a>
                     </td>
                 </tr>
             }
@@ -39,35 +39,7 @@
     </table>
 </div>
 
-<div id="@Ids.Modal" class="modal fade modal-scroll" tabindex="-1" data-replace="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-body">
-                @* scroller psuje *@
-                @*
-                    <div class="scroller" style="height:100px" data-always-visible="1" data-rail-visible1="1">
-                    </div>
-                *@
-                <div id="@Ids.ModalContent"></div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<script>
-    showQuestionModal = function (id) {
-        $("#@Ids.ModalContent").load("@Url.Action(NameOfQuestionReadToModal)", { id: id });
-    }
-</script>
-
-<br />
-@{
-    string h2String = "Stwórz pytanie";
-    if (Model.QuestionViewModel.Question != default(QuestionModel)) // ==/!= not implemented actually
-        h2String = "Edytuj pytanie";
-}
-<h2>@h2String</h2>
-<br />
 <div>
-    @{ await Html.RenderPartialAsync("~/Views/Shared/Question/_Question.cshtml", Model.QuestionViewModel);}
+    <a asp-action="@NameOfGotoQuestionCreate">Stwórz pytanie</a>
 </div>
+
