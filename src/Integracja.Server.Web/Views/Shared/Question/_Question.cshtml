@@ -69,24 +69,27 @@
 
     <br />
 
-    @if (Model.ViewMode == Creating)
-    {
-        <div class="form-group">
+    <div class="form-group">
+        @if (Model.ViewMode == Creating)
+        {
+
             <input type="submit" value="Dodaj pytanie" class="btn btn-primary"
                    asp-action="@NameOfQuestionCreate"
                    asp-route-categoryId="@Model.Question.CategoryId" />
+        }
+        @if (Model.ViewMode == Updating)
+        {
+            <input type="submit" value="Dodaj jako nowe pytanie" class="btn btn-primary"
+                   asp-action="@NameOfQuestionCreate"
+                   asp-route-categoryId="@Model.Question.CategoryId" />
 
-            @if (Model.ViewMode == Updating)
-            {
-                <input type="submit" value="Zaaktualizuj pytanie" class="btn btn-primary"
-                       asp-action="@NameOfQuestionUpdate"
-                       asp-route-categoryId="@Model.Question.CategoryId" />
-            }
+            <input type="submit" value="Zaaktualizuj pytanie" class="btn btn-primary"
+                   asp-action="@NameOfQuestionUpdate"
+                   asp-route-categoryId="@Model.Question.CategoryId" />
+        }
+    </div>
 
-        </div>
-    }
-
-</form>
+    </form>
 
 @if (Model.ViewMode == Reading)
 {
