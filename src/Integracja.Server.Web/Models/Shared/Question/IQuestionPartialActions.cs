@@ -11,19 +11,15 @@ namespace Integracja.Server.Web.Models.Shared.Question
         public const string NameOfRemoveAnswerField = nameof(IQuestionPartialActions.RemoveAnswerField);
 
         Task<IActionResult> AddAnswerField(
-        int? categoryId,
         QuestionModel question);
 
         Task<IActionResult> RemoveAnswerField(
-        int? categoryId,
         QuestionModel question);
 
         Task<IActionResult> QuestionCreate(
-        int? categoryId,
         QuestionModel question);
 
         Task<IActionResult> QuestionUpdate(
-        int? categoryId,
         QuestionModel question);
     }
 }

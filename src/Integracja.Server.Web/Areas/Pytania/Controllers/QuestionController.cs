@@ -45,76 +45,60 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
             return View("Question", Model);
         }
 
-        public async Task<IActionResult> QuestionReadView(int? id )
+        public async Task<IActionResult> QuestionReadView(int? questionId )
         {
             Model = new QuestionViewModel();
-            if( id.HasValue )
-                Model.Question = (QuestionModel)await QuestionService.Get(id.Value, UserId);
+            if( questionId.HasValue )
+                Model.Question = (QuestionModel)await QuestionService.Get(questionId.Value, UserId);
             Model.ViewMode = ViewMode.Reading;
             return View("Question", Model);
         }
 
-        public async Task<IActionResult> QuestionUpdateView(int? id)
+        public async Task<IActionResult> QuestionUpdateView(int? questionId)
         {
             Model = new QuestionViewModel();
-            if (id.HasValue)
-                Model.Question = (QuestionModel)await QuestionService.Get(id.Value, UserId);
+            if (questionId.HasValue)
+                Model.Question = (QuestionModel)await QuestionService.Get(questionId.Value, UserId);
             Model.ViewMode = ViewMode.Updating;
             return View("Question", Model);
         }
 
-        public async Task<IActionResult> AddAnswerField(int? categoryId, QuestionModel question)
+        public async Task<IActionResult> AddAnswerField(QuestionModel question)
         {
-            if (categoryId.HasValue)
-                question.CategoryId = categoryId.Value;
-
             question.AddAnswer();
 
             SaveToTempData(question);
 
-            /*Model = new QuestionViewModel(question);*/
-
             return RedirectToAction("Index");
         }
 
-        public async Task<IActionResult> RemoveAnswerField(int? categoryId, QuestionModel question)
+        public async Task<IActionResult> RemoveAnswerField(QuestionModel question)
         {
-            if (categoryId.HasValue)
-                question.CategoryId = categoryId.Value;
-
             question.RemoveAnswer();
 
             SaveToTempData(question);
 
-            /*Model = new QuestionViewModel(question);*/
+            return RedirectToAction("Index");
+        }
+
+        public async Task<IActionResult> QuestionCreate(QuestionModel question)
+        {
+            int questionId = await QuestionService.Add(question.ToQuestionAdd(), UserId);
 
             return RedirectToAction("Index");
         }
 
-        public async Task<IActionResult> QuestionCreate(int? categoryId, QuestionModel question)
+        public async Task<IActionResult> QuestionUpdate(QuestionModel question)
         {
-            if (categoryId.HasValue)
-                question.CategoryId = categoryId.Value;
-
-            int questionId = await QuestionService.Add(question.ToQuestionAdd(), UserId);
-
-            return RedirectToAction("Index", new { id = categoryId });
-        }
-
-        public async Task<IActionResult> QuestionUpdate(int? categoryId, QuestionModel question)
-        {
-            if (categoryId.HasValue)
-                question.CategoryId = categoryId.Value;
-
             int questionId = await QuestionService.Update( question.Id.Value, question.ToQuestionModify(), UserId );
 
-            return RedirectToAction("Index", new { id = categoryId });
+            return RedirectToAction("Index");
         }
 
-        public async Task<IActionResult> QuestionDelete(int? id)
+        public async Task<IActionResult> QuestionDelete(int? questionId)
         {
-            if (id.HasValue)
-                await QuestionService.Delete(id.Value, UserId);
+            if (questionId.HasValue)
+                await QuestionService.Delete(questionId.Value, UserId);
             return RedirectToAction("Index", HomeController.Name);
         }
     }

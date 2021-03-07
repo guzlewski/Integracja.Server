@@ -43,17 +43,17 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
 
         public async Task<IActionResult> GotoQuestionRead(int? id)
         {
-            return RedirectToAction(IQuestionActions.NameOfQuestionReadView, QuestionController.Name, new { id = id });
+            return RedirectToAction(IQuestionActions.NameOfQuestionReadView, QuestionController.Name, new { questionId = id });
         }
 
         public async Task<IActionResult> GotoQuestionUpdate(int? id)
         {
-            return RedirectToAction(IQuestionActions.NameOfQuestionUpdateView, QuestionController.Name, new { id = id });
+            return RedirectToAction(IQuestionActions.NameOfQuestionUpdateView, QuestionController.Name, new { questionId = id });
         }
 
         public async Task<IActionResult> GotoQuestionDelete(int? id)
         {
-            return RedirectToAction(IQuestionActions.NameOfQuestionDelete, QuestionController.Name, new { id = id } );
+            return RedirectToAction(IQuestionActions.NameOfQuestionDelete, QuestionController.Name, new { questionId = id } );
         }
     }
 }
