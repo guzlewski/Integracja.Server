@@ -5,13 +5,13 @@ using Integracja.Server.Infrastructure.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 
-namespace Integracja.Server.Infrastructure.Jwt
+namespace Integracja.Server.Infrastructure.Utilities
 {
-    public class SessionCheckJwtBearerEvents : JwtBearerEvents
+    public class ApplicationJwtBearerEvents : JwtBearerEvents
     {
         private readonly ApplicationDbContext _context;
 
-        public SessionCheckJwtBearerEvents(ApplicationDbContext context)
+        public ApplicationJwtBearerEvents(ApplicationDbContext context)
         {
             _context = context;
         }

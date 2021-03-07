@@ -2,9 +2,10 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using Integracja.Server.Infrastructure.Jwt;
 using Integracja.Server.Infrastructure.Models;
-using Integracja.Server.Infrastructure.Services.Interfaces.Implementations;
+using Integracja.Server.Infrastructure.Services.Interfaces;
+using Integracja.Server.Infrastructure.Settings;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Integracja.Server.Infrastructure.Services.Implementations
@@ -13,9 +14,9 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
     {
         private readonly JwtSettings _jwtSettings;
 
-        public TokenService(JwtSettings jwtSettings)
+        public TokenService(IOptions<JwtSettings> options)
         {
-            _jwtSettings = jwtSettings;
+            _jwtSettings = options.Value;
         }
 
         public TokenDto GenerateToken(int userId, Guid sessionGuid)
@@ -31,7 +32,7 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
             var expireDate = nowDate.AddSeconds(_jwtSettings.TokenExpirationTime);
 
             var handler = new JwtSecurityTokenHandler();
-            var token = handler.CreateEncodedJwt(_jwtSettings.ValidIssuer, _jwtSettings.ValidAudience, claimsIdentity, nowDate, expireDate, nowDate, signingCredentials);
+            var token = handler.CreateEncodedJwt(_jwtSettings.Issuer, _jwtSettings.Audience, claimsIdentity, nowDate, expireDate, nowDate, signingCredentials);
 
             return new TokenDto()
             {

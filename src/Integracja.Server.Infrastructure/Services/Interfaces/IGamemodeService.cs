@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Integracja.Server.Infrastructure.Models;
 
-namespace Integracja.Server.Infrastructure.Services.Implementations
+namespace Integracja.Server.Infrastructure.Services.Interfaces
 {
     public interface IGamemodeService
     {

@@ -4,7 +4,7 @@ using Integracja.Server.Core.Models.Identity;
 using Integracja.Server.Infrastructure.Data;
 using Integracja.Server.Infrastructure.Exceptions;
 using Integracja.Server.Infrastructure.Models;
-using Integracja.Server.Infrastructure.Services.Interfaces.Implementations;
+using Integracja.Server.Infrastructure.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 

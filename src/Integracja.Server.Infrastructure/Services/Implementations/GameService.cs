@@ -9,6 +9,7 @@ using Integracja.Server.Core.Models.Base;
 using Integracja.Server.Core.Repositories;
 using Integracja.Server.Infrastructure.Exceptions;
 using Integracja.Server.Infrastructure.Models;
+using Integracja.Server.Infrastructure.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Integracja.Server.Infrastructure.Services.Implementations

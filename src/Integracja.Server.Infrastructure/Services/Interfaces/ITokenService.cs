@@ -1,7 +1,7 @@
 ﻿using System;
 using Integracja.Server.Infrastructure.Models;
 
-namespace Integracja.Server.Infrastructure.Services.Interfaces.Implementations
+namespace Integracja.Server.Infrastructure.Services.Interfaces
 {
     public interface ITokenService
     {

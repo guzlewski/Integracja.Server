@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
-namespace Integracja.Server.Api.Services
+namespace Integracja.Server.Api.Utilities
 {
     public class AuthorizeOperationFilter : IOperationFilter
     {

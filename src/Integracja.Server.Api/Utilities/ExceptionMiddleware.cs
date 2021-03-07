@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Integracja.Server.Infrastructure.Exceptions;
 using Microsoft.AspNetCore.Http;
 
-namespace Integracja.Server.Api.Services
+namespace Integracja.Server.Api.Utilities
 {
     public class ExceptionMiddleware
     {
