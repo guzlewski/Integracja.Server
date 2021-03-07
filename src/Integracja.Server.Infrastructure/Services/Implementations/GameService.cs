@@ -56,7 +56,7 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
             game.OwnerId = userId;
             game.Guid = Guid.NewGuid();
 
-            return await _gameRepository.Add(game, createGameDto.QuestionsCount.Value, createGameDto.RandomizeQuestionOrder.Value);
+            return await _gameRepository.Add(game, createGameDto.RandomizeQuestionOrder.Value);
         }
 
         public async Task Delete(int id, int userId)

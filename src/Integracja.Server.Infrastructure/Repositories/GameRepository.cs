@@ -37,7 +37,7 @@ namespace Integracja.Server.Infrastructure.Repositories
                 .AsNoTracking();
         }
 
-        public async Task<int> Add(Game game, int questionsCount, bool randomizeQuestionOrder = false)
+        public async Task<int> Add(Game game, bool randomizeQuestionOrder = false)
         {
             var ids = game.Questions.Select(gq => gq.QuestionId);
             var entities = await _dbContext.Questions
@@ -56,7 +56,7 @@ namespace Integracja.Server.Infrastructure.Repositories
                 throw new BadRequestException("None question from pool is available.");
             }
 
-            game.Questions = SelectQuestions(game.Questions, entities, questionsCount, randomizeQuestionOrder);
+            game.Questions = SelectQuestions(game.Questions, entities, game.QuestionsCount, randomizeQuestionOrder);
 
             await _dbContext.AddAsync(game);
             await _dbContext.SaveChangesAsync();
