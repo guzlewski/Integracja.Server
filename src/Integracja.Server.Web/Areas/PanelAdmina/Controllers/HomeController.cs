@@ -2,10 +2,8 @@
 using Integracja.Server.Infrastructure.Data;
 using Integracja.Server.Web.Areas.PanelAdmina.Models.Home;
 using Integracja.Server.Web.Controllers;
-using Integracja.Server.Web.Models.Shared.Question;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
 
 namespace Integracja.Server.Web.Areas.PanelAdmina.Controllers
 {
