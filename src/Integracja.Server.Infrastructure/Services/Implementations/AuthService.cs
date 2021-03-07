@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using AutoMapper;
 using Integracja.Server.Core.Models.Identity;
 using Integracja.Server.Infrastructure.Data;
 using Integracja.Server.Infrastructure.Exceptions;
@@ -16,13 +17,15 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
         private readonly ApplicationDbContext _context;
         private readonly ILookupNormalizer _normalizer;
         private readonly ITokenService _tokenService;
+        private readonly IMapper _mapper;
 
-        public AuthService(UserManager<User> userManager, ApplicationDbContext context, ILookupNormalizer normalizer, ITokenService tokenService)
+        public AuthService(UserManager<User> userManager, ApplicationDbContext context, ILookupNormalizer normalizer, ITokenService tokenService, IMapper mapper)
         {
             _userManager = userManager;
             _context = context;
             _normalizer = normalizer;
             _tokenService = tokenService;
+            _mapper = mapper;
         }
 
         public async Task<UserDto> Login(LoginDto dto)
@@ -40,10 +43,9 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
             user.SessionGuid = sessionGuid;
             await _context.SaveChangesAsync();
 
-            return new UserDto
-            {
-                Token = _tokenService.GenerateToken(user.Id, sessionGuid)
-            };
+            var token = _tokenService.GenerateToken(user.Id, sessionGuid);
+
+            return _mapper.Map<UserDto>(user, opts => opts.Items["tokenDto"] = token);
         }
 
         public async Task Logout(int userId)
