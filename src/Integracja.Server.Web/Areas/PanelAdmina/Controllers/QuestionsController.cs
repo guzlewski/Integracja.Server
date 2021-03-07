@@ -1,10 +1,8 @@
 ﻿using Integracja.Server.Core.Models.Identity;
 using Integracja.Server.Infrastructure.Data;
-using Integracja.Server.Web.Areas.Pytania.Controllers;
-using Integracja.Server.Web.Areas.Pytania.Models.Question;
+using Integracja.Server.Web.Areas.PanelAdmina.Models.Question;
 using Integracja.Server.Web.Areas.PanelAdmina.Models.Questions;
 using Integracja.Server.Web.Controllers;
-using Integracja.Server.Web.Models.Shared.Question;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -29,24 +27,22 @@ namespace Integracja.Server.Web.Areas.PanelAdmina.Controllers
 
         public async Task<IActionResult> GotoQuestionRead(int? id)
         {
-            return RedirectToAction("Index", new { id = id });
+            return RedirectToAction(IQuestionActions.NameOfQuestionReadView, QuestionController.Name, new { id = id });
         }
 
         public async Task<IActionResult> GotoQuestionDelete(int? id)
         {
-            if (id.HasValue)
-                await QuestionService.Delete(id.Value, UserId);
-            return RedirectToAction("Index");
+            return RedirectToAction(IQuestionActions.NameOfQuestionDelete, QuestionController.Name, new { id = id });
         }
 
         public async Task<IActionResult> GotoQuestionCreate(int? id)
         {
-            return RedirectToAction(IQuestionActions.NameOfQuestionCreateViewStep1, QuestionController.Name);
+            return RedirectToAction(IQuestionActions.NameOfQuestionCreateViewStep1, QuestionController.Name, new { id = id });
         }
 
         public async Task<IActionResult> GotoQuestionUpdate(int? id)
         {
-            return RedirectToAction(IQuestionActions.NameOfQuestionUpdateView, QuestionController.Name);
+            return RedirectToAction(IQuestionActions.NameOfQuestionUpdateView, QuestionController.Name, new { id = id } );
         }
     }
 }
