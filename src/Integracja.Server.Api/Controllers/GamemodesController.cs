@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Integracja.Server.Infrastructure.Models;
-using Integracja.Server.Infrastructure.Services;
+using Integracja.Server.Infrastructure.Services.Implementations;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 

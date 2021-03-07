@@ -2,11 +2,12 @@
 using System.Security.Cryptography;
 using System.Threading;
 
-namespace Integracja.Server.Infrastructure.Services.Implementations
+namespace Integracja.Server.Infrastructure.Utilities
 {
     public class ThreadSafeRandom : Random
     {
         private static readonly RNGCryptoServiceProvider _generator = new RNGCryptoServiceProvider();
+
         private readonly ThreadLocal<Random> _random = new ThreadLocal<Random>(() =>
         {
             var buffer = new byte[4];

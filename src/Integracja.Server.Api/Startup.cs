@@ -4,11 +4,11 @@ using Integracja.Server.Api.Services;
 using Integracja.Server.Core.Models.Identity;
 using Integracja.Server.Core.Repositories;
 using Integracja.Server.Infrastructure.Data;
-using Integracja.Server.Infrastructure.Extensions;
+using Integracja.Server.Infrastructure.Jwt;
 using Integracja.Server.Infrastructure.Repositories;
 using Integracja.Server.Infrastructure.Services;
 using Integracja.Server.Infrastructure.Services.Implementations;
-using Integracja.Server.Infrastructure.Settings;
+using Integracja.Server.Infrastructure.Utilities;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -61,9 +61,11 @@ namespace Integracja.Server.Api
             services.AddIdentity<User, Role>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
-            services.Configure<JwtSettings>(Configuration.GetSection("Jwt"));
-            services.ConfigureJwt(Configuration);
-            services.AddScoped<ITokenService, TokenService>();
+            services.AddJwtSettings(Configuration);
+            services.AddJwtAuthentication(Configuration);
+
+            services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<SessionCheckJwtBearerEvents>();
 
             services.AddAutoMapper(typeof(ApplicationDbContext).Assembly);
 
@@ -76,10 +78,6 @@ namespace Integracja.Server.Api
             services.AddScoped<IGameRepository, GameRepository>();
             services.AddScoped<IGameService, GameService>();
             services.AddSingleton<Random, ThreadSafeRandom>();
-            services.AddScoped<IGameUserRepository, GameUserRepository>();
-            services.AddScoped<IGameUserService, GameUserService>();
-            services.AddScoped<IGameQuestionRepository, GameQuestionRepository>();
-            services.AddScoped<IGameQuestionService, GameQuestionService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

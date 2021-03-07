@@ -1,4 +1,4 @@
-﻿namespace Integracja.Server.Infrastructure.Settings
+﻿namespace Integracja.Server.Infrastructure.Jwt
 {
     public class JwtSettings
     {

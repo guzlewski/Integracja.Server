@@ -4,14 +4,18 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 
-namespace Integracja.Server.Infrastructure.Extensions
+namespace Integracja.Server.Infrastructure.Jwt
 {
-    public static class ConfigureJwtExtension
+    public static class JwtServiceCollectionExtensions
     {
-        public static void ConfigureJwt(this IServiceCollection services, IConfiguration configuration)
+        public static void AddJwtSettings(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.Configure<JwtSettings>(configuration.GetSection("Jwt"));
+        }
+
+        public static void AddJwtAuthentication(this IServiceCollection services, IConfiguration configuration)
         {
             var signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(configuration["Jwt:SecretKey"]));
-
             var tokenValidationParameters = new TokenValidationParameters
             {
                 IssuerSigningKey = signingKey,
@@ -26,8 +30,8 @@ namespace Integracja.Server.Infrastructure.Extensions
             })
             .AddJwtBearer(c =>
             {
-                c.RequireHttpsMetadata = true;
-                c.SaveToken = true;
+                c.EventsType = typeof(SessionCheckJwtBearerEvents);
+                c.SaveToken = false;
                 c.TokenValidationParameters = tokenValidationParameters;
             });
         }

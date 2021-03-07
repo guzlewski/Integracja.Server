@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Integracja.Server.Infrastructure.DTO
+namespace Integracja.Server.Infrastructure.Models
 {
     public class TokenDto
     {

@@ -1,0 +1,63 @@
+﻿using System;
+using System.Threading.Tasks;
+using Integracja.Server.Core.Models.Identity;
+using Integracja.Server.Infrastructure.Data;
+using Integracja.Server.Infrastructure.Exceptions;
+using Integracja.Server.Infrastructure.Models;
+using Integracja.Server.Infrastructure.Services.Interfaces.Implementations;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+
+namespace Integracja.Server.Infrastructure.Services.Implementations
+{
+    public class AuthService : IAuthService
+    {
+        private readonly UserManager<User> _userManager;
+        private readonly ApplicationDbContext _context;
+        private readonly ILookupNormalizer _normalizer;
+        private readonly ITokenService _tokenService;
+
+        public AuthService(UserManager<User> userManager, ApplicationDbContext context, ILookupNormalizer normalizer, ITokenService tokenService)
+        {
+            _userManager = userManager;
+            _context = context;
+            _normalizer = normalizer;
+            _tokenService = tokenService;
+        }
+
+        public async Task<UserDto> Login(LoginDto dto)
+        {
+            var user = await _context.Users
+                .FirstOrDefaultAsync(u => u.NormalizedUserName == _normalizer.NormalizeName(dto.Username));
+
+            if (user == null || !await _userManager.CheckPasswordAsync(user, dto.Password))
+            {
+                throw new UnauthorizedException("Invalid username or password.");
+            }
+
+            var sessionGuid = Guid.NewGuid();
+
+            user.SessionGuid = sessionGuid;
+            await _context.SaveChangesAsync();
+
+            return new UserDto
+            {
+                Token = _tokenService.GenerateToken(user.Id, sessionGuid)
+            };
+        }
+
+        public async Task Logout(int userId)
+        {
+            var user = await _context.Users
+                .FirstOrDefaultAsync(u => u.Id == userId && !u.IsDeleted);
+
+            if (user == null)
+            {
+                throw new NotFoundException();
+            }
+
+            user.SessionGuid = null;
+            await _context.SaveChangesAsync();
+        }
+    }
+}

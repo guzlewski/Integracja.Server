@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Integracja.Server.Infrastructure.DTO
+namespace Integracja.Server.Infrastructure.Models
 {
     public class LoginDto
     {
