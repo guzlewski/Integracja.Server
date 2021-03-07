@@ -1,7 +1,7 @@
 ﻿ using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
-namespace Integracja.Server.Web.Areas.DodajPytania.Models.Home
+namespace Integracja.Server.Web.Areas.Pytania.Models.Home
 {
     public interface IHomeActions
     {
@@ -14,5 +14,6 @@ namespace Integracja.Server.Web.Areas.DodajPytania.Models.Home
         Task<IActionResult> GotoQuestionRead(int? id);
         Task<IActionResult> GotoQuestionUpdate(int? id);
         Task<IActionResult> GotoQuestionDelete(int? id);
+        Task<IActionResult> Index(int? id);
     }
 }

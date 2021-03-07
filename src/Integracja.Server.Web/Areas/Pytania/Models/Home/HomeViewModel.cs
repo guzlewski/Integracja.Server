@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Integracja.Server.Web.Areas.DodajPytania.Models.Home
+namespace Integracja.Server.Web.Areas.Pytania.Models.Home
 {
     public class HomeViewModel : PageModel
     {

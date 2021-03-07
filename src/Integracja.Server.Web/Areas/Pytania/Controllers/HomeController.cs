@@ -1,7 +1,7 @@
 ﻿using Integracja.Server.Core.Models.Identity;
 using Integracja.Server.Infrastructure.Data;
-using Integracja.Server.Web.Areas.DodajPytania.Models.Home;
-using Integracja.Server.Web.Areas.DodajPytania.Models.Question;
+using Integracja.Server.Web.Areas.Pytania.Models.Home;
+using Integracja.Server.Web.Areas.Pytania.Models.Question;
 using Integracja.Server.Web.Controllers;
 using Integracja.Server.Web.Models.Shared.Question;
 using Microsoft.AspNetCore.Identity;
@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Integracja.Server.Web.Areas.DodajPytania.Controllers
+namespace Integracja.Server.Web.Areas.Pytania.Controllers
 {
     [Area("Pytania")]
     public class HomeController : ApplicationController, IHomeActions

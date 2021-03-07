@@ -1,5 +1,7 @@
 ﻿using Integracja.Server.Core.Models.Identity;
 using Integracja.Server.Infrastructure.Data;
+using Integracja.Server.Web.Areas.Pytania.Controllers;
+using Integracja.Server.Web.Areas.Pytania.Models.Question;
 using Integracja.Server.Web.Areas.PanelAdmina.Models.Questions;
 using Integracja.Server.Web.Controllers;
 using Integracja.Server.Web.Models.Shared.Question;
@@ -37,14 +39,14 @@ namespace Integracja.Server.Web.Areas.PanelAdmina.Controllers
             return RedirectToAction("Index");
         }
 
-        public Task<IActionResult> GotoQuestionCreate(int? id)
+        public async Task<IActionResult> GotoQuestionCreate(int? id)
         {
-            throw new System.NotImplementedException();
+            return RedirectToAction(IQuestionActions.NameOfQuestionCreateViewStep1, QuestionController.Name);
         }
 
-        public Task<IActionResult> GotoQuestionUpdate(int? id)
+        public async Task<IActionResult> GotoQuestionUpdate(int? id)
         {
-            throw new System.NotImplementedException();
+            return RedirectToAction(IQuestionActions.NameOfQuestionUpdateView, QuestionController.Name);
         }
     }
 }

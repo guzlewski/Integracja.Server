@@ -3,7 +3,7 @@ using Integracja.Server.Web.Models.Shared.Question;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
-namespace Integracja.Server.Web.Areas.DodajPytania.Models.Question
+namespace Integracja.Server.Web.Areas.Pytania.Models.Question
 {
     public interface IQuestionActions : IQuestionPartialActions
     {
@@ -18,5 +18,6 @@ namespace Integracja.Server.Web.Areas.DodajPytania.Models.Question
         Task<IActionResult> QuestionReadView(int? id );
         Task<IActionResult> QuestionUpdateView(int? id);
         Task<IActionResult> QuestionDelete(int? id);
+        IActionResult Index(string returnUrl);
     }
 }

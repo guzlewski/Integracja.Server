@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
-namespace Integracja.Server.Web.Areas.DodajPytania.Models.CategorySelect
+namespace Integracja.Server.Web.Areas.Pytania.Models.CategorySelect
 {
     public interface ICategorySelectActions
     {
@@ -13,5 +13,6 @@ namespace Integracja.Server.Web.Areas.DodajPytania.Models.CategorySelect
         Task<IActionResult> CategoryRead(int? id);
         Task<IActionResult> CategoryCreate(CategoryModel category);
         Task<IActionResult> GotoQuestionCreate(int categoryId);
+        Task<IActionResult> Index(int? id);
     }
 }
