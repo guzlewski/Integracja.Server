@@ -4,5 +4,6 @@ namespace Integracja.Server.Core.Models.Identity
 {
     public class Role : IdentityRole<int>
     {
+
     }
 }
