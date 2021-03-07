@@ -16,8 +16,8 @@ namespace Integracja.Server.Api.Installers
             var tokenValidationParameters = new TokenValidationParameters
             {
                 IssuerSigningKey = signingKey,
-                ValidIssuer = configuration["Jwt:ValidIssuer"],
-                ValidAudience = configuration["Jwt:ValidAudience"]
+                ValidIssuer = configuration["Jwt:Issuer"],
+                ValidAudience = configuration["Jwt:Audience"]
             };
 
             services.Configure<JwtSettings>(configuration.GetSection("Jwt"));
