@@ -29,7 +29,7 @@
                     <td>@question.CategoryId</td>
                     <td>@question.IsPublic</td>
                     <td>
-                        <a asp-action="@NameOfGotoQuestionRead">Podgląd</a> |
+                        <a asp-action="@NameOfGotoQuestionRead" asp-route-id="@question.Id">Podgląd</a> |
                         <a asp-action="@NameOfGotoQuestionUpdate" asp-route-id="@question.Id">Edycja</a> |
                         <a asp-action="@NameOfGotoQuestionDelete" asp-route-id="@question.Id">Usuń</a>
                     </td>
