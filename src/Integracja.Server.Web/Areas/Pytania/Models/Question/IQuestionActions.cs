@@ -18,6 +18,5 @@ namespace Integracja.Server.Web.Areas.Pytania.Models.Question
         Task<IActionResult> QuestionReadView(int? id );
         Task<IActionResult> QuestionUpdateView(int? id);
         Task<IActionResult> QuestionDelete(int? id);
-        IActionResult Index(string returnUrl);
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Integracja.Server.Core.Models.Identity;
 using Integracja.Server.Infrastructure.Data;
 using Integracja.Server.Infrastructure.DTO;
+using Integracja.Server.Web.Areas.Pytania.Models.Home;
 using Integracja.Server.Web.Areas.Pytania.Models.Question;
 using Integracja.Server.Web.Controllers;
 using Integracja.Server.Web.Models.Shared.Enums;
@@ -14,22 +15,22 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
     [Area("Pytania")]
     public class QuestionController : ApplicationController, IQuestionActions
     {
-        private QuestionViewModel Model { get; set; }
+        protected QuestionViewModel Model { get; set; }
         public static new string Name { get => "Question"; }
 
         public QuestionController(UserManager<User> userManager, ApplicationDbContext dbContext) : base(userManager, dbContext)
         {
         }
 
-        public IActionResult Index( string returnUrl )
+        public virtual IActionResult Index()
         {
-            if (returnUrl == null )
+            var question = TryRetrieveFromTempData<QuestionModel>();
+            if (question != null)
             {
-                var question = TryRetrieveFromTempData<QuestionModel>();
                 Model = new QuestionViewModel(question);
                 return View("Question", Model);
             }
-            else return RedirectToAction(returnUrl);
+            else return RedirectToAction("Index", HomeController.Name);
         }
 
         public async Task<IActionResult> QuestionCreateViewStep1()
