@@ -24,6 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Areas\Gry\Controllers\" />
     <Folder Include="Areas\Konto\Data\" />
   </ItemGroup>
 
