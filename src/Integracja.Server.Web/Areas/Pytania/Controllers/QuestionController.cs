@@ -1,7 +1,5 @@
 ﻿using Integracja.Server.Core.Models.Identity;
 using Integracja.Server.Infrastructure.Data;
-using Integracja.Server.Infrastructure.DTO;
-using Integracja.Server.Web.Areas.Pytania.Models.Home;
 using Integracja.Server.Web.Areas.Pytania.Models.Question;
 using Integracja.Server.Web.Controllers;
 using Integracja.Server.Web.Models.Shared.Enums;
@@ -44,16 +42,26 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
             Model.Question.CategoryId = categoryId;
             return View("Question", Model);
         }
+        public async Task<IActionResult> QuestionCreate(QuestionModel question)
+        {
+            int questionId = await QuestionService.Add(question.ToQuestionAdd(), UserId);
 
-        public async Task<IActionResult> QuestionReadView(int? questionId )
+            return RedirectToAction("Index");
+        }
+        public async Task<IActionResult> QuestionReadView(int? questionId)
         {
             Model = new QuestionViewModel();
-            if( questionId.HasValue )
+            if (questionId.HasValue)
                 Model.Question = (QuestionModel)await QuestionService.Get(questionId.Value, UserId);
             Model.ViewMode = ViewMode.Reading;
             return View("Question", Model);
         }
+        public async Task<IActionResult> QuestionUpdate(QuestionModel question)
+        {
+            int questionId = await QuestionService.Update( question.Id.Value, question.ToQuestionModify(), UserId );
 
+            return RedirectToAction("Index");
+        }
         public async Task<IActionResult> QuestionUpdateView(int? questionId)
         {
             Model = new QuestionViewModel();
@@ -62,7 +70,13 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
             Model.ViewMode = ViewMode.Updating;
             return View("Question", Model);
         }
-
+        public async Task<IActionResult> QuestionDelete(int? questionId)
+        {
+            if (questionId.HasValue)
+                await QuestionService.Delete(questionId.Value, UserId);
+            return RedirectToAction("Index", HomeController.Name);
+        }
+        
         public async Task<IActionResult> AddAnswerField(QuestionModel question)
         {
             question.AddAnswer();
@@ -71,7 +85,6 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
 
             return RedirectToAction("Index");
         }
-
         public async Task<IActionResult> RemoveAnswerField(QuestionModel question)
         {
             question.RemoveAnswer();
@@ -79,27 +92,6 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
             SaveToTempData(question);
 
             return RedirectToAction("Index");
-        }
-
-        public async Task<IActionResult> QuestionCreate(QuestionModel question)
-        {
-            int questionId = await QuestionService.Add(question.ToQuestionAdd(), UserId);
-
-            return RedirectToAction("Index");
-        }
-
-        public async Task<IActionResult> QuestionUpdate(QuestionModel question)
-        {
-            int questionId = await QuestionService.Update( question.Id.Value, question.ToQuestionModify(), UserId );
-
-            return RedirectToAction("Index");
-        }
-
-        public async Task<IActionResult> QuestionDelete(int? questionId)
-        {
-            if (questionId.HasValue)
-                await QuestionService.Delete(questionId.Value, UserId);
-            return RedirectToAction("Index", HomeController.Name);
         }
     }
 }
