@@ -5,6 +5,8 @@ namespace Integracja.Server.Web.Areas.Pytania.Models.Question
 {
     public class QuestionViewModel : QuestionPartialViewModel
     {
+        public QuestionAlert Alert { get; set; }
+
         public QuestionViewModel() : base()
         {
         }
@@ -13,12 +15,13 @@ namespace Integracja.Server.Web.Areas.Pytania.Models.Question
         {
         }
 
-        public QuestionViewModel(QuestionModel question)
+        public QuestionViewModel(QuestionModel question) : base(question)
         {
-            this.Question = question;
-            if (question.Id.HasValue)
-                this.ViewMode = ViewMode.Updating;
-            else this.ViewMode = ViewMode.Creating;
+        }
+
+        public QuestionViewModel(QuestionModel question, QuestionAlert alert ) : base(question)
+        {
+            Alert = alert;
         }
     }
 }

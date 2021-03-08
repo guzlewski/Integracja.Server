@@ -6,7 +6,6 @@ using Integracja.Server.Web.Controllers;
 using Integracja.Server.Web.Models.Shared.Question;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Integracja.Server.Web.Areas.Pytania.Controllers
@@ -25,6 +24,8 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
         [HttpGet]
         public async Task<IActionResult> Index(int? id)
         {
+            Model.Alert = GetAlert<QuestionAlert>();
+
             Model.Questions = QuestionModel.ConvertToList( await QuestionService.GetAll(UserId) );
             return View(Model);
         }

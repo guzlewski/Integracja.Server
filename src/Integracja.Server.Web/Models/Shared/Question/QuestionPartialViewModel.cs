@@ -23,6 +23,13 @@ namespace Integracja.Server.Web.Models.Shared.Question
             ViewMode = mode;
             Question = new QuestionModel();
         }
+        public QuestionPartialViewModel(QuestionModel question)
+        {
+            this.Question = question;
+            if (question.Id.HasValue)
+                this.ViewMode = ViewMode.Updating;
+            else this.ViewMode = ViewMode.Creating;
+        }
 
         public static class Ids
         {

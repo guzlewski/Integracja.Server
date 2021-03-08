@@ -9,6 +9,7 @@ namespace Integracja.Server.Web.Areas.PanelAdmina.Models.Questions
     public class QuestionsViewModel
     {
         public List<QuestionGetAll> Questions { get; set; }
+        public QuestionAlert Alert { get; set; }
 
         public QuestionsViewModel() : base()
         {

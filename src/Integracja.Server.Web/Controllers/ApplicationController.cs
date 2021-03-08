@@ -77,5 +77,15 @@ namespace Integracja.Server.Web.Controllers
                 TempData.Remove(typeof(T).ToString());
             }
         }
+
+        public void SetAlert<T>(T alert) where T : AlertModel
+        {
+            SaveToTempData<T>(alert);
+        }
+
+        public T GetAlert<T>() where T : AlertModel
+        {
+            return TryRetrieveFromTempData<T>();
+        }
     }
 }

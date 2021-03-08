@@ -1,13 +1,17 @@
 ﻿@using Integracja.Server.Web.Areas.Pytania.Models.Question
 @using static Integracja.Server.Web.Areas.Pytania.Models.Question.QuestionViewModel
 @using static Integracja.Server.Web.Areas.Pytania.Models.Question.IQuestionActions
+@using Integracja.Server.Web.Models.Shared.Enums
 @model QuestionViewModel
+
+@{ await Html.RenderPartialAsync("~/Views/Shared/Question/_QuestionAlert.cshtml", Model.Alert);}
 
 <h2>Pytanie</h2>
 <br />
 
 <div class="row">
     <div class="col-md-10">
-        @{ await Html.RenderPartialAsync("~/Views/Shared/Question/_Question.cshtml", Model); }
+        @{ await Html.RenderPartialAsync("~/Views/Shared/Question/_Question.cshtml", Model);
+        }
     </div>
 </div>

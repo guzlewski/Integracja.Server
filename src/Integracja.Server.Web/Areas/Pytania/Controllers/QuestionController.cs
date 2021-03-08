@@ -22,13 +22,19 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
 
         public virtual IActionResult Index()
         {
+            var alert = GetAlert<QuestionAlert>();
             var question = TryRetrieveFromTempData<QuestionModel>();
+
             if (question != null)
             {
-                Model = new QuestionViewModel(question);
+                Model = new QuestionViewModel(question, alert);
                 return View("Question", Model);
             }
-            else return RedirectToAction("Index", HomeController.Name);
+            else
+            {
+                SetAlert(alert); // przekazuję dalej
+                return RedirectToAction("Index", HomeController.Name);
+            }
         }
 
         public async Task<IActionResult> QuestionCreateViewStep1()
@@ -39,14 +45,23 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
         public async Task<IActionResult> QuestionCreateViewStep2(int categoryId)
         {
             Model = new QuestionViewModel(ViewMode.Creating);
+            // mogłem właśnie dodać pytanie i trafić tutaj ponownie więc wyświetlam alert
+            Model.Alert = GetAlert<QuestionAlert>();
+
             Model.Question.CategoryId = categoryId;
+
             return View("Question", Model);
         }
         public async Task<IActionResult> QuestionCreate(QuestionModel question)
         {
             int questionId = await QuestionService.Add(question.ToQuestionAdd(), UserId);
 
-            return RedirectToAction("Index");
+            SetAlert(QuestionAlert.QuestionCreateSuccess());
+
+            // jeśli weszło z edycji to cofamy do głównego panelu jeśli inaczej to zostajemy i można dodać kolejny pytanie do kategorii
+            if (question.Id.HasValue)
+                return RedirectToAction("Index");
+            else return RedirectToAction(IQuestionActions.NameOfQuestionCreateViewStep2, new { categoryId = question.CategoryId });
         }
         public async Task<IActionResult> QuestionReadView(int? questionId)
         {
@@ -59,6 +74,8 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
         public async Task<IActionResult> QuestionUpdate(QuestionModel question)
         {
             int questionId = await QuestionService.Update( question.Id.Value, question.ToQuestionModify(), UserId );
+
+            SetAlert(QuestionAlert.QuestionUpdateSuccess());
 
             return RedirectToAction("Index");
         }
@@ -74,6 +91,9 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
         {
             if (questionId.HasValue)
                 await QuestionService.Delete(questionId.Value, UserId);
+
+            SetAlert(QuestionAlert.QuestionDeleteSuccess());
+
             return RedirectToAction("Index", HomeController.Name);
         }
         

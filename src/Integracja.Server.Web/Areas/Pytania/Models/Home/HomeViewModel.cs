@@ -1,14 +1,14 @@
-﻿using Integracja.Server.Web.Models.Shared.Question;
-using Microsoft.AspNetCore.Mvc;
+﻿using Integracja.Server.Web.Areas.Pytania.Models.Question;
+using Integracja.Server.Web.Models.Shared.Question;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Integracja.Server.Web.Areas.Pytania.Models.Home
 {
     public class HomeViewModel : PageModel
     {
         public List<QuestionModel> Questions { get; set; }
+        public QuestionAlert Alert { get; set; }
 
         public HomeViewModel() : base()
         {

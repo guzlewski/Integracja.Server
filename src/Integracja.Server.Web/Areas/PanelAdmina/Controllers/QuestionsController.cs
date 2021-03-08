@@ -3,6 +3,7 @@ using Integracja.Server.Infrastructure.Data;
 using Integracja.Server.Web.Areas.PanelAdmina.Models.Question;
 using Integracja.Server.Web.Areas.PanelAdmina.Models.Questions;
 using Integracja.Server.Web.Controllers;
+using Integracja.Server.Web.Models.Shared.Question;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -22,6 +23,7 @@ namespace Integracja.Server.Web.Areas.PanelAdmina.Controllers
         public async Task<IActionResult> Index( int? id )
         {
             Model.Questions = (System.Collections.Generic.List<Infrastructure.DTO.QuestionGetAll>)await QuestionService.GetAll(UserId);
+            Model.Alert = GetAlert<QuestionAlert>();
             return View("Questions", Model);
         }
 
