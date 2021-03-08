@@ -1,4 +1,5 @@
-﻿using Integracja.Server.Api.Utilities;
+﻿using System.IO;
+using Integracja.Server.Api.Utilities;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
@@ -13,6 +14,8 @@ namespace Integracja.Server.Api.Installers
             {
                 swagger.EnableAnnotations();
                 swagger.SwaggerDoc("v1", new OpenApiInfo { Title = "Integracja.Server.Api", Version = "v1" });
+                swagger.IncludeXmlComments(Path.Combine(System.AppContext.BaseDirectory, $"{typeof(Startup).Assembly.GetName().Name}.xml"));
+                swagger.SwaggerDoc("v1", new OpenApiInfo
                 swagger.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
                 {
                     Name = "Authorization",
