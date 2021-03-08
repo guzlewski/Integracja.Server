@@ -13,9 +13,12 @@ namespace Integracja.Server.Api.Installers
             services.AddSwaggerGen(swagger =>
             {
                 swagger.EnableAnnotations();
-                swagger.SwaggerDoc("v1", new OpenApiInfo { Title = "Integracja.Server.Api", Version = "v1" });
                 swagger.IncludeXmlComments(Path.Combine(System.AppContext.BaseDirectory, $"{typeof(Startup).Assembly.GetName().Name}.xml"));
                 swagger.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "Integracja.Server.Api",
+                    Version = "v1"
+                });
                 swagger.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
                 {
                     Name = "Authorization",
