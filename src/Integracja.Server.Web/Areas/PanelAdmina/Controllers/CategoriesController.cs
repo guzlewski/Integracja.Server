@@ -1,4 +1,5 @@
-﻿using Integracja.Server.Core.Models.Identity;
+﻿using AutoMapper;
+using Integracja.Server.Core.Models.Identity;
 using Integracja.Server.Infrastructure.Data;
 using Integracja.Server.Web.Areas.PanelAdmina.Models.Categories;
 using Integracja.Server.Web.Controllers;
@@ -14,7 +15,7 @@ namespace Integracja.Server.Web.Areas.PanelAdmina.Controllers
     {
         private CategoriesViewModel Model { get; set; }
 
-        public CategoriesController(UserManager<User> userManager, ApplicationDbContext dbContext) : base(userManager, dbContext)
+        public CategoriesController(UserManager<User> userManager, ApplicationDbContext dbContext, IMapper mapper) : base(userManager, dbContext, mapper)
         {
             Model = new CategoriesViewModel();
         }
@@ -26,7 +27,7 @@ namespace Integracja.Server.Web.Areas.PanelAdmina.Controllers
                 var category = await CategoryService.Get(id.Value, UserId);
                 Model.Category = CategoryModel.ConvertToCategoryModel(category);
             }
-            Model.Categories = (System.Collections.Generic.List<Infrastructure.DTO.CategoryGetAll>)CategoryService.GetAll(UserId).Result;
+            Model.Categories = (System.Collections.Generic.List<Infrastructure.Models.CategoryDto>)CategoryService.GetAll(UserId).Result;
             return View("Categories",Model);
         }
 

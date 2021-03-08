@@ -1,5 +1,5 @@
 ﻿using Integracja.Server.Core.Enums;
-using Integracja.Server.Infrastructure.DTO;
+using Integracja.Server.Infrastructure.Models;
 using Integracja.Server.Web.Models.Shared.Answer;
 using System;
 using System.Collections.Generic;
@@ -45,17 +45,17 @@ namespace Integracja.Server.Web.Models.Shared.Question
                 this.Answers.RemoveAt(this.Answers.Count - 1);
         }
 
-        public QuestionAdd ToQuestionAdd()
+        public CreateQuestionDto ToQuestionAdd()
         {
             var mapper = Mappers.WebAutoMapper.Initialize();
-            return mapper.Map<QuestionAdd>(this);
+            return mapper.Map<CreateQuestionDto>(this);
         }
-        public QuestionModify ToQuestionModify()
+        public EditQuestionDto ToQuestionModify()
         {
             var mapper = Mappers.WebAutoMapper.Initialize();
-            return mapper.Map<QuestionModify>(this);
+            return mapper.Map<EditQuestionDto>(this);
         }
-        static public List<QuestionModel> ConvertToList( IEnumerable<QuestionGetAll> dtoList )
+        static public List<QuestionModel> ConvertToList( IEnumerable<QuestionDto> dtoList )
         {
             var mapper = Mappers.WebAutoMapper.Initialize();
             List<QuestionModel> resultList = new List<QuestionModel>();
@@ -64,13 +64,13 @@ namespace Integracja.Server.Web.Models.Shared.Question
             return resultList;
         }
 
-        public static explicit operator QuestionModel(QuestionGetAll v)
+        public static explicit operator QuestionModel(QuestionDto v)
         {
             var mapper = Mappers.WebAutoMapper.Initialize();
             return mapper.Map<QuestionModel>(v);
         }
 
-        public static explicit operator QuestionModel(QuestionGet v)
+        public static explicit operator QuestionModel(DetailQuestionDto v)
         {
             var mapper = Mappers.WebAutoMapper.Initialize();
             return mapper.Map<QuestionModel>(v);

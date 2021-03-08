@@ -1,4 +1,5 @@
-﻿using Integracja.Server.Core.Models.Identity;
+﻿using AutoMapper;
+using Integracja.Server.Core.Models.Identity;
 using Integracja.Server.Infrastructure.Data;
 using Integracja.Server.Web.Areas.Pytania.Models.CategorySelect;
 using Integracja.Server.Web.Areas.Pytania.Models.Question;
@@ -15,7 +16,7 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
     public class CategorySelectController : ApplicationController, ICategorySelectActions
     {
         private CategorySelectViewModel Model { get; set; }
-        public CategorySelectController(UserManager<User> userManager, ApplicationDbContext dbContext) : base(userManager, dbContext)
+        public CategorySelectController(UserManager<User> userManager, ApplicationDbContext dbContext, IMapper mapper) : base(userManager, dbContext, mapper)
         {
         }
 

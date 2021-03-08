@@ -1,4 +1,5 @@
-﻿using Integracja.Server.Core.Models.Identity;
+﻿using AutoMapper;
+using Integracja.Server.Core.Models.Identity;
 using Integracja.Server.Infrastructure.Data;
 using Integracja.Server.Web.Areas.Konto.Models;
 using Integracja.Server.Web.Controllers;
@@ -14,11 +15,12 @@ namespace Integracja.Server.Web.Areas.Konto.Controllers
     public class HomeController : ApplicationController, IHomeActions
     {
         private HomeViewModel Model { get; set; }
-        public HomeController(UserManager<User> userManager, ApplicationDbContext dbContext) : base(userManager, dbContext)
+
+        public HomeController(UserManager<User> userManager, ApplicationDbContext dbContext, IMapper mapper) : base(userManager, dbContext, mapper)
         {
             Model = new HomeViewModel();
         }
-        
+
         [HttpGet]
         public IActionResult Index()
         {

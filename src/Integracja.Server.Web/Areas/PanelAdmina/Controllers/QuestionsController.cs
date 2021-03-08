@@ -1,4 +1,5 @@
-﻿using Integracja.Server.Core.Models.Identity;
+﻿using AutoMapper;
+using Integracja.Server.Core.Models.Identity;
 using Integracja.Server.Infrastructure.Data;
 using Integracja.Server.Web.Areas.PanelAdmina.Models.Question;
 using Integracja.Server.Web.Areas.PanelAdmina.Models.Questions;
@@ -15,14 +16,14 @@ namespace Integracja.Server.Web.Areas.PanelAdmina.Controllers
     {
         public QuestionsViewModel Model { get; set; }
 
-        public QuestionsController(UserManager<User> userManager, ApplicationDbContext dbContext) : base(userManager, dbContext)
+        public QuestionsController(UserManager<User> userManager, ApplicationDbContext dbContext, IMapper mapper) : base(userManager, dbContext, mapper)
         {
             Model = new QuestionsViewModel();
         }
 
         public async Task<IActionResult> Index( int? id )
         {
-            Model.Questions = (System.Collections.Generic.List<Infrastructure.DTO.QuestionGetAll>)await QuestionService.GetAll(UserId);
+            Model.Questions = (System.Collections.Generic.List<Infrastructure.Models.QuestionDto>)await QuestionService.GetAll(UserId);
             Model.Alert = GetAlert<QuestionAlert>();
             return View("Questions", Model);
         }

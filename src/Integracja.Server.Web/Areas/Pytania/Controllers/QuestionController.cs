@@ -1,4 +1,5 @@
-﻿using Integracja.Server.Core.Models.Identity;
+﻿using AutoMapper;
+using Integracja.Server.Core.Models.Identity;
 using Integracja.Server.Infrastructure.Data;
 using Integracja.Server.Web.Areas.Pytania.Models.Question;
 using Integracja.Server.Web.Controllers;
@@ -15,8 +16,7 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
     {
         protected QuestionViewModel Model { get; set; }
         public static new string Name { get => "Question"; }
-
-        public QuestionController(UserManager<User> userManager, ApplicationDbContext dbContext) : base(userManager, dbContext)
+        public QuestionController(UserManager<User> userManager, ApplicationDbContext dbContext, IMapper mapper) : base(userManager, dbContext, mapper)
         {
         }
 
@@ -82,8 +82,13 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
         public async Task<IActionResult> QuestionUpdateView(int? questionId)
         {
             Model = new QuestionViewModel();
+
             if (questionId.HasValue)
+            {
                 Model.Question = (QuestionModel)await QuestionService.Get(questionId.Value, UserId);
+                var q = await QuestionService.Get(questionId.Value, UserId);
+            }
+                
             Model.ViewMode = ViewMode.Updating;
             return View("Question", Model);
         }

@@ -1,9 +1,9 @@
-﻿using Integracja.Server.Core.Models.Identity;
+﻿using AutoMapper;
+using Integracja.Server.Core.Models.Identity;
 using Integracja.Server.Infrastructure.Data;
-using Integracja.Server.Infrastructure.Mappers;
 using Integracja.Server.Infrastructure.Repositories;
-using Integracja.Server.Infrastructure.Services;
 using Integracja.Server.Infrastructure.Services.Implementations;
+using Integracja.Server.Infrastructure.Services.Interfaces;
 using Integracja.Server.Web.Models.Shared.Alert;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -16,12 +16,12 @@ namespace Integracja.Server.Web.Controllers
     [Authorize]
     public class ApplicationController : Controller, IAlert
     {
-        public ApplicationController(UserManager<User> userManager, ApplicationDbContext dbContext) : base()
-        {
+        public ApplicationController(UserManager<User> userManager, ApplicationDbContext dbContext, IMapper mapper ) : base()
+        { 
             _context = dbContext;
             _userManager = userManager;
             _userId = null;
-            _mapper = AutoMapperConfig.Initialize();
+            _mapper = mapper;
         }
 
         private ApplicationDbContext _context;
@@ -30,8 +30,8 @@ namespace Integracja.Server.Web.Controllers
         private UserManager<User> _userManager;
         protected UserManager<User> UserManager { get => _userManager; }
 
-        private AutoMapper.IMapper _mapper;
-        protected AutoMapper.IMapper Mapper { get => _mapper; }
+        private IMapper _mapper;
+        protected IMapper Mapper { get => _mapper; }
 
         private int? _userId;
         protected int UserId
@@ -47,10 +47,10 @@ namespace Integracja.Server.Web.Controllers
         public static string Name { get; private set; }
 
         protected ICategoryService CategoryService { get =>
-        new CategoryService(new CategoryRepository(DbContext), Mapper); }
+        new CategoryService(new CategoryRepository(DbContext), Mapper, Mapper.ConfigurationProvider ); }
 
-        protected IQuestionService QuestionService { get =>
-        new QuestionService(new QuestionRepository(DbContext), Mapper); }
+        protected IQuestionService QuestionService { get => 
+        new QuestionService(new QuestionRepository(DbContext), Mapper, Mapper.ConfigurationProvider); }
 
         protected void SaveToTempData<T>(T form)
         {

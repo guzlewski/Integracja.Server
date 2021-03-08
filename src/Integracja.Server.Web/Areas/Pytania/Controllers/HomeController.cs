@@ -1,4 +1,5 @@
-﻿using Integracja.Server.Core.Models.Identity;
+﻿using AutoMapper;
+using Integracja.Server.Core.Models.Identity;
 using Integracja.Server.Infrastructure.Data;
 using Integracja.Server.Web.Areas.Pytania.Models.Home;
 using Integracja.Server.Web.Areas.Pytania.Models.Question;
@@ -14,9 +15,9 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
     public class HomeController : ApplicationController, IHomeActions
     {
         private HomeViewModel Model { get; set; }
-        public static new string Name { get => "Home"; } 
+        public static new string Name { get => "Home"; }
 
-        public HomeController(UserManager<User> userManager, ApplicationDbContext dbContext) : base(userManager, dbContext)
+        public HomeController(UserManager<User> userManager, ApplicationDbContext dbContext, IMapper mapper) : base(userManager, dbContext, mapper)
         {
             Model = new HomeViewModel();
         }

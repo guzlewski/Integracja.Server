@@ -37,8 +37,6 @@ namespace Integracja.Server.Web
             })
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
-            //services.AddControllersWithViews(); // twice ?
-
             services.Configure<SmtpSettings>(Configuration.GetSection("SmtpSettings"));
             services.AddTransient<IEmailSender, SmtpEmailSender>();
 
@@ -56,6 +54,7 @@ namespace Integracja.Server.Web
                 options.Filters.Add(new AuthorizeFilter());
             });
 
+            services.AddAutoMapper(typeof(ApplicationDbContext));
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

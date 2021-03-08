@@ -1,4 +1,4 @@
-﻿using Integracja.Server.Infrastructure.DTO;
+﻿using Integracja.Server.Infrastructure.Models;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -13,24 +13,24 @@ namespace Integracja.Server.Web.Models.Shared.Category
         public int QuestionsCount { get; set; }
         public bool IsPublic { get; set; }
 
-        public CategoryModify ToCategoryModify()
+        public EditCategoryDto ToCategoryModify()
         {
             var mapper = Mappers.WebAutoMapper.Initialize();
-            return mapper.Map<CategoryModify>(this);
+            return mapper.Map<EditCategoryDto>(this);
         }
-        public CategoryAdd ToCategoryAdd()
+        public CreateCategoryDto ToCategoryAdd()
         {
             var mapper = Mappers.WebAutoMapper.Initialize();
-            return mapper.Map<CategoryAdd>(this);
+            return mapper.Map<CreateCategoryDto>(this);
         }
 
-        public static CategoryModel ConvertToCategoryModel( CategoryGet category )
+        public static CategoryModel ConvertToCategoryModel( DetailCategoryDto category )
         {
             var mapper = Mappers.WebAutoMapper.Initialize();
             return mapper.Map<CategoryModel>(category);
         }
 
-        public static List<CategoryModel> ConvertToList( IEnumerable<CategoryGetAll> dtoList )
+        public static List<CategoryModel> ConvertToList( IEnumerable<CategoryDto> dtoList )
         {
             var mapper = Mappers.WebAutoMapper.Initialize();
             List<CategoryModel> resultList = new List<CategoryModel>();
