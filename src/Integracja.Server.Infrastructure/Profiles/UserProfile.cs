@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.IdentityModel.Tokens.Jwt;
+using AutoMapper;
 using Integracja.Server.Core.Models.Identity;
 using Integracja.Server.Infrastructure.Models;
 
@@ -10,7 +11,10 @@ namespace Integracja.Server.Infrastructure.Profiles
         {
             CreateMap<User, UserDto>().BeforeMap((user, userDto, resContext) =>
             {
-                userDto.Authorization = resContext.Items["tokenDto"] as TokenDto;
+                var token = resContext.Items["token"] as JwtSecurityToken;
+
+                userDto.ValidTo = token.ValidTo;
+                userDto.Token = token.RawData;
             });
         }
     }
