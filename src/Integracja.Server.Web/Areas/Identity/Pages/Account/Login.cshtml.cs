@@ -40,11 +40,11 @@ namespace Integracja.Server.Web.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            [Required]
+            [Required(ErrorMessage = "Pole nazwa użytkownika jest wymagane.")]
             [DataType(DataType.Text)]
             public string Username { get; set; }
 
-            [Required]
+            [Required(ErrorMessage = "Pole hasło jest wymagane.")]
             [DataType(DataType.Password)]
             public string Password { get; set; }
 
@@ -82,7 +82,7 @@ namespace Integracja.Server.Web.Areas.Identity.Pages.Account
                 var result = await _signInManager.PasswordSignInAsync(Input.Username, Input.Password, Input.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
-                    _logger.LogInformation("User logged in.");
+                    _logger.LogInformation("Użytkownik zalogowany.");
                     return LocalRedirect(returnUrl);
                 }
                 if (result.RequiresTwoFactor)
@@ -96,7 +96,7 @@ namespace Integracja.Server.Web.Areas.Identity.Pages.Account
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    ModelState.AddModelError(string.Empty, "Nieudana próba logowania.");
                     return Page();
                 }
             }

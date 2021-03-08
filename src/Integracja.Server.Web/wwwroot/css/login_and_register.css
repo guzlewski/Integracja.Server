@@ -1,0 +1,101 @@
+﻿@import url('https://fonts.googleapis.com/css?family=Numans');
+
+body {
+    height: 100vh;
+}
+
+.picture {
+    background-image: url("../img/integration.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    font-family: Numans, sans-serif;
+}
+
+.card {
+    margin-top: auto;
+    margin-bottom: auto;
+    width: 500px;
+    background-color: rgba(22,22,22,0.6) !important;
+    border: 5px solid rgba(33,33,33,0.6) !important;
+}
+
+.card-body {
+    padding: 1.25rem 2.5rem 1.25rem 2.5rem !important;
+}
+
+.card-header h2 {
+    color: white;
+}
+
+.input-group-prepend span {
+    width: 40px;
+    background-color: #FFC312;
+    color: black;
+    border: 0 !important;
+}
+
+input:focus {
+    outline: 0 0 0 0 !important;
+    box-shadow: 0 0 0 0 !important;
+}
+
+.remember {
+    color: white;
+}
+
+    .remember input {
+        width: 20px;
+        height: 20px;
+        margin-left: 15px;
+        margin-right: 5px;
+    }
+
+.links {
+    color: white;
+}
+    .links a {
+        color: #fed136;
+        margin-left: 4px;
+    }
+        .links a:hover {
+            color: #e8af14;
+            text-decoration: none;
+        }
+
+.logo {
+    margin-bottom: 40px;
+    text-align: center;
+    font-size: 4rem;
+    font-weight: 700;
+    color: white;
+    font-family: "Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+#integration {
+    color: #fed136;
+}
+
+.log_in {
+    color: black !important;
+    background: #fed136;
+    border-color: #fed136;
+    font-family: Numans, sans-serif;
+}
+
+.button input {
+    background-color: #fed136 !important;
+    border-color: #fed136 !important;
+}
+
+.button input:hover {
+    background-color: #e8af14 !important;
+    border-color: #e8af14 !important;
+}
+
+.input-icon {
+    color: yellow !important;
+}
+
+input:focus {
+    border: 1px solid #fed136 !important;
+}

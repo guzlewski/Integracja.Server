@@ -1,0 +1,74 @@
+﻿@using Integracja.Server.Web.Areas.Pytania.Models.CategorySelect
+@using static Integracja.Server.Web.Areas.Pytania.Models.CategorySelect.CategorySelectViewModel
+@using static Integracja.Server.Web.Areas.Pytania.Models.CategorySelect.ICategorySelectActions
+@model CategorySelectViewModel
+
+@*wybór i dodawanie kategorii*@
+<div class="row">
+    <div class="col-md-10">
+        <h2>Wybierz kategorię...</h2>
+        <br />
+
+        <a class="btn btn-primary"
+           asp-action="@NameOfGotoQuestionCreate"
+           asp-route-id="@Model.Category.Id">
+            Dalej...
+        </a>
+        <br />
+
+        @*tabela z przeglądem kategorii i możliwością wyboru*@
+        <div class="input-group">
+            <div class="form-outline">
+                <input type="search" placeholder="Nazwa kategorii" class="form-control" />
+            </div>
+            <button type="button" class="btn btn-primary">
+                <i class="bi bi-search"></i>
+            </button>
+        </div>
+        <br />
+
+        <div class="table-wrapper-scroll-y scrollbar-secondary">
+            <table class="table table-bordered table-striped table-sm ">
+                <thead>
+                    <tr>
+                        <th scope="col">Nazwa</th>
+                        <th scope="col">Ilość pytań</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < Model.Categories.Count; i++)
+                    {
+                        <tr>
+                            <td>
+                                <a class="btn btn-light"
+                                   asp-action="@NameOfCategoryRead"
+                                   asp-route-id="@Model.Categories[i].Id">
+                                    @Model.Categories[i].Name
+                                </a>
+                            </td>
+                            <td>@Model.Categories[i].QuestionsCount</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <br />
+
+        @*dodawanie kategorii*@
+        <h2>Lub stwórz nową</h2>
+        <br />
+
+        <form asp-action="@NameOfCategoryCreate">
+            <div class="form-group">
+                <input asp-for="Category.Name" placeholder="Nazwa twojej kategorii" />
+                <span asp-validation-for="Category.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">
+                    Dodaj kategorię
+                </button>
+            </div>
+        </form>
+
+    </div>
+</div>
