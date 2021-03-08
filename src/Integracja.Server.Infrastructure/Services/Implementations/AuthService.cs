@@ -45,7 +45,7 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
 
             var token = _tokenService.GenerateToken(user.Id, sessionGuid);
 
-            return _mapper.Map<UserDto>(user, opts => opts.Items["tokenDto"] = token);
+            return _mapper.Map<UserDto>(user, opts => opts.Items["token"] = token);
         }
 
         public async Task Logout(int userId)
