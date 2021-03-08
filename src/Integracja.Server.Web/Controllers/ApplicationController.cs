@@ -4,6 +4,7 @@ using Integracja.Server.Infrastructure.Mappers;
 using Integracja.Server.Infrastructure.Repositories;
 using Integracja.Server.Infrastructure.Services;
 using Integracja.Server.Infrastructure.Services.Implementations;
+using Integracja.Server.Web.Models.Shared.Alert;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -13,7 +14,7 @@ using System.Text.Json;
 namespace Integracja.Server.Web.Controllers
 {
     [Authorize]
-    public class ApplicationController : Controller
+    public class ApplicationController : Controller, IAlert
     {
         public ApplicationController(UserManager<User> userManager, ApplicationDbContext dbContext) : base()
         {
@@ -54,13 +55,15 @@ namespace Integracja.Server.Web.Controllers
         protected void SaveToTempData<T>(T form)
         {
             string jsonString = JsonSerializer.Serialize<T>(form);
-            TempData[nameof(T)] = jsonString;
+            TempData[typeof(T).ToString()] = jsonString;
         }
+
+
         protected T TryRetrieveFromTempData<T>()
         {
             try
             {
-                string jsonString = TempData[nameof(T)] as string;
+                string jsonString = TempData[typeof(T).ToString()] as string;
                 if (jsonString == null)
                     return default(T);
                 else return JsonSerializer.Deserialize<T>(jsonString);
@@ -71,7 +74,7 @@ namespace Integracja.Server.Web.Controllers
             }
             finally
             {
-                TempData.Clear();
+                TempData.Remove(typeof(T).ToString());
             }
         }
     }
