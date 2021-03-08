@@ -1,10 +1,10 @@
 ﻿using System;
-using Integracja.Server.Infrastructure.Models;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace Integracja.Server.Infrastructure.Services.Interfaces
 {
     public interface ITokenService
     {
-        TokenDto GenerateToken(int userId, Guid sessionGuid);
+        JwtSecurityToken GenerateToken(int userId, Guid sessionGuid);
     }
 }
