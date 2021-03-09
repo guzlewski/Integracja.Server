@@ -57,6 +57,7 @@ namespace Integracja.Server.Infrastructure.Repositories
             }
 
             game.Questions = SelectQuestions(game.Questions, entities, game.QuestionsCount, randomizeQuestionOrder);
+            game.QuestionsCount = game.Questions.Count;
 
             await _dbContext.AddAsync(game);
             await _dbContext.SaveChangesAsync();
