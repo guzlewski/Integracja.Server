@@ -1,0 +1,38 @@
+﻿@using static Integracja.Server.Web.Models.Shared.Category.ICategoryFormActions
+@using static Integracja.Server.Web.Models.Shared.Category.CategoryFormViewModel
+@using Integracja.Server.Web.Models.Shared.Category
+@model CategoryFormViewModel
+
+<form>
+    <div class="form-group">
+        <input asp-for="Category.Id" type="hidden" />
+    </div>
+
+    <div class="form-group">
+        <input asp-for="Category.Name" placeholder="Nazwa twojej kategorii" />
+        <span asp-validation-for="Category.Name" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <h4>Czy publiczna ?</h4>
+        <input asp-for="Category.IsPublic" class="form-check" type="checkbox" />
+    </div>
+
+    <div class="form-group">
+        @{
+            if (Model.Category.Id == default)
+            {
+                <button type="submit" class="btn btn-primary" asp-action="@NameOfCategoryCreate">
+                    Stwórz nową
+                </button>
+            }
+            else
+            {
+                <button type="submit" class="btn btn-primary" asp-action="@NameOfCategoryUpdate">
+                    Zaaktualizuj
+                </button>
+            }
+        }
+    </div>
+</form>
+

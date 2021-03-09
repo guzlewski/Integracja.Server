@@ -58,17 +58,7 @@
         <h2>Lub stwórz nową</h2>
         <br />
 
-        <form asp-action="@NameOfCategoryCreate">
-            <div class="form-group">
-                <input asp-for="Category.Name" placeholder="Nazwa twojej kategorii" />
-                <span asp-validation-for="Category.Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary">
-                    Dodaj kategorię
-                </button>
-            </div>
-        </form>
+        @{ await Html.RenderPartialAsync("~/Views/Shared/Category/_CategoryForm.cshtml", Model);}
 
     </div>
 </div>

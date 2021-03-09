@@ -5,16 +5,13 @@ using System.Collections.Generic;
 
 namespace Integracja.Server.Web.Areas.PanelAdmina.Models.Categories
 {
-    public class CategoriesViewModel : PageModel
+    public class CategoriesViewModel : CategoryFormViewModel
     {
         public List<CategoryDto> Categories { get; set; }
-
-        public CategoryModel Category { get; set; }
 
         public CategoriesViewModel() : base()
         {
             Categories = new List<CategoryDto>();
-            Category = new CategoryModel();
         }        
     }
 }
