@@ -8,22 +8,19 @@ namespace Integracja.Server.Web.Models.Shared.Question
     public class QuestionFormViewModel : PageModel
     {
         [BindProperty]
-        public QuestionModel Question { get; set; }
-        public ViewMode ViewMode { get; set; }
+        public QuestionModel Question { get; set; } = new QuestionModel();
+        public ViewMode ViewMode { get; set; } = ViewMode.Reading;
 
         public QuestionFormViewModel() : base()
         {
-            ViewMode = ViewMode.Reading;
-            Question = new QuestionModel();
         }
+
         public QuestionFormViewModel(ViewMode mode) : base()
         {
-            if (mode == ViewMode.Deleting)
-                throw new System.NotImplementedException();
             ViewMode = mode;
-            Question = new QuestionModel();
         }
-        public QuestionFormViewModel(QuestionModel question)
+
+        public QuestionFormViewModel(QuestionModel question) : base()
         {
             this.Question = question;
             if (question.Id.HasValue)
