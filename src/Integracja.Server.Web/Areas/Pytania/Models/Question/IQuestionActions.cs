@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace Integracja.Server.Web.Areas.Pytania.Models.Question
 {
-    public interface IQuestionActions : IQuestionPartialActions
+    public interface IQuestionActions : IQuestionFormActions
     {
         public const string NameOfQuestionReadView = nameof(QuestionReadView);
         public const string NameOfQuestionDelete = nameof(QuestionDelete);

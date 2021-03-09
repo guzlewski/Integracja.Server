@@ -5,25 +5,25 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 namespace Integracja.Server.Web.Models.Shared.Question
 {
 
-    public class QuestionPartialViewModel : PageModel
+    public class QuestionFormViewModel : PageModel
     {
         [BindProperty]
         public QuestionModel Question { get; set; }
         public ViewMode ViewMode { get; set; }
 
-        public QuestionPartialViewModel() : base()
+        public QuestionFormViewModel() : base()
         {
             ViewMode = ViewMode.Reading;
             Question = new QuestionModel();
         }
-        public QuestionPartialViewModel(ViewMode mode) : base()
+        public QuestionFormViewModel(ViewMode mode) : base()
         {
             if (mode == ViewMode.Deleting)
                 throw new System.NotImplementedException();
             ViewMode = mode;
             Question = new QuestionModel();
         }
-        public QuestionPartialViewModel(QuestionModel question)
+        public QuestionFormViewModel(QuestionModel question)
         {
             this.Question = question;
             if (question.Id.HasValue)

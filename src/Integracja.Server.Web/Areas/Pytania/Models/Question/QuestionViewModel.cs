@@ -3,7 +3,7 @@ using Integracja.Server.Web.Models.Shared.Question;
 
 namespace Integracja.Server.Web.Areas.Pytania.Models.Question
 {
-    public class QuestionViewModel : QuestionPartialViewModel
+    public class QuestionViewModel : QuestionFormViewModel
     {
         public QuestionAlert Alert { get; set; }
 

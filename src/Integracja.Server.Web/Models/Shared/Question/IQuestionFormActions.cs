@@ -3,12 +3,12 @@ using System.Threading.Tasks;
 
 namespace Integracja.Server.Web.Models.Shared.Question
 {
-    public interface IQuestionPartialActions
+    public interface IQuestionFormActions
     {
-        public const string NameOfQuestionCreate = nameof(IQuestionPartialActions.QuestionCreate);
-        public const string NameOfQuestionUpdate = nameof(IQuestionPartialActions.QuestionUpdate);
-        public const string NameOfAddAnswerField = nameof(IQuestionPartialActions.AddAnswerField);
-        public const string NameOfRemoveAnswerField = nameof(IQuestionPartialActions.RemoveAnswerField);
+        public const string NameOfQuestionCreate = nameof(IQuestionFormActions.QuestionCreate);
+        public const string NameOfQuestionUpdate = nameof(IQuestionFormActions.QuestionUpdate);
+        public const string NameOfAddAnswerField = nameof(IQuestionFormActions.AddAnswerField);
+        public const string NameOfRemoveAnswerField = nameof(IQuestionFormActions.RemoveAnswerField);
 
         Task<IActionResult> AddAnswerField(
         QuestionModel question);
