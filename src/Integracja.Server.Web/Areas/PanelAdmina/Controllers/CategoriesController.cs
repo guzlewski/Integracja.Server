@@ -26,6 +26,7 @@ namespace Integracja.Server.Web.Areas.PanelAdmina.Controllers
             {
                 var category = await CategoryService.Get(id.Value, UserId);
                 Model.Category = CategoryModel.ConvertToCategoryModel(category);
+                Model.ViewMode = Web.Models.Shared.Enums.ViewMode.Updating;
             }
             Model.Categories = (System.Collections.Generic.List<Infrastructure.Models.CategoryDto>)CategoryService.GetAll(UserId).Result;
             return View("Categories",Model);

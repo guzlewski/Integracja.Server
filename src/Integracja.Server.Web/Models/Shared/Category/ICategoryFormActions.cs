@@ -9,6 +9,6 @@ namespace Integracja.Server.Web.Models.Shared.Category
         public const string NameOfCategoryUpdate = nameof(CategoryUpdate);
 
         Task<IActionResult> CategoryCreate(CategoryModel category);
-        Task<IActionResult> CategoryUpdate(int categoryId);
+        Task<IActionResult> CategoryUpdate(CategoryModel category);
     }
 }

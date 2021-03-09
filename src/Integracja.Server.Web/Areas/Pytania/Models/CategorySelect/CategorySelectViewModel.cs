@@ -6,12 +6,10 @@ namespace Integracja.Server.Web.Areas.Pytania.Models.CategorySelect
 {
     public class CategorySelectViewModel : CategoryFormViewModel
     { 
-        public List<CategoryModel> Categories { get; set; }
+        public List<CategoryModel> Categories { get; set; } = new List<CategoryModel>();
 
         public CategorySelectViewModel() : base()
         {
-            Categories = new List<CategoryModel>();
         }
-
     }
 }

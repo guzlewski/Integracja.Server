@@ -8,12 +8,11 @@ namespace Integracja.Server.Web.Areas.PanelAdmina.Models.Questions
 {
     public class QuestionsViewModel
     {
-        public List<QuestionDto> Questions { get; set; }
+        public List<QuestionDto> Questions { get; set; } = new List<QuestionDto>();
         public QuestionAlert Alert { get; set; }
 
         public QuestionsViewModel() : base()
         {
-            Questions = new List<QuestionDto>();
         }
 
         public static class Ids

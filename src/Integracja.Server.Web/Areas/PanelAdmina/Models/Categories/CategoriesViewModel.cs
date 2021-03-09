@@ -7,11 +7,10 @@ namespace Integracja.Server.Web.Areas.PanelAdmina.Models.Categories
 {
     public class CategoriesViewModel : CategoryFormViewModel
     {
-        public List<CategoryDto> Categories { get; set; }
+        public List<CategoryDto> Categories { get; set; } = new List<CategoryDto>();
 
         public CategoriesViewModel() : base()
         {
-            Categories = new List<CategoryDto>();
         }        
     }
 }
