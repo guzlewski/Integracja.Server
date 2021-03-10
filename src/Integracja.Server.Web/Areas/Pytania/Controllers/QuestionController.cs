@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Integracja.Server.Core.Models.Identity;
 using Integracja.Server.Infrastructure.Data;
+using Integracja.Server.Web.Areas.Kategorie.Controllers;
 using Integracja.Server.Web.Areas.Pytania.Models.Question;
 using Integracja.Server.Web.Controllers;
 using Integracja.Server.Web.Models.Shared.Enums;
@@ -15,12 +16,18 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
     public class QuestionController : ApplicationController, IQuestionActions
     {
         protected QuestionViewModel Model { get; set; }
+
         public static new string Name { get => "Question"; }
         public QuestionController(UserManager<User> userManager, ApplicationDbContext dbContext, IMapper mapper) : base(userManager, dbContext, mapper)
         {
         }
 
         public virtual IActionResult Index()
+        {
+            return IndexResult("Index", "Home");
+        }
+
+        protected IActionResult IndexResult( string redirectActionName, string redirectControllerName )
         {
             var alert = GetAlert<QuestionAlert>();
             var question = TryRetrieveFromTempData<QuestionModel>();
@@ -33,13 +40,13 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
             else
             {
                 SetAlert(alert); // przekazuję dalej
-                return RedirectToAction("Index", HomeController.Name);
+                return RedirectToAction(redirectActionName, redirectControllerName);
             }
         }
 
         public async Task<IActionResult> QuestionCreateViewStep1()
         {
-            return RedirectToAction("Index", CategorySelectController.Name);
+            return RedirectToAction("Index", CategorySelectController.Name, new { area = "Kategorie" });
         }
 
         public async Task<IActionResult> QuestionCreateViewStep2(int categoryId)
@@ -58,10 +65,11 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
 
             SetAlert(QuestionAlert.QuestionCreateSuccess());
 
-            // jeśli weszło z edycji to cofamy do głównego panelu jeśli inaczej to zostajemy i można dodać kolejny pytanie do kategorii
+            // jeśli weszło z edycji to cofamy do głównego panelu 
             if (question.Id.HasValue)
                 return RedirectToAction("Index");
-            else return RedirectToAction(IQuestionActions.NameOfQuestionCreateViewStep2, new { categoryId = question.CategoryId });
+            // jeśli inaczej to zostajemy i można dodać kolejne pytanie do kategorii
+            else return RedirectToAction( nameof(IQuestionActions.QuestionCreateViewStep2), new { categoryId = question.CategoryId });
         }
         public async Task<IActionResult> QuestionReadView(int? questionId)
         {

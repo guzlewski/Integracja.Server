@@ -1,32 +1,37 @@
 ﻿using AutoMapper;
 using Integracja.Server.Core.Models.Identity;
 using Integracja.Server.Infrastructure.Data;
-using Integracja.Server.Web.Areas.Pytania.Models.CategorySelect;
+using Integracja.Server.Web.Areas.Kategorie.Models.CategorySelect;
+using Integracja.Server.Web.Areas.Pytania.Controllers;
 using Integracja.Server.Web.Areas.Pytania.Models.Question;
 using Integracja.Server.Web.Controllers;
 using Integracja.Server.Web.Models.Shared.Category;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Integracja.Server.Web.Areas.Pytania.Controllers
+namespace Integracja.Server.Web.Areas.Kategorie.Controllers
 {
-    [Area("Pytania")]
+    [Area("Kategorie")]
     public class CategorySelectController : ApplicationController, ICategorySelectActions
     {
         private CategorySelectViewModel Model { get; set; }
+        public static new string Name { get => "CategorySelect"; }
+
         public CategorySelectController(UserManager<User> userManager, ApplicationDbContext dbContext, IMapper mapper) : base(userManager, dbContext, mapper)
         {
         }
-
-        public static new string Name { get => "CategorySelect"; }
+        
         public async Task<IActionResult> Index(int? id)
         {
             Model = new CategorySelectViewModel();
             Model.Categories = CategoryModel.ConvertToList(await CategoryService.GetAll(UserId));
+
             if (id.HasValue)
-                Model.Category.Id = id.Value;
+            {
+                Model.CategoryFormModel.Category.Id = id.Value;
+            }
+
             return View("CategorySelect",Model);
         }
 
@@ -43,7 +48,7 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
 
         public async Task<IActionResult> GotoQuestionCreate(int id)
         {
-            return RedirectToAction(IQuestionActions.NameOfQuestionCreateViewStep2, QuestionController.Name, new { categoryId = id });
+            return RedirectToAction(nameof(IQuestionActions.QuestionCreateViewStep2), QuestionController.Name, new { area = "Pytania", categoryId = id });
         }
     }
 }

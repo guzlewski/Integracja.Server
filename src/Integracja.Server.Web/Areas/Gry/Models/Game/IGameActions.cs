@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Integracja.Server.Web.Areas.Gry.Models.Game
 {
-    interface IGameActions
+    public interface IGameActions
     {
     }
 }

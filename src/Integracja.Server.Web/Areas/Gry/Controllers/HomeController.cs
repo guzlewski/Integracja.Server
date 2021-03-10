@@ -2,6 +2,7 @@
 using Integracja.Server.Core.Models.Identity;
 using Integracja.Server.Infrastructure.Data;
 using Integracja.Server.Web.Areas.Gry.Models.Home;
+using Integracja.Server.Web.Areas.TrybyGry.Controllers;
 using Integracja.Server.Web.Controllers;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -18,7 +19,7 @@ namespace Integracja.Server.Web.Areas.Gry.Controllers
 
         public async Task<IActionResult> GotoGameCreate()
         {
-            return RedirectToAction("Index", GamemodeController.Name );
+            return RedirectToAction("Index", GamemodeSelectController.Name, new { area = "TrybyGry" } );
         }
 
         public Task<IActionResult> GotoGameDelete()

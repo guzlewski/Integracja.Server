@@ -3,13 +3,15 @@ using Integracja.Server.Web.Models.Shared.Category;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Collections.Generic;
 
-namespace Integracja.Server.Web.Areas.PanelAdmina.Models.Categories
+namespace Integracja.Server.Web.Areas.Kategorie.Models.AdminHome
 {
-    public class CategoriesViewModel : CategoryFormViewModel
+    public class AdminHomeViewModel
     {
         public List<CategoryDto> Categories { get; set; } = new List<CategoryDto>();
 
-        public CategoriesViewModel() : base()
+        public CategoryFormViewModel CategoryFormModel { get; set; } = new CategoryFormViewModel();
+
+        public AdminHomeViewModel() : base()
         {
         }        
     }

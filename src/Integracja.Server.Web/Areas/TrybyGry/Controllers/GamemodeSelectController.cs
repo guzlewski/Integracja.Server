@@ -2,7 +2,7 @@
 using Integracja.Server.Core.Models.Identity;
 using Integracja.Server.Infrastructure.Data;
 using Integracja.Server.Infrastructure.Models;
-using Integracja.Server.Web.Areas.Gry.Models.Gamemode;
+using Integracja.Server.Web.Areas.TrybyGry.Models.GamemodeSelect;
 using Integracja.Server.Web.Controllers;
 using Integracja.Server.Web.Models.Shared.Enums;
 using Integracja.Server.Web.Models.Shared.Gamemode;
@@ -11,24 +11,24 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
 
-namespace Integracja.Server.Web.Areas.Gry.Controllers
+namespace Integracja.Server.Web.Areas.TrybyGry.Controllers
 {
-    [Area("Gry")]
-    public class GamemodeController : ApplicationController, IGamemodeActions
+    [Area("TrybyGry")]
+    public class GamemodeSelectController : ApplicationController, IGamemodeSelectActions
     {
-        public GamemodeViewModel Model { get; set; }
-        public static new string Name { get => "Gamemode"; }
+        public GamemodeSelectViewModel Model { get; set; }
+        public static new string Name { get => "GamemodeSelect"; }
 
-        public GamemodeController(UserManager<User> userManager, ApplicationDbContext dbContext, IMapper mapper) : base(userManager, dbContext, mapper)
+        public GamemodeSelectController(UserManager<User> userManager, ApplicationDbContext dbContext, IMapper mapper) : base(userManager, dbContext, mapper)
         {
         }
 
         public async Task<IActionResult> Index(int? id)
         {
-            Model = new GamemodeViewModel();
+            Model = new GamemodeSelectViewModel();
             Model.Gamemodes = GamemodeModel.MapToList<GamemodeDto>( await GamemodeService.GetAll(UserId));
             Model.SelectedGamemode = id;
-            return View("Gamemodes", Model);
+            return View("GamemodeSelect", Model);
         }
 
         public async Task<IActionResult> GamemodeCreate(GamemodeModel gamemode)

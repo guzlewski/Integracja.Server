@@ -1,6 +1,6 @@
-﻿@using Integracja.Server.Web.Areas.Pytania.Models.CategorySelect
-@using static Integracja.Server.Web.Areas.Pytania.Models.CategorySelect.CategorySelectViewModel
-@using static Integracja.Server.Web.Areas.Pytania.Models.CategorySelect.ICategorySelectActions
+﻿@using Integracja.Server.Web.Areas.Kategorie.Models.CategorySelect
+@using static Integracja.Server.Web.Areas.Kategorie.Models.CategorySelect.CategorySelectViewModel
+@using static Integracja.Server.Web.Areas.Kategorie.Models.CategorySelect.ICategorySelectActions
 @model CategorySelectViewModel
 
 @*wybór i dodawanie kategorii*@
@@ -10,8 +10,8 @@
         <br />
 
         <a class="btn btn-primary"
-           asp-action="@NameOfGotoQuestionCreate"
-           asp-route-id="@Model.Category.Id">
+           asp-action="@nameof(ICategorySelectActions.GotoQuestionCreate)"
+           asp-route-id="@Model.CategoryFormModel.Category.Id">
             Dalej...
         </a>
         <br />
@@ -41,7 +41,7 @@
                         <tr>
                             <td>
                                 <a class="btn btn-light"
-                                   asp-action="@NameOfCategoryRead"
+                                   asp-action="@nameof(ICategorySelectActions.CategoryRead)"
                                    asp-route-id="@Model.Categories[i].Id">
                                     @Model.Categories[i].Name
                                 </a>
@@ -58,7 +58,7 @@
         <h2>Lub stwórz nową</h2>
         <br />
 
-        @{ await Html.RenderPartialAsync("~/Views/Shared/Category/_CategoryForm.cshtml", Model);}
+        @{ await Html.RenderPartialAsync("~/Views/Shared/Category/_CategoryForm.cshtml", Model.CategoryFormModel);}
 
     </div>
 </div>

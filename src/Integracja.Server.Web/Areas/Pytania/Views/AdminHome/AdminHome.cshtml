@@ -1,8 +1,8 @@
-﻿@using Integracja.Server.Web.Areas.PanelAdmina.Models.Questions
+﻿@using Integracja.Server.Web.Areas.Pytania.Models.AdminHome
 @using Integracja.Server.Web.Models.Shared.Question
-@using static Integracja.Server.Web.Areas.PanelAdmina.Models.Questions.QuestionsViewModel
-@using static Integracja.Server.Web.Areas.PanelAdmina.Models.Questions.IQuestionsActions
-@model QuestionsViewModel
+@using static Integracja.Server.Web.Areas.Pytania.Models.AdminHome.AdminHomeViewModel
+@using static Integracja.Server.Web.Areas.Pytania.Models.AdminHome.IAdminHomeActions
+@model AdminHomeViewModel
 
 @{ await Html.RenderPartialAsync("~/Views/Shared/Question/_QuestionAlert.cshtml", Model.Alert);}
 
@@ -31,9 +31,9 @@
                     <td>@question.CategoryId</td>
                     <td>@question.IsPublic</td>
                     <td>
-                        <a asp-action="@NameOfGotoQuestionRead" asp-route-id="@question.Id">Podgląd</a> |
-                        <a asp-action="@NameOfGotoQuestionUpdate" asp-route-id="@question.Id">Edycja</a> |
-                        <a asp-action="@NameOfGotoQuestionDelete" asp-route-id="@question.Id">Usuń</a>
+                        <a asp-action="@nameof(IAdminHomeActions.GotoQuestionRead)" asp-route-id="@question.Id">Szczegóły</a> |
+                        <a asp-action="@nameof(IAdminHomeActions.GotoQuestionUpdate)" asp-route-id="@question.Id">Edycja</a> |
+                        <a asp-action="@nameof(IAdminHomeActions.GotoQuestionDelete)" asp-route-id="@question.Id">Usuń</a>
                     </td>
                 </tr>
             }
@@ -42,6 +42,6 @@
 </div>
 
 <div>
-    <a asp-action="@NameOfGotoQuestionCreate">Stwórz pytanie</a>
+    <a asp-action="@nameof(IAdminHomeActions.GotoQuestionCreate)">Stwórz pytanie</a>
 </div>
 

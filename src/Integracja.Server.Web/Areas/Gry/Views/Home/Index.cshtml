@@ -25,9 +25,9 @@
                 <td>Czas rozpoczęcia</td>
                 <td>60 min</td>
                 <td>
-                    <a asp-action="@NameOfGotoGameRead" asp-route-id="">Szczegóły</a> |
-                    <a asp-action="@NameOfGotoGameUpdate" asp-route-id="">Edytuj</a> |
-                    <a asp-action="@NameOfGotoGameDelete" asp-route-id="">Anuluj</a>
+                    <a asp-action="@nameof(IHomeActions.GotoGameRead)" asp-route-id="">Szczegóły</a> |
+                    <a asp-action="@nameof(IHomeActions.GotoGameUpdate)" asp-route-id="">Edytuj</a> |
+                    <a asp-action="@nameof(IHomeActions.GotoGameDelete)" asp-route-id="">Anuluj</a>
                 </td>
 
             </tr>
@@ -40,7 +40,7 @@
 
 <div>
     <a class="btn btn-primary"
-       asp-action="@NameOfGotoGameCreate">
+       asp-action="@nameof(IHomeActions.GotoGameCreate)">
         Stwórz nową grę
     </a>
 </div>

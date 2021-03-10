@@ -85,6 +85,16 @@ namespace Integracja.Server.Web
                     pattern: "Gry/{controller=Home}/{action=Index}");
 
                 endpoints.MapAreaControllerRoute(
+                    name: "TrybyGryArea",
+                    areaName: "TrybyGry",
+                    pattern: "TrybyGry/{controller=GamemodeSelect}/{action=Index}");
+
+                endpoints.MapAreaControllerRoute(
+                    name: "KategorieArea",
+                    areaName: "Kategorie",
+                    pattern: "Kategorie/{controller=CategorySelect}/{action=Index}");
+
+                endpoints.MapAreaControllerRoute(
                     name: "PytaniaArea",
                     areaName: "Pytania",
                     pattern: "Pytania/{controller=Home}/{action=Index}");

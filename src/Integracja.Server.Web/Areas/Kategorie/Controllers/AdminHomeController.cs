@@ -1,40 +1,43 @@
 ﻿using AutoMapper;
 using Integracja.Server.Core.Models.Identity;
 using Integracja.Server.Infrastructure.Data;
-using Integracja.Server.Web.Areas.PanelAdmina.Models.Categories;
+using Integracja.Server.Web.Areas.Kategorie.Models.AdminHome;
 using Integracja.Server.Web.Controllers;
 using Integracja.Server.Web.Models.Shared.Category;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
-namespace Integracja.Server.Web.Areas.PanelAdmina.Controllers
+namespace Integracja.Server.Web.Areas.Kategorie.Controllers
 {
-    [Area("PanelAdmina")]
-    public class CategoriesController : ApplicationController, ICategoriesActions
+    [Area("Kategorie")]
+    public class AdminHomeController : ApplicationController, IAdminHomeActions
     {
-        private CategoriesViewModel Model { get; set; }
+        public AdminHomeViewModel Model { get; set; }
+        public static new string Name { get => "AdminHome"; }
 
-        public CategoriesController(UserManager<User> userManager, ApplicationDbContext dbContext, IMapper mapper) : base(userManager, dbContext, mapper)
+        public AdminHomeController(UserManager<User> userManager, ApplicationDbContext dbContext, IMapper mapper) : base(userManager, dbContext, mapper)
         {
-            Model = new CategoriesViewModel();
         }
 
-        public async Task<IActionResult> Index( int? id )
+        public async Task<IActionResult> Index(int? id)
         {
-            if (id.HasValue)
+            Model = new AdminHomeViewModel();
+            Model.Categories = (System.Collections.Generic.List<Infrastructure.Models.CategoryDto>)CategoryService.GetAll(UserId).Result;
+
+            if (id.HasValue) // forma kategorii do wyświetlania i edycji jest wbudowana w widok
             {
                 var category = await CategoryService.Get(id.Value, UserId);
-                Model.Category = CategoryModel.ConvertToCategoryModel(category);
-                Model.ViewMode = Web.Models.Shared.Enums.ViewMode.Updating;
+                Model.CategoryFormModel.Category = CategoryModel.ConvertToCategoryModel(category);
+                Model.CategoryFormModel.ViewMode = Web.Models.Shared.Enums.ViewMode.Updating;
             }
-            Model.Categories = (System.Collections.Generic.List<Infrastructure.Models.CategoryDto>)CategoryService.GetAll(UserId).Result;
-            return View("Categories",Model);
+            
+            return View("AdminHome", Model);
         }
 
         public async Task<IActionResult> CategoryDelete(int? id)
         {
-            if( id.HasValue )
+            if (id.HasValue)
                 await CategoryService.Delete(id.Value, UserId);
             return RedirectToAction("Index");
         }
@@ -53,7 +56,7 @@ namespace Integracja.Server.Web.Areas.PanelAdmina.Controllers
 
         public async Task<IActionResult> CategoryRead(int? id)
         {
-            return RedirectToAction("Index", new { id = id } );
+            return RedirectToAction("Index", new { id = id });
         }
     }
 }

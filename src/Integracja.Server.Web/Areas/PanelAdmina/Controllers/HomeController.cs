@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Integracja.Server.Web.Areas.PanelAdmina.Controllers
 {
     [Area("PanelAdmina")]
-    public class HomeController : ApplicationController
+    public class HomeController : ApplicationController, IHomeActions
     {
         private HomeViewModel Model { get; set; }
 
@@ -28,6 +28,16 @@ namespace Integracja.Server.Web.Areas.PanelAdmina.Controllers
             var user = UserManager.GetUserAsync(User);
 
             return new FileContentResult(user.Result.Picture, "image/jpeg");
+        }
+
+        public async System.Threading.Tasks.Task<IActionResult> GotoPytaniaAdminHome()
+        {
+            return RedirectToAction("Index", Pytania.Controllers.AdminHomeController.Name, new { area = "Pytania" });
+        }
+
+        public async System.Threading.Tasks.Task<IActionResult> GotoKategorieAdminHome()
+        {
+            return RedirectToAction("Index", Kategorie.Controllers.AdminHomeController.Name, new { area = "Kategorie" });
         }
     }
 }

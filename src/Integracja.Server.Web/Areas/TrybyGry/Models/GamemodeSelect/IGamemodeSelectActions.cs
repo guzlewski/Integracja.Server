@@ -2,9 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
-namespace Integracja.Server.Web.Areas.Gry.Models.Gamemode
+namespace Integracja.Server.Web.Areas.TrybyGry.Models.GamemodeSelect
 {
-    public interface IGamemodeActions : IGamemodeFormActions
+    public interface IGamemodeSelectActions : IGamemodeFormActions
     {
         Task<IActionResult> GamemodeRead(int? id);
         Task<IActionResult> GamemodeDelete(int? id);
