@@ -1,6 +1,6 @@
 ﻿.konto {
     height: 78vmin;
-
+    border: 2px solid #E5E5E5;
     box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
 }
 

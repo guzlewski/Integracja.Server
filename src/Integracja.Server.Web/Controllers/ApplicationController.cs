@@ -98,6 +98,12 @@ namespace Integracja.Server.Web.Controllers
         {
             var user = UserManager.GetUserAsync(User);
 
+            if(user.Result.Picture == null)
+            {
+                var imageBytes = System.IO.File.ReadAllBytes("wwwroot/img/user.png");
+                return new FileContentResult(imageBytes, "image/jpeg");
+            }
+
             return new FileContentResult(user.Result.Picture, "image/jpeg");
         }
     }
