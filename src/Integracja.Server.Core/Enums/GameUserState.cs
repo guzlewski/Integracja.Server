@@ -2,7 +2,6 @@
 {
     public enum GameUserState
     {
-        Invited,
         Active,
         Left
     }
