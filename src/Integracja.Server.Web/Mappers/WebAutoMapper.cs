@@ -2,6 +2,7 @@
 using Integracja.Server.Infrastructure.Models;
 using Integracja.Server.Web.Models.Shared.Answer;
 using Integracja.Server.Web.Models.Shared.Category;
+using Integracja.Server.Web.Models.Shared.Gamemode;
 using Integracja.Server.Web.Models.Shared.Question;
 
 namespace Integracja.Server.Web.Mappers
@@ -33,7 +34,13 @@ namespace Integracja.Server.Web.Mappers
                 cfg.CreateMap<CategoryModel, EditCategoryDto>();
                 cfg.CreateMap<CategoryDto, CategoryModel>();
                 cfg.CreateMap<DetailCategoryDto, CategoryModel>();
+
+                cfg.CreateMap<DetailGamemodeDto, GamemodeModel>();
+                cfg.CreateMap<GamemodeDto, GamemodeModel>();
+                cfg.CreateMap<GamemodeModel, CreateGamemodeDto>();
+                cfg.CreateMap<GamemodeModel, EditGamemodeDto>();
                 
+
             })
             .CreateMapper();
         }

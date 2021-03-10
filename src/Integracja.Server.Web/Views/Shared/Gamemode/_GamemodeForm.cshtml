@@ -13,7 +13,7 @@
 
     <div class="form-group">
         <h4>Czy publiczny ?</h4>
-        <input asp-for="Gamemode.IsPublic" type="hidden" class="form-check" />
+        <input asp-for="Gamemode.IsPublic" class="form-check" />
     </div>
 
     <div class="form-group">
@@ -28,11 +28,15 @@
     <div class="form-group">
         @if (Model.ViewMode == Creating)
         {
-            <button type="submit" class="btn btn-primary" asp-action="@nameof(IGamemodeFormActions.GamemodeCreate)" />
+            <button type="submit" class="btn btn-primary" asp-action="@nameof(IGamemodeFormActions.GamemodeCreate)">
+                Stwórz
+            </button>
         }
         else if (Model.ViewMode == Updating)
         {
-            <button type="submit" class="btn btn-primary" asp-action="@nameof(IGamemodeFormActions.GamemodeUpdate)" />
+            <button type="submit" class="btn btn-primary" asp-action="@nameof(IGamemodeFormActions.GamemodeUpdate)">
+                Zaaktualizuj    
+            </button>
         }
     </div>
 </form>
