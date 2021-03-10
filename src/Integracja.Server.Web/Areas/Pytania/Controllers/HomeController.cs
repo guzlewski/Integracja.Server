@@ -31,13 +31,6 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
             return View(Model);
         }
 
-        public FileContentResult Picture()
-        {
-            var user = UserManager.GetUserAsync(User);
-
-            return new FileContentResult(user.Result.Picture, "image/jpeg");
-        }
-
         public async Task<IActionResult> GotoQuestionCreate()
         {
             return RedirectToAction(nameof(IQuestionActions.QuestionCreateViewStep1), QuestionController.Name);

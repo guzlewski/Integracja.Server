@@ -27,13 +27,6 @@ namespace Integracja.Server.Web.Areas.Konto.Controllers
             return View();
         }
 
-        public FileContentResult Picture()
-        {
-            var user = UserManager.GetUserAsync(User);
-
-            return new FileContentResult(user.Result.Picture, "image/jpeg");
-        }
-
         [HttpPost]
         public async Task<IActionResult> UploadPicture(IFormFile file)
         {

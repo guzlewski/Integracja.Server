@@ -93,5 +93,12 @@ namespace Integracja.Server.Web.Controllers
         {
             return TryRetrieveFromTempData<T>();
         }
+
+        public FileContentResult Picture()
+        {
+            var user = UserManager.GetUserAsync(User);
+
+            return new FileContentResult(user.Result.Picture, "image/jpeg");
+        }
     }
 }

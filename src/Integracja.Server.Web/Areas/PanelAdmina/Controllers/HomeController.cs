@@ -23,13 +23,6 @@ namespace Integracja.Server.Web.Areas.PanelAdmina.Controllers
             return View("Index", Model);
         }
 
-        public FileContentResult Picture()
-        {
-            var user = UserManager.GetUserAsync(User);
-
-            return new FileContentResult(user.Result.Picture, "image/jpeg");
-        }
-
         public async System.Threading.Tasks.Task<IActionResult> GotoPytaniaAdminHome()
         {
             return RedirectToAction("Index", Pytania.Controllers.AdminHomeController.Name, new { area = "Pytania" });
