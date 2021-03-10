@@ -52,6 +52,12 @@ namespace Integracja.Server.Web.Controllers
         protected IQuestionService QuestionService { get => 
         new QuestionService(new QuestionRepository(DbContext), Mapper, Mapper.ConfigurationProvider); }
 
+        protected IGamemodeService GamemodeService { get => 
+        new GamemodeService(new GamemodeRepository(DbContext), Mapper, Mapper.ConfigurationProvider); }
+
+        protected IGameService GameService { get => 
+        new GameService(new GameRepository(DbContext, new Random()), Mapper, Mapper.ConfigurationProvider); }
+
         protected void SaveToTempData<T>(T form)
         {
             string jsonString = JsonSerializer.Serialize<T>(form);
