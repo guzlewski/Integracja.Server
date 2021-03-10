@@ -27,6 +27,7 @@ namespace Integracja.Server.Web.Areas.Gry.Controllers
         {
             Model = new GamemodeViewModel();
             Model.Gamemodes = GamemodeModel.MapToList<GamemodeDto>( await GamemodeService.GetAll(UserId));
+            Model.SelectedGamemode = id;
             return View("Gamemodes", Model);
         }
 
@@ -73,6 +74,11 @@ namespace Integracja.Server.Web.Areas.Gry.Controllers
             var formModel = new GamemodeFormViewModel();
             formModel.ViewMode = ViewMode.Creating;
             return View("Gamemode", formModel);
+        }
+
+        public Task<IActionResult> GotoGameCreate()
+        {
+            throw new NotImplementedException();
         }
     }
 }

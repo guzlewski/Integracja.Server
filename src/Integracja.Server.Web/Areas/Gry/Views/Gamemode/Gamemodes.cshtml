@@ -3,7 +3,7 @@
 @using static Integracja.Server.Web.Areas.Gry.Models.Gamemode.IGamemodeActions
 @model GamemodeViewModel
 
-<h2>Tryby gry</h2>
+<h2>Wybierz tryb gry</h2>
 <br />
 
 <div class="table-wrapper-scroll-y scrollbar-secondary">
@@ -41,10 +41,21 @@
 
 <br />
 
+<h2>Lub stwórz nowy</h2>
+<br />
+
 <div>
     <a class="btn btn-primary"
        asp-action="@nameof(IGamemodeActions.GamemodeCreateView)">
         Stwórz nowy tryb gry
     </a>
 </div>
+<br />
 
+<h2>Przejdź dalej</h2>
+<br />
+<a class="btn btn-primary"
+   asp-action="@nameof(IGamemodeActions.GamemodeCreateView)"
+   asp-route-id="@Model.SelectedGamemode">
+    Stwórz grę
+</a>

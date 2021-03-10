@@ -10,5 +10,6 @@ namespace Integracja.Server.Web.Areas.Gry.Models.Gamemode
         Task<IActionResult> GamemodeDelete(int? id);
         Task<IActionResult> GamemodeUpdateView(int? id);
         Task<IActionResult> GamemodeCreateView();
+        Task<IActionResult> GotoGameCreate();
     }
 }
