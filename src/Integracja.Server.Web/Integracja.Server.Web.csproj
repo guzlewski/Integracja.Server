@@ -6,6 +6,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Areas\Konto\Data\**" />
+    <Content Remove="Areas\Konto\Data\**" />
+    <EmbeddedResource Remove="Areas\Konto\Data\**" />
+    <None Remove="Areas\Konto\Data\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="5.0.3" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
@@ -26,7 +33,6 @@
 
   <ItemGroup>
     <Folder Include="Areas\Gry\Controllers\" />
-    <Folder Include="Areas\Konto\Data\" />
   </ItemGroup>
 
 </Project>

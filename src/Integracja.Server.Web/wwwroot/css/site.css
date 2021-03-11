@@ -6,7 +6,7 @@
 
 body {
     font-family: Poppins, sans-serif;
-    background: #fafafa;
+    background: #f2f6f8 !important;
 }
 
 .main {
@@ -190,10 +190,10 @@ a:active {
 .navbar {
     padding: 0 !important;
     background: #fff;
-    border: 2px solid #E5E5E5;
+    border: 1px solid #F0F0F0;
     border-radius: 0;
     margin-bottom: 35px;
-    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.05);
     height: 70px;
 }
 

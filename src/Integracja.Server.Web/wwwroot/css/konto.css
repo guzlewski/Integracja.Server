@@ -1,19 +1,50 @@
 ﻿.konto {
     height: 78vmin;
-    border: 2px solid #E5E5E5;
+    background: #fff;
+    border: 1px solid #F0F0F0;
     box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .profile_picture {
-    width: 17rem;
-    height: 17rem;
+    width: 13rem;
+    height: 13rem;
     border: 0.2rem solid rgba(0, 0, 0, 0.1);
+}
+
+.username {
+    text-align: center;
+    font-size: 1.3em;
+}
+
+#title {
+    color: #fed136;
+    font-size: 1.7em;
+}
+
+#status_email {
+    color: green;
+}
+
+#status_numeru {
+    color: red;
+}
+
+.titles {
+    font-weight: bold !important;
+}
+
+.dane_konta .bord {
+    border-bottom: 2px solid #F0F0F0 !important;
+}
+
+.dane_konta .bord1 {
+    border-top: 2px solid #F0F0F0 !important;
 }
 
 @media (max-width: 992px) {
     .profile_picture {
-        width: 16rem;
-        height: 16rem;
+        width: 11rem;
+        height: 11rem;
         margin-left: auto;
         margin-right: auto;
     }
@@ -21,8 +52,8 @@
 
 @media (max-width: 768px) {
     .profile_picture {
-        width: 14rem;
-        height: 14rem;
+        width: 10rem;
+        height: 10rem;
         margin-left: auto;
         margin-right: auto;
     }

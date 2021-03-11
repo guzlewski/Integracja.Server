@@ -24,8 +24,12 @@ namespace Integracja.Server.Web.Areas.Konto.Controllers
         [HttpGet]
         public IActionResult Index()
         {
+            string username = User.Identity.Name;
+            ViewData["Name"] = username;
+
             return View();
         }
+
 
         [HttpPost]
         public async Task<IActionResult> UploadPicture(IFormFile file)
