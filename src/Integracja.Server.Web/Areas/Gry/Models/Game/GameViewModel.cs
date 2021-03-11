@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Integracja.Server.Infrastructure.Models;
+using Integracja.Server.Web.Models.Shared.Category;
+using Integracja.Server.Web.Models.Shared.Question;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Integracja.Server.Web.Areas.Gry.Models.Game
 {
