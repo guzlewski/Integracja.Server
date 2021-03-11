@@ -1,0 +1,7 @@
+﻿@using Integracja.Server.Web.Areas.Pytania.Models.Question
+@using static Integracja.Server.Web.Areas.Pytania.Models.Question.QuestionViewModel
+@using static Integracja.Server.Web.Areas.Pytania.Models.Question.IQuestionActions
+@using Integracja.Server.Web.Models.Shared.Enums
+@model QuestionViewModel
+
+@{ await Html.RenderPartialAsync("~/Areas/Pytania/Views/Question/Question.cshtml"); }

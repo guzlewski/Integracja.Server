@@ -33,22 +33,22 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
 
         public async Task<IActionResult> GotoQuestionRead(int? id)
         {
-            return RedirectToAction(nameof(IQuestionActions.QuestionReadView), QuestionController.Name, new { questionId = id });
+            return RedirectToAction(nameof(IQuestionActions.QuestionReadView), AdminQuestionController.Name, new { questionId = id });
         }
 
         public async Task<IActionResult> GotoQuestionDelete(int? id)
         {
-            return RedirectToAction(nameof(IQuestionActions.QuestionDelete), QuestionController.Name, new { questionId = id });
+            return RedirectToAction(nameof(IQuestionActions.QuestionDelete), AdminQuestionController.Name, new { questionId = id });
         }
 
         public async Task<IActionResult> GotoQuestionCreate(int? id)
         {
-            return RedirectToAction(nameof(IQuestionActions.QuestionCreateViewStep1), QuestionController.Name, new { questionId = id });
+            return RedirectToAction(nameof(IQuestionActions.QuestionCreateViewStep1), AdminQuestionController.Name, new { questionId = id });
         }
 
         public async Task<IActionResult> GotoQuestionUpdate(int? id)
         {
-            return RedirectToAction(nameof(IQuestionActions.QuestionUpdateView), QuestionController.Name, new { questionId = id });
+            return RedirectToAction(nameof(IQuestionActions.QuestionUpdateView), AdminQuestionController.Name, new { questionId = id });
         }
     }
 }

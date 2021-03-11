@@ -16,7 +16,7 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
     public class QuestionController : ApplicationController, IQuestionActions
     {
         protected QuestionViewModel Model { get; set; }
-
+        protected virtual string QuestionViewName => "Question";
         public static new string Name { get => "Question"; }
         public QuestionController(UserManager<User> userManager, ApplicationDbContext dbContext, IMapper mapper) : base(userManager, dbContext, mapper)
         {
@@ -35,7 +35,7 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
             if (question != null)
             {
                 Model = new QuestionViewModel(question, alert);
-                return View("Question", Model);
+                return View(QuestionViewName, Model);
             }
             else
             {
@@ -57,7 +57,7 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
 
             Model.Question.CategoryId = categoryId;
 
-            return View("Question", Model);
+            return View(QuestionViewName, Model);
         }
         public async Task<IActionResult> QuestionCreate(QuestionModel question)
         {
@@ -77,7 +77,7 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
             if (questionId.HasValue)
                 Model.Question = (QuestionModel)await QuestionService.Get(questionId.Value, UserId);
             Model.ViewMode = ViewMode.Reading;
-            return View("Question", Model);
+            return View(QuestionViewName, Model);
         }
         public async Task<IActionResult> QuestionUpdate(QuestionModel question)
         {
@@ -98,16 +98,21 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
             }
                 
             Model.ViewMode = ViewMode.Updating;
-            return View("Question", Model);
+            return View(QuestionViewName, Model);
         }
-        public async Task<IActionResult> QuestionDelete(int? questionId)
+        public virtual async Task<IActionResult> QuestionDelete(int? questionId)
+        {
+            return await QuestionDeleteResult( questionId, "Index", HomeController.Name);
+        }
+
+        protected async Task<IActionResult> QuestionDeleteResult(int? questionId, string redirectActionName, string redirectControllerName)
         {
             if (questionId.HasValue)
                 await QuestionService.Delete(questionId.Value, UserId);
 
             SetAlert(QuestionAlert.QuestionDeleteSuccess());
 
-            return RedirectToAction("Index", HomeController.Name);
+            return RedirectToAction(redirectActionName, redirectControllerName);
         }
         
         public async Task<IActionResult> AddAnswerField(QuestionModel question)
