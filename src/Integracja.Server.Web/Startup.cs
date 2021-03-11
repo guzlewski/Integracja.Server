@@ -92,7 +92,7 @@ namespace Integracja.Server.Web
                 endpoints.MapAreaControllerRoute(
                     name: "KategorieArea",
                     areaName: "Kategorie",
-                    pattern: "Kategorie/{controller=CategorySelect}/{action=Index}");
+                    pattern: "Kategorie/{controller=CategoryForQuestion}/{action=Index}");
 
                 endpoints.MapAreaControllerRoute(
                     name: "PytaniaArea",

@@ -1,0 +1,26 @@
+﻿@using Integracja.Server.Web.Areas.Kategorie.Models.CategoryForQuestion
+@model CategoryForQuestionViewModel
+
+@*wybór i dodawanie kategorii*@
+<div class="row">
+    <div class="col-md-10">
+        <h2>Wybierz kategorię...</h2>
+        <br />
+
+        <a class="btn btn-primary"
+           asp-action="@nameof(ICategoryForQuestionActions.GotoQuestionCreate)"
+           asp-route-id="@Model.CategoryFormModel.Category.Id">
+            Dalej...
+        </a>
+        <br />
+
+        @{  await Html.RenderPartialAsync("~/Areas/Kategorie/Views/CategorySelect/CategorySelect.cshtml", Model.CategorySelectModel);}
+
+        @*dodawanie kategorii*@
+        <h2>Lub stwórz nową</h2>
+        <br />
+
+        @{ await Html.RenderPartialAsync("~/Views/Shared/Category/_CategoryForm.cshtml", Model.CategoryFormModel);}
+
+    </div>
+</div>

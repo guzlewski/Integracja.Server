@@ -46,7 +46,7 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
 
         public async Task<IActionResult> QuestionCreateViewStep1()
         {
-            return RedirectToAction("Index", CategorySelectController.Name, new { area = "Kategorie" });
+            return RedirectToAction("Index", CategoryForQuestionController.Name, new { area = "Kategorie" });
         }
 
         public async Task<IActionResult> QuestionCreateViewStep2(int categoryId)

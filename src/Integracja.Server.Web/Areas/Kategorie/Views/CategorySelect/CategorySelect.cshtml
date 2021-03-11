@@ -1,64 +1,38 @@
 ﻿@using Integracja.Server.Web.Areas.Kategorie.Models.CategorySelect
-@using static Integracja.Server.Web.Areas.Kategorie.Models.CategorySelect.CategorySelectViewModel
-@using static Integracja.Server.Web.Areas.Kategorie.Models.CategorySelect.ICategorySelectActions
 @model CategorySelectViewModel
-
-@*wybór i dodawanie kategorii*@
-<div class="row">
-    <div class="col-md-10">
-        <h2>Wybierz kategorię...</h2>
-        <br />
-
-        <a class="btn btn-primary"
-           asp-action="@nameof(ICategorySelectActions.GotoQuestionCreate)"
-           asp-route-id="@Model.CategoryFormModel.Category.Id">
-            Dalej...
-        </a>
-        <br />
-
-        @*tabela z przeglądem kategorii i możliwością wyboru*@
-        <div class="input-group">
-            <div class="form-outline">
-                <input type="search" placeholder="Nazwa kategorii" class="form-control" />
-            </div>
-            <button type="button" class="btn btn-primary">
-                <i class="bi bi-search"></i>
-            </button>
-        </div>
-        <br />
-
-        <div class="table-wrapper-scroll-y scrollbar-secondary">
-            <table class="table table-bordered table-striped table-sm ">
-                <thead>
-                    <tr>
-                        <th scope="col">Nazwa</th>
-                        <th scope="col">Ilość pytań</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @for (int i = 0; i < Model.Categories.Count; i++)
-                    {
-                        <tr>
-                            <td>
-                                <a class="btn btn-light"
-                                   asp-action="@nameof(ICategorySelectActions.CategoryRead)"
-                                   asp-route-id="@Model.Categories[i].Id">
-                                    @Model.Categories[i].Name
-                                </a>
-                            </td>
-                            <td>@Model.Categories[i].QuestionsCount</td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
-        <br />
-
-        @*dodawanie kategorii*@
-        <h2>Lub stwórz nową</h2>
-        <br />
-
-        @{ await Html.RenderPartialAsync("~/Views/Shared/Category/_CategoryForm.cshtml", Model.CategoryFormModel);}
-
+@*tabela z przeglądem kategorii i możliwością wyboru*@
+<div class="input-group">
+    <div class="form-outline">
+        <input type="search" placeholder="Nazwa kategorii" class="form-control" />
     </div>
+    <button type="button" class="btn btn-primary">
+        <i class="bi bi-search"></i>
+    </button>
+</div>
+<br />
+
+<div class="table-wrapper-scroll-y scrollbar-secondary">
+    <table class="table table-bordered table-striped table-sm ">
+        <thead>
+            <tr>
+                <th scope="col">Nazwa</th>
+                <th scope="col">Ilość pytań</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.Categories.Count; i++)
+                    {
+            <tr>
+                <td>
+                    <a class="btn btn-light"
+                       asp-action="@nameof(ICategorySelectActions.CategoryRead)"
+                       asp-route-id="@Model.Categories[i].Id">
+                        @Model.Categories[i].Name
+                    </a>
+                </td>
+                <td>@Model.Categories[i].QuestionsCount</td>
+            </tr>
+                    }
+        </tbody>
+    </table>
 </div>

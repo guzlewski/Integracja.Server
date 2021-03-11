@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Integracja.Server.Core.Models.Identity;
 using Integracja.Server.Infrastructure.Data;
-using Integracja.Server.Web.Areas.Kategorie.Models.CategorySelect;
+using Integracja.Server.Web.Areas.Kategorie.Models.CategoryForQuestion;
 using Integracja.Server.Web.Areas.Pytania.Controllers;
 using Integracja.Server.Web.Areas.Pytania.Models.Question;
 using Integracja.Server.Web.Controllers;
@@ -13,26 +13,26 @@ using System.Threading.Tasks;
 namespace Integracja.Server.Web.Areas.Kategorie.Controllers
 {
     [Area("Kategorie")]
-    public class CategorySelectController : ApplicationController, ICategorySelectActions
+    public class CategoryForQuestionController : ApplicationController, ICategoryForQuestionActions
     {
-        private CategorySelectViewModel Model { get; set; }
-        public static new string Name { get => "CategorySelect"; }
+        private CategoryForQuestionViewModel Model { get; set; }
+        public static new string Name { get => "CategoryForQuestion"; }
 
-        public CategorySelectController(UserManager<User> userManager, ApplicationDbContext dbContext, IMapper mapper) : base(userManager, dbContext, mapper)
+        public CategoryForQuestionController(UserManager<User> userManager, ApplicationDbContext dbContext, IMapper mapper) : base(userManager, dbContext, mapper)
         {
         }
         
         public async Task<IActionResult> Index(int? id)
         {
-            Model = new CategorySelectViewModel();
-            Model.Categories = CategoryModel.ConvertToList(await CategoryService.GetAll(UserId));
+            Model = new CategoryForQuestionViewModel();
+            Model.CategorySelectModel.Categories = CategoryModel.ConvertToList(await CategoryService.GetAll(UserId));
 
             if (id.HasValue)
             {
                 Model.CategoryFormModel.Category.Id = id.Value;
             }
 
-            return View("CategorySelect",Model);
+            return View("CategoryForQuestion", Model);
         }
 
         public async Task<IActionResult> CategoryRead(int? id)
@@ -49,6 +49,12 @@ namespace Integracja.Server.Web.Areas.Kategorie.Controllers
         public async Task<IActionResult> GotoQuestionCreate(int id)
         {
             return RedirectToAction(nameof(IQuestionActions.QuestionCreateViewStep2), QuestionController.Name, new { area = "Pytania", categoryId = id });
+        }
+
+        public Task<IActionResult> CategoryUpdate(CategoryModel category)
+        {
+            // nie daję możliwości zaaktualizowania kategorii stąd
+            throw new System.NotImplementedException();
         }
     }
 }
