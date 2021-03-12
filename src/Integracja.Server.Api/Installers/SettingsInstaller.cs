@@ -9,6 +9,8 @@ namespace Integracja.Server.Api.Installers
         public void InstallServices(IServiceCollection services, IConfiguration configuration)
         {
             services.Configure<JwtSettings>(configuration.GetSection("Jwt"));
+
+            services.Configure<PictureSettings>(configuration.GetSection("Picture"));
         }
     }
 }

@@ -22,6 +22,8 @@ namespace Integracja.Server.Api.Installers
             services.AddScoped<IGameService, GameService>();
 
             services.AddScoped<IGameUserService, GameUserService>();
+
+            services.AddScoped<IPictureService, PictureService>();
         }
     }
 }
