@@ -48,6 +48,16 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
                 .ToListAsync();
         }
 
+
+        public async Task<IEnumerable<CategoryDto>> GetOwned(int userId)
+        {
+            return await _categoryRepository.GetAll()
+                .Where(c => c.OwnerId == userId &&
+                    !c.IsDeleted)
+                .ProjectTo<CategoryDto>(_configuration, new Dictionary<string, object> { { "userId", userId } })
+                .ToListAsync();
+        }
+
         public async Task<int> Add(CreateCategoryDto createCategoryDto, int userId)
         {
             var category = _mapper.Map<Category>(createCategoryDto);
