@@ -26,7 +26,7 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
             _mapper = mapper;
         }
 
-        public async Task<UserDto> Login(LoginDto dto)
+        public async Task<DetailUserDto> Login(LoginDto dto)
         {
             var user = await _context.Users
                 .FirstOrDefaultAsync(u => u.NormalizedUserName == _userManager.NormalizeName(dto.Username) && !u.IsDeleted);

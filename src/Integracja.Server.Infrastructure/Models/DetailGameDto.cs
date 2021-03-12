@@ -17,6 +17,6 @@ namespace Integracja.Server.Infrastructure.Models
         public int QuestionsCount { get; set; }
         public int MaxPlayersCount { get; set; }
         public GamemodeDto Gamemode { get; set; }
-        public ICollection<GameUserDto> Players { get; set; }
+        public ICollection<UserDto> Players { get; set; }
     }
 }

@@ -11,8 +11,8 @@ namespace Integracja.Server.Core.Models.Identity
     {
         public bool IsDeleted { get; set; }
         public Guid? SessionGuid { get; set; }
-
-        public byte[] Picture { get; set; }
+        public string ProfilePicture { get; set; }
+        public string ProfileThumbnail { get; set; }
 
         public ICollection<Category> CreatedCategories { get; set; }
         public ICollection<Question> CreatedQuestions { get; set; }  
