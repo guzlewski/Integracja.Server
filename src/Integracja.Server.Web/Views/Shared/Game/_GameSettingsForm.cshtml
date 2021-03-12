@@ -1,0 +1,35 @@
+﻿@using Integracja.Server.Web.Models.Shared.Game
+@model GameSettingsViewModel
+
+@*Pozostałe proste parametry gry*@
+
+<form>
+    <input type="hidden" asp-for="Settings.GamemodeId" />
+
+    <div class="form-group">
+        <label asp-for="Settings.Name" />
+        <input asp-for="Settings.Name" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Settings.StartTime" />
+        <input asp-for="Settings.StartTime" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Settings.EndTime" />
+        <input asp-for="Settings.EndTime" type="datetime" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Settings.RandomizeQuestionOrder" />
+        <input asp-for="Settings.RandomizeQuestionOrder" type="datetime" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Settings.MaxPlayersCount" />
+        <input asp-for="Settings.MaxPlayersCount" type="number" />
+    </div>
+
+    <button type="submit" class="btn btn-primary"
+            asp-action="@nameof(IGameSettingsFormActions.GameSettingsCreate)">Zatwierdź ustawienia</button>
+
+</form>
+
+

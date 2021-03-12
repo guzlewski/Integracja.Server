@@ -2,6 +2,7 @@
 using Integracja.Server.Core.Models.Identity;
 using Integracja.Server.Infrastructure.Data;
 using Integracja.Server.Infrastructure.Models;
+using Integracja.Server.Web.Areas.Gry.Controllers;
 using Integracja.Server.Web.Areas.TrybyGry.Models.GamemodeSelect;
 using Integracja.Server.Web.Controllers;
 using Integracja.Server.Web.Models.Shared.Enums;
@@ -76,9 +77,9 @@ namespace Integracja.Server.Web.Areas.TrybyGry.Controllers
             return View("Gamemode", formModel);
         }
 
-        public Task<IActionResult> GotoGameCreate()
+        public async Task<IActionResult> GotoGameCreate(int? gamemodeId)
         {
-            throw new NotImplementedException();
+            return RedirectToAction("Index", GameController.Name, new { area = "Gry", gamemodeId = gamemodeId });
         }
     }
 }

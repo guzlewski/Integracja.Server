@@ -1,0 +1,6 @@
+﻿@using Integracja.Server.Web.Models.Shared.Game
+@model GameSettingsViewModel
+
+<div class="col-md-10">
+    @{ await Html.RenderPartialAsync("~/Views/Shared/Game/_GameSettingsForm.cshtml", Model);}
+</div>

@@ -6,6 +6,7 @@ using Integracja.Server.Web.Controllers;
 using Integracja.Server.Web.Models.Shared.Category;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Integracja.Server.Web.Areas.Kategorie.Controllers
@@ -23,7 +24,7 @@ namespace Integracja.Server.Web.Areas.Kategorie.Controllers
         public async Task<IActionResult> Index(int? id)
         {
             Model = new AdminHomeViewModel();
-            Model.Categories = (System.Collections.Generic.List<Infrastructure.Models.CategoryDto>)CategoryService.GetAll(UserId).Result;
+            Model.Categories = (List<Infrastructure.Models.CategoryDto>)CategoryService.GetAll(UserId).Result;
 
             if (id.HasValue) // forma kategorii do wyświetlania i edycji jest wbudowana w widok
             {
