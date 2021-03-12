@@ -15,15 +15,13 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
     {
         private readonly UserManager<User> _userManager;
         private readonly ApplicationDbContext _context;
-        private readonly ILookupNormalizer _normalizer;
         private readonly ITokenService _tokenService;
         private readonly IMapper _mapper;
 
-        public AuthService(UserManager<User> userManager, ApplicationDbContext context, ILookupNormalizer normalizer, ITokenService tokenService, IMapper mapper)
+        public AuthService(UserManager<User> userManager, ApplicationDbContext context, ITokenService tokenService, IMapper mapper)
         {
             _userManager = userManager;
             _context = context;
-            _normalizer = normalizer;
             _tokenService = tokenService;
             _mapper = mapper;
         }
@@ -31,7 +29,7 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
         public async Task<UserDto> Login(LoginDto dto)
         {
             var user = await _context.Users
-                .FirstOrDefaultAsync(u => u.NormalizedUserName == _normalizer.NormalizeName(dto.Username));
+                .FirstOrDefaultAsync(u => u.NormalizedUserName == _userManager.NormalizeName(dto.Username) && !u.IsDeleted);
 
             if (user == null || !await _userManager.CheckPasswordAsync(user, dto.Password))
             {
@@ -45,7 +43,7 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
 
             var token = _tokenService.GenerateToken(user.Id, sessionGuid);
 
-            return _mapper.Map<UserDto>(user, opts => opts.Items["token"] = token);
+            return _mapper.Map<DetailUserDto>(user, opts => opts.Items["token"] = token);
         }
 
         public async Task Logout(int userId)
