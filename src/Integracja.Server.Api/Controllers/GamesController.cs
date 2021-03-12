@@ -68,5 +68,24 @@ namespace Integracja.Server.Api.Controllers
             await _gameService.Delete(id, UserId.Value);
             return NoContent();
         }
+
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status409Conflict)]
+        [HttpGet("[action]/{guid}")]
+        public async Task<IActionResult> Join(Guid guid)
+        {
+            var entityId = await _gameUserService.Join(guid, UserId.Value);
+            return CreatedAtAction(nameof(UsersController.Games), new { controller = ControllerHelper.GetName<UsersController>(), id = entityId }, null);
+        }
+
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [HttpGet("[action]/{id}")]
+        public async Task<IActionResult> Leave(int id)
+        {
+            await _gameUserService.Leave(id, UserId.Value);
+            return NoContent();
+        }
     }
 }
