@@ -58,18 +58,17 @@ namespace Integracja.Server.Web.Controllers
         protected IGameService GameService { get => 
         new GameService(new GameRepository(DbContext, new Random()), Mapper, Mapper.ConfigurationProvider); }
 
-        protected void SaveToTempData<T>(T form)
+        protected void SaveToTempData<T>(T form, string key )
         {
             string jsonString = JsonSerializer.Serialize<T>(form);
-            TempData[typeof(T).ToString()] = jsonString;
+            TempData[key] = jsonString;
         }
-
-
-        protected T TryRetrieveFromTempData<T>()
+        protected void SaveToTempData<T>(T form) => SaveToTempData<T>(form, typeof(T).ToString());
+        protected T TryRetrieveFromTempData<T>(string key)
         {
             try
             {
-                string jsonString = TempData[typeof(T).ToString()] as string;
+                string jsonString = TempData[key] as string;
                 if (jsonString == null)
                     return default(T);
                 else return JsonSerializer.Deserialize<T>(jsonString);
@@ -80,9 +79,10 @@ namespace Integracja.Server.Web.Controllers
             }
             finally
             {
-                TempData.Remove(typeof(T).ToString());
+                TempData.Remove(key);
             }
         }
+        protected T TryRetrieveFromTempData<T>() => TryRetrieveFromTempData<T>(typeof(T).ToString());
 
         public void SetAlert<T>(T alert) where T : AlertModel
         {
