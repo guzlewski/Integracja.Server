@@ -75,5 +75,35 @@ namespace Integracja.Server.Web.Models.Shared.Question
             var mapper = Mappers.WebAutoMapper.Initialize();
             return mapper.Map<QuestionModel>(v);
         }
+
+        public override int GetHashCode()
+        {
+            return this.Id.GetHashCode();
+        }
+
+        public override bool Equals(object obj)
+        {
+            return this.Equals( obj as QuestionModel );
+        }
+
+        public bool Equals(QuestionModel obj)
+        {
+            if (Object.ReferenceEquals(obj, null))
+            {
+                return false;
+            }
+
+            if (Object.ReferenceEquals(this, obj))
+            {
+                return true;
+            }
+
+            if (this.GetType() != obj.GetType())
+            {
+                return false;
+            }
+
+            return this.Id == obj.Id;
+        }
     }
 }

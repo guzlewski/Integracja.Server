@@ -10,6 +10,6 @@ namespace Integracja.Server.Web.Areas.TrybyGry.Models.GamemodeSelect
         Task<IActionResult> GamemodeDelete(int? id);
         Task<IActionResult> GamemodeUpdateView(int? id);
         Task<IActionResult> GamemodeCreateView();
-        Task<IActionResult> GotoGameCreate();
+        Task<IActionResult> GotoGameCreate(int? gamemodeId);
     }
 }
