@@ -9,7 +9,7 @@ namespace Integracja.Server.Infrastructure.Profiles
     {
         public UserProfile()
         {
-            CreateMap<User, UserDto>().BeforeMap((user, userDto, resContext) =>
+            CreateMap<User, DetailUserDto>().BeforeMap((user, userDto, resContext) =>
             {
                 var token = resContext.Items["token"] as JwtSecurityToken;
 

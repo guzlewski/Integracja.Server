@@ -22,7 +22,8 @@ namespace Integracja.Server.Api.Controllers
         [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<UserDto> Login(LoginDto dto)
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<DetailUserDto> Login(LoginDto dto)
         {
             return await _authService.Login(dto);
         }
@@ -30,7 +31,7 @@ namespace Integracja.Server.Api.Controllers
         [HttpGet("[action]")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult> Logout()
+        public async Task<IActionResult> Logout()
         {
             await _authService.Logout(UserId.Value);
             return NoContent();

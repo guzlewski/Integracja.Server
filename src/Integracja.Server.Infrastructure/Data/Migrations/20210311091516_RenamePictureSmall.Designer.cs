@@ -4,19 +4,21 @@ using Integracja.Server.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Integracja.Server.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210311091516_RenamePictureSmall")]
+    partial class RenamePictureSmall
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.4")
+                .HasAnnotation("ProductVersion", "5.0.3")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("Integracja.Server.Core.Models.Base.Answer", b =>
@@ -310,10 +312,7 @@ namespace Integracja.Server.Infrastructure.Data.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<string>("ProfilePicture")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ProfileThumbnail")
+                    b.Property<string>("Picture")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SecurityStamp")
@@ -321,6 +320,9 @@ namespace Integracja.Server.Infrastructure.Data.Migrations
 
                     b.Property<Guid?>("SessionGuid")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Thumbnail")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
@@ -382,9 +384,6 @@ namespace Integracja.Server.Infrastructure.Data.Migrations
 
                     b.Property<DateTimeOffset?>("GameEndTime")
                         .HasColumnType("datetimeoffset");
-
-                    b.Property<bool>("GameOver")
-                        .HasColumnType("bit");
 
                     b.Property<float?>("GameScore")
                         .HasColumnType("real");

@@ -39,6 +39,18 @@ namespace Integracja.Server.Infrastructure.Repositories
 
         public async Task<int> Add(Game game, bool randomizeQuestionOrder = false)
         {
+            var gamemodeEntity = await _dbContext.Gamemodes
+                .FirstOrDefaultAsync(gm => gm.Id == game.GamemodeId &&
+                    (gm.IsPublic || gm.OwnerId == game.OwnerId) &&
+                    !gm.IsDeleted);
+
+            if (gamemodeEntity == null)
+            {
+                throw new NotFoundException("Gamemode not found.");
+            }
+
+            gamemodeEntity.RowVersion++;
+
             var ids = game.Questions.Select(gq => gq.QuestionId);
             var entities = await _dbContext.Questions
                 .Where(q => !q.IsDeleted &&
@@ -57,6 +69,18 @@ namespace Integracja.Server.Infrastructure.Repositories
             }
 
             game.Questions = SelectQuestions(game.Questions, entities, game.QuestionsCount, randomizeQuestionOrder);
+            game.QuestionsCount = game.Questions.Count;
+
+            ids = game.GameUsers.Select(gu => gu.UserId);
+            game.GameUsers = await _dbContext.Users
+                .AsNoTracking()
+                .Where(u => !u.IsDeleted &&
+                    ids.Contains(u.Id))
+                .Select(u => new GameUser
+                {
+                    UserId = u.Id
+                })
+                .ToListAsync();
 
             await _dbContext.AddAsync(game);
             await _dbContext.SaveChangesAsync();

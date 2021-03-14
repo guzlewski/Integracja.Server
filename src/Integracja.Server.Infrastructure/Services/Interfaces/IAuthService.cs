@@ -5,7 +5,7 @@ namespace Integracja.Server.Infrastructure.Services.Interfaces
 {
     public interface IAuthService
     {
-        Task<UserDto> Login(LoginDto dto);
+        Task<DetailUserDto> Login(LoginDto dto);
         Task Logout(int userId);
     }
 }

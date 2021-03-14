@@ -50,6 +50,16 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
                 .ToListAsync();
         }
 
+        public async Task<IEnumerable<QuestionDto>> GetOwned(int userId)
+        {
+            return await _questionRepository.GetAll()
+                .Where(q => q.OwnerId == userId && 
+                    !q.IsDeleted && 
+                    !q.Category.IsDeleted)
+                .ProjectTo<QuestionDto>(_configuration)
+                .ToListAsync();
+        }
+
         public async Task<int> Add(CreateQuestionDto createQuestionDto, int userId)
         {
             var question = _mapper.Map<Question>(createQuestionDto);

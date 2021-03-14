@@ -13,6 +13,7 @@ namespace Integracja.Server.Core.Models.Joins
         public DateTimeOffset? GameEndTime { get; set; }
         public GameUserState GameUserState { get; set; }
 
+        public bool GameOver { get; set; }
         public int AnsweredQuestions { get; set; }
         public int CorrectlyAnsweredQuestions { get; set; }
         public int IncorrectlyAnsweredQuestions { get; set; }

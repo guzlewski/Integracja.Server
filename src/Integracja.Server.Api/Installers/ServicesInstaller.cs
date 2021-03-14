@@ -20,6 +20,12 @@ namespace Integracja.Server.Api.Installers
             services.AddScoped<IQuestionService, QuestionService>();
 
             services.AddScoped<IGameService, GameService>();
+
+            services.AddScoped<IGameUserService, GameUserService>();
+
+            services.AddSingleton<IStorageService, BlobStorageService>();
+
+            services.AddScoped<IPictureService, PictureService>();
         }
     }
 }

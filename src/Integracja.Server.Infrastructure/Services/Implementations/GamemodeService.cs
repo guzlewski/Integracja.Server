@@ -48,6 +48,15 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
                 .ToListAsync();
         }
 
+        public async Task<IEnumerable<GamemodeDto>> GetOwned(int userId)
+        {
+            return await _gamemodeRepository.GetAll()
+                .Where(gm => gm.OwnerId == userId && 
+                    !gm.IsDeleted)
+                .ProjectTo<GamemodeDto>(_configuration)
+                .ToListAsync();
+        }
+
         public async Task<int> Add(CreateGamemodeDto createGamemodeDto, int userId)
         {
             var gamemode = _mapper.Map<Gamemode>(createGamemodeDto);
