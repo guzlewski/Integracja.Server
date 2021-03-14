@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using Integracja.Server.Infrastructure.Models;
@@ -28,16 +27,27 @@ namespace Integracja.Server.Api.Controllers
             _pictureService = pictureService;
         }
 
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [HttpGet("[action]")]
-        public async Task<IActionResult> Games()
+        public async Task<IEnumerable<GameUserDto>> Games()
         {
-            throw new NotImplementedException();
+            return await _gameUserService.GetActive(UserId.Value);
         }
 
-        [HttpGet("[action]/{id}")]
-        public async Task<IActionResult> Games(int id)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [HttpGet("[action]")]
+        public async Task<IEnumerable<GameUserDto>> GamesArchived()
         {
-            throw new NotImplementedException();
+            return await _gameUserService.GetArchived(UserId.Value);
+        }
+
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [HttpGet("[action]/{id}")]
+        public async Task<DetailGameUserDto> Games(int id)
+        {
+            return await _gameUserService.Get(id, UserId.Value);
         }
 
         [ProducesResponseType(StatusCodes.Status200OK)]
