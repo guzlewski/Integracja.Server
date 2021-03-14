@@ -29,6 +29,27 @@ namespace Integracja.Server.Api.Controllers
 
         [ProducesResponseType(StatusCodes.Status200OK)]
         [HttpGet("[action]")]
+        public async Task<IEnumerable<CategoryDto>> CreatedCategories()
+        {
+            return await _categoryService.GetOwned(UserId.Value);
+        }
+
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [HttpGet("[action]")]
+        public async Task<IEnumerable<QuestionDto>> CreatedQuestions()
+        {
+            return await _questionService.GetOwned(UserId.Value);
+        }
+
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [HttpGet("[action]")]
+        public async Task<IEnumerable<GamemodeDto>> CreatedGamemodes()
+        {
+            return await _gamemodeService.GetOwned(UserId.Value);
+        }
+
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [HttpGet("[action]")]
         public async Task<IEnumerable<GameUserDto>> Games()
         {
             return await _gameUserService.GetActive(UserId.Value);
@@ -48,27 +69,6 @@ namespace Integracja.Server.Api.Controllers
         public async Task<DetailGameUserDto> Games(int id)
         {
             return await _gameUserService.Get(id, UserId.Value);
-        }
-
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [HttpGet("[action]")]
-        public async Task<IEnumerable<CategoryDto>> CreatedCategories()
-        {
-            return await _categoryService.GetOwned(UserId.Value);
-        }
-
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [HttpGet("[action]")]
-        public async Task<IEnumerable<QuestionDto>> CreatedQuestions()
-        {
-            return await _questionService.GetOwned(UserId.Value);
-        }
-
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [HttpGet("[action]")]
-        public async Task<IEnumerable<GamemodeDto>> CreatedGamemodes()
-        {
-            return await _gamemodeService.GetOwned(UserId.Value);
         }
 
         [ProducesResponseType(StatusCodes.Status201Created)]
