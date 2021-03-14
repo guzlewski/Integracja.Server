@@ -8,7 +8,7 @@ namespace Integracja.Server.Core.Repositories
     public interface IGameUserRepository
     {
         IQueryable<GameUser> Get(int gameId, int userId);
-        IQueryable<GameUser> GetAll(int gameId);
+        IQueryable<GameUser> GetAll(int userId);
         Task<int> Join(Guid gameGuid, int userId);
         Task Leave(int gameId, int userId);
     }

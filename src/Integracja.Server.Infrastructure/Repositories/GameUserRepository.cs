@@ -27,11 +27,11 @@ namespace Integracja.Server.Infrastructure.Repositories
                     gu.UserId == userId);
         }
 
-        public IQueryable<GameUser> GetAll(int gameId)
+        public IQueryable<GameUser> GetAll(int userId)
         {
             return _dbContext.GameUsers
                 .AsNoTracking()
-                .Where(gu => gu.GameId == gameId);
+                .Where(gu => gu.UserId == userId);
         }
 
         public async Task<int> Join(Guid gameGuid, int userId)
