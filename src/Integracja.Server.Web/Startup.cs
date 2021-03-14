@@ -4,10 +4,12 @@ using Integracja.Server.Web.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
 
 namespace Integracja.Server.Web
 {
@@ -24,21 +26,35 @@ namespace Integracja.Server.Web
         {
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
-                    Configuration.GetConnectionString("DatabaseConnection")));
+                    Configuration.GetConnectionString("LocalDbConnection")));
             services.AddDatabaseDeveloperPageExceptionFilter();
+            
 
             services.AddDefaultIdentity<User>(options =>
             {
-                options.SignIn.RequireConfirmedAccount = true;
+                options.SignIn.RequireConfirmedAccount = false;
                 options.User.RequireUniqueEmail = true;
             })
                 .AddEntityFrameworkStores<ApplicationDbContext>();
-            services.AddControllersWithViews();
 
             services.Configure<SmtpSettings>(Configuration.GetSection("SmtpSettings"));
             services.AddTransient<IEmailSender, SmtpEmailSender>();
 
             services.AddControllersWithViews();
+            services.AddRazorPages().AddRazorRuntimeCompilation();
+
+            services.ConfigureApplicationCookie( options =>
+            {
+                options.LoginPath = "/Identity/Account/Login";
+                options.AccessDeniedPath = "/Identity/Account/Login";
+            });
+
+            services.AddMvc(options =>
+            {
+                options.Filters.Add(new AuthorizeFilter());
+            });
+
+            services.AddAutoMapper(typeof(ApplicationDbContext));
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -63,6 +79,26 @@ namespace Integracja.Server.Web
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapAreaControllerRoute(
+                    name: "GryArea",
+                    areaName: "Gry",
+                    pattern: "Gry/{controller=Home}/{action=Index}");
+
+                endpoints.MapAreaControllerRoute(
+                    name: "PytaniaArea",
+                    areaName: "Pytania",
+                    pattern: "Pytania/{controller=Home}/{action=Index}");
+
+                endpoints.MapAreaControllerRoute(
+                    name: "PanelAdminaArea",
+                    areaName: "PanelAdmina",
+                    pattern: "PanelAdmina/{controller=Home}/{action=Index}");
+
+                endpoints.MapAreaControllerRoute(
+                    name: "KontoArea",
+                    areaName: "Konto",
+                    pattern: "Konto/{controller=Home}/{action=Index}");
+
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Przeglad}/{action=Index}/{id?}");

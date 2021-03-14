@@ -1,0 +1,47 @@
+﻿@using Integracja.Server.Web.Areas.Gry.Models.Home
+@using static Integracja.Server.Web.Areas.Gry.Models.Home.HomeViewModel
+@using static Integracja.Server.Web.Areas.Gry.Models.Home.IHomeActions
+@model HomeViewModel
+
+<h2>Gry</h2>
+<br />
+
+<div class="table-wrapper-scroll-y scrollbar-secondary">
+    <table class="table table-bordered table-striped table-sm ">
+        <thead>
+            <tr>
+                <th scope="col">Nazwa gry</th>
+                <th scope="col">Ustawienia</th>
+                <th scope="col">Rozpoczęcie</th>
+                <th scope="col">Czas trwania</th>
+                <th scope="col">Akcje</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            <tr>
+                <td>Gierki</td>
+                <td>Lista ustawień</td>
+                <td>Czas rozpoczęcia</td>
+                <td>60 min</td>
+                <td>
+                    <a asp-action="@NameOfGotoGameRead" asp-route-id="">Szczegóły</a> |
+                    <a asp-action="@NameOfGotoGameUpdate" asp-route-id="">Edytuj</a> |
+                    <a asp-action="@NameOfGotoGameDelete" asp-route-id="">Anuluj</a>
+                </td>
+
+            </tr>
+
+        </tbody>
+    </table>
+</div>
+
+<br />
+
+<div>
+    <a class="btn btn-primary"
+       asp-action="@NameOfGotoGameCreate">
+        Stwórz nową grę
+    </a>
+</div>
+
