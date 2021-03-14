@@ -6,6 +6,8 @@ using Integracja.Server.Web.Controllers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -27,35 +29,37 @@ namespace Integracja.Server.Web.Areas.Konto.Controllers
             return View();
         }
 
-        public FileContentResult Picture()
+        public async Task<string> Picture()
         {
-            var user = UserManager.GetUserAsync(User);
+            var user = await UserManager.GetUserAsync(User);
 
-            return new FileContentResult(user.Result.Picture, "image/jpeg");
+            return user.ProfilePicture;
         }
 
         [HttpPost]
-        public async Task<IActionResult> UploadPicture(IFormFile file)
+        public async Task<IActionResult> UploadPicture([Required] IFormFile file)
         {
-            if (ModelState.IsValid)
-            {
-                using (var memoryStream = new MemoryStream())
-                {
-                    await file.CopyToAsync(memoryStream);
+            throw new NotImplementedException();
 
-                    if (memoryStream.Length < 209715211)
-                    {
-                        var user = await UserManager.FindByNameAsync(User.Identity.Name);
-                        user.Picture = memoryStream.ToArray();
-                        await UserManager.UpdateAsync(user);
-                    }
-                    else
-                    {
-                        ModelState.AddModelError("", "Zdjęcie może mieć co najwyżej 2MB");
-                        return View("Index");
-                    }
-                }
-            }
+            //if (ModelState.IsValid)
+            //{
+            //    using (var memoryStream = new MemoryStream())
+            //    {
+            //        await file.CopyToAsync(memoryStream);
+
+            //        if (memoryStream.Length < 209715211)
+            //        {
+            //            var user = await UserManager.FindByNameAsync(User.Identity.Name);
+            //            user.Picture = memoryStream.ToArray();
+            //            await UserManager.UpdateAsync(user);
+            //        }
+            //        else
+            //        {
+            //            ModelState.AddModelError("", "Zdjęcie może mieć co najwyżej 2MB");
+            //            return View("Index");
+            //        }
+            //    }
+            //}
 
             return RedirectToAction("Index");
         }

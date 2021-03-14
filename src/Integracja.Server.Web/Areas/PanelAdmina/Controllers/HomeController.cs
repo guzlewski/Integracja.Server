@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Threading.Tasks;
+using AutoMapper;
 using Integracja.Server.Core.Models.Identity;
 using Integracja.Server.Infrastructure.Data;
 using Integracja.Server.Web.Areas.PanelAdmina.Models.Home;
@@ -23,11 +24,11 @@ namespace Integracja.Server.Web.Areas.PanelAdmina.Controllers
             return View("Index", Model);
         }
 
-        public FileContentResult Picture()
+        public async Task<string> Picture()
         {
-            var user = UserManager.GetUserAsync(User);
+            var user = await UserManager.GetUserAsync(User);
 
-            return new FileContentResult(user.Result.Picture, "image/jpeg");
+            return user.ProfilePicture;
         }
     }
 }

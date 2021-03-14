@@ -27,15 +27,15 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
         {
             Model.Alert = GetAlert<QuestionAlert>();
 
-            Model.Questions = QuestionModel.ConvertToList( await QuestionService.GetAll(UserId) );
+            Model.Questions = QuestionModel.ConvertToList(await QuestionService.GetAll(UserId));
             return View(Model);
         }
 
-        public FileContentResult Picture()
+        public async Task<string> Picture()
         {
-            var user = UserManager.GetUserAsync(User);
+            var user = await UserManager.GetUserAsync(User);
 
-            return new FileContentResult(user.Result.Picture, "image/jpeg");
+            return user.ProfilePicture;
         }
 
         public async Task<IActionResult> GotoQuestionCreate()
@@ -55,7 +55,7 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
 
         public async Task<IActionResult> GotoQuestionDelete(int? id)
         {
-            return RedirectToAction(IQuestionActions.NameOfQuestionDelete, QuestionController.Name, new { questionId = id } );
+            return RedirectToAction(IQuestionActions.NameOfQuestionDelete, QuestionController.Name, new { questionId = id });
         }
     }
 }
