@@ -16,6 +16,10 @@ namespace Integracja.Server.Infrastructure.Profiles
                    userDto => userDto.ProfileThumbnail,
                    opt => opt.MapFrom(gameUser => gameUser.User.ProfileThumbnail));
 
+            CreateMap<GameUser, GameUserDto>();
+
+            CreateMap<GameUser, DetailGameUserDto>();
+
             CreateMap<CreateGameUserDto, GameUser>();
         }
     }
