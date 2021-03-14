@@ -15,7 +15,7 @@ namespace Integracja.Server.Infrastructure.Data.Configuration
                 .IsRequired();
 
             builder.HasOne(gm => gm.Owner)
-                .WithMany(u => u.CreatedGameModes)
+                .WithMany(u => u.CreatedGamemodes)
                 .HasForeignKey(gm => gm.OwnerId)
                 .OnDelete(DeleteBehavior.Restrict);
         }

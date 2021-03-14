@@ -6,8 +6,8 @@ namespace Integracja.Server.Core.Repositories
 {
     public interface IQuestionRepository
     {
-        IQueryable<Question> Get(int id, int userId);
-        IQueryable<Question> GetAll(int userId);
+        IQueryable<Question> Get(int id);
+        IQueryable<Question> GetAll();
         Task<int> Add(Question question);
         Task Delete(Question question);
         Task<int> Update(Question question);

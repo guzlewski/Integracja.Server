@@ -16,7 +16,7 @@ namespace Integracja.Server.Infrastructure.Data.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.3")
+                .HasAnnotation("ProductVersion", "5.0.4")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("Integracja.Server.Core.Models.Base.Answer", b =>
@@ -30,21 +30,11 @@ namespace Integracja.Server.Infrastructure.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTimeOffset?>("CreatedOn")
-                        .HasColumnType("datetimeoffset");
-
                     b.Property<bool>("IsCorrect")
                         .HasColumnType("bit");
 
                     b.Property<int>("QuestionId")
                         .HasColumnType("int");
-
-                    b.Property<int>("RowVersion")
-                        .IsConcurrencyToken()
-                        .HasColumnType("int");
-
-                    b.Property<DateTimeOffset?>("UpdatedOn")
-                        .HasColumnType("datetimeoffset");
 
                     b.HasKey("Id");
 
@@ -112,7 +102,7 @@ namespace Integracja.Server.Infrastructure.Data.Migrations
                     b.Property<Guid>("Guid")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("MaxPlayersCount")
+                    b.Property<int?>("MaxPlayersCount")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -120,6 +110,9 @@ namespace Integracja.Server.Infrastructure.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("OwnerId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("QuestionsCount")
                         .HasColumnType("int");
 
                     b.Property<int>("RowVersion")
@@ -174,7 +167,7 @@ namespace Integracja.Server.Infrastructure.Data.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("int");
 
-                    b.Property<int>("TimeForFullQuiz")
+                    b.Property<int?>("TimeForFullQuiz")
                         .HasColumnType("int");
 
                     b.Property<int?>("TimeForOneQuestion")
@@ -317,11 +310,17 @@ namespace Integracja.Server.Infrastructure.Data.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<byte[]>("Picture")
-                        .HasColumnType("varbinary(max)");
+                    b.Property<string>("ProfilePicture")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProfileThumbnail")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("SessionGuid")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
@@ -384,16 +383,19 @@ namespace Integracja.Server.Infrastructure.Data.Migrations
                     b.Property<DateTimeOffset?>("GameEndTime")
                         .HasColumnType("datetimeoffset");
 
+                    b.Property<bool>("GameOver")
+                        .HasColumnType("bit");
+
                     b.Property<float?>("GameScore")
                         .HasColumnType("real");
 
                     b.Property<DateTimeOffset?>("GameStartTime")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<int>("IncorrectlyAnsweredQuestions")
+                    b.Property<int>("GameUserState")
                         .HasColumnType("int");
 
-                    b.Property<int>("State")
+                    b.Property<int>("IncorrectlyAnsweredQuestions")
                         .HasColumnType("int");
 
                     b.HasKey("GameId", "UserId");
@@ -609,7 +611,7 @@ namespace Integracja.Server.Infrastructure.Data.Migrations
             modelBuilder.Entity("Integracja.Server.Core.Models.Base.Gamemode", b =>
                 {
                     b.HasOne("Integracja.Server.Core.Models.Identity.User", "Owner")
-                        .WithMany("CreatedGameModes")
+                        .WithMany("CreatedGamemodes")
                         .HasForeignKey("OwnerId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -658,13 +660,13 @@ namespace Integracja.Server.Infrastructure.Data.Migrations
             modelBuilder.Entity("Integracja.Server.Core.Models.Joins.GameUser", b =>
                 {
                     b.HasOne("Integracja.Server.Core.Models.Base.Game", "Game")
-                        .WithMany("Players")
+                        .WithMany("GameUsers")
                         .HasForeignKey("GameId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Integracja.Server.Core.Models.Identity.User", "User")
-                        .WithMany("PlayedGames")
+                        .WithMany("GameUsers")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -843,7 +845,7 @@ namespace Integracja.Server.Infrastructure.Data.Migrations
 
                     b.Navigation("GameUserQuestions");
 
-                    b.Navigation("Players");
+                    b.Navigation("GameUsers");
 
                     b.Navigation("Questions");
                 });
@@ -868,7 +870,7 @@ namespace Integracja.Server.Infrastructure.Data.Migrations
                 {
                     b.Navigation("CreatedCategories");
 
-                    b.Navigation("CreatedGameModes");
+                    b.Navigation("CreatedGamemodes");
 
                     b.Navigation("CreatedGames");
 
@@ -878,7 +880,7 @@ namespace Integracja.Server.Infrastructure.Data.Migrations
 
                     b.Navigation("GameUserQuestions");
 
-                    b.Navigation("PlayedGames");
+                    b.Navigation("GameUsers");
                 });
 
             modelBuilder.Entity("Integracja.Server.Core.Models.Joins.GameQuestion", b =>

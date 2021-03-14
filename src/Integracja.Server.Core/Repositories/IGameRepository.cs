@@ -6,9 +6,9 @@ namespace Integracja.Server.Core.Repositories
 {
     public interface IGameRepository
     {
-        IQueryable<Game> Get(int id, int userId);
-        IQueryable<Game> GetAll(int userId);
-        Task<int> Add(Game game);
+        IQueryable<Game> Get(int id);
+        IQueryable<Game> GetAll();
+        Task<int> Add(Game game, bool randomizeQuestionOrder = false);
         Task Delete(Game game);
         Task<int> Update(Game game);
     }

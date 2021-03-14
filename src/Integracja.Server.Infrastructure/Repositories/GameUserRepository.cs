@@ -19,34 +19,34 @@ namespace Integracja.Server.Infrastructure.Repositories
             _dbContext = dbContext;
         }
 
-        public async Task Accept(int gameId, int userId)
+        public IQueryable<GameUser> Get(int gameId, int userId)
         {
-            var entity = await _dbContext.GameUsers
+            return _dbContext.GameUsers
+                .AsNoTracking()
                 .Where(gu => gu.GameId == gameId &&
-                    gu.UserId == userId &&
-                    gu.State == GameUserState.Invited)
-                .FirstOrDefaultAsync();
+                    gu.UserId == userId);
+        }
 
-            if (entity == null)
-            {
-                throw new NotFoundException();
-            }
-
-            entity.State = GameUserState.Active;
-            await _dbContext.SaveChangesAsync();
+        public IQueryable<GameUser> GetAll(int userId)
+        {
+            return _dbContext.GameUsers
+                .AsNoTracking()
+                .Where(gu => gu.UserId == userId);
         }
 
         public async Task<int> Join(Guid gameGuid, int userId)
         {
             var entity = await _dbContext.Games
-                .Where(g => g.Guid == gameGuid && g.GameState == GameState.Normal && g.EndTime > DateTimeOffset.Now)
+                .Where(g => g.Guid == gameGuid &&
+                    g.GameState == GameState.Normal &&
+                    g.EndTime > DateTimeOffset.Now)
                 .Select(g => new
                 {
                     Game = g,
-                    GameUserCount = g.Players
-                        .Where(gu => gu.State != GameUserState.Left)
+                    GameUsersCount = g.GameUsers
+                        .Where(gu => gu.GameUserState != GameUserState.Left)
                         .Count(),
-                    GameUser = g.Players
+                    GameUser = g.GameUsers
                         .Where(gu => gu.UserId == userId)
                         .FirstOrDefault()
                 })
@@ -57,21 +57,14 @@ namespace Integracja.Server.Infrastructure.Repositories
                 throw new NotFoundException();
             }
 
-            if (entity.GameUser != null && entity.GameUser.State != GameUserState.Left)
+            if (entity.GameUser != null && entity.GameUser.GameUserState == GameUserState.Active)
             {
-                if (entity.GameUser.State == GameUserState.Invited)
-                {
-                    entity.GameUser.State = GameUserState.Active;
-                    await _dbContext.SaveChangesAsync();
-                    return entity.Game.Id;
-                }
-
                 throw new ConflictException("You already joined this game.");
             }
 
-            if (entity.Game.MaxPlayersCount != 0 && entity.GameUserCount >= entity.Game.MaxPlayersCount)
+            if (entity.Game.MaxPlayersCount.HasValue && entity.GameUsersCount >= entity.Game.MaxPlayersCount.Value)
             {
-                throw new ConflictException($"Game '{entity.Game.Guid}' is full.");
+                throw new ConflictException("Game is full.");
             }
 
             if (entity.GameUser == null)
@@ -79,13 +72,12 @@ namespace Integracja.Server.Infrastructure.Repositories
                 await _dbContext.AddAsync(new GameUser
                 {
                     GameId = entity.Game.Id,
-                    UserId = userId,
-                    State = GameUserState.Active
+                    UserId = userId
                 });
             }
             else
             {
-                entity.GameUser.State = GameUserState.Active;
+                entity.GameUser.GameUserState = GameUserState.Active;
             }
 
             entity.Game.RowVersion++;
@@ -99,13 +91,13 @@ namespace Integracja.Server.Infrastructure.Repositories
             var entity = await _dbContext.GameUsers
                 .Where(gu => gu.GameId == gameId &&
                     gu.UserId == userId &&
-                    gu.State != GameUserState.Left &&
+                    gu.GameUserState != GameUserState.Left &&
                     gu.Game.GameState == GameState.Normal &&
                     gu.Game.EndTime > DateTimeOffset.Now)
                 .Select(gu => new
                 {
-                    GameUser = gu,
-                    gu.Game
+                    gu.Game,
+                    GameUser = gu
                 })
                 .FirstOrDefaultAsync();
 
@@ -114,28 +106,10 @@ namespace Integracja.Server.Infrastructure.Repositories
                 throw new NotFoundException();
             }
 
-            entity.GameUser.State = GameUserState.Left;
+            entity.GameUser.GameUserState = GameUserState.Left;
             entity.Game.RowVersion++;
+
             await _dbContext.SaveChangesAsync();
-        }
-
-        public IQueryable<GameUser> Get(int gameId, int userId)
-        {
-            return _dbContext.GameUsers
-                .AsNoTracking()
-                .Where(gu => gu.GameId == gameId &&
-                    gu.UserId == userId &&
-                    gu.State != GameUserState.Left &&
-                    gu.Game.GameState != GameState.Deleted);
-        }
-
-        public IQueryable<GameUser> GetAll(int userId)
-        {
-            return _dbContext.GameUsers
-                .AsNoTracking()
-                .Where(gu => gu.UserId == userId &&
-                    gu.State != GameUserState.Left &&
-                    gu.Game.GameState != GameState.Deleted);
         }
     }
 }

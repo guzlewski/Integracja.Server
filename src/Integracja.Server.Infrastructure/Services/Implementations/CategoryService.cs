@@ -2,10 +2,12 @@
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Integracja.Server.Core.Models.Base;
 using Integracja.Server.Core.Repositories;
-using Integracja.Server.Infrastructure.DTO;
 using Integracja.Server.Infrastructure.Exceptions;
+using Integracja.Server.Infrastructure.Models;
+using Integracja.Server.Infrastructure.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Integracja.Server.Infrastructure.Services.Implementations
@@ -14,63 +16,51 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
     {
         private readonly ICategoryRepository _categoryRepository;
         private readonly IMapper _mapper;
+        private readonly IConfigurationProvider _configuration;
 
-        public CategoryService(ICategoryRepository categoryRepository, IMapper mapper)
+        public CategoryService(ICategoryRepository categoryRepository, IMapper mapper, IConfigurationProvider configuration)
         {
             _categoryRepository = categoryRepository;
             _mapper = mapper;
+            _configuration = configuration;
         }
 
-        public async Task<CategoryGet> Get(int id, int userId)
+        public async Task<DetailCategoryDto> Get(int id, int userId)
         {
-            var entity = await _categoryRepository.Get(id, userId)
-                .Select(c => new CategoryGet
-                {
-                    Id = c.Id,
-                    Name = c.Name,
-                    IsPublic = c.IsPublic,
-                    Questions = c.Questions.Where(q => (q.IsPublic || q.OwnerId == userId) && !q.IsDeleted).Select(q => new QuestionGetAll
-                    {
-                        Id = q.Id,
-                        Content = q.Content,
-                        PositivePoints = q.PositivePoints,
-                        NegativePoints = q.NegativePoints,
-                        QuestionScoring = q.QuestionScoring,
-                        IsPublic = q.IsPublic,
-                        AnswersCount = q.Answers.Count,
-                        CorrectAnswersCount = q.Answers.Count(a => a.IsCorrect)
-                    }),
-                    OwnerId = c.OwnerId,
-                    OwnerUsername = c.Owner.UserName
-                })
+            var detailCategoryDto = await _categoryRepository.Get(id)
+                .Where(c => (c.IsPublic || c.OwnerId == userId) && !c.IsDeleted)
+                .ProjectTo<DetailCategoryDto>(_configuration, new Dictionary<string, object> { { "userId", userId } })
                 .FirstOrDefaultAsync();
 
-            if (entity == null)
+            if (detailCategoryDto == null)
             {
                 throw new NotFoundException();
             }
 
-            return entity;
+            return detailCategoryDto;
         }
 
-        public async Task<IEnumerable<CategoryGetAll>> GetAll(int userId)
+        public async Task<IEnumerable<CategoryDto>> GetAll(int userId)
         {
-            return await _categoryRepository.GetAll(userId)
-                .Select(c => new CategoryGetAll
-                {
-                    Id = c.Id,
-                    Name = c.Name,
-                    IsPublic = c.IsPublic,
-                    QuestionsCount = c.Questions.Count(q => (q.IsPublic || q.OwnerId == userId) && !q.IsDeleted),
-                    OwnerId = c.OwnerId,
-                    OwnerUsername = c.Owner.UserName
-                })
+            return await _categoryRepository.GetAll()
+                .Where(c => (c.IsPublic || c.OwnerId == userId) && !c.IsDeleted)
+                .ProjectTo<CategoryDto>(_configuration, new Dictionary<string, object> { { "userId", userId } })
                 .ToListAsync();
         }
 
-        public async Task<int> Add(CategoryAdd dto, int userId)
+
+        public async Task<IEnumerable<CategoryDto>> GetOwned(int userId)
         {
-            var category = _mapper.Map<Category>(dto);
+            return await _categoryRepository.GetAll()
+                .Where(c => c.OwnerId == userId &&
+                    !c.IsDeleted)
+                .ProjectTo<CategoryDto>(_configuration, new Dictionary<string, object> { { "userId", userId } })
+                .ToListAsync();
+        }
+
+        public async Task<int> Add(CreateCategoryDto createCategoryDto, int userId)
+        {
+            var category = _mapper.Map<Category>(createCategoryDto);
             category.OwnerId = userId;
 
             foreach (var question in category.Questions)
@@ -90,9 +80,9 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
             });
         }
 
-        public async Task<int> Update(int id, CategoryModify dto, int userId)
+        public async Task<int> Update(int id, EditCategoryDto editCategoryDto, int userId)
         {
-            var category = _mapper.Map<Category>(dto);
+            var category = _mapper.Map<Category>(editCategoryDto);
             category.Id = id;
             category.OwnerId = userId;
 

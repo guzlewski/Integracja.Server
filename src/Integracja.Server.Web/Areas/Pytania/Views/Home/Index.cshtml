@@ -1,0 +1,47 @@
+﻿@using Integracja.Server.Web.Areas.Pytania.Models.Home
+@using static Integracja.Server.Web.Areas.Pytania.Models.Home.HomeViewModel
+@using static Integracja.Server.Web.Areas.Pytania.Models.Home.IHomeActions
+@model HomeViewModel
+
+@{ await Html.RenderPartialAsync("~/Views/Shared/Question/_QuestionAlert.cshtml", Model.Alert);}
+
+<h2>Pytania</h2>
+<br />
+
+<div class="table-wrapper-scroll-y scrollbar-secondary">
+    <table class="table table-bordered table-striped table-sm ">
+        <thead>
+            <tr>
+                <th scope="col">Treść</th>
+                <th scope="col">Kategoria</th>
+                <th scope="col">Twoje</th>
+                <th scope="col">Akcje</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var question in Model.Questions)
+            {
+                <tr>
+                    <td>@question.Content</td>
+                    <td>@question.CategoryId</td>
+                    <td>@(!question.IsPublic)</td>
+                    <td>
+                        <a asp-action="@NameOfGotoQuestionRead" asp-route-id="@question.Id">Podgląd</a> |
+                        <a asp-action="@NameOfGotoQuestionUpdate" asp-route-id="@question.Id">Edycja</a> |
+                        <a asp-action="@NameOfGotoQuestionDelete" asp-route-id="@question.Id">Usuń</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<br />
+
+<div>
+    <a class="btn btn-primary"
+       asp-action="@NameOfGotoQuestionCreate">
+        Stwórz nowe pytanie
+    </a>
+</div>
+

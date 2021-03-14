@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Integracja.Server.Infrastructure.DTO;
-using Integracja.Server.Infrastructure.Services;
+using Integracja.Server.Infrastructure.Models;
+using Integracja.Server.Infrastructure.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,7 +20,7 @@ namespace Integracja.Server.Api.Controllers
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IEnumerable<GamemodeGetAll>> GetAll()
+        public async Task<IEnumerable<GamemodeDto>> GetAll()
         {
             return await _gamemodeService.GetAll(UserId.Value);
         }
@@ -29,7 +29,7 @@ namespace Integracja.Server.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<GamemodeGet>> Get(int id)
+        public async Task<DetailGamemodeDto> Get(int id)
         {
             return await _gamemodeService.Get(id, UserId.Value);
         }
@@ -37,10 +37,10 @@ namespace Integracja.Server.Api.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> Add(GamemodeAdd dto)
+        public async Task<IActionResult> Add(CreateGamemodeDto createGamemodeDto)
         {
-            var entityId = await _gamemodeService.Add(dto, UserId.Value);
-            return Created($"{Request.Path}/{entityId}", null);
+            var entityId = await _gamemodeService.Add(createGamemodeDto, UserId.Value);
+            return CreatedAtAction(nameof(Get), new { id = entityId }, null);
         }
 
         [HttpPut("{id}")]
@@ -48,13 +48,13 @@ namespace Integracja.Server.Api.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult> Update(int id, [FromBody] GamemodeModify dto)
+        public async Task<IActionResult> Update(int id, [FromBody] EditGamemodeDto editGamemodeDto)
         {
-            var entityId = await _gamemodeService.Update(id, dto, UserId.Value);
+            var entityId = await _gamemodeService.Update(id, editGamemodeDto, UserId.Value);
 
             if (entityId != id)
             {
-                return Created($"{Request.Path}/{entityId}", null);
+                return CreatedAtAction(nameof(Get), new { id = entityId }, null);
             }
 
             return NoContent();
@@ -64,7 +64,7 @@ namespace Integracja.Server.Api.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
             await _gamemodeService.Delete(id, UserId.Value);
             return NoContent();

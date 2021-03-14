@@ -15,6 +15,7 @@ namespace Integracja.Server.Api
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
+                    webBuilder.UseSentry();
                 });
     }
 }

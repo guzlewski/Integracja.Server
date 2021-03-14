@@ -17,18 +17,17 @@ namespace Integracja.Server.Infrastructure.Repositories
             _dbContext = dbContext;
         }
 
-        public IQueryable<Category> Get(int id, int userId)
+        public IQueryable<Category> Get(int id)
         {
             return _dbContext.Categories
                 .AsNoTracking()
-                .Where(c => c.Id == id && (c.IsPublic || c.OwnerId == userId) && !c.IsDeleted);
+                .Where(c => c.Id == id);
         }
 
-        public IQueryable<Category> GetAll(int userId)
+        public IQueryable<Category> GetAll()
         {
             return _dbContext.Categories
-                .AsNoTracking()
-                .Where(c => (c.IsPublic || c.OwnerId == userId) && !c.IsDeleted);
+                .AsNoTracking();
         }
 
         public async Task<int> Add(Category category)
@@ -41,50 +40,45 @@ namespace Integracja.Server.Infrastructure.Repositories
 
         public async Task Delete(Category category)
         {
-            var entity = await _dbContext.Categories
-                .Where(c => c.Id == category.Id && c.OwnerId == category.OwnerId && !c.IsDeleted)
-                .Select(c => new
-                {
-                    Category = c,
-                    QuestionsCount = c.Questions.Count
-                })
-                .FirstOrDefaultAsync();
+            var categoryEntity = await _dbContext.Categories
+                .FirstOrDefaultAsync(c => c.Id == category.Id &&
+                    c.OwnerId == category.OwnerId &&
+                    !c.IsDeleted);
 
-            if (entity == null)
+            if (categoryEntity == null)
             {
                 throw new NotFoundException();
             }
 
-            if (entity.QuestionsCount == 0)
-            {
-                _dbContext.Remove(entity.Category);
-            }
-            else
-            {
-                entity.Category.IsDeleted = true;
-                entity.Category.RowVersion++;
-            }
+            categoryEntity.IsDeleted = true;
+            categoryEntity.RowVersion++;
 
             await _dbContext.SaveChangesAsync();
         }
 
         public async Task<int> Update(Category category)
         {
-            var entity = await _dbContext.Categories
-               .FirstOrDefaultAsync(c => c.Id == category.Id && c.OwnerId == category.OwnerId && !c.IsDeleted);
+            var categoryEntity = await _dbContext.Categories
+                .FirstOrDefaultAsync(c => c.Id == category.Id &&
+                c.OwnerId == category.OwnerId &&
+                !c.IsDeleted);
 
-            if (entity == null)
+            if (categoryEntity == null)
             {
                 throw new NotFoundException();
             }
 
-            entity.Name = category.Name;
-            entity.IsPublic = category.IsPublic;
-            entity.RowVersion++;
+            categoryEntity.RowVersion++;
+            UpdateCategory(categoryEntity, category);
 
             await _dbContext.SaveChangesAsync();
+            return categoryEntity.Id;
+        }
 
-            return entity.Id;
+        private static void UpdateCategory(Category orginal, Category modified)
+        {
+            orginal.Name = modified.Name;
+            orginal.IsPublic = modified.IsPublic;
         }
     }
 }

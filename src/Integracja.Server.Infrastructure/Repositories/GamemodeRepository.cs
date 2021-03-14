@@ -17,22 +17,17 @@ namespace Integracja.Server.Infrastructure.Repositories
             _dbContext = dbContext;
         }
 
-        public IQueryable<Gamemode> Get(int id, int userId)
+        public IQueryable<Gamemode> Get(int id)
         {
-            var entity = _dbContext.Gamemodes
+            return _dbContext.Gamemodes
                 .AsNoTracking()
-                .Where(gm => gm.Id == id && (gm.IsPublic || gm.OwnerId == userId) && !gm.IsDeleted);
-
-            return entity;
+                .Where(gm => gm.Id == id);
         }
 
-        public IQueryable<Gamemode> GetAll(int userId)
+        public IQueryable<Gamemode> GetAll()
         {
-            var entities = _dbContext.Gamemodes
-                .AsNoTracking()
-                .Where(gm => (gm.IsPublic || gm.OwnerId == userId) && !gm.IsDeleted);
-
-            return entities;
+            return _dbContext.Gamemodes
+                .AsNoTracking();
         }
 
         public async Task<int> Add(Gamemode gamemode)
@@ -45,29 +40,18 @@ namespace Integracja.Server.Infrastructure.Repositories
 
         public async Task Delete(Gamemode gamemode)
         {
-            var entity = await _dbContext.Gamemodes
-                .Where(gm => gm.Id == gamemode.Id && gm.OwnerId == gamemode.OwnerId && !gm.IsDeleted)
-                .Select(gm => new
-                {
-                    Gamemode = gm,
-                    GamesCount = gm.Games.Count
-                })
-                .FirstOrDefaultAsync();
+            var gamemodeEntity = await _dbContext.Gamemodes
+                .FirstOrDefaultAsync(gm => gm.Id == gamemode.Id &&
+                    gm.OwnerId == gamemode.OwnerId &&
+                    !gm.IsDeleted);
 
-            if (entity == null)
+            if (gamemodeEntity == null)
             {
                 throw new NotFoundException();
             }
 
-            if (entity.GamesCount == 0)
-            {
-                _dbContext.Remove(entity.Gamemode);
-            }
-            else
-            {
-                entity.Gamemode.IsDeleted = true;
-                entity.Gamemode.RowVersion++;
-            }
+            gamemodeEntity.IsDeleted = true;
+            gamemodeEntity.RowVersion++;
 
             await _dbContext.SaveChangesAsync();
         }
@@ -75,7 +59,9 @@ namespace Integracja.Server.Infrastructure.Repositories
         public async Task<int> Update(Gamemode gamemode)
         {
             var entity = await _dbContext.Gamemodes
-                .Where(gm => gm.Id == gamemode.Id && gm.OwnerId == gamemode.OwnerId && !gm.IsDeleted)
+                .Where(gm => gm.Id == gamemode.Id &&
+                    gm.OwnerId == gamemode.OwnerId &&
+                    !gm.IsDeleted)
                 .Select(gm => new
                 {
                     Gamemode = gm,
@@ -92,22 +78,27 @@ namespace Integracja.Server.Infrastructure.Repositories
 
             if (entity.GamesCount == 0)
             {
-                entity.Gamemode.Name = gamemode.Name;
-                entity.Gamemode.TimeForFullQuiz = gamemode.TimeForFullQuiz;
-                entity.Gamemode.TimeForOneQuestion = gamemode.TimeForOneQuestion;
-                entity.Gamemode.NumberOfLives = gamemode.NumberOfLives;
-                entity.Gamemode.IsPublic = gamemode.IsPublic;
+                UpdateGamemode(entity.Gamemode, gamemode);
 
                 await _dbContext.SaveChangesAsync();
                 return entity.Gamemode.Id;
             }
             else
             {
-                entity.Gamemode.IsDeleted = true;
                 gamemode.Id = 0;
+                entity.Gamemode.IsDeleted = true;
 
                 return await Add(gamemode);
             }
+        }
+
+        private static void UpdateGamemode(Gamemode orginal, Gamemode modified)
+        {
+            orginal.Name = modified.Name;
+            orginal.TimeForFullQuiz = modified.TimeForFullQuiz;
+            orginal.TimeForOneQuestion = modified.TimeForOneQuestion;
+            orginal.NumberOfLives = modified.NumberOfLives;
+            orginal.IsPublic = modified.IsPublic;
         }
     }
 }

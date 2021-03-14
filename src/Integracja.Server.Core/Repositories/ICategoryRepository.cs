@@ -6,8 +6,8 @@ namespace Integracja.Server.Core.Repositories
 {
     public interface ICategoryRepository
     {
-        IQueryable<Category> Get(int id, int userId);
-        IQueryable<Category> GetAll(int userId);
+        IQueryable<Category> Get(int id);
+        IQueryable<Category> GetAll();
         Task<int> Add(Category category);
         Task Delete(Category category);
         Task<int> Update(Category category);
