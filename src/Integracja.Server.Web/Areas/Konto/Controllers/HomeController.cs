@@ -24,10 +24,19 @@ namespace Integracja.Server.Web.Areas.Konto.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            string username = User.Identity.Name;
-            ViewData["Name"] = username;
+            
+            Model.Details.Username = User.Identity.Name;
 
-            return View();
+            var user = UserManager.FindByNameAsync(User.Identity.Name);
+            Model.Details.Email = user.Result.Email;
+
+            if (user.Result.PhoneNumber != null)
+                Model.Details.PhoneNumber = user.Result.PhoneNumber;
+
+            Model.Details.EmailConfirmed = user.Result.EmailConfirmed;
+            Model.Details.PhoneNumberConfirmed = user.Result.PhoneNumberConfirmed;
+            
+            return View(Model);
         }
 
 
@@ -40,7 +49,7 @@ namespace Integracja.Server.Web.Areas.Konto.Controllers
                 {
                     await file.CopyToAsync(memoryStream);
 
-                    if (memoryStream.Length < 209715211)
+                    if (memoryStream.Length < 2097152)
                     {
                         var user = await UserManager.FindByNameAsync(User.Identity.Name);
                         user.Picture = memoryStream.ToArray();
@@ -49,12 +58,34 @@ namespace Integracja.Server.Web.Areas.Konto.Controllers
                     else
                     {
                         ModelState.AddModelError("", "Zdjęcie może mieć co najwyżej 2MB");
-                        return View("Index");
+                        return View("Index", Model);
                     }
                 }
             }
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", Model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateEmail(string Email)
+        {
+            var user = await UserManager.FindByNameAsync(User.Identity.Name);
+            user.Email = Email;
+           
+            await UserManager.UpdateAsync(user);
+
+            return RedirectToAction("Index", Model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdatePhoneNumber(string PhoneNumber)
+        {
+            var user = await UserManager.FindByNameAsync(User.Identity.Name);
+            user.PhoneNumber = PhoneNumber;
+
+            await UserManager.UpdateAsync(user);
+
+            return RedirectToAction("Index", Model);
         }
     }
 }
