@@ -9,8 +9,9 @@
 <h2>Pytania</h2>
 <br />
 
+
 <div class="table-wrapper-scroll-y scrollbar-secondary">
-    <table class="table table-bordered table-striped table-sm ">
+    <table id="table_id" class="table table-bordered table-striped table-sm ">
         <thead>
             <tr>
                 <th scope="col">ID</th>
@@ -40,6 +41,13 @@
         </tbody>
     </table>
 </div>
+
+@section Scripts{ 
+    <script type="text/javascript">
+        
+    </script>
+}
+
 
 <div>
     <a asp-action="@nameof(IAdminHomeActions.GotoQuestionCreate)">Stwórz pytanie</a>
