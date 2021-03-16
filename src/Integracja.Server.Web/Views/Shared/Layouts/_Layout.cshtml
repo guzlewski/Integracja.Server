@@ -31,15 +31,11 @@
                 </li>
 
                 <li>
-                    <a asp-area="" asp-controller="Przeglad" asp-action="Index"><i class="bi-collection"></i> Przegląd </a>
+                    <a asp-area="Gry" asp-controller="Home" asp-action="Index"><i class="bi-clipboard-check"></i> Gry </a>
                 </li>
 
                 <li>
-                    <a asp-area="Gry" asp-controller="Home" asp-action="Index"><i class="bi-clipboard-check"></i> Stwórz grę </a>
-                </li>
-
-                <li>
-                    <a asp-area="Pytania" asp-controller="Home" asp-action="Index"><i class="bi-patch-question"></i> Dodaj pytania </a>
+                    <a asp-area="Pytania" asp-controller="Home" asp-action="Index"><i class="bi-patch-question"></i> Pytania </a>
                 </li>
 
                 <li>
@@ -49,7 +45,7 @@
                 <li>
                     <a asp-area="Identity"
                        asp-page="/Account/Logout"
-                       asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                       asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "Gry" })">
                         <i class="bi-box-arrow-in-left"></i> Wyloguj się
                     </a>
                 </li>
@@ -106,10 +102,6 @@
 
     <!-- jQuery Custom Scroller CDN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
-
-    @* przeniesione *@
-
-
 
 </body>
 
