@@ -4,25 +4,26 @@ using Integracja.Server.Web.Models.Shared.Question;
 
 namespace Integracja.Server.Web.Areas.Pytania.Models.Question
 {
-    public class QuestionViewModel : QuestionFormViewModel
+    public class QuestionViewModel
     {
         public QuestionAlert Alert { get; set; }
 
-        public QuestionViewModel() : base()
+        public QuestionFormViewModel Form { get; set; } = new QuestionFormViewModel();
+
+        public QuestionViewModel()
         {
         }
 
-        public QuestionViewModel(ViewMode mode) : base(mode)
+        public QuestionViewModel( QuestionModel question, QuestionAlert alert )
         {
-        }
-
-        public QuestionViewModel(QuestionModel question) : base(question)
-        {
-        }
-
-        public QuestionViewModel(QuestionModel question, QuestionAlert alert ) : base(question)
-        {
+            Form = new QuestionFormViewModel(question);
+            //Form.Question = question;
             Alert = alert;
+        }
+
+        public QuestionViewModel(ViewMode mode)
+        {
+            Form = new QuestionFormViewModel(mode);
         }
     }
 }

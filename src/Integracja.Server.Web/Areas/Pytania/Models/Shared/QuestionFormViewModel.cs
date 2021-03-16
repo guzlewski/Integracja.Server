@@ -6,22 +6,22 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 namespace Integracja.Server.Web.Areas.Pytania.Models.Shared
 {
 
-    public class QuestionFormViewModel : PageModel
+    public class QuestionFormViewModel
     {
         [BindProperty]
         public QuestionModel Question { get; set; } = new QuestionModel();
         public ViewMode ViewMode { get; set; } = ViewMode.Reading;
 
-        public QuestionFormViewModel() : base()
+        public QuestionFormViewModel()
         {
         }
 
-        public QuestionFormViewModel(ViewMode mode) : base()
+        public QuestionFormViewModel(ViewMode mode)
         {
             ViewMode = mode;
         }
 
-        public QuestionFormViewModel(QuestionModel question) : base()
+        public QuestionFormViewModel(QuestionModel question)
         {
             this.Question = question;
             if (question.Id.HasValue)
