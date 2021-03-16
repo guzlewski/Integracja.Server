@@ -1,4 +1,5 @@
-﻿using Integracja.Server.Web.Models.Shared.Enums;
+﻿using Integracja.Server.Web.Areas.Pytania.Models.Shared;
+using Integracja.Server.Web.Models.Shared.Enums;
 using Integracja.Server.Web.Models.Shared.Question;
 
 namespace Integracja.Server.Web.Areas.Pytania.Models.Question

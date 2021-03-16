@@ -4,14 +4,14 @@
 @using Integracja.Server.Web.Models.Shared.Enums
 @model QuestionViewModel
 
-@{ await Html.RenderPartialAsync("~/Views/Shared/Question/_QuestionAlert.cshtml", Model.Alert);}
+@{ await Html.RenderPartialAsync("~/Areas/Pytania/Views/Shared/_QuestionAlert.cshtml", Model.Alert);}
 
 <h2>Pytanie</h2>
 <br />
 
 <div class="row">
     <div class="col-md-10">
-        @{ await Html.RenderPartialAsync("~/Views/Shared/Question/_QuestionForm.cshtml", Model);
+        @{ await Html.RenderPartialAsync("~/Areas/Pytania/Views/Shared/_QuestionForm.cshtml", Model);
         }
     </div>
 </div>
