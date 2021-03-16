@@ -2,6 +2,10 @@
     $('#sidebar, .content').toggleClass('active');
 });
 
+$(document).ready(function () {
+    $('#table_id').DataTable();
+});
+
 saveForm = function (formId, url, callback) {
     return $.ajax({
         type: "POST",

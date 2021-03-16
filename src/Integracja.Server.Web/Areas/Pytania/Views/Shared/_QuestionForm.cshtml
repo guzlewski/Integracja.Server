@@ -1,0 +1,92 @@
+﻿@using Integracja.Server.Web.Areas.Pytania.Models.Shared
+@using static Integracja.Server.Web.Areas.Pytania.Models.Shared.QuestionFormViewModel
+@using static Integracja.Server.Web.Areas.Pytania.Models.Shared.IQuestionFormActions
+@using static Integracja.Server.Web.Models.Shared.Enums.ViewMode
+@model QuestionFormViewModel
+
+<form id="@Ids.Form" asp-route-categoryId="@Model.Question.CategoryId">
+
+    <input type="hidden" asp-for="Question.Id" />
+    <input type="hidden" asp-for="Question.CategoryId" />
+
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-group">
+        <label asp-for="Question.Content" class="control-label"></label>
+        <textarea asp-for="Question.Content" class="form-control"></textarea>
+        <span asp-validation-for="Question.Content" class="text-danger"></span>
+    </div>
+
+    @*tworzenie odpowiedzi do pytania*@
+    <h2>Odpowiedzi</h2>
+    <br />
+
+    @for (int i = 0; i < Model.Question.Answers.Count; ++i)
+    {
+        <div class="form-group">
+            <div class="form-inline">
+                <input asp-for="Question.Answers[i].Content" class="form-control" />
+                <input asp-for="Question.Answers[i].IsCorrect" class="form-check" type="checkbox" />
+            </div>
+        </div>
+    }
+
+    @if (Model.ViewMode == Updating || Model.ViewMode == Creating)
+    {
+        <div class="form-group">
+            <input type="submit" asp-action="@NameOfAddAnswerField" asp-route-categoryId="@Model.Question.CategoryId" formnovalidate value="Dodaj nową odpowiedź" class="btn btn-light" />
+            <input type="submit" asp-action="@NameOfRemoveAnswerField" asp-route-categoryId="@Model.Question.CategoryId" formnovalidate value="Usuń odpowiedź" class="btn btn-light" />
+        </div>
+    }
+
+    <h2>Punktacja</h2>
+    <br />
+
+    <div class="form-group">
+        <input asp-for="Question.PositivePoints" type="number" class="form-control input-number" />
+    </div>
+
+    <h4>Tryb</h4>
+    <div class="form-group">
+        <div class="radio">
+            <label class="radio">
+                <input asp-for="Question.Scoring" value="@Integracja.Server.Core.Enums.QuestionScoring.ScoreIfFullyCorrect" type="radio" checked>
+                Tylko za komplet poprawnych odpowiedzi
+            </label>
+        </div>
+        <div class="radio">
+            <label class="radio">
+                <input asp-for="Question.Scoring" value="@Integracja.Server.Core.Enums.QuestionScoring.ScorePerGoodAnswer" type="radio">
+                Za pojedynczą poprawną odpowiedź
+            </label>
+        </div>
+    </div>
+
+    <h4>Złe odpowiedzi</h4>
+
+    <div class="form-group">
+        <input asp-for="Question.NegativePoints" type="number" class="form-control input-number" />
+    </div>
+
+    <br />
+
+    <div class="form-group">
+        @if (Model.ViewMode == Creating)
+        {
+
+            <input type="submit" value="Dodaj pytanie" class="btn btn-primary"
+                   asp-action="@NameOfQuestionCreate"
+                   asp-route-categoryId="@Model.Question.CategoryId" />
+        }
+        @if (Model.ViewMode == Updating)
+        {
+            <input type="submit" value="Dodaj jako nowe pytanie" class="btn btn-primary"
+                   asp-action="@NameOfQuestionCreate"
+                   asp-route-categoryId="@Model.Question.CategoryId" />
+
+            <input type="submit" value="Zaaktualizuj pytanie" class="btn btn-primary"
+                   asp-action="@NameOfQuestionUpdate"
+                   asp-route-categoryId="@Model.Question.CategoryId" />
+        }
+    </div>
+
+</form>

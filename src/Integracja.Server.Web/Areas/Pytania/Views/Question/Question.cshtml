@@ -1,17 +1,27 @@
 ﻿@using Integracja.Server.Web.Areas.Pytania.Models.Question
+@using Integracja.Server.Web.Areas.Pytania.Models.Shared
 @using static Integracja.Server.Web.Areas.Pytania.Models.Question.QuestionViewModel
 @using static Integracja.Server.Web.Areas.Pytania.Models.Question.IQuestionActions
-@using Integracja.Server.Web.Models.Shared.Enums
+@using static Integracja.Server.Web.Models.Shared.Enums.ViewMode
 @model QuestionViewModel
 
-@{ await Html.RenderPartialAsync("~/Views/Shared/Question/_QuestionAlert.cshtml", Model.Alert);}
+@{ await Html.RenderPartialAsync("~/Areas/Pytania/Views/Shared/_QuestionAlert.cshtml", Model.Alert);}
 
 <h2>Pytanie</h2>
 <br />
 
 <div class="row">
     <div class="col-md-10">
-        @{ await Html.RenderPartialAsync("~/Views/Shared/Question/_QuestionForm.cshtml", Model);
+        @{ await Html.RenderPartialAsync("~/Areas/Pytania/Views/Shared/_QuestionForm.cshtml", Model.Form);
         }
     </div>
 </div>
+
+@* Wołanie sekcji nie działa z częściowych widoków co jest po cichu ignorowane (: *@
+@if (Model.Form.ViewMode == Reading)
+{
+    @section Scripts
+    {
+        <script>disableFormInputs("@QuestionFormViewModel.Ids.Form")</script>
+    }
+}

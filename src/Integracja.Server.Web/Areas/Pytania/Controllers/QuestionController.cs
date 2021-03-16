@@ -55,7 +55,7 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
             // mogłem właśnie dodać pytanie i trafić tutaj ponownie więc wyświetlam alert
             Model.Alert = GetAlert<QuestionAlert>();
 
-            Model.Question.CategoryId = categoryId;
+            Model.Form.Question.CategoryId = categoryId;
 
             return View(QuestionViewName, Model);
         }
@@ -75,8 +75,8 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
         {
             Model = new QuestionViewModel();
             if (questionId.HasValue)
-                Model.Question = (QuestionModel)await QuestionService.Get(questionId.Value, UserId);
-            Model.ViewMode = ViewMode.Reading;
+                Model.Form.Question = (QuestionModel)await QuestionService.Get(questionId.Value, UserId);
+            Model.Form.ViewMode = ViewMode.Reading;
             return View(QuestionViewName, Model);
         }
         public async Task<IActionResult> QuestionUpdate(QuestionModel question)
@@ -93,11 +93,11 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
 
             if (questionId.HasValue)
             {
-                Model.Question = (QuestionModel)await QuestionService.Get(questionId.Value, UserId);
+                Model.Form.Question = (QuestionModel)await QuestionService.Get(questionId.Value, UserId);
                 var q = await QuestionService.Get(questionId.Value, UserId);
             }
                 
-            Model.ViewMode = ViewMode.Updating;
+            Model.Form.ViewMode = ViewMode.Updating;
             return View(QuestionViewName, Model);
         }
         public virtual async Task<IActionResult> QuestionDelete(int? questionId)

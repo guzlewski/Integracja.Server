@@ -1,6 +1,5 @@
 ﻿using Integracja.Server.Infrastructure.Models;
-using Integracja.Server.Web.Models.Shared.Category;
-using Microsoft.AspNetCore.Mvc.RazorPages;
+using Integracja.Server.Web.Areas.Kategorie.Models.Shared;
 using System.Collections.Generic;
 
 namespace Integracja.Server.Web.Areas.Kategorie.Models.AdminHome

@@ -6,8 +6,8 @@
 <h2>Kategorie</h2>
 <br />
 
-<div class="table-wrapper-scroll-y scrollbar-secondary">
-    <table class="table table-bordered table-striped table-sm ">
+<div class="table-wrapper-scroll-y">
+    <table id="table_id" class="table table-bordered table-striped">
         <thead>
             <tr>
                 <th scope="col">ID</th>
@@ -41,5 +41,5 @@
 
 <br />
 <div>
-    @{ await Html.RenderPartialAsync("~/Views/Shared/Category/_CategoryForm.cshtml", Model.CategoryFormModel);}
+    @{ await Html.RenderPartialAsync("~/Areas/Kategorie/Views/Shared/_CategoryForm.cshtml", Model.CategoryFormModel);}
 </div>

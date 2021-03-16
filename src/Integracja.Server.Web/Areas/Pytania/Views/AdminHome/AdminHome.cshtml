@@ -4,13 +4,14 @@
 @using static Integracja.Server.Web.Areas.Pytania.Models.AdminHome.IAdminHomeActions
 @model AdminHomeViewModel
 
-@{ await Html.RenderPartialAsync("~/Views/Shared/Question/_QuestionAlert.cshtml", Model.Alert);}
+@{ await Html.RenderPartialAsync("~/Areas/Pytania/Views/Shared/_QuestionAlert.cshtml", Model.Alert);}
 
 <h2>Pytania</h2>
 <br />
 
-<div class="table-wrapper-scroll-y scrollbar-secondary">
-    <table class="table table-bordered table-striped table-sm ">
+
+<div class="table-wrapper-scroll-y">
+    <table id="table_id" class="table table-bordered table-striped table-sm ">
         <thead>
             <tr>
                 <th scope="col">ID</th>
@@ -40,6 +41,13 @@
         </tbody>
     </table>
 </div>
+
+@section Scripts{ 
+    <script type="text/javascript">
+        
+    </script>
+}
+
 
 <div>
     <a asp-action="@nameof(IAdminHomeActions.GotoQuestionCreate)">Stwórz pytanie</a>

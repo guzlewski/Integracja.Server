@@ -109,9 +109,10 @@ namespace Integracja.Server.Web
                     areaName: "Konto",
                     pattern: "Konto/{controller=Home}/{action=Index}");
 
-                endpoints.MapControllerRoute(
+                endpoints.MapAreaControllerRoute(
                     name: "default",
-                    pattern: "{controller=Przeglad}/{action=Index}/{id?}");
+                    areaName: "Gry",
+                    pattern: "{controller=Home}/{action=Index}");
                 endpoints.MapRazorPages();
             });
         }

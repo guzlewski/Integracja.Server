@@ -1,0 +1,11 @@
+﻿@using Integracja.Server.Web.Areas.TrybyGry.Models.Shared
+@model GamemodeFormViewModel
+
+<h2>Tryb gry</h2>
+<br />
+
+<div class="row">
+    <div class="col-md-10">
+        @{ await Html.RenderPartialAsync("~/Areas/TrybyGry/Views/Shared/_GamemodeForm.cshtml", Model);}
+    </div>
+</div>

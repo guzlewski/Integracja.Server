@@ -14,13 +14,13 @@
         </a>
         <br />
 
-        @{  await Html.RenderPartialAsync("~/Areas/Kategorie/Views/CategorySelect/CategorySelect.cshtml", Model.CategorySelectModel);}
+        @{  await Html.RenderPartialAsync("~/Areas/Kategorie/Views/Shared/_CategorySelect.cshtml", Model.CategorySelectModel);}
 
         @*dodawanie kategorii*@
         <h2>Lub stwórz nową</h2>
         <br />
 
-        @{ await Html.RenderPartialAsync("~/Views/Shared/Category/_CategoryForm.cshtml", Model.CategoryFormModel);}
+        @{ await Html.RenderPartialAsync("~/Areas/Kategorie/Views/Shared/_CategoryForm.cshtml", Model.CategoryFormModel);}
 
     </div>
 </div>

@@ -1,4 +1,4 @@
-﻿using Integracja.Server.Web.Models.Shared.Category;
+﻿using Integracja.Server.Web.Areas.Kategorie.Models.Shared;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 

@@ -13,13 +13,15 @@ namespace Integracja.Server.Web.Areas.Gry.Controllers
     [Area("Gry")]
     public class HomeController : ApplicationController, IHomeActions
     {
+        public static new string Name = "Home";
+
         public HomeController(UserManager<User> userManager, ApplicationDbContext dbContext, IMapper mapper) : base(userManager, dbContext, mapper)
         {
         }
 
         public async Task<IActionResult> GotoGameCreate()
         {
-            return RedirectToAction("Index", GamemodeSelectController.Name, new { area = "TrybyGry" } );
+            return RedirectToAction("Index", GamemodeForGameController.Name, new { area = "TrybyGry" } );
         }
 
         public Task<IActionResult> GotoGameDelete()

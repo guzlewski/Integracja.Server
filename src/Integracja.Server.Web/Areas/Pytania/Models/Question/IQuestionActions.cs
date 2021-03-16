@@ -1,4 +1,5 @@
-﻿using Integracja.Server.Web.Models.Shared.Question;
+﻿using Integracja.Server.Web.Areas.Pytania.Models.Shared;
+using Integracja.Server.Web.Models.Shared.Question;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 

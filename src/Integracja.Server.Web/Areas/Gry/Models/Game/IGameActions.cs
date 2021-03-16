@@ -1,4 +1,5 @@
-﻿using Integracja.Server.Web.Models.Shared.Game;
+﻿using Integracja.Server.Web.Areas.Gry.Models.Shared;
+using Integracja.Server.Web.Models.Shared.Game;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 

@@ -3,6 +3,7 @@ using Integracja.Server.Core.Models.Identity;
 using Integracja.Server.Infrastructure.Data;
 using Integracja.Server.Infrastructure.Models;
 using Integracja.Server.Web.Areas.Gry.Models.Game;
+using Integracja.Server.Web.Areas.Gry.Models.Shared;
 using Integracja.Server.Web.Controllers;
 using Integracja.Server.Web.Models.Shared.Game;
 using Integracja.Server.Web.Models.Shared.Question;
@@ -49,7 +50,7 @@ namespace Integracja.Server.Web.Areas.Gry.Controllers
 
         public async Task<IActionResult> SettingsCreateView(int? gamemodeId)
         {
-            GameSettingsViewModel model = new GameSettingsViewModel();
+            GameSettingsFormViewModel model = new GameSettingsFormViewModel();
 
             model.Settings.GamemodeId = gamemodeId;
 
