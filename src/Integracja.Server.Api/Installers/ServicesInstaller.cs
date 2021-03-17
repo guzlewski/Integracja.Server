@@ -23,6 +23,8 @@ namespace Integracja.Server.Api.Installers
 
             services.AddScoped<IGameUserService, GameUserService>();
 
+            services.AddScoped<IGameLogicService, GameLogicService>();
+
             services.AddSingleton<IStorageService, BlobStorageService>();
 
             services.AddScoped<IPictureService, PictureService>();
