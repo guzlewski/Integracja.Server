@@ -29,7 +29,7 @@ namespace Integracja.Server.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<DetailQuestionDto> Get(int id)
+        public async Task<DetailQuestionDto<DetailAnswerDto>> Get(int id)
         {
             return await _questionService.Get(id, UserId.Value);
         }

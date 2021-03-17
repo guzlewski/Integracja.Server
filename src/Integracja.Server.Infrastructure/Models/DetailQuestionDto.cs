@@ -3,7 +3,7 @@ using Integracja.Server.Core.Enums;
 
 namespace Integracja.Server.Infrastructure.Models
 {
-    public class DetailQuestionDto
+    public class DetailQuestionDto<T>
     {
         public int Id { get; set; }
         public int CategoryId { get; set; }
@@ -13,6 +13,6 @@ namespace Integracja.Server.Infrastructure.Models
         public float PositivePoints { get; set; }
         public float NegativePoints { get; set; }
         public QuestionScoring QuestionScoring { get; set; }
-        public ICollection<DetailAnswerDto> Answers { get; set; }
+        public ICollection<T> Answers { get; set; }
     }
 }
