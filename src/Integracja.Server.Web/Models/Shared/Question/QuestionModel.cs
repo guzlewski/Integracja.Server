@@ -70,7 +70,7 @@ namespace Integracja.Server.Web.Models.Shared.Question
             return mapper.Map<QuestionModel>(v);
         }
 
-        public static explicit operator QuestionModel(DetailQuestionDto v)
+        public static explicit operator QuestionModel(DetailQuestionDto<DetailAnswerDto> v)
         {
             var mapper = Mappers.WebAutoMapper.Initialize();
             return mapper.Map<QuestionModel>(v);
