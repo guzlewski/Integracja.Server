@@ -18,6 +18,8 @@ namespace Integracja.Server.Api.Installers
             services.AddScoped<IGameRepository, GameRepository>();
 
             services.AddScoped<IGameUserRepository, GameUserRepository>();
+
+            services.AddScoped<IGameLogicRepository, GameLogicRepository>();
         }
     }
 }

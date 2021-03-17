@@ -25,12 +25,12 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
             _configuration = configuration;
         }
 
-        public async Task<DetailQuestionDto> Get(int id, int userId)
+        public async Task<DetailQuestionDto<DetailAnswerDto>> Get(int id, int userId)
         {
             var detailQuestionDto = await _questionRepository.Get(id)
                 .Where(q => (q.IsPublic || q.OwnerId == userId) && !q.IsDeleted &&
                     (q.Category.IsPublic || q.Category.OwnerId == userId) && !q.Category.IsDeleted)
-                .ProjectTo<DetailQuestionDto>(_configuration)
+                .ProjectTo<DetailQuestionDto<DetailAnswerDto>>(_configuration)
                 .FirstOrDefaultAsync();
 
             if (detailQuestionDto == null)
