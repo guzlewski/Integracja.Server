@@ -15,11 +15,13 @@ namespace Integracja.Server.Api.Controllers
     {
         private readonly IGameService _gameService;
         private readonly IGameUserService _gameUserService;
+        private readonly IGameLogicService _gameQuestionService;
 
-        public GamesController(IGameService gameService, IGameUserService gameUserService)
+        public GamesController(IGameService gameService, IGameUserService gameUserService, IGameLogicService gameQuestionService)
         {
             _gameService = gameService;
             _gameUserService = gameUserService;
+            _gameQuestionService = gameQuestionService;
         }
 
         [HttpGet]
@@ -86,6 +88,24 @@ namespace Integracja.Server.Api.Controllers
         {
             await _gameUserService.Leave(id, UserId.Value);
             return NoContent();
+        }
+
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status409Conflict)]
+        [HttpGet("[action]/{id}")]
+        public async Task<GameQuestionDto> Play(int id)
+        {
+            return await _gameQuestionService.GetQuestion(id, UserId.Value);
+        }
+
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status409Conflict)]
+        [HttpPost("[action]/{gameId}/{questionId}")]
+        public async Task<GameUserQuestionDto> Play(int gameId, int questionId, IEnumerable<int> answers)
+        {
+            return await _gameQuestionService.SaveAnswers(gameId, UserId.Value, questionId, answers);
         }
     }
 }
