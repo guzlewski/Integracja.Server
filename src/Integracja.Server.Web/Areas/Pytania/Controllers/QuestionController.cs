@@ -44,9 +44,9 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
             }
         }
 
-        public async Task<IActionResult> QuestionCreateViewStep1()
+        public async Task<IActionResult> QuestionCreateViewStep1(int? categoryId)
         {
-            return RedirectToAction("Index", CategoryForQuestionController.Name, new { area = "Kategorie" });
+            return RedirectToAction("Index", CategoryForQuestionController.Name, new { area = "Kategorie", id = categoryId });
         }
 
         public async Task<IActionResult> QuestionCreateViewStep2(int categoryId)
@@ -130,6 +130,11 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
             SaveToTempData(question);
 
             return RedirectToAction("Index");
+        }
+
+        public async Task<IActionResult> QuestionCreateCategoryUpdate(int categoryId)
+        {
+            return RedirectToAction(nameof(IQuestionActions.QuestionCreateViewStep1), new { categoryId = categoryId });
         }
     }
 }

@@ -10,7 +10,8 @@ namespace Integracja.Server.Web.Models.Shared.Question
     public class QuestionModel
     {
         [Required(ErrorMessage = "Musisz podać treść pytania")]
-        [MinLength(10)]
+        [MinLength(10, ErrorMessage = "Pytanie musi zawierać przynajmniej 10 znaków")]
+        [Display(Name = "Treść")]
         public string Content { get; set; }
         public List<AnswerModel> Answers { get; set; }
         public int PositivePoints { get; set; }

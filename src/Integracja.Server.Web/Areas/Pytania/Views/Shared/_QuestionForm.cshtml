@@ -33,16 +33,30 @@
     @if (Model.ViewMode == Updating || Model.ViewMode == Creating)
     {
         <div class="form-group">
-            <input type="submit" asp-action="@NameOfAddAnswerField" asp-route-categoryId="@Model.Question.CategoryId" formnovalidate value="Dodaj nową odpowiedź" class="btn btn-light" />
-            <input type="submit" asp-action="@NameOfRemoveAnswerField" asp-route-categoryId="@Model.Question.CategoryId" formnovalidate value="Usuń odpowiedź" class="btn btn-light" />
+            <input type="submit" asp-action="@nameof(IQuestionFormActions.AddAnswerField)" asp-route-categoryId="@Model.Question.CategoryId" formnovalidate value="Dodaj odpowiedź" class="btn btn-light" />
+            <input type="submit" asp-action="@nameof(IQuestionFormActions.RemoveAnswerField)" asp-route-categoryId="@Model.Question.CategoryId" formnovalidate value="Usuń odpowiedź" class="btn btn-light" />
         </div>
     }
 
     <h2>Punktacja</h2>
     <br />
 
+    <h4>Za dobrą odpowiedź</h4>
+
     <div class="form-group">
-        <input asp-for="Question.PositivePoints" type="number" class="form-control input-number" />
+        <input asp-for="Question.PositivePoints" type="number" class="form-control input-number"
+               step="1"
+               min="1"
+               max="10"/>
+    </div>
+
+    <h4>Za złą odpowiedź</h4>
+
+    <div class="form-group">
+        <input asp-for="Question.NegativePoints" type="number" class="form-control input-number"
+               step="1"
+               min="-10"
+               max="0"/>
     </div>
 
     <h4>Tryb</h4>
@@ -50,22 +64,18 @@
         <div class="radio">
             <label class="radio">
                 <input asp-for="Question.Scoring" value="@Integracja.Server.Core.Enums.QuestionScoring.ScoreIfFullyCorrect" type="radio" checked>
-                Tylko za komplet poprawnych odpowiedzi
+                Całkowity - punkty będą przyznane za pytanie 
             </label>
         </div>
         <div class="radio">
             <label class="radio">
                 <input asp-for="Question.Scoring" value="@Integracja.Server.Core.Enums.QuestionScoring.ScorePerGoodAnswer" type="radio">
-                Za pojedynczą poprawną odpowiedź
+                Cząstkowy - punkty będą przyznane za każdą odpowiedź z osobna
             </label>
         </div>
     </div>
 
-    <h4>Złe odpowiedzi</h4>
 
-    <div class="form-group">
-        <input asp-for="Question.NegativePoints" type="number" class="form-control input-number" />
-    </div>
 
     <br />
 
@@ -74,17 +84,18 @@
         {
 
             <input type="submit" value="Dodaj pytanie" class="btn btn-primary"
-                   asp-action="@NameOfQuestionCreate"
+                   asp-action="@nameof(IQuestionFormActions.QuestionCreate)"
                    asp-route-categoryId="@Model.Question.CategoryId" />
+            <input type="reset" value="Zresetuj" class="btn btn-danger" />
         }
         @if (Model.ViewMode == Updating)
         {
             <input type="submit" value="Dodaj jako nowe pytanie" class="btn btn-primary"
-                   asp-action="@NameOfQuestionCreate"
+                   asp-action="@nameof(IQuestionFormActions.QuestionCreate)"
                    asp-route-categoryId="@Model.Question.CategoryId" />
 
             <input type="submit" value="Zaaktualizuj pytanie" class="btn btn-primary"
-                   asp-action="@NameOfQuestionUpdate"
+                   asp-action="@nameof(IQuestionFormActions.QuestionUpdate)"
                    asp-route-categoryId="@Model.Question.CategoryId" />
         }
     </div>

@@ -7,7 +7,21 @@
 
 @{ await Html.RenderPartialAsync("~/Areas/Pytania/Views/Shared/_QuestionAlert.cshtml", Model.Alert);}
 
+
+
+
 <h2>Pytanie</h2>
+<br />
+
+<h4>Kategoria pytania: @Model.Form.Question.CategoryId</h4>
+<br />
+
+<a class="btn btn-primary"
+   asp-action="@nameof(IQuestionActions.QuestionCreateCategoryUpdate)"
+   asp-route-categoryId="@Model.Form.Question.CategoryId">
+    Zmień kategorię
+</a>
+<br />
 <br />
 
 <div class="row">
@@ -19,9 +33,10 @@
 
 @* Wołanie sekcji nie działa z częściowych widoków co jest po cichu ignorowane (: *@
 @if (Model.Form.ViewMode == Reading)
-{ 
+{
     @section Scripts
     {
         <script>disableFormInputs("@QuestionFormViewModel.Ids.Form")</script>
     }
 }
+
