@@ -1,0 +1,54 @@
+﻿.points-form {
+    display: flex;
+}
+
+.points {
+    display: flex;
+    align-items: center;
+    margin-right: 70px;
+}
+
+/*.positive-points {
+    display: flex;
+}*/
+
+
+
+.rangeValue {
+    display: block;
+    font-size: 3em;
+    color: #999;
+    font-weight: 200;
+}
+
+.range {
+    width: 15em;
+    height: 0.8em;
+    -webkit-appearance: none;
+    background: #f2f6f8;
+    outline: none;
+    border-radius: 5px;
+    border: 1px solid #E5E5E5;
+    overflow: hidden;
+}
+
+    .range::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        width: 12px;
+        height: 15px;
+        border-radius: 100%;
+        background: #fed136;
+        cursor: pointer;
+    }
+
+        .range::-webkit-slider-thumb:hover {
+            background: #e8af14;
+            
+        }
+
+
+@media (max-width: 992px) {
+    .points-form {
+        display: block;
+    }
+}
