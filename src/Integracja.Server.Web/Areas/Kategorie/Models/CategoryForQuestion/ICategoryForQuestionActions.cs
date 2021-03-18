@@ -6,7 +6,7 @@ namespace Integracja.Server.Web.Areas.Kategorie.Models.CategoryForQuestion
 {
     public interface ICategoryForQuestionActions : ICategorySelectActions, ICategoryFormActions
     {
-        Task<IActionResult> GotoQuestionCreate(int categoryId);
+        Task<IActionResult> GotoQuestionCreate(int? id);
         Task<IActionResult> Index(int? id);
     }
 }

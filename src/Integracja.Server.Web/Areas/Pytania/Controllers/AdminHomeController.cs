@@ -27,7 +27,7 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
         public async Task<IActionResult> Index(int? id)
         {
             Model.Questions = (System.Collections.Generic.List<Infrastructure.Models.QuestionDto>)await QuestionService.GetAll(UserId);
-            Model.Alert = GetAlert<QuestionAlert>();
+            Model.Alerts = GetAlerts();
             return View("AdminHome", Model);
         }
 

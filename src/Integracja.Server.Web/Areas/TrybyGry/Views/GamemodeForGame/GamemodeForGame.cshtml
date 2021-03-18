@@ -6,6 +6,14 @@
 <h2>Wybierz tryb gry</h2>
 <br />
 
+<a class="btn btn-primary"
+   asp-action="@nameof(IGamemodeForGameActions.GotoGameCreate)"
+   asp-route-gamemodeId="@Model.SelectedGamemode">
+    Dalej...
+</a>
+<br />
+<br />
+
 <div class="table-wrapper-scroll-y">
     <table id="table_id" class="table table-bordered table-striped table-sm ">
         <thead>
@@ -51,11 +59,3 @@
     </a>
 </div>
 <br />
-
-<h2>Przejdź dalej</h2>
-<br />
-<a class="btn btn-primary"
-   asp-action="@nameof(IGamemodeForGameActions.GotoGameCreate)"
-   asp-route-gamemodeId="@Model.SelectedGamemode">
-    Stwórz grę
-</a>

@@ -4,7 +4,7 @@
 @using static Integracja.Server.Web.Areas.Pytania.Models.AdminHome.IAdminHomeActions
 @model AdminHomeViewModel
 
-@{ await Html.RenderPartialAsync("~/Areas/Pytania/Views/Shared/_QuestionAlert.cshtml", Model.Alert);}
+@{ await Html.RenderPartialAsync("~/Views/Shared/Alerts/_AlertsList.cshtml", Model.Alerts);}
 
 <h2>Pytania</h2>
 <br />

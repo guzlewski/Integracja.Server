@@ -25,7 +25,7 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
         [HttpGet]
         public async Task<IActionResult> Index(int? id)
         {
-            Model.Alert = GetAlert<QuestionAlert>();
+            Model.Alerts = GetAlerts();
 
             Model.Questions = QuestionModel.ConvertToList( await QuestionService.GetAll(UserId) );
             return View(Model);

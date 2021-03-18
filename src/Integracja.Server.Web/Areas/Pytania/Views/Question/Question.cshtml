@@ -5,10 +5,7 @@
 @using static Integracja.Server.Web.Models.Shared.Enums.ViewMode
 @model QuestionViewModel
 
-@{ await Html.RenderPartialAsync("~/Areas/Pytania/Views/Shared/_QuestionAlert.cshtml", Model.Alert);}
-
-
-
+@{ await Html.RenderPartialAsync("~/Views/Shared/Alerts/_AlertsList.cshtml", Model.Alerts);}
 
 <h2>Pytanie</h2>
 <br />

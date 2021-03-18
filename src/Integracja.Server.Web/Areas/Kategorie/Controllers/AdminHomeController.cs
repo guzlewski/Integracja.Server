@@ -45,7 +45,7 @@ namespace Integracja.Server.Web.Areas.Kategorie.Controllers
 
         public async Task<IActionResult> CategoryUpdate(CategoryModel category)
         {
-            await CategoryService.Update(category.Id, category.ToCategoryModify(), UserId);
+            await CategoryService.Update(category.Id.Value, category.ToCategoryModify(), UserId);
             return RedirectToAction("Index", new { id = category.Id });
         }
 

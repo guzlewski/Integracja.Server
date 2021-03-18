@@ -1,12 +1,14 @@
 ﻿using Integracja.Server.Web.Areas.Pytania.Models.Shared;
+using Integracja.Server.Web.Models.Shared.Alert;
 using Integracja.Server.Web.Models.Shared.Enums;
 using Integracja.Server.Web.Models.Shared.Question;
+using System.Collections.Generic;
 
 namespace Integracja.Server.Web.Areas.Pytania.Models.Question
 {
     public class QuestionViewModel
     {
-        public QuestionAlert Alert { get; set; }
+        public List<AlertModel> Alerts { get; set; }
 
         public QuestionFormViewModel Form { get; set; } = new QuestionFormViewModel();
 
@@ -14,11 +16,10 @@ namespace Integracja.Server.Web.Areas.Pytania.Models.Question
         {
         }
 
-        public QuestionViewModel( QuestionModel question, QuestionAlert alert )
+        public QuestionViewModel( QuestionModel question, List<AlertModel> alerts )
         {
             Form = new QuestionFormViewModel(question);
-            //Form.Question = question;
-            Alert = alert;
+            Alerts = alerts;
         }
 
         public QuestionViewModel(ViewMode mode)

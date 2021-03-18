@@ -1,6 +1,8 @@
 ﻿@using Integracja.Server.Web.Areas.Kategorie.Models.CategoryForQuestion
 @model CategoryForQuestionViewModel
 
+@{ await Html.RenderPartialAsync("~/Views/Shared/Alerts/_AlertsList.cshtml", Model.Alerts);}
+
 @*wybór i dodawanie kategorii*@
 <div class="row">
     <div class="col-md-10">

@@ -4,10 +4,12 @@ using Integracja.Server.Infrastructure.Data;
 using Integracja.Server.Web.Areas.Kategorie.Controllers;
 using Integracja.Server.Web.Areas.Pytania.Models.Question;
 using Integracja.Server.Web.Controllers;
+using Integracja.Server.Web.Models.Shared.Alert;
 using Integracja.Server.Web.Models.Shared.Enums;
 using Integracja.Server.Web.Models.Shared.Question;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Integracja.Server.Web.Areas.Pytania.Controllers
@@ -29,7 +31,7 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
 
         protected IActionResult IndexResult( string redirectActionName, string redirectControllerName )
         {
-            var alert = GetAlert<QuestionAlert>();
+            var alert = GetAlerts();
             var question = TryRetrieveFromTempData<QuestionModel>();
 
             if (question != null)
@@ -39,7 +41,7 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
             }
             else
             {
-                SetAlert(alert); // przekazuję dalej
+                SetAlerts(alert); // przekazuję dalej
                 return RedirectToAction(redirectActionName, redirectControllerName);
             }
         }
@@ -53,7 +55,7 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
         {
             Model = new QuestionViewModel(ViewMode.Creating);
             // mogłem właśnie dodać pytanie i trafić tutaj ponownie więc wyświetlam alert
-            Model.Alert = GetAlert<QuestionAlert>();
+            Model.Alerts = GetAlerts();
 
             Model.Form.Question.CategoryId = categoryId;
 
@@ -63,7 +65,9 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
         {
             int questionId = await QuestionService.Add(question.ToQuestionAdd(), UserId);
 
-            SetAlert(QuestionAlert.QuestionCreateSuccess());
+            List<AlertModel> alerts = new List<AlertModel>();
+            alerts.Add(QuestionAlert.QuestionCreateSuccess());
+            alerts.Add(new AlertModel(AlertType.Info, "Możesz teraz ponownie utworzyć pytanie dla wybranej kategorii."));
 
             // jeśli weszło z edycji to cofamy do głównego panelu 
             if (question.Id.HasValue)
