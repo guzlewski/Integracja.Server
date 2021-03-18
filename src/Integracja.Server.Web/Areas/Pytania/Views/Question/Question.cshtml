@@ -7,33 +7,39 @@
 
 @{ await Html.RenderPartialAsync("~/Views/Shared/Alerts/_AlertsList.cshtml", Model.Alerts);}
 
-<h2>Pytanie</h2>
-<br />
+<link rel="stylesheet" href="~/css/Pytania/Question.css" />
 
-<h4>Kategoria pytania: @Model.Form.Question.CategoryId</h4>
-<br />
+<div class="container-fluid dodaj_pytanie mb-5 p-4">
 
-<a class="btn btn-primary"
-   asp-action="@nameof(IQuestionActions.QuestionCreateCategoryUpdate)"
-   asp-route-categoryId="@Model.Form.Question.CategoryId">
-    Zmień kategorię
-</a>
-<br />
-<br />
+    <h2>Pytanie</h2>
+    <br />
 
-<div class="row">
-    <div class="col-md-10">
-        @{ await Html.RenderPartialAsync("~/Areas/Pytania/Views/Shared/_QuestionForm.cshtml", Model.Form);
-        }
+    <h4>Kategoria pytania: @Model.Form.Question.CategoryId</h4>
+    <br />
+
+    <a class="btn btn-primary"
+       asp-action="@nameof(IQuestionActions.QuestionCreateCategoryUpdate)"
+       asp-route-categoryId="@Model.Form.Question.CategoryId">
+        Zmień kategorię
+    </a>
+    <br />
+    <br />
+
+    <div class="row">
+        <div class="col-md-10">
+            @{ await Html.RenderPartialAsync("~/Areas/Pytania/Views/Shared/_QuestionForm.cshtml", Model.Form);
+            }
+        </div>
     </div>
+
 </div>
 
-@* Wołanie sekcji nie działa z częściowych widoków co jest po cichu ignorowane (: *@
-@if (Model.Form.ViewMode == Reading)
-{
-    @section Scripts
+    @* Wołanie sekcji nie działa z częściowych widoków co jest po cichu ignorowane (: *@
+    @if (Model.Form.ViewMode == Reading)
     {
-        <script>disableFormInputs("@QuestionFormViewModel.Ids.Form")</script>
+        @section Scripts
+    {
+            <script>disableFormInputs("@QuestionFormViewModel.Ids.Form")</script>
+        }
     }
-}
 
