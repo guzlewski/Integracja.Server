@@ -19,7 +19,7 @@
 
 @* Wołanie sekcji nie działa z częściowych widoków co jest po cichu ignorowane (: *@
 @if (Model.Form.ViewMode == Reading)
-{
+{ 
     @section Scripts
     {
         <script>disableFormInputs("@QuestionFormViewModel.Ids.Form")</script>

@@ -4,6 +4,8 @@
 
 <br />
 
+<link rel="stylesheet" href="~/css/Kategorie/_CategorySelect.css" />
+
 <div class="table-wrapper-scroll-y">
     <table id="table_id" class="table table-bordered table-striped table-sm ">
         <thead>
@@ -15,8 +17,9 @@
         <tbody>
             @for (int i = 0; i < Model.Categories.Count; i++)
             {
-                <tr>
+                <tr class="@(Model.CategorySelected==Model.Categories[i].Id ? "category_selected" : "")">
                     <td>
+
                         <a class="btn btn-light"
                            asp-action="@nameof(ICategorySelectActions.CategoryRead)"
                            asp-route-id="@Model.Categories[i].Id">
