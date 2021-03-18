@@ -3,70 +3,100 @@
 @using static Integracja.Server.Web.Areas.Konto.Models.IHomeActions
 @model HomeViewModel
 
-@{
-    var username = ViewData["Name"];
-}
-
 <link rel="stylesheet" href="~/css/konto.css" />
+<script type="text/javascript" src="~/js/konto/index.js"></script>
+<script src="~/js/konto/index.js" asp-append-version="true"></script>
 
 <div class="container-fluid konto h-100">
     <div class="row">
-        <div class="col-12 col-md-4 pt-5 d-flex justify-content-center username">
+        <div class="col-12 col-xl-4 pt-5 mt-3 d-flex justify-content-center username">
             <div>
                 <img src="@Url.Action("Picture")" class="profile_picture rounded-circle mb-2 mt-4" />
-                <p> @username </p>
+                <p> @Model.Details.Username </p>
             </div>
         </div>
 
-        <div class="col-12 col-md-8 pt-5 dane_konta">
+        <div class="col-12 col-xl-8 pt-5 dane_konta">
 
             <p id="title"> Szczegóły konta </p>
 
             <div class="row mt-3 pt-4 mb-4 pb-3 bord bord1">
-                <div class="col-6 pr-5">
+                <div class="col-lg-6 pr-5">
                     <p class="titles"> Nazwa użytkownika </p>
-                    <p> @username </p>
+                    <p> @Model.Details.Username </p>
                 </div>
-                <div class="col-6">
-                    <p class="titles"> Zdjęcie profilowe </p>
-                    <div class="form-group">
+                <div class="col-lg-6">
+                    <p class="titles mb-0 pb-0 pt-2 pt-lg-0"> Zdjęcie profilowe </p>
                         <form enctype="multipart/form-data" method="post" asp-action="@NameOfUploadPicture">
-                            <div asp-validation-summary="All" class="text-danger"></div>
-                            <input asp-for="NewFile.File" name="file" type="file" accept=".jpg, .png" />
-                            <input class="btn" type="submit" value="Upload" />
+                            <div class="input-group">
+                                <div asp-validation-summary="All" class="text-danger"></div>
+                                <div class="custom-file">
+                                     <input asp-for="Details.File" id="file" name="file" type="file" width="50" accept=".jpg, .png" />
+                                     <label class="custom-file-label" for="file"> Wybierz zdjęcie </label>
+                                </div>
+                                <input class="btn btn-primary mt-2" type="submit" value="Aktualizuj" />
+                            </div>
                         </form>
-                    </div>
                 </div>
             </div>
             <div class="row mb-4 pb-3 bord">
-                <div class="col-6 pr-5">
-                    <p class="titles"> Adres e-mail </p>
-                    <div class="form-outline">
-                        <input type="text" class="form-control" id="phone" placeholder="Adres e-mail">
-                    </div>
+                <div class="col-lg-6 pr-5">
+                    <form id="infochange" method="post" asp-action="UpdateEmail">
+                        <p class="titles"> Adres e-mail </p>
+                        <div class="form-outline container-fluid p-0">
+                            <div class="row">
+                                <div class="col-12 col-sm-8">
+                                    <input type="text" name="email" class="form-control inp" placeholder="@Model.Details.Email" asp-for="Details.Email">
+                                </div>
+                                <div class="col-12 col-sm-4">
+                                    <input type="submit" value="Zmień" class="btn btn-primary change mt-2 mt-sm-0">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
                 </div>
-                <div class="col-6">
+                <div class="col-lg-6 pt-4 pt-lg-0">
                     <p class="titles"> Status adresu e-mail </p>
-                    <p id="status_email"> potwierdzony </p>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-6 pr-5 mb-5">
-                    <p class="titles"> Numer telefonu </p>
-                    <div class="form-outline">
-                        <input type="text" class="form-control" id="phone" placeholder="Numer telefonu">
-                    </div>
+                    @if (Model.Details.EmailConfirmed == true)
+                    {
+                        <p id="status_confirmed"> potwierdzony </p>
+                    }
+                    else
+                    {
+                        <p id="status_unconfirmed"> niepotwierdzony </p>
+                    }
 
                 </div>
-                <div class="col-6">
+            </div>
+            <div class="row mb-5">
+                <div class="col-lg-6 pr-5">
+                    <form id="infochange" method="post" asp-action="UpdatePhoneNumber">
+                        <p class="titles"> Numer telefonu </p>
+                        <div class="form-outline container-fluid p-0">
+                            <div class="row">
+                                <div class="col-12 col-sm-8">
+                                    <input asp-for="Details.PhoneNumber" type="text" name="PhoneNumber" class="form-control inp" placeholder="Numer telefonu">
+                                </div>
+                                <div class="col-12 col-sm-4">
+                                    <input type="submit" value="Zmień" class="btn btn-primary change mt-2 mt-sm-0">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-lg-6 pt-4 pt-lg-0">
                     <p class="titles"> Status numeru telefonu </p>
-                    <p id="status_numeru"> niepotwierdzony </p>
+                    @if (Model.Details.PhoneNumberConfirmed == true)
+                    {
+                        <p id="status_confirmed"> potwierdzony </p>
+                    }
+                    else
+                    {
+                        <p id="status_unconfirmed"> niepotwierdzony </p>
+                    }
                 </div>
             </div>
-
         </div>
-
-
     </div>
 
 

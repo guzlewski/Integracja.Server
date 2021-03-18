@@ -6,8 +6,8 @@
 }
 
 .profile_picture {
-    width: 13rem;
-    height: 13rem;
+    width: 17rem;
+    height: 17rem;
     border: 0.2rem solid rgba(0, 0, 0, 0.1);
 }
 
@@ -21,11 +21,11 @@
     font-size: 1.7em;
 }
 
-#status_email {
+#status_confirmed {
     color: green;
 }
 
-#status_numeru {
+#status_unconfirmed {
     color: red;
 }
 
@@ -41,28 +41,56 @@
     border-top: 2px solid #F0F0F0 !important;
 }
 
-@media (max-width: 992px) {
-    .profile_picture {
-        width: 11rem;
-        height: 11rem;
-        margin-left: auto;
-        margin-right: auto;
+input:focus {
+    outline: 0 0 0 0 !important;
+    box-shadow: 0 0 0 0 !important;
+}
+
+.inp:focus {
+    border-color: #fed136;
+}
+
+.btn-primary {
+    background-color: #fed136 !important;
+    border-color: #fed136 !important;
+}
+
+    .btn-primary:hover {
+        background-color: #e8af14 !important;
+        border-color: #e8af14 !important;
     }
+
+.change {
+    color: white !important;
+    font-family: Numans, sans-serif;
+}
+
+.custom-file-label::after {
+    content: "Szukaj" !important;
+}
+
+.custom-file-label {
+    top: -1.5px !important;
+    left: -1.5px !important;
+    width: 230px !important;
+}
+
+#file {
+    width: 100px !important;
+}
+
+.input-group {
+    display: block !important;
+}
+
+.form-control {
+    width: 90% !important;
 }
 
 @media (max-width: 768px) {
     .profile_picture {
         width: 10rem;
         height: 10rem;
-        margin-left: auto;
-        margin-right: auto;
-    }
-}
-
-@media (max-width: 576px) {
-    .profile_picture {
-        width: 9rem;
-        height: 9rem;
         margin-left: auto;
         margin-right: auto;
     }
