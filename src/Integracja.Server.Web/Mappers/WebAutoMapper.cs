@@ -52,6 +52,13 @@ namespace Integracja.Server.Web.Mappers
                 .ForMember(dest => dest.EndTime, opt => opt.MapFrom(src => src.Settings.EndTime))
                 .ForMember(dest => dest.GamemodeId, opt => opt.MapFrom(src => src.Settings.GamemodeId))
                 .ForMember(dest => dest.QuestionsCount, opt => opt.MapFrom(src => src.QuestionPool.Count));
+
+                cfg.CreateMap<GameDto, GameSettingsModel>()
+                .ForMember(dest => dest.MaxPlayersCount, opt => opt.MapFrom(src => src.MaxPlayersCount))
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
+                .ForMember(dest => dest.StartTime, opt => opt.MapFrom(src => src.StartTime))
+                .ForMember(dest => dest.EndTime, opt => opt.MapFrom(src => src.EndTime))
+                .ForMember(dest => dest.GamemodeId, opt => opt.MapFrom(src => src.Gamemode.Id));
             })
             .CreateMapper();
         }

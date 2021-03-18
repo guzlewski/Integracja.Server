@@ -6,6 +6,7 @@ using Integracja.Server.Web.Areas.Gry.Controllers;
 using Integracja.Server.Web.Areas.TrybyGry.Models.GamemodeForGame;
 using Integracja.Server.Web.Areas.TrybyGry.Models.Shared;
 using Integracja.Server.Web.Controllers;
+using Integracja.Server.Web.Models.Shared.Alert;
 using Integracja.Server.Web.Models.Shared.Enums;
 using Integracja.Server.Web.Models.Shared.Gamemode;
 using Microsoft.AspNetCore.Identity;
@@ -29,6 +30,7 @@ namespace Integracja.Server.Web.Areas.TrybyGry.Controllers
             Model = new GamemodeForGameViewModel();
             Model.Gamemodes = GamemodeModel.MapToList<GamemodeDto>( await GamemodeService.GetAll(UserId));
             Model.SelectedGamemode = id;
+            Model.Alerts = GetAlerts();
             return View("GamemodeForGame", Model);
         }
 
@@ -79,7 +81,13 @@ namespace Integracja.Server.Web.Areas.TrybyGry.Controllers
 
         public async Task<IActionResult> GotoGameCreate(int? gamemodeId)
         {
-            return RedirectToAction("Index", GameController.Name, new { area = "Gry", gamemodeId = gamemodeId });
+            if (gamemodeId == null)
+            {
+                SetAlert(new AlertModel(AlertType.Warning, "Musisz wybrać lub utworzyć tryb gry."));
+                return RedirectToAction("Index");
+            }
+            else return RedirectToAction("Index", GameController.Name, new { area = "Gry", gamemodeId = gamemodeId });
+
         }
     }
 }

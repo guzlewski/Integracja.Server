@@ -3,7 +3,7 @@
 });
 
 $(document).ready(function () {
-    $('#table_id').DataTable();
+    $('table').DataTable();
 });
 
 saveForm = function (formId, url, callback) {

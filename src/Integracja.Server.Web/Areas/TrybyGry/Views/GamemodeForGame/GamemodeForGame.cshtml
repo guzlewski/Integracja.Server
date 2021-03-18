@@ -3,6 +3,8 @@
 @using static Integracja.Server.Web.Areas.TrybyGry.Models.GamemodeForGame.IGamemodeForGameActions
 @model GamemodeForGameViewModel
 
+@{ await Html.RenderPartialAsync("~/Views/Shared/Alerts/_AlertsList.cshtml", Model.Alerts);}
+
 <h2>Wybierz tryb gry</h2>
 <br />
 

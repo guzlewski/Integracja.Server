@@ -18,19 +18,22 @@
             </tr>
         </thead>
         <tbody>
+            @for (int i = 0; i < Model.Games.Count; ++i)
+            {
+                <tr>
+                    <td>@Model.Games[i].Settings.Name</td>
+                    <td>ustawienia</td>
+                    <td>@Model.Games[i].Settings.StartTime</td>
+                    <td>@Model.Games[i].Settings.EndTime</td>
+                    <td>
+                        <a asp-action="@nameof(IHomeActions.GotoGameRead)" asp-route-id="">Szczegóły</a> |
+                        <a asp-action="@nameof(IHomeActions.GotoGameUpdate)" asp-route-id="">Edytuj</a> |
+                        <a asp-action="@nameof(IHomeActions.GotoGameDelete)" asp-route-id="">Anuluj</a>
+                    </td>
 
-            <tr>
-                <td>Gierki</td>
-                <td>Lista ustawień</td>
-                <td>Czas rozpoczęcia</td>
-                <td>60 min</td>
-                <td>
-                    <a asp-action="@nameof(IHomeActions.GotoGameRead)" asp-route-id="">Szczegóły</a> |
-                    <a asp-action="@nameof(IHomeActions.GotoGameUpdate)" asp-route-id="">Edytuj</a> |
-                    <a asp-action="@nameof(IHomeActions.GotoGameDelete)" asp-route-id="">Anuluj</a>
-                </td>
+                </tr>
+            }
 
-            </tr>
 
         </tbody>
     </table>

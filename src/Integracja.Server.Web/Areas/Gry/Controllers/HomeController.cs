@@ -4,8 +4,10 @@ using Integracja.Server.Infrastructure.Data;
 using Integracja.Server.Web.Areas.Gry.Models.Home;
 using Integracja.Server.Web.Areas.TrybyGry.Controllers;
 using Integracja.Server.Web.Controllers;
+using Integracja.Server.Web.Models.Shared.Game;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Integracja.Server.Web.Areas.Gry.Controllers
@@ -39,9 +41,11 @@ namespace Integracja.Server.Web.Areas.Gry.Controllers
             throw new System.NotImplementedException();
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> IndexAsync()
         {
-            return View();
+            HomeViewModel model = new HomeViewModel();
+            model.Games = GameSettingsModel.MapToList(await GameService.GetAll(UserId));
+            return View(model);
         }
     }
 }

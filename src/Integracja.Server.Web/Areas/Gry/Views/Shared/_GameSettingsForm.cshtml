@@ -7,28 +7,57 @@
     <input type="hidden" asp-for="Settings.GamemodeId" />
 
     <div class="form-group">
-        <label asp-for="Settings.Name" />
+        <h4>Nazwa gry</h4>
         <input asp-for="Settings.Name" />
+        <span asp-validation-for="Settings.Name" class="text-danger"></span>
+    </div>
+
+    <h4>Czas rozpoczęcia</h4>
+    <div class="form-group">
+        <label>Dzień</label>
+        <input asp-for="Settings.StartTime.Date" type="date" value="@DateTime.Now.Date" />
     </div>
     <div class="form-group">
-        <label asp-for="Settings.StartTime" />
-        <input asp-for="Settings.StartTime" />
+        <label>Godzina</label>
+        <input asp-for="Settings.StartTime.Hour" type="number" value="@DateTime.Now.Hour"
+               min="0" max="23" step="1" />
     </div>
     <div class="form-group">
-        <label asp-for="Settings.EndTime" />
-        <input asp-for="Settings.EndTime" type="datetime" />
+        <label>Minuty</label>
+        <input asp-for="Settings.StartTime.Minute" type="number" value="@DateTime.Now.Minute"
+               min="0" max="59" step="1" />
+    </div>
+
+    <h4>Czas zakończenia</h4>
+    <div class="form-group">
+        <label>Dzień</label>
+        <input asp-for="Settings.StartTime.Date" type="date" value="@DateTime.Now.Date" />
     </div>
     <div class="form-group">
-        <label asp-for="Settings.RandomizeQuestionOrder" />
-        <input asp-for="Settings.RandomizeQuestionOrder" type="datetime" />
+        <label>Godzina</label>
+        <input asp-for="Settings.StartTime.Hour" type="number" value="@(DateTime.Now.Hour+1)"
+               min="0" max="23" step="1" />
     </div>
     <div class="form-group">
-        <label asp-for="Settings.MaxPlayersCount" />
+        <label>Minuty</label>
+        <input asp-for="Settings.StartTime.Minute" type="number" value="@DateTime.Now.Minute"
+               min="0" max="59" step="1" />
+    </div>
+
+    <div class="form-group">
+        <h4>Losować kolejność pytań?</h4>
+        <input asp-for="Settings.RandomizeQuestionOrder" type="checkbox" />
+    </div>
+
+    <div class="form-group">
+        <h4>Maksymalna liczba graczy</h4>
         <input asp-for="Settings.MaxPlayersCount" type="number" />
     </div>
 
     <button type="submit" class="btn btn-primary"
-            asp-action="@nameof(IGameSettingsFormActions.GameSettingsCreate)">Zatwierdź ustawienia</button>
+            asp-action="@nameof(IGameSettingsFormActions.GameSettingsCreate)">
+        Zatwierdź ustawienia
+    </button>
 
 </form>
 
