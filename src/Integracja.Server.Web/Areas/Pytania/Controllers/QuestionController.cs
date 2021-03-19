@@ -3,6 +3,7 @@ using Integracja.Server.Core.Models.Identity;
 using Integracja.Server.Infrastructure.Data;
 using Integracja.Server.Web.Areas.Kategorie.Controllers;
 using Integracja.Server.Web.Areas.Pytania.Models.Question;
+using Integracja.Server.Web.Areas.Pytania.Models.QuestionCard;
 using Integracja.Server.Web.Controllers;
 using Integracja.Server.Web.Models.Shared.Alert;
 using Integracja.Server.Web.Models.Shared.Enums;
@@ -75,13 +76,11 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
             // jeśli inaczej to zostajemy i można dodać kolejne pytanie do kategorii
             else return RedirectToAction( nameof(IQuestionActions.QuestionCreateViewStep2), new { categoryId = question.CategoryId });
         }
-        public async Task<IActionResult> QuestionReadView(int? questionId)
+        public async Task<IActionResult> QuestionReadView(int questionId)
         {
-            Model = new QuestionViewModel();
-            if (questionId.HasValue)
-                Model.Form.Question = (QuestionModel)await QuestionService.Get(questionId.Value, UserId);
-            Model.Form.ViewMode = ViewMode.Reading;
-            return View(QuestionViewName, Model);
+            QuestionModel q = (QuestionModel)await QuestionService.Get(questionId, UserId);
+
+            return View("~/Areas/Pytania/Views/Shared/_QuestionCard.cshtml", q);
         }
         public async Task<IActionResult> QuestionUpdate(QuestionModel question)
         {
@@ -139,6 +138,16 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
         public async Task<IActionResult> QuestionCreateCategoryUpdate(int categoryId)
         {
             return RedirectToAction(nameof(IQuestionActions.QuestionCreateViewStep1), new { categoryId = categoryId });
+        }
+
+        public async Task<IActionResult> GotoQuestionUpdate(int questionId)
+        {
+            return RedirectToAction(nameof(IQuestionActions.QuestionUpdateView), new { questionId = questionId });
+        }
+
+        public async Task<IActionResult> GotoQuestionDelete(int questionId)
+        {
+            return RedirectToAction(nameof(IQuestionActions.QuestionDelete), new { questionId = questionId });
         }
     }
 }

@@ -23,7 +23,6 @@
         Zmień kategorię
     </a>
     <br />
-    <br />
 
     <div class="row">
         <div class="col-md-10">
@@ -34,12 +33,4 @@
 
 </div>
 
-    @* Wołanie sekcji nie działa z częściowych widoków co jest po cichu ignorowane (: *@
-    @if (Model.Form.ViewMode == Reading)
-    {
-        @section Scripts
-    {
-            <script>disableFormInputs("@QuestionFormViewModel.Ids.Form")</script>
-        }
-    }
 

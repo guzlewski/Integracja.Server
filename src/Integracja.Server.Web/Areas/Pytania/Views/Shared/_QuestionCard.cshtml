@@ -1,0 +1,47 @@
+﻿@using Integracja.Server.Web.Areas.Pytania.Models.QuestionCard
+@using Integracja.Server.Web.Models.Shared.Question
+@model QuestionModel
+
+<div class="card" style="max-width: 25rem;">
+    <div class="card-body">
+
+        <h2 class="card-title">@Model.CategoryId</h2>
+        <br />
+
+        <h4 class="card-subtitle mb-2 text-muted">@Model.Content</h4>
+        <br />
+
+        <ul>
+            @foreach (var ans in Model.Answers)
+            {
+                <li>
+                    <p class="card-text"
+                       style="@(ans.IsCorrect ? "color: green" : "" )">
+                        @ans.Content
+                    </p>
+                </li>
+            }
+        </ul>
+
+        <br />
+
+        <h3>Punktacja</h3>
+        @if (Model.Scoring == Integracja.Server.Core.Enums.QuestionScoring.ScoreIfFullyCorrect)
+        {
+            <p>Za pytanie</p>
+        }
+        else
+        {
+            <p>Za odpowiedzi</p>
+        }
+        <h4>Poprawna odpowiedź</h4>
+        <h4>@Model.PositivePoints</h4>
+        <h4>Zła odpowiedź</h4>
+        <h4>@Model.NegativePoints</h4>
+
+        <br />
+
+        <a asp-action="@nameof(IQuestionCardActions.GotoQuestionUpdate)" asp-route-questionId="@Model.Id" class="card-link">Edytuj</a>
+        <a asp-action="@nameof(IQuestionCardActions.GotoQuestionDelete)" asp-route-questionId="@Model.Id" class="card-link">Usuń</a>
+    </div>
+</div>

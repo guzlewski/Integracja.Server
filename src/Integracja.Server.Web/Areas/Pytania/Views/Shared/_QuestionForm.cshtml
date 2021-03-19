@@ -5,8 +5,6 @@
 @model QuestionFormViewModel
 
 <link rel="stylesheet" href="~/css/Pytania/_QuestionForm.css" />
-<script type="text/javascript" src="~/js/Pytania/_QuestionForm.js"></script>
-<script src="~/js/Pytania/_QuestionForm.js" asp-append-version="true"></script>
 
 <form id="@Ids.Form" asp-route-categoryId="@Model.Question.CategoryId">
 
@@ -27,53 +25,51 @@
     <div class="row">
         @for (int i = 0; i < Model.Question.Answers.Count; ++i)
         {
-            @*<div class="form-group">
-                <div class="form-inline">
-                    <input asp-for="Question.Answers[i].Content" class="form-control" />
-                    <input asp-for="Question.Answers[i].IsCorrect" class="form-check" type="checkbox" />
+            <div class="form-group col-12 col-md-6 col-lg-3">
+
+                <div class="row">
+                    <div class="col-11 pr-0 mr-0">
+                        <input asp-for="Question.Answers[i].Content" class="form-control" />
+                    </div>
+
+                    <div class="col-1 pl-0 pr-0 ml-0 d-flex flex-column justify-content-center">
+                        <input asp-for="Question.Answers[i].IsCorrect" class="form-check" type="checkbox" />
+                    </div>
                 </div>
-            </div>*@
 
-
-             <div class="form-group col-12 col-md-6 col-lg-3">
-
-                 <div class="row">
-                     <div class="col-11 pr-0 mr-0">
-                         <input asp-for="Question.Answers[i].Content" class="form-control" />
-                     </div>
-
-                     <div class="col-1 pl-0 pr-0 ml-0 d-flex flex-column justify-content-center">
-                         <input asp-for="Question.Answers[i].IsCorrect" class="form-check" type="checkbox" />
-                     </div>
-                 </div>
-
-             </div>
-
+            </div>
         }
     </div>
 
-        @if (Model.ViewMode == Updating || Model.ViewMode == Creating)
-        {
-            <div class="form-group mb-5">
-                <input type="submit" asp-action="@nameof(IQuestionFormActions.AddAnswerField)" asp-route-categoryId="@Model.Question.CategoryId" formnovalidate value="Dodaj odpowiedź" class="btn btn-light" />
-                <input type="submit" asp-action="@nameof(IQuestionFormActions.RemoveAnswerField)" asp-route-categoryId="@Model.Question.CategoryId" formnovalidate value="Usuń odpowiedź" class="btn btn-light" />
-            </div>
-        }
+    <div class="form-group mb-5">
+        <input type="submit" asp-action="@nameof(IQuestionFormActions.AddAnswerField)" asp-route-categoryId="@Model.Question.CategoryId" formnovalidate value="Dodaj odpowiedź" class="btn btn-light" />
+        <input type="submit" asp-action="@nameof(IQuestionFormActions.RemoveAnswerField)" asp-route-categoryId="@Model.Question.CategoryId" formnovalidate value="Usuń odpowiedź" class="btn btn-light" />
+    </div>
 
-        <h2>Punktacja</h2>
-        <br />
+    <h2>Punktacja</h2>
+    <br />
 
+    <div class="form-group">
+            <h4>Za dobrą odpowiedź</h4>
+            <input asp-for="Question.PositivePoints" type="number" class="form-control input-number"
+                   step="1"
+                   min="1"
+                   max="10" />
+        </div>
 
-                
+        <div class="form-group">
+            <h4>Za złą odpowiedź</h4>
+            <input asp-for="Question.NegativePoints" type="number" class="form-control input-number"
+                   step="1"
+                   min="-10"
+                   max="0" />
+        </div>
 
-                @*<div class="form-group">
-                  <input asp-for="Question.PositivePoints" type="number" class="form-control input-number"
-                      step="1"
-                      min="1"
-                      max="10" />
-            </div>*@
-    <div class="points-form">
-    
+    @*<div class="points-form">
+
+        <script type="text/javascript" src="~/js/Pytania/_QuestionForm.js"></script>
+        <script src="~/js/Pytania/_QuestionForm.js" asp-append-version="true"></script>
+
         <div class="form-group">
             <h4>Za dobrą odpowiedź</h4>
             <div class="points">
@@ -81,13 +77,6 @@
                 <span id="rangeValue" class="rangeValue"> 1 </span>
             </div>
         </div>
-
-        @*<div class="form-group">
-                <input asp-for="Question.NegativePoints" type="number" class="form-control input-number"
-                       step="1"
-                       min="-10"
-                       max="0" />
-            </div>*@
 
         <div class="form-group">
             <h4>Za złą odpowiedź</h4>
@@ -97,47 +86,46 @@
             </div>
         </div>
 
+    </div>*@
+
+    <h4>Tryb</h4>
+    <div class="form-group">
+        <div class="radio">
+            <label class="radio">
+                <input asp-for="Question.Scoring" value="@Integracja.Server.Core.Enums.QuestionScoring.ScoreIfFullyCorrect" type="radio" checked>
+                Całkowity - punkty będą przyznane za pytanie
+            </label>
+        </div>
+        <div class="radio">
+            <label class="radio">
+                <input asp-for="Question.Scoring" value="@Integracja.Server.Core.Enums.QuestionScoring.ScorePerGoodAnswer" type="radio">
+                Cząstkowy - punkty będą przyznane za każdą odpowiedź z osobna
+            </label>
+        </div>
     </div>
 
-            <h4>Tryb</h4>
-            <div class="form-group">
-                <div class="radio">
-                    <label class="radio">
-                        <input asp-for="Question.Scoring" value="@Integracja.Server.Core.Enums.QuestionScoring.ScoreIfFullyCorrect" type="radio" checked>
-                        Całkowity - punkty będą przyznane za pytanie
-                    </label>
-                </div>
-                <div class="radio">
-                    <label class="radio">
-                        <input asp-for="Question.Scoring" value="@Integracja.Server.Core.Enums.QuestionScoring.ScorePerGoodAnswer" type="radio">
-                        Cząstkowy - punkty będą przyznane za każdą odpowiedź z osobna
-                    </label>
-                </div>
-            </div>
+    <br />
 
+    <div class="form-group">
+        @if (Model.ViewMode == Creating)
+        {
 
+            <input type="submit" value="Dodaj pytanie" class="btn btn-primary"
+                   asp-action="@nameof(IQuestionFormActions.QuestionCreate)"
+                   asp-route-categoryId="@Model.Question.CategoryId" />
+            <input type="reset" value="Zresetuj" class="btn btn-danger" />
+        }
+        @if (Model.ViewMode == Updating)
+        {
+            <input type="submit" value="Dodaj jako nowe pytanie" class="btn btn-primary"
+                   asp-action="@nameof(IQuestionFormActions.QuestionCreate)"
+                   asp-route-categoryId="@Model.Question.CategoryId" />
 
-            <br />
-
-            <div class="form-group">
-                @if (Model.ViewMode == Creating)
-                {
-
-                    <input type="submit" value="Dodaj pytanie" class="btn btn-primary"
-                           asp-action="@nameof(IQuestionFormActions.QuestionCreate)"
-                           asp-route-categoryId="@Model.Question.CategoryId" />
-                    <input type="reset" value="Zresetuj" class="btn btn-danger" />
-                }
-                @if (Model.ViewMode == Updating)
-                {
-                    <input type="submit" value="Dodaj jako nowe pytanie" class="btn btn-primary"
-                           asp-action="@nameof(IQuestionFormActions.QuestionCreate)"
-                           asp-route-categoryId="@Model.Question.CategoryId" />
-
-                    <input type="submit" value="Zaaktualizuj pytanie" class="btn btn-primary"
-                           asp-action="@nameof(IQuestionFormActions.QuestionUpdate)"
-                           asp-route-categoryId="@Model.Question.CategoryId" />
-                }
-            </div>
+            <input type="submit" value="Zaaktualizuj pytanie" class="btn btn-primary"
+                   asp-action="@nameof(IQuestionFormActions.QuestionUpdate)"
+                   asp-route-categoryId="@Model.Question.CategoryId" />
+        }
+    </div>
 
 </form>
+
