@@ -3,6 +3,8 @@
 @using static Integracja.Server.Web.Areas.Kategorie.Models.AdminHome.IAdminHomeActions
 @model AdminHomeViewModel
 
+@{ await Html.RenderPartialAsync("~/Views/Shared/Alerts/_AlertsList.cshtml", Model.Alerts);}
+
 <h2>Kategorie</h2>
 <br />
 

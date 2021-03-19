@@ -67,8 +67,9 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
             int questionId = await QuestionService.Add(question.ToQuestionAdd(), UserId);
 
             List<AlertModel> alerts = new List<AlertModel>();
-            alerts.Add(QuestionAlert.QuestionCreateSuccess());
+            alerts.Add(QuestionAlert.CreateSuccess());
             alerts.Add(new AlertModel(AlertType.Info, "Możesz teraz ponownie utworzyć pytanie dla wybranej kategorii."));
+            SetAlerts(alerts);
 
             // jeśli weszło z edycji to cofamy do głównego panelu 
             if (question.Id.HasValue)
@@ -86,7 +87,7 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
         {
             int questionId = await QuestionService.Update( question.Id.Value, question.ToQuestionModify(), UserId );
 
-            SetAlert(QuestionAlert.QuestionUpdateSuccess());
+            SetAlert(QuestionAlert.UpdateSuccess());
 
             return RedirectToAction("Index");
         }
@@ -113,7 +114,7 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
             if (questionId.HasValue)
                 await QuestionService.Delete(questionId.Value, UserId);
 
-            SetAlert(QuestionAlert.QuestionDeleteSuccess());
+            SetAlert(QuestionAlert.DeleteSuccess());
 
             return RedirectToAction(redirectActionName, redirectControllerName);
         }
