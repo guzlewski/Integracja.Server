@@ -14,15 +14,17 @@
     <h2>Pytanie</h2>
     <br />
 
-    <h4>Kategoria pytania: @Model.Form.Question.CategoryId</h4>
-    <br />
+    <h4>Kategoria: @Model.Form.Question.CategoryId</h4>
 
-    <a class="btn btn-primary"
-       asp-action="@nameof(IQuestionActions.QuestionCreateCategoryUpdate)"
-       asp-route-categoryId="@Model.Form.Question.CategoryId">
-        Zmień kategorię
-    </a>
-    <br />
+    @if (Model.Form.ViewMode == Integracja.Server.Web.Models.Shared.Enums.ViewMode.Creating)
+    {
+        <a class="btn btn-primary"
+           asp-action="@nameof(IQuestionActions.QuestionCreateCategoryUpdate)"
+           asp-route-categoryId="@Model.Form.Question.CategoryId">
+            Zmień kategorię
+        </a>
+        <br />
+    }
 
     <div class="row">
         <div class="col-md-10">
