@@ -48,14 +48,14 @@ namespace Integracja.Server.Web.Areas.Kategorie.Controllers
         {
             await CategoryService.Update(category.Id.Value, category.ToCategoryModify(), UserId);
             SetAlert(CategoryAlert.UpdateSuccess());
-            return RedirectToAction("Index", new { id = category.Id });
+            return RedirectToAction("Index");
         }
 
         public async Task<IActionResult> CategoryCreate(CategoryModel category)
         {
             int categoryId = await CategoryService.Add(category.ToCategoryAdd(), UserId);
             SetAlert(CategoryAlert.CreateSuccess());
-            return RedirectToAction("Index", new { id = categoryId });
+            return RedirectToAction("Index");
         }
 
         public async Task<IActionResult> CategoryRead(int id)
