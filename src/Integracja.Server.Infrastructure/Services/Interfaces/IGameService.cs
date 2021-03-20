@@ -6,8 +6,8 @@ namespace Integracja.Server.Infrastructure.Services.Interfaces
 {
     public interface IGameService
     {
-        Task<DetailGameDto> Get(int id, int userId);
-        Task<IEnumerable<GameDto>> GetAll(int userId);
+        Task<T> Get<T>(int id, int userId);
+        Task<IEnumerable<T>> GetAll<T>(int userId);
         Task<int> Add(CreateGameDto createGameDto, int userId);
         Task Delete(int id, int userId);
         Task<int> Update(int id, EditGameDto editGameDto, int userId);

@@ -24,23 +24,23 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
             _configuration = configuration;
         }
 
-        public async Task<DetailGameUserDto> Get(int gameId, int userId)
+        public async Task<T> Get<T>(int gameId, int userId)
         {
-            var detailGameUserDto = await _gameUserRepository.Get(gameId, userId)
+            var dto = await _gameUserRepository.Get(gameId, userId)
                 .Where(gu => gu.GameUserState != GameUserState.Left &&
                     gu.Game.GameState != GameState.Deleted)
-                .ProjectTo<DetailGameUserDto>(_configuration)
+                .ProjectTo<T>(_configuration)
                 .FirstOrDefaultAsync();
 
-            if (detailGameUserDto == null)
+            if (dto == null)
             {
                 throw new NotFoundException();
             }
 
-            return detailGameUserDto;
+            return dto;
         }
 
-        public async Task<IEnumerable<GameUserDto>> GetActive(int userId)
+        public async Task<IEnumerable<T>> GetActive<T>(int userId)
         {
             return await _gameUserRepository.GetAll(userId)
                 .Where(gu => gu.GameUserState != GameUserState.Left &&
@@ -48,11 +48,11 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
                     gu.Game.EndTime > DateTimeOffset.Now &&
                     gu.AnsweredQuestions != gu.Game.QuestionsCount &&
                     !gu.GameOver)
-                .ProjectTo<GameUserDto>(_configuration)
+                .ProjectTo<T>(_configuration)
                 .ToListAsync();
         }
 
-        public async Task<IEnumerable<GameUserDto>> GetArchived(int userId)
+        public async Task<IEnumerable<T>> GetArchived<T>(int userId)
         {
             return await _gameUserRepository.GetAll(userId)
                 .Where(gu => gu.GameUserState != GameUserState.Left &&
@@ -60,7 +60,7 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
                     (gu.Game.EndTime <= DateTimeOffset.Now ||
                     gu.AnsweredQuestions == gu.Game.QuestionsCount ||
                     gu.GameOver))
-                .ProjectTo<GameUserDto>(_configuration)
+                .ProjectTo<T>(_configuration)
                 .ToListAsync();
         }
 

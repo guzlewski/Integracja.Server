@@ -27,26 +27,26 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
             _configuration = configuration;
         }
 
-        public async Task<DetailGameDto> Get(int id, int userId)
+        public async Task<T> Get<T>(int id, int userId)
         {
-            var detailGameDto = await _gameRepository.Get(id)
+            var dto = await _gameRepository.Get(id)
                 .Where(g => g.OwnerId == userId && g.GameState != GameState.Deleted)
-                .ProjectTo<DetailGameDto>(_configuration)
+                .ProjectTo<T>(_configuration)
                 .FirstOrDefaultAsync();
 
-            if (detailGameDto == null)
+            if (dto == null)
             {
                 throw new NotFoundException();
             }
 
-            return detailGameDto;
+            return dto;
         }
 
-        public async Task<IEnumerable<GameDto>> GetAll(int userId)
+        public async Task<IEnumerable<T>> GetAll<T>(int userId)
         {
             return await _gameRepository.GetAll()
                 .Where(g => g.OwnerId == userId && g.GameState != GameState.Deleted)
-                .ProjectTo<GameDto>(_configuration)
+                .ProjectTo<T>(_configuration)
                 .ToListAsync();
         }
 

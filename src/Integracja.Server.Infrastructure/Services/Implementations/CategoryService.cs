@@ -25,36 +25,35 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
             _configuration = configuration;
         }
 
-        public async Task<DetailCategoryDto> Get(int id, int userId)
+        public async Task<T> Get<T>(int id, int userId)
         {
-            var detailCategoryDto = await _categoryRepository.Get(id)
+            var dto = await _categoryRepository.Get(id)
                 .Where(c => (c.IsPublic || c.OwnerId == userId) && !c.IsDeleted)
-                .ProjectTo<DetailCategoryDto>(_configuration, new Dictionary<string, object> { { "userId", userId } })
+                .ProjectTo<T>(_configuration, new Dictionary<string, object> { { "userId", userId } })
                 .FirstOrDefaultAsync();
 
-            if (detailCategoryDto == null)
+            if (dto == null)
             {
                 throw new NotFoundException();
             }
 
-            return detailCategoryDto;
+            return dto;
         }
 
-        public async Task<IEnumerable<CategoryDto>> GetAll(int userId)
+        public async Task<IEnumerable<T>> GetAll<T>(int userId)
         {
             return await _categoryRepository.GetAll()
                 .Where(c => (c.IsPublic || c.OwnerId == userId) && !c.IsDeleted)
-                .ProjectTo<CategoryDto>(_configuration, new Dictionary<string, object> { { "userId", userId } })
+                .ProjectTo<T>(_configuration, new Dictionary<string, object> { { "userId", userId } })
                 .ToListAsync();
         }
 
 
-        public async Task<IEnumerable<CategoryDto>> GetOwned(int userId)
+        public async Task<IEnumerable<T>> GetOwned<T>(int userId)
         {
             return await _categoryRepository.GetAll()
-                .Where(c => c.OwnerId == userId &&
-                    !c.IsDeleted)
-                .ProjectTo<CategoryDto>(_configuration, new Dictionary<string, object> { { "userId", userId } })
+                .Where(c => c.OwnerId == userId && !c.IsDeleted)
+                .ProjectTo<T>(_configuration, new Dictionary<string, object> { { "userId", userId } })
                 .ToListAsync();
         }
 

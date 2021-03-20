@@ -31,35 +31,35 @@ namespace Integracja.Server.Api.Controllers
         [HttpGet("[action]")]
         public async Task<IEnumerable<CategoryDto>> CreatedCategories()
         {
-            return await _categoryService.GetOwned(UserId.Value);
+            return await _categoryService.GetOwned<CategoryDto>(UserId.Value);
         }
 
         [ProducesResponseType(StatusCodes.Status200OK)]
         [HttpGet("[action]")]
         public async Task<IEnumerable<QuestionDto>> CreatedQuestions()
         {
-            return await _questionService.GetOwned(UserId.Value);
+            return await _questionService.GetOwned<QuestionDto>(UserId.Value);
         }
 
         [ProducesResponseType(StatusCodes.Status200OK)]
         [HttpGet("[action]")]
         public async Task<IEnumerable<GamemodeDto>> CreatedGamemodes()
         {
-            return await _gamemodeService.GetOwned(UserId.Value);
+            return await _gamemodeService.GetOwned<GamemodeDto>(UserId.Value);
         }
 
         [ProducesResponseType(StatusCodes.Status200OK)]
         [HttpGet("[action]")]
         public async Task<IEnumerable<GameUserDto>> Games()
         {
-            return await _gameUserService.GetActive(UserId.Value);
+            return await _gameUserService.GetActive<GameUserDto>(UserId.Value);
         }
 
         [ProducesResponseType(StatusCodes.Status200OK)]
         [HttpGet("[action]")]
         public async Task<IEnumerable<GameUserDto>> GamesArchived()
         {
-            return await _gameUserService.GetArchived(UserId.Value);
+            return await _gameUserService.GetArchived<GameUserDto>(UserId.Value);
         }
 
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -68,7 +68,7 @@ namespace Integracja.Server.Api.Controllers
         [HttpGet("[action]/{id}")]
         public async Task<DetailGameUserDto> Games(int id)
         {
-            return await _gameUserService.Get(id, UserId.Value);
+            return await _gameUserService.Get<DetailGameUserDto>(id, UserId.Value);
         }
 
         [ProducesResponseType(StatusCodes.Status201Created)]

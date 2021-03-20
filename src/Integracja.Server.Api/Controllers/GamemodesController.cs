@@ -22,7 +22,7 @@ namespace Integracja.Server.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IEnumerable<GamemodeDto>> GetAll()
         {
-            return await _gamemodeService.GetAll(UserId.Value);
+            return await _gamemodeService.GetAll<GamemodeDto>(UserId.Value);
         }
 
         [HttpGet("{id}")]
@@ -31,7 +31,7 @@ namespace Integracja.Server.Api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<DetailGamemodeDto> Get(int id)
         {
-            return await _gamemodeService.Get(id, UserId.Value);
+            return await _gamemodeService.Get<DetailGamemodeDto>(id, UserId.Value);
         }
 
         [HttpPost]

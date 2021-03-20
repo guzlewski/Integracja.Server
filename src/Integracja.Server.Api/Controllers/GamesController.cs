@@ -28,7 +28,7 @@ namespace Integracja.Server.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IEnumerable<GameDto>> GetAll()
         {
-            return await _gameService.GetAll(UserId.Value);
+            return await _gameService.GetAll<GameDto>(UserId.Value);
         }
 
         [HttpGet("{id}")]
@@ -37,7 +37,7 @@ namespace Integracja.Server.Api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<DetailGameDto> Get(int id)
         {
-            return await _gameService.Get(id, UserId.Value);
+            return await _gameService.Get<DetailGameDto>(id, UserId.Value);
         }
 
         [HttpPost]
@@ -96,7 +96,7 @@ namespace Integracja.Server.Api.Controllers
         [HttpGet("[action]/{id}")]
         public async Task<GameQuestionDto> Play(int id)
         {
-            return await _gameQuestionService.GetQuestion(id, UserId.Value);
+            return await _gameQuestionService.GetQuestion<GameQuestionDto>(id, UserId.Value);
         }
 
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -105,7 +105,7 @@ namespace Integracja.Server.Api.Controllers
         [HttpPost("[action]/{gameId}/{questionId}")]
         public async Task<GameUserQuestionDto> Play(int gameId, int questionId, IEnumerable<int> answers)
         {
-            return await _gameQuestionService.SaveAnswers(gameId, UserId.Value, questionId, answers);
+            return await _gameQuestionService.SaveAnswers<GameUserQuestionDto>(gameId, UserId.Value, questionId, answers);
         }
     }
 }
