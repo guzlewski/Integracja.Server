@@ -5,12 +5,10 @@ namespace Integracja.Server.Infrastructure.Exceptions
     public abstract class ApiException : Exception
     {
         public int StatusCode { get; set; }
-        public string Details { get; set; }
 
-        public ApiException(int code, string details)
+        public ApiException(int code, string message) : base(message)
         {
             StatusCode = code;
-            Details = details;
         }
     }
 }

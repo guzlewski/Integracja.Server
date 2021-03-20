@@ -34,7 +34,7 @@ namespace Integracja.Server.Api.Utilities
             await context.Response.WriteAsync(JsonSerializer.Serialize(new
             {
                 exception.StatusCode,
-                exception.Details
+                exception.Message
             }));
         }
     }
