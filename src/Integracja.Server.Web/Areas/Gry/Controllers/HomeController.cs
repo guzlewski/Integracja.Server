@@ -28,7 +28,7 @@ namespace Integracja.Server.Web.Areas.Gry.Controllers
         {
             HomeViewModel model = new HomeViewModel();
             var gamesDto = await GameService.GetAll<GameDto>(UserId);
-            model.Games = WebAutoMapper.Initialize().Map<List<GameModel>>(gamesDto);
+            model.Games = Mapper.Map<List<GameModel>>(gamesDto);
             model.Alerts = GetAlerts();
             return View(model);
         }

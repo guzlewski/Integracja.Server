@@ -30,7 +30,7 @@ namespace Integracja.Server.Web.Areas.TrybyGry.Controllers
         public async Task<IActionResult> Index(int? id)
         {
             Model = new GamemodeForGameViewModel();
-            Model.Gamemodes = WebAutoMapper.Initialize().Map<List<GamemodeModel>>(await GamemodeService.GetAll<GamemodeDto>(UserId));
+            Model.Gamemodes = (List<GamemodeModel>)await GamemodeService.GetAll<GamemodeModel>(UserId);
             Model.SelectedGamemode = id;
             Model.Alerts = GetAlerts();
             return View("GamemodeForGame", Model);

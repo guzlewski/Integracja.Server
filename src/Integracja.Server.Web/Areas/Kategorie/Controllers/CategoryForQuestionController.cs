@@ -29,7 +29,7 @@ namespace Integracja.Server.Web.Areas.Kategorie.Controllers
         public async Task<IActionResult> Index(int? id)
         {
             Model = new CategoryForQuestionViewModel();
-            Model.CategorySelectModel.Categories = WebAutoMapper.Initialize().Map<List<CategoryModel>>(await CategoryService.GetAll<CategoryDto>(UserId));
+            Model.CategorySelectModel.Categories = (List<CategoryModel>)await CategoryService.GetAll<CategoryModel>(UserId);
             Model.Alerts = GetAlerts();
 
             if (id.HasValue)

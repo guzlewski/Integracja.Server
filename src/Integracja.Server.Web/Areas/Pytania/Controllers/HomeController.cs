@@ -29,7 +29,7 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
         public async Task<IActionResult> Index(int? id)
         {
             Model.Alerts = GetAlerts();
-            Model.Questions = WebAutoMapper.Initialize().Map<List<QuestionModel>>( await QuestionService.GetAll<QuestionDto>(UserId) );
+            Model.Questions = (List<QuestionModel>)await QuestionService.GetAll<QuestionModel>(UserId);
             return View(Model);
         }
 

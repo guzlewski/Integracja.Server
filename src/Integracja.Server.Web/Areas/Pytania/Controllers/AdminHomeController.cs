@@ -3,12 +3,11 @@ using Integracja.Server.Core.Models.Identity;
 using Integracja.Server.Infrastructure.Data;
 using Integracja.Server.Infrastructure.Models;
 using Integracja.Server.Web.Areas.Pytania.Models.AdminHome;
-using Integracja.Server.Web.Areas.Pytania.Models.Home;
 using Integracja.Server.Web.Areas.Pytania.Models.Question;
 using Integracja.Server.Web.Controllers;
-using Integracja.Server.Web.Models.Shared.Question;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Integracja.Server.Web.Areas.Pytania.Controllers
@@ -27,7 +26,7 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
 
         public async Task<IActionResult> Index(int? id)
         {
-            Model.Questions = (System.Collections.Generic.List<QuestionDto>)await QuestionService.GetAll<QuestionDto>(UserId);
+            Model.Questions = (List<QuestionDto>)await QuestionService.GetAll<QuestionDto>(UserId);
             Model.Alerts = GetAlerts();
             return View("AdminHome", Model);
         }

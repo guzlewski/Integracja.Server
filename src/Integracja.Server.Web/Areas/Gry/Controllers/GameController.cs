@@ -39,7 +39,7 @@ namespace Integracja.Server.Web.Areas.Gry.Controllers
             if( questionPool != null )
                 model.GameQuestions = questionPool;
 
-            model.Questions = WebAutoMapper.Initialize().Map<List<QuestionModel>>(await QuestionService.GetAll<QuestionDto>(UserId));
+            model.Questions = Mapper.Map<List<QuestionModel>>(await QuestionService.GetAll<QuestionModel>(UserId));
 
             return model;
         }

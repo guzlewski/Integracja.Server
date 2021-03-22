@@ -80,7 +80,6 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
         }
         public async Task<IActionResult> QuestionReadView(int questionId)
         {
-            /*QuestionModel q = (QuestionModel)await QuestionService.Get<DetailQuestionDto<AnswerDto>>(questionId, UserId);*/
             QuestionModel q = await QuestionService.Get<QuestionModel>(questionId, UserId);
 
             return View("~/Areas/Pytania/Views/Shared/_QuestionCard.cshtml", q);
@@ -100,7 +99,6 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
             if (questionId.HasValue)
             {
                 Model.Form.Question = await QuestionService.Get<QuestionModel>(questionId.Value, UserId);
-                var q = await QuestionService.Get<DetailQuestionDto<AnswerDto>>(questionId.Value, UserId);
             }
                 
             Model.Form.ViewMode = ViewMode.Updating;
