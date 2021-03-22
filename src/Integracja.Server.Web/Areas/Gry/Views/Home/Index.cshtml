@@ -3,6 +3,8 @@
 @using static Integracja.Server.Web.Areas.Gry.Models.Home.IHomeActions
 @model HomeViewModel
 
+@{ await Html.RenderPartialAsync("~/Views/Shared/Alerts/_AlertsList.cshtml", Model.Alerts);}
+
 <h2>Gry</h2>
 <br />
 
@@ -11,7 +13,7 @@
         <thead>
             <tr>
                 <th scope="col">Nazwa gry</th>
-                <th scope="col">Ustawienia</th>
+                <th scope="col">Id</th>
                 <th scope="col">Rozpoczęcie</th>
                 <th scope="col">Czas trwania</th>
                 <th scope="col">Akcje</th>
@@ -22,13 +24,13 @@
             {
                 <tr>
                     <td>@Model.Games[i].Settings.Name</td>
-                    <td>ustawienia</td>
+                    <td>@Model.Games[i].Id</td>
                     <td>@Model.Games[i].Settings.StartTime</td>
                     <td>@Model.Games[i].Settings.EndTime</td>
                     <td>
-                        <a asp-action="@nameof(IHomeActions.GotoGameRead)" asp-route-id="">Szczegóły</a> |
-                        <a asp-action="@nameof(IHomeActions.GotoGameUpdate)" asp-route-id="">Edytuj</a> |
-                        <a asp-action="@nameof(IHomeActions.GotoGameDelete)" asp-route-id="">Anuluj</a>
+                        <a asp-action="@nameof(IHomeActions.GotoGameRead)" asp-route-gameId="@Model.Games[i].Id">Szczegóły</a> |
+                        <a asp-action="@nameof(IHomeActions.GotoGameUpdate)" asp-route-gameId="@Model.Games[i].Id">Edytuj</a> |
+                        <a asp-action="@nameof(IHomeActions.GotoGameDelete)" asp-route-gameId="@Model.Games[i].Id">Anuluj</a>
                     </td>
 
                 </tr>

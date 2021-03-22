@@ -29,14 +29,5 @@ namespace Integracja.Server.Web.Models.Shared.Category
             var mapper = Mappers.WebAutoMapper.Initialize();
             return mapper.Map<CategoryModel>(category);
         }
-
-        public static List<CategoryModel> ConvertToList( IEnumerable<CategoryDto> dtoList )
-        {
-            var mapper = Mappers.WebAutoMapper.Initialize();
-            List<CategoryModel> resultList = new List<CategoryModel>();
-            foreach (var dtoCategory in dtoList)
-                resultList.Add(mapper.Map<CategoryModel>(dtoCategory));
-            return resultList;
-        }
     }
 }

@@ -1,0 +1,61 @@
+﻿@using Integracja.Server.Web.Areas.Gry.Models.Shared
+@model GameCardViewModel
+
+
+<div class="card-body">
+
+    <h2 class="card-title">@Model.Game.Settings.Name</h2>
+    <br />
+
+    <h4 class="card-subtitle mb-2 text-muted">@Model.Game.GameState</h4>
+    <br />
+
+    <h3>Czas rozpoczęcia</h3>
+    <p class="card-text">
+        @Model.Game.Settings.StartTime
+    </p>
+    <h3>Czas zakończenia</h3>
+    <p class="card-text">
+        @Model.Game.Settings.EndTime
+    </p>
+
+    <h3>Maksymalna liczba graczy</h3>
+    <p class="card-text">
+        @Model.Game.Settings.MaxPlayersCount
+    </p>
+
+    <h4 class="card-text">Tryb gry @Model.Gamemode.Name:</h4>
+    <ul>
+        <li>
+            <p class="card-text">
+                @Model.Gamemode.NumberOfLives
+            </p>
+        </li>
+        <li>
+            <p class="card-text">
+                @Model.Gamemode.TimeForFullQuiz
+            </p>
+        </li>
+        <li>
+            <p class="card-text">
+                @Model.Gamemode.TimeForOneQuestion
+            </p>
+        </li>
+    </ul>
+
+    <br />
+
+    <h4>Pytania</h4>
+    <ul>
+        @foreach (var question in Model.Game.QuestionPool)
+        {
+            <li>
+                <p>
+                    @question.Content
+                </p>
+            </li>
+        }
+    </ul>
+</div>
+
+

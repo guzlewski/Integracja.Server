@@ -49,11 +49,11 @@ namespace Integracja.Server.Web.Areas.Gry.Controllers
             return RedirectToAction(nameof(IGameActions.SettingsCreateView), new { gamemodeId = gamemodeId });
         }
 
-        public async Task<IActionResult> SettingsCreateView(int? gamemodeId)
+        public async Task<IActionResult> SettingsCreateView(int gamemodeId)
         {
             GameSettingsFormViewModel model = new GameSettingsFormViewModel();
 
-            model.Settings.GamemodeId = gamemodeId;
+            model.Settings.Gamemode.Id = gamemodeId;
 
             return View(SettingsViewName, model);
         }
@@ -112,6 +112,25 @@ namespace Integracja.Server.Web.Areas.Gry.Controllers
             await GameService.Add(game.MapTo<CreateGameDto>(), UserId);
 
             return RedirectToAction("Index",HomeController.Name);
+        }
+
+        public async Task<IActionResult> GameDelete(int gameId)
+        {
+            await GameService.Delete(gameId, UserId);
+            SetAlert(GameAlert.DeleteSuccess());
+            return RedirectToAction("Index", HomeController.Name);
+        }
+
+        public async Task<IActionResult> GameRead(int gameId)
+        {
+            var model = new GameCardViewModel();
+
+            GameModel game = (GameModel)await GameService.Get(gameId, UserId);
+
+            model.Game = game;
+            model.Gamemode = game.Settings.Gamemode;
+
+            return View("GameCard", model);
         }
     }
 }

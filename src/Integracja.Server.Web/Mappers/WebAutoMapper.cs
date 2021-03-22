@@ -52,15 +52,29 @@ namespace Integracja.Server.Web.Mappers
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Settings.Name))
                 .ForMember(dest => dest.StartTime, opt => opt.MapFrom(src => src.Settings.StartTime))
                 .ForMember(dest => dest.EndTime, opt => opt.MapFrom(src => src.Settings.EndTime))
-                .ForMember(dest => dest.GamemodeId, opt => opt.MapFrom(src => src.Settings.GamemodeId))
+                .ForMember(dest => dest.GamemodeId, opt => opt.MapFrom(src => src.Settings.Gamemode.Id))
                 .ForMember(dest => dest.QuestionsCount, opt => opt.MapFrom(src => src.QuestionPool.Count));
 
                 cfg.CreateMap<GameDto, GameSettingsModel>()
                 .ForMember(dest => dest.MaxPlayersCount, opt => opt.MapFrom(src => src.MaxPlayersCount))
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
-                .ForMember(dest => dest.StartTime, opt => opt.MapFrom(src => src.StartTime))
-                .ForMember(dest => dest.EndTime, opt => opt.MapFrom(src => src.EndTime))
-                .ForMember(dest => dest.GamemodeId, opt => opt.MapFrom(src => src.Gamemode.Id));
+                .ForMember(dest => dest.StartTime, opt => opt.MapFrom(src => src.StartTime.LocalDateTime))
+                .ForMember(dest => dest.EndTime, opt => opt.MapFrom(src => src.EndTime.LocalDateTime))
+                .ForMember(dest => dest.Gamemode, opt => opt.MapFrom(src => src.Gamemode));
+
+                cfg.CreateMap<GameDto, GameModel>()
+                .ForMember(dest => dest.Settings, opt => opt.MapFrom(src => src));
+
+                cfg.CreateMap<DetailGameDto, GameSettingsModel>()
+                .ForMember(dest => dest.MaxPlayersCount, opt => opt.MapFrom(src => src.MaxPlayersCount))
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
+                .ForMember(dest => dest.StartTime, opt => opt.MapFrom(src => src.StartTime.LocalDateTime))
+                .ForMember(dest => dest.EndTime, opt => opt.MapFrom(src => src.EndTime.LocalDateTime))
+                .ForMember(dest => dest.Gamemode, opt => opt.MapFrom(src => src.Gamemode));
+
+                cfg.CreateMap<DetailGameDto, GameModel>()
+                .ForMember(dest => dest.Settings, opt => opt.MapFrom(src => src));
+                
             })
             .CreateMapper();
         }

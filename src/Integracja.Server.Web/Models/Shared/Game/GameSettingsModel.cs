@@ -1,4 +1,5 @@
 ﻿using Integracja.Server.Infrastructure.Models;
+using Integracja.Server.Web.Models.Shared.Gamemode;
 using System;
 using System.Collections.Generic;
 
@@ -6,12 +7,12 @@ namespace Integracja.Server.Web.Models.Shared.Game
 {
     public class GameSettingsModel
     {
-        public int? GamemodeId { get; set; }
-
         public string Name { get; set; }
 
-        public DateTimeOffset StartTime { get; set; }
-        public DateTimeOffset EndTime { get; set; }
+        public GamemodeModel Gamemode { get; set; }
+
+        public DateTime StartTime { get; set; }
+        public DateTime EndTime { get; set; }
 
         public bool RandomizeQuestionOrder { get; set; }
 
