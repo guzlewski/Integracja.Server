@@ -37,6 +37,8 @@ namespace Integracja.Server.Api.Installers
                 });
 
                 swagger.OperationFilter<AuthorizeOperationFilter>();
+
+                swagger.OperationFilter<MobileOperationFilter>();
             });
         }
     }

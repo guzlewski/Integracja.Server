@@ -1,6 +1,7 @@
 ﻿using System.Text.Json;
 using System.Threading.Tasks;
 using Integracja.Server.Infrastructure.Exceptions;
+using Integracja.Server.Infrastructure.Models;
 using Microsoft.AspNetCore.Http;
 
 namespace Integracja.Server.Api.Utilities
@@ -20,22 +21,35 @@ namespace Integracja.Server.Api.Utilities
             {
                 await _next(httpContext);
             }
-            catch (ApiException ex)
+            catch (DetailedApiException dae)
             {
-                await HandleExceptionAsync(httpContext, ex);
+                var apiError = new ApiError
+                {
+                    ErrorCode = (int)dae.ErrorCode,
+                    Message = dae.Message,
+                    StatusCode = dae.StatusCode
+                };
+
+                await WriteResponse(apiError, dae, httpContext);
+            }
+            catch (ApiException ae)
+            {
+                var response = new
+                {       
+                    ae.Message,
+                    ae.StatusCode
+                };
+
+                await WriteResponse(response, ae, httpContext);
             }
         }
 
-        private static async Task HandleExceptionAsync(HttpContext context, ApiException exception)
+        private static async Task WriteResponse<T>(T response, ApiException apiException, HttpContext httpContext)
         {
-            context.Response.ContentType = "application/json";
-            context.Response.StatusCode = exception.StatusCode;
+            httpContext.Response.ContentType = "application/json";
+            httpContext.Response.StatusCode = apiException.StatusCode;
 
-            await context.Response.WriteAsync(JsonSerializer.Serialize(new
-            {
-                exception.StatusCode,
-                exception.Details
-            }));
+            await httpContext.Response.WriteAsync(JsonSerializer.Serialize(response));
         }
     }
 }

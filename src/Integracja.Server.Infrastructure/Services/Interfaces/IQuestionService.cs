@@ -6,9 +6,9 @@ namespace Integracja.Server.Infrastructure.Services.Interfaces
 {
     public interface IQuestionService
     {
-        Task<DetailQuestionDto<DetailAnswerDto>> Get(int id, int userId);
-        Task<IEnumerable<QuestionDto>> GetAll(int userId);
-        Task<IEnumerable<QuestionDto>> GetOwned(int userId);
+        Task<T> Get<T>(int id, int userId);
+        Task<IEnumerable<T>> GetAll<T>(int userId);
+        Task<IEnumerable<T>> GetOwned<T>(int userId);
         Task<int> Add(CreateQuestionDto createQuestionDto, int userId);
         Task Delete(int id, int userId);
         Task<int> Update(int id, EditQuestionDto editQuestionDto, int userId);

@@ -25,38 +25,38 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
             _configuration = configuration;
         }
 
-        public async Task<DetailQuestionDto<DetailAnswerDto>> Get(int id, int userId)
+        public async Task<T> Get<T>(int id, int userId)
         {
-            var detailQuestionDto = await _questionRepository.Get(id)
+            var dto = await _questionRepository.Get(id)
                 .Where(q => (q.IsPublic || q.OwnerId == userId) && !q.IsDeleted &&
                     (q.Category.IsPublic || q.Category.OwnerId == userId) && !q.Category.IsDeleted)
-                .ProjectTo<DetailQuestionDto<DetailAnswerDto>>(_configuration)
+                .ProjectTo<T>(_configuration)
                 .FirstOrDefaultAsync();
 
-            if (detailQuestionDto == null)
+            if (dto == null)
             {
                 throw new NotFoundException();
             }
 
-            return detailQuestionDto;
+            return dto;
         }
 
-        public async Task<IEnumerable<QuestionDto>> GetAll(int userId)
+        public async Task<IEnumerable<T>> GetAll<T>(int userId)
         {
             return await _questionRepository.GetAll()
                 .Where(q => (q.IsPublic || q.OwnerId == userId) && !q.IsDeleted &&
                     (q.Category.IsPublic || q.Category.OwnerId == userId) && !q.Category.IsDeleted)
-                .ProjectTo<QuestionDto>(_configuration)
+                .ProjectTo<T>(_configuration)
                 .ToListAsync();
         }
 
-        public async Task<IEnumerable<QuestionDto>> GetOwned(int userId)
+        public async Task<IEnumerable<T>> GetOwned<T>(int userId)
         {
             return await _questionRepository.GetAll()
                 .Where(q => q.OwnerId == userId && 
                     !q.IsDeleted && 
                     !q.Category.IsDeleted)
-                .ProjectTo<QuestionDto>(_configuration)
+                .ProjectTo<T>(_configuration)
                 .ToListAsync();
         }
 

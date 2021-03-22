@@ -21,31 +21,32 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
             _configuration = configuration;
         }
 
-        public async Task<GameQuestionDto> GetQuestion(int gameId, int userId)
+        public async Task<T> GetQuestion<T>(int gameId, int userId)
         {
-            var gameQuestionDto = await (await _gameQuestionRepository.GetQuestion(gameId, userId))
-                .ProjectTo<GameQuestionDto>(_configuration)
+            var dto = await (await _gameQuestionRepository.GetQuestion(gameId, userId))
+                .ProjectTo<T>(_configuration)
                 .FirstOrDefaultAsync();
 
-            if (gameQuestionDto == null)
+            if (dto == null)
             {
                 throw new NotFoundException();
             }
 
-            return gameQuestionDto;
+            return dto;
         }
 
-        public async Task<GameUserQuestionDto> SaveAnswers(int gameId, int userId, int questionId, IEnumerable<int> answers)
+        public async Task<T> SaveAnswers<T>(int gameId, int userId, int questionId, IEnumerable<int> answers)
         {
-            var gameUserQuestionDto = await (await _gameQuestionRepository.SaveAnswers(gameId, userId, questionId, answers))
-                .ProjectTo<GameUserQuestionDto>(_configuration)
+            var dto = await (await _gameQuestionRepository.SaveAnswers(gameId, userId, questionId, answers))
+                .ProjectTo<T>(_configuration)
                 .FirstOrDefaultAsync();
 
-            if (gameUserQuestionDto == null)
+            if (dto == null)
             {
                 throw new NotFoundException();
             }
 
-            return gameUserQuestionDto;}
+            return dto;
+        }
     }
 }

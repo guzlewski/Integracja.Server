@@ -22,7 +22,7 @@ namespace Integracja.Server.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IEnumerable<QuestionDto>> GetAll()
         {
-            return await _questionService.GetAll(UserId.Value);
+            return await _questionService.GetAll<QuestionDto>(UserId.Value);
         }
 
         [HttpGet("{id}")]
@@ -31,7 +31,7 @@ namespace Integracja.Server.Api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<DetailQuestionDto<DetailAnswerDto>> Get(int id)
         {
-            return await _questionService.Get(id, UserId.Value);
+            return await _questionService.Get<DetailQuestionDto<DetailAnswerDto>>(id, UserId.Value);
         }
 
         [HttpPost]
