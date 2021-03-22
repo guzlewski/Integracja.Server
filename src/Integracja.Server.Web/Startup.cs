@@ -54,8 +54,10 @@ namespace Integracja.Server.Web
                 options.Filters.Add(new AuthorizeFilter());
             });
 
-            services.AddAutoMapper(typeof(ApplicationDbContext));
-        }
+            services.AddAutoMapper(new[] {
+                typeof(ApplicationDbContext),
+                typeof(Controllers.ApplicationController) });
+            }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {

@@ -46,29 +46,6 @@ namespace Integracja.Server.Web.Models.Shared.Question
                 this.Answers.RemoveAt(this.Answers.Count - 1);
         }
 
-        public CreateQuestionDto ToQuestionAdd()
-        {
-            var mapper = Mappers.WebAutoMapper.Initialize();
-            return mapper.Map<CreateQuestionDto>(this);
-        }
-        public EditQuestionDto ToQuestionModify()
-        {
-            var mapper = Mappers.WebAutoMapper.Initialize();
-            return mapper.Map<EditQuestionDto>(this);
-        }
-
-        public static explicit operator QuestionModel(QuestionDto v)
-        {
-            var mapper = Mappers.WebAutoMapper.Initialize();
-            return mapper.Map<QuestionModel>(v);
-        }
-
-        public static explicit operator QuestionModel(DetailQuestionDto v)
-        {
-            var mapper = Mappers.WebAutoMapper.Initialize();
-            return mapper.Map<QuestionModel>(v);
-        }
-
         public override int GetHashCode()
         {
             return this.Id.GetHashCode();

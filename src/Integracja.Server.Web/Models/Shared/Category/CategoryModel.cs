@@ -13,21 +13,5 @@ namespace Integracja.Server.Web.Models.Shared.Category
         public int QuestionsCount { get; set; }
         public bool IsPublic { get; set; }
 
-        public EditCategoryDto ToCategoryModify()
-        {
-            var mapper = Mappers.WebAutoMapper.Initialize();
-            return mapper.Map<EditCategoryDto>(this);
-        }
-        public CreateCategoryDto ToCategoryAdd()
-        {
-            var mapper = Mappers.WebAutoMapper.Initialize();
-            return mapper.Map<CreateCategoryDto>(this);
-        }
-
-        public static CategoryModel ConvertToCategoryModel( DetailCategoryDto category )
-        {
-            var mapper = Mappers.WebAutoMapper.Initialize();
-            return mapper.Map<CategoryModel>(category);
-        }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Integracja.Server.Core.Models.Identity;
 using Integracja.Server.Infrastructure.Data;
+using Integracja.Server.Infrastructure.Models;
 using Integracja.Server.Web.Areas.Kategorie.Controllers;
 using Integracja.Server.Web.Areas.Pytania.Models.Question;
 using Integracja.Server.Web.Areas.Pytania.Models.QuestionCard;
@@ -64,7 +65,7 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
         }
         public async Task<IActionResult> QuestionCreate(QuestionModel question)
         {
-            int questionId = await QuestionService.Add(question.ToQuestionAdd(), UserId);
+            int questionId = await QuestionService.Add( Mapper.Map<CreateQuestionDto>(question), UserId);
 
             List<AlertModel> alerts = new List<AlertModel>();
             alerts.Add(QuestionAlert.CreateSuccess());
@@ -79,13 +80,14 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
         }
         public async Task<IActionResult> QuestionReadView(int questionId)
         {
-            QuestionModel q = (QuestionModel)await QuestionService.Get(questionId, UserId);
+            /*QuestionModel q = (QuestionModel)await QuestionService.Get<DetailQuestionDto<AnswerDto>>(questionId, UserId);*/
+            QuestionModel q = await QuestionService.Get<QuestionModel>(questionId, UserId);
 
             return View("~/Areas/Pytania/Views/Shared/_QuestionCard.cshtml", q);
         }
         public async Task<IActionResult> QuestionUpdate(QuestionModel question)
         {
-            int questionId = await QuestionService.Update( question.Id.Value, question.ToQuestionModify(), UserId );
+            int questionId = await QuestionService.Update( question.Id.Value, Mapper.Map<EditQuestionDto>(question), UserId );
 
             SetAlert(QuestionAlert.UpdateSuccess());
 
@@ -97,8 +99,8 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
 
             if (questionId.HasValue)
             {
-                Model.Form.Question = (QuestionModel)await QuestionService.Get(questionId.Value, UserId);
-                var q = await QuestionService.Get(questionId.Value, UserId);
+                Model.Form.Question = await QuestionService.Get<QuestionModel>(questionId.Value, UserId);
+                var q = await QuestionService.Get<DetailQuestionDto<AnswerDto>>(questionId.Value, UserId);
             }
                 
             Model.Form.ViewMode = ViewMode.Updating;

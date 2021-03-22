@@ -1,11 +1,12 @@
 ﻿using AutoMapper;
 using Integracja.Server.Core.Models.Identity;
 using Integracja.Server.Infrastructure.Data;
+using Integracja.Server.Infrastructure.Models;
 using Integracja.Server.Web.Areas.Gry.Models.Game;
 using Integracja.Server.Web.Areas.Gry.Models.Home;
 using Integracja.Server.Web.Areas.TrybyGry.Controllers;
 using Integracja.Server.Web.Controllers;
-using Integracja.Server.Web.Mappers;
+using Integracja.Server.Web.Mapper;
 using Integracja.Server.Web.Models.Shared.Game;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -26,7 +27,7 @@ namespace Integracja.Server.Web.Areas.Gry.Controllers
         public async Task<IActionResult> Index()
         {
             HomeViewModel model = new HomeViewModel();
-            var gamesDto = await GameService.GetAll(UserId);
+            var gamesDto = await GameService.GetAll<GameDto>(UserId);
             model.Games = WebAutoMapper.Initialize().Map<List<GameModel>>(gamesDto);
             model.Alerts = GetAlerts();
             return View(model);

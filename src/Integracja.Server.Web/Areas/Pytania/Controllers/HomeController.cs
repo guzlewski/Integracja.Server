@@ -1,10 +1,11 @@
 ﻿using AutoMapper;
 using Integracja.Server.Core.Models.Identity;
 using Integracja.Server.Infrastructure.Data;
+using Integracja.Server.Infrastructure.Models;
 using Integracja.Server.Web.Areas.Pytania.Models.Home;
 using Integracja.Server.Web.Areas.Pytania.Models.Question;
 using Integracja.Server.Web.Controllers;
-using Integracja.Server.Web.Mappers;
+using Integracja.Server.Web.Mapper;
 using Integracja.Server.Web.Models.Shared.Question;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -28,7 +29,7 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
         public async Task<IActionResult> Index(int? id)
         {
             Model.Alerts = GetAlerts();
-            Model.Questions = WebAutoMapper.Initialize().Map<List<QuestionModel>>( await QuestionService.GetAll(UserId) );
+            Model.Questions = WebAutoMapper.Initialize().Map<List<QuestionModel>>( await QuestionService.GetAll<QuestionDto>(UserId) );
             return View(Model);
         }
 

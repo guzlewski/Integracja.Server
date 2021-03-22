@@ -102,9 +102,10 @@ namespace Integracja.Server.Web.Controllers
             return TryRetrieveFromTempData<List<AlertModel>>();
         }
 
+        // TODO:
         public FileContentResult Picture()
         {
-            var user = UserManager.GetUserAsync(User);
+            /*var user = UserManager.GetUserAsync(User);
 
             if(user.Result.Picture == null)
             {
@@ -112,7 +113,8 @@ namespace Integracja.Server.Web.Controllers
                 return new FileContentResult(imageBytes, "image/jpeg");
             }
 
-            return new FileContentResult(user.Result.Picture, "image/jpeg");
+            return new FileContentResult(user.Result.Picture, "image/jpeg");*/
+            throw new NotImplementedException();
         }
     }
 }

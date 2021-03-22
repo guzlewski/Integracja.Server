@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Integracja.Server.Core.Models.Identity;
 using Integracja.Server.Infrastructure.Data;
+using Integracja.Server.Infrastructure.Models;
 using Integracja.Server.Web.Areas.Pytania.Models.AdminHome;
 using Integracja.Server.Web.Areas.Pytania.Models.Home;
 using Integracja.Server.Web.Areas.Pytania.Models.Question;
@@ -26,7 +27,7 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
 
         public async Task<IActionResult> Index(int? id)
         {
-            Model.Questions = (System.Collections.Generic.List<Infrastructure.Models.QuestionDto>)await QuestionService.GetAll(UserId);
+            Model.Questions = (System.Collections.Generic.List<QuestionDto>)await QuestionService.GetAll<QuestionDto>(UserId);
             Model.Alerts = GetAlerts();
             return View("AdminHome", Model);
         }

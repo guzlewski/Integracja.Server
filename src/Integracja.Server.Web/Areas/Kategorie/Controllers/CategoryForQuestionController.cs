@@ -1,11 +1,12 @@
 ﻿using AutoMapper;
 using Integracja.Server.Core.Models.Identity;
 using Integracja.Server.Infrastructure.Data;
+using Integracja.Server.Infrastructure.Models;
 using Integracja.Server.Web.Areas.Kategorie.Models.CategoryForQuestion;
 using Integracja.Server.Web.Areas.Pytania.Controllers;
 using Integracja.Server.Web.Areas.Pytania.Models.Question;
 using Integracja.Server.Web.Controllers;
-using Integracja.Server.Web.Mappers;
+using Integracja.Server.Web.Mapper;
 using Integracja.Server.Web.Models.Shared.Alert;
 using Integracja.Server.Web.Models.Shared.Category;
 using Microsoft.AspNetCore.Identity;
@@ -28,7 +29,7 @@ namespace Integracja.Server.Web.Areas.Kategorie.Controllers
         public async Task<IActionResult> Index(int? id)
         {
             Model = new CategoryForQuestionViewModel();
-            Model.CategorySelectModel.Categories = WebAutoMapper.Initialize().Map<List<CategoryModel>>(await CategoryService.GetAll(UserId));
+            Model.CategorySelectModel.Categories = WebAutoMapper.Initialize().Map<List<CategoryModel>>(await CategoryService.GetAll<CategoryDto>(UserId));
             Model.Alerts = GetAlerts();
 
             if (id.HasValue)
@@ -46,7 +47,7 @@ namespace Integracja.Server.Web.Areas.Kategorie.Controllers
 
         public async Task<IActionResult> CategoryCreate(CategoryModel category)
         {
-            int categoryId = await CategoryService.Add(category.ToCategoryAdd(), UserId);
+            int categoryId = await CategoryService.Add(Mapper.Map<CreateCategoryDto>(category), UserId);
             return RedirectToAction("Index", new { id = categoryId });
         }
 

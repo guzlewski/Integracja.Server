@@ -5,7 +5,7 @@ using Integracja.Server.Infrastructure.Models;
 using Integracja.Server.Web.Areas.Gry.Models.Game;
 using Integracja.Server.Web.Areas.Gry.Models.Shared;
 using Integracja.Server.Web.Controllers;
-using Integracja.Server.Web.Mappers;
+using Integracja.Server.Web.Mapper;
 using Integracja.Server.Web.Models.Shared.Game;
 using Integracja.Server.Web.Models.Shared.Question;
 using Microsoft.AspNetCore.Identity;
@@ -39,7 +39,7 @@ namespace Integracja.Server.Web.Areas.Gry.Controllers
             if( questionPool != null )
                 model.GameQuestions = questionPool;
 
-            model.Questions = WebAutoMapper.Initialize().Map<List<QuestionModel>>(await QuestionService.GetAll(UserId));
+            model.Questions = WebAutoMapper.Initialize().Map<List<QuestionModel>>(await QuestionService.GetAll<QuestionDto>(UserId));
 
             return model;
         }
@@ -74,8 +74,8 @@ namespace Integracja.Server.Web.Areas.Gry.Controllers
             // bazowy model
             var model = await GetGameQuestionFormModel();
             // dodaję pytanie
-            var question = await QuestionService.Get(id.Value, UserId);
-            model.GameQuestions.Add((QuestionModel)question);
+            var question = await QuestionService.Get<QuestionModel>(id.Value, UserId);
+            model.GameQuestions.Add(question);
             // zapamiętuję dla następnego przekierowania
             SaveToTempData(model.GameQuestions, QuestionPoolStoreKey);
 
@@ -109,7 +109,7 @@ namespace Integracja.Server.Web.Areas.Gry.Controllers
             game.Settings = TryRetrieveFromTempData<GameSettingsModel>(GameSettingsStoreKey);
             game.QuestionPool = TryRetrieveFromTempData<List<QuestionModel>>(QuestionPoolStoreKey);
 
-            await GameService.Add(game.MapTo<CreateGameDto>(), UserId);
+            await GameService.Add(Mapper.Map<CreateGameDto>(game), UserId);
 
             return RedirectToAction("Index",HomeController.Name);
         }
@@ -125,7 +125,7 @@ namespace Integracja.Server.Web.Areas.Gry.Controllers
         {
             var model = new GameCardViewModel();
 
-            GameModel game = (GameModel)await GameService.Get(gameId, UserId);
+            GameModel game = await GameService.Get<GameModel>(gameId, UserId);
 
             model.Game = game;
             model.Gamemode = game.Settings.Gamemode;

@@ -6,6 +6,7 @@ using Integracja.Server.Web.Controllers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -52,8 +53,10 @@ namespace Integracja.Server.Web.Areas.Konto.Controllers
                     if (memoryStream.Length < 2097152)
                     {
                         var user = await UserManager.FindByNameAsync(User.Identity.Name);
-                        user.Picture = memoryStream.ToArray();
+                        // TODO:
+                        //user.Picture = memoryStream.ToArray();
                         await UserManager.UpdateAsync(user);
+                        throw new NotImplementedException();
                     }
                     else
                     {

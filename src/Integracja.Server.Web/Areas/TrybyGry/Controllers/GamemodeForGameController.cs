@@ -6,7 +6,7 @@ using Integracja.Server.Web.Areas.Gry.Controllers;
 using Integracja.Server.Web.Areas.TrybyGry.Models.GamemodeForGame;
 using Integracja.Server.Web.Areas.TrybyGry.Models.Shared;
 using Integracja.Server.Web.Controllers;
-using Integracja.Server.Web.Mappers;
+using Integracja.Server.Web.Mapper;
 using Integracja.Server.Web.Models.Shared.Alert;
 using Integracja.Server.Web.Models.Shared.Enums;
 using Integracja.Server.Web.Models.Shared.Gamemode;
@@ -30,7 +30,7 @@ namespace Integracja.Server.Web.Areas.TrybyGry.Controllers
         public async Task<IActionResult> Index(int? id)
         {
             Model = new GamemodeForGameViewModel();
-            Model.Gamemodes = WebAutoMapper.Initialize().Map<List<GamemodeModel>>(await GamemodeService.GetAll(UserId));
+            Model.Gamemodes = WebAutoMapper.Initialize().Map<List<GamemodeModel>>(await GamemodeService.GetAll<GamemodeDto>(UserId));
             Model.SelectedGamemode = id;
             Model.Alerts = GetAlerts();
             return View("GamemodeForGame", Model);
@@ -38,13 +38,13 @@ namespace Integracja.Server.Web.Areas.TrybyGry.Controllers
 
         public async Task<IActionResult> GamemodeCreate(GamemodeModel gamemode)
         {
-            int gamemodeId = await GamemodeService.Add(gamemode.MapTo<CreateGamemodeDto>(), UserId);
+            int gamemodeId = await GamemodeService.Add(Mapper.Map<CreateGamemodeDto>(gamemode), UserId);
             return RedirectToAction("Index", new { id = gamemodeId });
         }
 
         public async Task<IActionResult> GamemodeUpdate(GamemodeModel gamemode)
         {
-            int gamemodeId = await GamemodeService.Update( gamemode.Id, gamemode.MapTo<EditGamemodeDto>(), UserId);
+            int gamemodeId = await GamemodeService.Update( gamemode.Id, Mapper.Map<EditGamemodeDto>(gamemode), UserId);
             return RedirectToAction("Index", new { id = gamemodeId });
         }
         public async Task<IActionResult> GamemodeRead(int? id)
@@ -67,7 +67,7 @@ namespace Integracja.Server.Web.Areas.TrybyGry.Controllers
             {
                 var formModel = new GamemodeFormViewModel();
                 formModel.ViewMode = ViewMode.Updating;
-                GamemodeModel gamemode = (GamemodeModel)await GamemodeService.Get(id.Value, UserId);
+                GamemodeModel gamemode = await GamemodeService.Get<GamemodeModel>(id.Value, UserId);
                 formModel.Gamemode = gamemode;
                 return View("Gamemode", formModel);
             }
