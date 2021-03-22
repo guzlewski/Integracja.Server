@@ -22,16 +22,16 @@ namespace Integracja.Server.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IEnumerable<QuestionDto>> GetAll()
         {
-            return await _questionService.GetAll(UserId.Value);
+            return await _questionService.GetAll<QuestionDto>(UserId.Value);
         }
 
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<DetailQuestionDto>> Get(int id)
+        public async Task<DetailQuestionDto<DetailAnswerDto>> Get(int id)
         {
-            return await _questionService.Get(id, UserId.Value);
+            return await _questionService.Get<DetailQuestionDto<DetailAnswerDto>>(id, UserId.Value);
         }
 
         [HttpPost]
@@ -39,7 +39,7 @@ namespace Integracja.Server.Api.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult> Add(CreateQuestionDto createQuestionDto)
+        public async Task<IActionResult> Add(CreateQuestionDto createQuestionDto)
         {
             var entityId = await _questionService.Add(createQuestionDto, UserId.Value);
             return CreatedAtAction(nameof(Get), new { id = entityId }, null);
@@ -50,7 +50,7 @@ namespace Integracja.Server.Api.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult> Update(int id, [FromBody] EditQuestionDto editQuestionDto)
+        public async Task<IActionResult> Update(int id, [FromBody] EditQuestionDto editQuestionDto)
         {
             var entityId = await _questionService.Update(id, editQuestionDto, UserId.Value);
 
@@ -66,7 +66,7 @@ namespace Integracja.Server.Api.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
             await _questionService.Delete(id, UserId.Value);
             return NoContent();

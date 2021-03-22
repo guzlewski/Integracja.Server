@@ -22,22 +22,22 @@ namespace Integracja.Server.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IEnumerable<GamemodeDto>> GetAll()
         {
-            return await _gamemodeService.GetAll(UserId.Value);
+            return await _gamemodeService.GetAll<GamemodeDto>(UserId.Value);
         }
 
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<DetailGamemodeDto>> Get(int id)
+        public async Task<DetailGamemodeDto> Get(int id)
         {
-            return await _gamemodeService.Get(id, UserId.Value);
+            return await _gamemodeService.Get<DetailGamemodeDto>(id, UserId.Value);
         }
 
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> Add(CreateGamemodeDto createGamemodeDto)
+        public async Task<IActionResult> Add(CreateGamemodeDto createGamemodeDto)
         {
             var entityId = await _gamemodeService.Add(createGamemodeDto, UserId.Value);
             return CreatedAtAction(nameof(Get), new { id = entityId }, null);
@@ -48,7 +48,7 @@ namespace Integracja.Server.Api.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult> Update(int id, [FromBody] EditGamemodeDto editGamemodeDto)
+        public async Task<IActionResult> Update(int id, [FromBody] EditGamemodeDto editGamemodeDto)
         {
             var entityId = await _gamemodeService.Update(id, editGamemodeDto, UserId.Value);
 
@@ -64,7 +64,7 @@ namespace Integracja.Server.Api.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
             await _gamemodeService.Delete(id, UserId.Value);
             return NoContent();

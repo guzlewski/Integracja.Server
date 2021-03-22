@@ -14,12 +14,12 @@ namespace Integracja.Server.Infrastructure.Profiles
             CreateMap<Category, CategoryDto>()
                 .ForMember(
                     categoryDto => categoryDto.QuestionsCount,
-                    opt => opt.MapFrom(category => category.Questions.Where(question => question.IsPublic || question.OwnerId == userId).Count()));
+                    opt => opt.MapFrom(category => category.Questions.Where(question => !question.IsDeleted && (question.IsPublic || question.OwnerId == userId)).Count()));
 
             CreateMap<Category, DetailCategoryDto>()
                 .ForMember(
                     detailCategoryDto => detailCategoryDto.Questions,
-                    opt => opt.MapFrom(category => category.Questions.Where(question => question.IsPublic || question.OwnerId == userId)));
+                    opt => opt.MapFrom(category => category.Questions.Where(question => !question.IsDeleted && (question.IsPublic || question.OwnerId == userId))));
 
             CreateMap<CreateCategoryDto, Category>();
 

@@ -1,5 +1,4 @@
 ﻿using System.Text;
-using Integracja.Server.Infrastructure.Settings;
 using Integracja.Server.Infrastructure.Utilities;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
@@ -12,15 +11,12 @@ namespace Integracja.Server.Api.Installers
     {
         public void InstallServices(IServiceCollection services, IConfiguration configuration)
         {
-            var signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(configuration["Jwt:SecretKey"]));
             var tokenValidationParameters = new TokenValidationParameters
             {
-                IssuerSigningKey = signingKey,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(configuration["Jwt:SecretKey"])),
                 ValidIssuer = configuration["Jwt:Issuer"],
                 ValidAudience = configuration["Jwt:Audience"]
             };
-
-            services.Configure<JwtSettings>(configuration.GetSection("Jwt"));
 
             services.AddScoped<ApplicationJwtBearerEvents>();
 

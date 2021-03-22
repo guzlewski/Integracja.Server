@@ -16,7 +16,7 @@ namespace Integracja.Server.Infrastructure.Data.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.3")
+                .HasAnnotation("ProductVersion", "5.0.4")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("Integracja.Server.Core.Models.Base.Answer", b =>
@@ -310,8 +310,11 @@ namespace Integracja.Server.Infrastructure.Data.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<byte[]>("Picture")
-                        .HasColumnType("varbinary(max)");
+                    b.Property<string>("ProfilePicture")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProfileThumbnail")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
@@ -379,6 +382,9 @@ namespace Integracja.Server.Infrastructure.Data.Migrations
 
                     b.Property<DateTimeOffset?>("GameEndTime")
                         .HasColumnType("datetimeoffset");
+
+                    b.Property<bool>("GameOver")
+                        .HasColumnType("bit");
 
                     b.Property<float?>("GameScore")
                         .HasColumnType("real");

@@ -25,26 +25,35 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
             _configuration = configuration;
         }
 
-        public async Task<DetailGamemodeDto> Get(int id, int userId)
+        public async Task<T> Get<T>(int id, int userId)
         {
-            var detailGamemodeDto = await _gamemodeRepository.Get(id)
+            var dto = await _gamemodeRepository.Get(id)
                 .Where(gm => (gm.IsPublic || gm.OwnerId == userId) && !gm.IsDeleted)
-                .ProjectTo<DetailGamemodeDto>(_configuration)
+                .ProjectTo<T>(_configuration)
                 .FirstOrDefaultAsync();
 
-            if (detailGamemodeDto == null)
+            if (dto == null)
             {
                 throw new NotFoundException();
             }
 
-            return detailGamemodeDto;
+            return dto;
         }
 
-        public async Task<IEnumerable<GamemodeDto>> GetAll(int userId)
+        public async Task<IEnumerable<T>> GetAll<T>(int userId)
         {
             return await _gamemodeRepository.GetAll()
                 .Where(gm => (gm.IsPublic || gm.OwnerId == userId) && !gm.IsDeleted)
-                .ProjectTo<GamemodeDto>(_configuration)
+                .ProjectTo<T>(_configuration)
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<T>> GetOwned<T>(int userId)
+        {
+            return await _gamemodeRepository.GetAll()
+                .Where(gm => gm.OwnerId == userId && 
+                    !gm.IsDeleted)
+                .ProjectTo<T>(_configuration)
                 .ToListAsync();
         }
 

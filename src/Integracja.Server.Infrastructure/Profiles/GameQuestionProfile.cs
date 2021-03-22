@@ -9,6 +9,8 @@ namespace Integracja.Server.Infrastructure.Profiles
         public GameQuestionProfile()
         {
             CreateMap<CreateGameQuestionDto, GameQuestion>();
+
+            CreateMap<GameQuestion, GameQuestionDto>();
         }
     }
 }

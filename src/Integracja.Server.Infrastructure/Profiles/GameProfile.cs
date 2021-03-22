@@ -26,7 +26,10 @@ namespace Integracja.Server.Infrastructure.Profiles
                     opt => opt.MapFrom(gameDto => gameDto.QuestionPool))
                 .ForMember(
                     game => game.GameUsers,
-                    opt => opt.MapFrom(gameDto => gameDto.InvitedUsers));
+                    opt => opt.MapFrom(gameDto => gameDto.InvitedUsers))
+                 .ForMember(
+                    game => game.MaxPlayersCount,
+                    opt => opt.MapFrom(gameDto => gameDto.MaxPlayers));
 
             CreateMap<EditGameDto, Game>();
         }

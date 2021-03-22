@@ -6,6 +6,7 @@ namespace Integracja.Server.Infrastructure.Models
     {
         public int Id { get; set; }
         public int CategoryId { get; set; }
+        public string CategoryName { get; set; }
         public int OwnerId { get; set; }
         public bool IsPublic { get; set; }
         public string Content { get; set; }

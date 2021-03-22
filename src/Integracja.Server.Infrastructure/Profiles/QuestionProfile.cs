@@ -14,7 +14,9 @@ namespace Integracja.Server.Infrastructure.Profiles
                     questionDto => questionDto.CorrectAnswersCount,
                     opt => opt.MapFrom(question => question.Answers.Where(a => a.IsCorrect).Count()));
 
-            CreateMap<Question, DetailQuestionDto>();
+            CreateMap<Question, DetailQuestionDto<AnswerDto>>();
+
+            CreateMap<Question, DetailQuestionDto<DetailAnswerDto>>();
 
             CreateMap<CreateQuestionDto, Question>();
 
