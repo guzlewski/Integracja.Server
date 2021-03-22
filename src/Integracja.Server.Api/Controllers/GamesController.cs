@@ -134,6 +134,7 @@ namespace Integracja.Server.Api.Controllers
         /// </response>
         /// <response code="500">Internal server error</response>
         [Mobile]
+        [ProducesResponseType(typeof(GameQuestionDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ApiError), StatusCodes.Status409Conflict)]
         [HttpGet("[action]/{id}")]
@@ -161,6 +162,7 @@ namespace Integracja.Server.Api.Controllers
         /// </response>
         /// <response code="500">Internal server error</response>
         [Mobile]
+        [ProducesResponseType(typeof(GameUserQuestionDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ApiError), StatusCodes.Status409Conflict)]
         [HttpPost("[action]/{gameId}/{questionId}")]
