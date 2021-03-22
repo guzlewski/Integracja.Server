@@ -35,7 +35,7 @@ namespace Integracja.Server.Api.Utilities
             catch (ApiException ae)
             {
                 var response = new
-                {       
+                {
                     ae.Message,
                     ae.StatusCode
                 };
