@@ -135,7 +135,7 @@ namespace Integracja.Server.Infrastructure.Repositories
 
             if (entity.Game.StartTime <= DateTimeOffset.Now && entity.PlayersCount != 0)
             {
-                throw new ConflictException("Game is in progress and has active players, can't edit.");
+                throw new BadRequestException("Game is in progress and has active players, can't edit.");
             }
 
             entity.Game.RowVersion++;
