@@ -16,14 +16,5 @@ namespace Integracja.Server.Web.Models.Shared.Gamemode
         public static explicit operator GamemodeModel(DetailGamemodeDto v) => Mappers.WebAutoMapper.Initialize().Map<GamemodeModel>(v);
 
         public T MapTo<T>() => Mappers.WebAutoMapper.Initialize().Map<T>(this);
-
-        public static List<GamemodeModel> MapToList<T>( IEnumerable<T> dtoList )
-        {
-            var mapper = Mappers.WebAutoMapper.Initialize();
-            List<GamemodeModel> resultList = new List<GamemodeModel>();
-            foreach (var gamemode in dtoList)
-                resultList.Add(mapper.Map<GamemodeModel>(gamemode));
-            return resultList;
-        }
     }
 }

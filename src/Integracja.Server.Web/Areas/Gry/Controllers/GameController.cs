@@ -5,6 +5,7 @@ using Integracja.Server.Infrastructure.Models;
 using Integracja.Server.Web.Areas.Gry.Models.Game;
 using Integracja.Server.Web.Areas.Gry.Models.Shared;
 using Integracja.Server.Web.Controllers;
+using Integracja.Server.Web.Mappers;
 using Integracja.Server.Web.Models.Shared.Game;
 using Integracja.Server.Web.Models.Shared.Question;
 using Microsoft.AspNetCore.Identity;
@@ -38,7 +39,7 @@ namespace Integracja.Server.Web.Areas.Gry.Controllers
             if( questionPool != null )
                 model.GameQuestions = questionPool;
 
-            model.Questions = QuestionModel.ConvertToList(await QuestionService.GetAll(UserId));
+            model.Questions = WebAutoMapper.Initialize().Map<List<QuestionModel>>(await QuestionService.GetAll(UserId));
 
             return model;
         }

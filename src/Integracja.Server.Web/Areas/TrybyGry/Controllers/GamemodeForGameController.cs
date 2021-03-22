@@ -6,11 +6,13 @@ using Integracja.Server.Web.Areas.Gry.Controllers;
 using Integracja.Server.Web.Areas.TrybyGry.Models.GamemodeForGame;
 using Integracja.Server.Web.Areas.TrybyGry.Models.Shared;
 using Integracja.Server.Web.Controllers;
+using Integracja.Server.Web.Mappers;
 using Integracja.Server.Web.Models.Shared.Alert;
 using Integracja.Server.Web.Models.Shared.Enums;
 using Integracja.Server.Web.Models.Shared.Gamemode;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Integracja.Server.Web.Areas.TrybyGry.Controllers
@@ -28,7 +30,7 @@ namespace Integracja.Server.Web.Areas.TrybyGry.Controllers
         public async Task<IActionResult> Index(int? id)
         {
             Model = new GamemodeForGameViewModel();
-            Model.Gamemodes = GamemodeModel.MapToList<GamemodeDto>( await GamemodeService.GetAll(UserId));
+            Model.Gamemodes = WebAutoMapper.Initialize().Map<List<GamemodeModel>>(await GamemodeService.GetAll(UserId));
             Model.SelectedGamemode = id;
             Model.Alerts = GetAlerts();
             return View("GamemodeForGame", Model);

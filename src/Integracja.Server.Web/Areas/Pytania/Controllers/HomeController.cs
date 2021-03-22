@@ -4,9 +4,11 @@ using Integracja.Server.Infrastructure.Data;
 using Integracja.Server.Web.Areas.Pytania.Models.Home;
 using Integracja.Server.Web.Areas.Pytania.Models.Question;
 using Integracja.Server.Web.Controllers;
+using Integracja.Server.Web.Mappers;
 using Integracja.Server.Web.Models.Shared.Question;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Integracja.Server.Web.Areas.Pytania.Controllers
@@ -27,7 +29,7 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
         {
             Model.Alerts = GetAlerts();
 
-            Model.Questions = QuestionModel.ConvertToList( await QuestionService.GetAll(UserId) );
+            Model.Questions = WebAutoMapper.Initialize().Map<List<QuestionModel>>( await QuestionService.GetAll(UserId) );
             return View(Model);
         }
 

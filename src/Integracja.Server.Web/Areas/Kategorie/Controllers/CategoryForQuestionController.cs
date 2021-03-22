@@ -5,10 +5,12 @@ using Integracja.Server.Web.Areas.Kategorie.Models.CategoryForQuestion;
 using Integracja.Server.Web.Areas.Pytania.Controllers;
 using Integracja.Server.Web.Areas.Pytania.Models.Question;
 using Integracja.Server.Web.Controllers;
+using Integracja.Server.Web.Mappers;
 using Integracja.Server.Web.Models.Shared.Alert;
 using Integracja.Server.Web.Models.Shared.Category;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Integracja.Server.Web.Areas.Kategorie.Controllers
@@ -26,7 +28,7 @@ namespace Integracja.Server.Web.Areas.Kategorie.Controllers
         public async Task<IActionResult> Index(int? id)
         {
             Model = new CategoryForQuestionViewModel();
-            Model.CategorySelectModel.Categories = CategoryModel.ConvertToList(await CategoryService.GetAll(UserId));
+            Model.CategorySelectModel.Categories = WebAutoMapper.Initialize().Map<List<CategoryModel>>(await CategoryService.GetAll(UserId));
             Model.Alerts = GetAlerts();
 
             if (id.HasValue)

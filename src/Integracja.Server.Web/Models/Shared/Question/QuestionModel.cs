@@ -56,14 +56,6 @@ namespace Integracja.Server.Web.Models.Shared.Question
             var mapper = Mappers.WebAutoMapper.Initialize();
             return mapper.Map<EditQuestionDto>(this);
         }
-        static public List<QuestionModel> ConvertToList( IEnumerable<QuestionDto> dtoList )
-        {
-            var mapper = Mappers.WebAutoMapper.Initialize();
-            List<QuestionModel> resultList = new List<QuestionModel>();
-            foreach (var dtoQuestion in dtoList)
-                resultList.Add(mapper.Map<QuestionModel>(dtoQuestion));
-            return resultList;
-        }
 
         public static explicit operator QuestionModel(QuestionDto v)
         {

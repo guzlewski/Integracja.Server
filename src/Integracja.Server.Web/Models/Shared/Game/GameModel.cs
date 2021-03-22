@@ -17,13 +17,5 @@ namespace Integracja.Server.Web.Models.Shared.Game
 
         public T MapTo<T>() => Mappers.WebAutoMapper.Initialize().Map<T>(this);
 
-        public static List<GameModel> MapToList<T>( IEnumerable<T> dtoList )
-        {
-            var mapper = Mappers.WebAutoMapper.Initialize();
-            List<GameModel> resultList = new List<GameModel>();
-            foreach (var gamemode in dtoList)
-                resultList.Add(mapper.Map<GameModel>(gamemode));
-            return resultList;
-        }
     }
 }
