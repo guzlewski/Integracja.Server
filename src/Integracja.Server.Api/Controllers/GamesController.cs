@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
+using Integracja.Server.Api.Attributes;
 using Integracja.Server.Api.Utilities;
 using Integracja.Server.Infrastructure.Models;
 using Integracja.Server.Infrastructure.Services.Interfaces;
@@ -71,9 +73,21 @@ namespace Integracja.Server.Api.Controllers
             return NoContent();
         }
 
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status409Conflict)]
+        /// <summary>
+        /// Adds current logged in user to game
+        /// </summary>
+        /// <param name="guid" example="00000000-0000-0000-0000-000000000000">Guid of the game to join</param>
+        /// <response code="201">Successful operation</response>
+        /// <response code="400">Invalid guid supplied</response>
+        /// <response code="404">Game not found</response>
+        /// <response code="409">Couldn't join to game, possible ErrorCodes:
+        /// <para>5 - game is full</para>
+        /// <para>4 - game has ended</para>
+        /// <para>2 - user already joined this game</para>
+        /// </response>
+        /// <response code="500">Internal server error</response>
+        [Mobile]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
         [HttpGet("[action]/{guid}")]
         public async Task<IActionResult> Join(Guid guid)
         {
@@ -81,8 +95,20 @@ namespace Integracja.Server.Api.Controllers
             return CreatedAtAction(nameof(UsersController.Games), new { controller = ControllerHelper.GetName<UsersController>(), id = entityId }, null);
         }
 
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        /// <summary>
+        /// Removes current logged in user from game
+        /// </summary>
+        /// <param name="id">Id of the game to leave</param>
+        /// <response code="204">Successful operation</response>
+        /// <response code="400">Invalid id supplied</response>
+        /// <response code="404">Game not found</response>
+        /// <response code="409">Couldn't left the game, possible ErrorCodes:
+        /// <para>4 - game has ended</para>
+        /// </response>
+        /// <response code="500">Internal server error</response>
+        [Mobile]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ApiError), StatusCodes.Status409Conflict)]
         [HttpGet("[action]/{id}")]
         public async Task<IActionResult> Leave(int id)
         {
@@ -90,20 +116,54 @@ namespace Integracja.Server.Api.Controllers
             return NoContent();
         }
 
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status409Conflict)]
+
+        /// <summary>
+        /// Returns first not answered question from the game
+        /// </summary>
+        /// <param name="id">Id of the game that user is playing</param>
+        /// <response code="200">Successful operation</response>
+        /// <response code="400">Invalid id supplied</response>
+        /// <response code="404">Game not found</response>
+        /// <response code="409">Couldn't get questions, possible ErrorCodes:
+        /// <para>3 - game has been cancelled</para>
+        /// <para>4 - game has ended</para>
+        /// <para>0 - user already answered all questions</para>
+        /// <para>6 - game is over due to gamemode rules</para>
+        /// <para>7 - game time has expired</para>
+        /// </response>
+        /// <response code="500">Internal server error</response>
+        [Mobile]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ApiError), StatusCodes.Status409Conflict)]
         [HttpGet("[action]/{id}")]
         public async Task<GameQuestionDto> Play(int id)
         {
             return await _gameQuestionService.GetQuestion<GameQuestionDto>(id, UserId.Value);
         }
 
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status409Conflict)]
+        /// <summary>
+        /// Saves user's answers to the question and returns result
+        /// </summary>
+        /// <param name="gameId">Id of the game that user is playing</param>
+        /// <param name="questionId">Id of question that user is answering</param>
+        /// <param name="answers">Ids of answers that user selected as correct</param>
+        /// <response code="200">Successful operation</response>
+        /// <response code="400">Invalid gameId or questionId or answers supplied</response>
+        /// <response code="404">Game or question not found</response>
+        /// <response code="409">Couldn't save answers, possible ErrorCodes:
+        /// <para>3 - game has been cancelled</para>
+        /// <para>4 - game has ended</para>
+        /// <para>1 - user already answered to this question</para>
+        /// <para>6 - game is over due to gamemode rules</para>
+        /// <para>8 - question time has expired</para>
+        /// <para>7 - game time has expired</para>
+        /// </response>
+        /// <response code="500">Internal server error</response>
+        [Mobile]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ApiError), StatusCodes.Status409Conflict)]
         [HttpPost("[action]/{gameId}/{questionId}")]
-        public async Task<GameUserQuestionDto> Play(int gameId, int questionId, IEnumerable<int> answers)
+        public async Task<GameUserQuestionDto> Play(int gameId, int questionId, [Required] IEnumerable<int> answers)
         {
             return await _gameQuestionService.SaveAnswers<GameUserQuestionDto>(gameId, UserId.Value, questionId, answers);
         }

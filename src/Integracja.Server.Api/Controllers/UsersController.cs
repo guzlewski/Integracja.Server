@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
+using Integracja.Server.Api.Attributes;
 using Integracja.Server.Infrastructure.Models;
 using Integracja.Server.Infrastructure.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
@@ -48,23 +49,39 @@ namespace Integracja.Server.Api.Controllers
             return await _gamemodeService.GetOwned<GamemodeDto>(UserId.Value);
         }
 
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        /// <summary>
+        /// Returns games that user joined and are upcoming or ready to play
+        /// </summary>
+        /// <response code="200">Successful operation</response>
+        /// <response code="500">Internal server error</response>
+        [Mobile]
         [HttpGet("[action]")]
         public async Task<IEnumerable<GameUserDto>> Games()
         {
             return await _gameUserService.GetActive<GameUserDto>(UserId.Value);
         }
 
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        /// <summary>
+        /// Returns games that user joined and can't play
+        /// </summary>
+        /// <response code="200">Successful operation</response>
+        /// <response code="500">Internal server error</response>
+        [Mobile]
         [HttpGet("[action]")]
         public async Task<IEnumerable<GameUserDto>> GamesArchived()
         {
             return await _gameUserService.GetArchived<GameUserDto>(UserId.Value);
         }
 
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        /// <summary>
+        /// Returns game that user joined by id 
+        /// </summary>
+        /// <param name="id">Id of the game</param>
+        /// <response code="200">Successful operation</response>
+        /// <response code="400">Invalid id supplied</response>
+        /// <response code="500">Internal server error</response>
+        [Mobile]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
         [HttpGet("[action]/{id}")]
         public async Task<DetailGameUserDto> Games(int id)
         {
