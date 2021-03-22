@@ -49,23 +49,25 @@
     <h2>Punktacja</h2>
     <br />
 
-    <div class="form-group">
-            <h4>Za dobrą odpowiedź</h4>
-            <input asp-for="Question.PositivePoints" type="number" class="form-control input-number"
-                   step="1"
-                   min="1"
-                   max="10" />
-        </div>
-
+    @*
         <div class="form-group">
-            <h4>Za złą odpowiedź</h4>
-            <input asp-for="Question.NegativePoints" type="number" class="form-control input-number"
-                   step="1"
-                   min="-10"
-                   max="0" />
-        </div>
+                <h4>Za dobrą odpowiedź</h4>
+                <input asp-for="Question.PositivePoints" type="number" class="form-control input-number"
+                       step="1"
+                       min="1"
+                       max="10" />
+            </div>
 
-    @*<div class="points-form">
+            <div class="form-group">
+                <h4>Za złą odpowiedź</h4>
+                <input asp-for="Question.NegativePoints" type="number" class="form-control input-number"
+                       step="1"
+                       min="-10"
+                       max="0" />
+            </div>
+    *@
+
+    <div class="points-form form-group">
 
         <script type="text/javascript" src="~/js/Pytania/_QuestionForm.js"></script>
         <script src="~/js/Pytania/_QuestionForm.js" asp-append-version="true"></script>
@@ -73,7 +75,7 @@
         <div class="form-group">
             <h4>Za dobrą odpowiedź</h4>
             <div class="points">
-                <input class="range mr-3" asp-for="Question.PositivePoints" type="range" name="" value="1" min="1" max="10" onChange="rangeSlide(this.value)" onmousemove="rangeSlide(this.value)">
+                <input class="range mr-3" asp-for="Question.PositivePoints" type="range" value="1" min="1" max="10" onChange="rangeSlide(this.value)" onmousemove="rangeSlide(this.value)">
                 <span id="rangeValue" class="rangeValue"> 1 </span>
             </div>
         </div>
@@ -81,12 +83,12 @@
         <div class="form-group">
             <h4>Za złą odpowiedź</h4>
             <div class="points">
-                <input class="range mr-3" asp-for="Question.NegativePoints" type="range" name="" value="0" min="-10" max="0" onChange="rangeSlide2(this.value)" onmousemove="rangeSlide2(this.value)">
+                <input class="range mr-3" asp-for="Question.NegativePoints" type="range" value="0" min="-10" max="0" onChange="rangeSlide2(this.value)" onmousemove="rangeSlide2(this.value)">
                 <span id="rangeValue2" class="rangeValue"> 0 </span>
             </div>
         </div>
 
-    </div>*@
+    </div>
 
     <h4>Tryb</h4>
     <div class="form-group">
