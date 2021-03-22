@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Integracja.Server.Core.Models.Base;
+using Integracja.Server.Core.Models.Joins;
 using Integracja.Server.Infrastructure.Models;
 using Integracja.Server.Web.Models.Shared.Question;
 
@@ -26,6 +27,9 @@ namespace Integracja.Server.Web.Mapper.Profiles
             .ForMember(dest => dest.Scoring, opt => opt.MapFrom(src => src.QuestionScoring))
             .ForMember(dest => dest.NegativePoints, opt => opt.MapFrom(src => (int)src.NegativePoints))
             .ForMember(dest => dest.PositivePoints, opt => opt.MapFrom(src => (int)src.PositivePoints));
+
+            CreateMap<GameQuestion, QuestionModel>().IncludeMembers(src => src.Question);
+
 
             // TODO:
             CreateMap<QuestionModel, CreateGameQuestionDto>()

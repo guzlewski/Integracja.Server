@@ -13,7 +13,7 @@ namespace Integracja.Server.Web.Models.Shared.Question
         [MinLength(10, ErrorMessage = "Pytanie musi zawierać przynajmniej 10 znaków")]
         [Display(Name = "Treść")]
         public string Content { get; set; }
-        public List<AnswerModel> Answers { get; set; }
+        public List<AnswerModel> Answers { get; set; } = new List<AnswerModel>();
         public int PositivePoints { get; set; }
         public int NegativePoints { get; set; }
         public QuestionScoring Scoring { get; set; }
@@ -23,15 +23,13 @@ namespace Integracja.Server.Web.Models.Shared.Question
 
         public const int DefaultAnswerCount = 4;
 
-        // taki domyślny konstruktor jest konieczny bo asp.net core nie ogarnia z domyślnym parametrem
         public QuestionModel() : this(DefaultAnswerCount)
-        { 
+        {
         }
 
-        public QuestionModel(int answersCount = DefaultAnswerCount)
+        public QuestionModel(int answerCount)
         {
-            Answers = new List<AnswerModel>();
-            for (int i = 0; i < answersCount; ++i)
+            for (int i = 0; i < answerCount; ++i)
                 Answers.Add(new AnswerModel());
         }
 

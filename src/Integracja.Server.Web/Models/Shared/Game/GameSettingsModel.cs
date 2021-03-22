@@ -9,7 +9,7 @@ namespace Integracja.Server.Web.Models.Shared.Game
     {
         public string Name { get; set; }
 
-        public GamemodeModel Gamemode { get; set; }
+        public GamemodeModel Gamemode { get; set; } = new GamemodeModel();
 
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
