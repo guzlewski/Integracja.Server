@@ -89,6 +89,7 @@ namespace Integracja.Server.Api.Controllers
         /// <response code="500">Internal server error</response>
         [Mobile]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ApiError), StatusCodes.Status409Conflict)]
         [HttpGet("[action]/{guid}")]
         public async Task<IActionResult> Join(Guid guid)
         {

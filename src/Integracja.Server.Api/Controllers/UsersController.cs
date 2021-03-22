@@ -54,6 +54,7 @@ namespace Integracja.Server.Api.Controllers
         /// </summary>
         /// <response code="200">Successful operation</response>
         /// <response code="500">Internal server error</response>
+        [ProducesResponseType(typeof(IEnumerable<GameUserDto>), StatusCodes.Status200OK)]
         [Mobile]
         [HttpGet("[action]")]
         public async Task<IEnumerable<GameUserDto>> Games()
@@ -67,6 +68,7 @@ namespace Integracja.Server.Api.Controllers
         /// <response code="200">Successful operation</response>
         /// <response code="500">Internal server error</response>
         [Mobile]
+        [ProducesResponseType(typeof(IEnumerable<GameUserDto>), StatusCodes.Status200OK)]
         [HttpGet("[action]")]
         public async Task<IEnumerable<GameUserDto>> GamesArchived()
         {
@@ -81,6 +83,7 @@ namespace Integracja.Server.Api.Controllers
         /// <response code="400">Invalid id supplied</response>
         /// <response code="500">Internal server error</response>
         [Mobile]
+        [ProducesResponseType(typeof(DetailGameUserDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
         [HttpGet("[action]/{id}")]
         public async Task<DetailGameUserDto> Games(int id)
