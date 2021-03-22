@@ -3,8 +3,6 @@ name: Integracja.Server.Web Deploy
 on:
   push:
     branches: [ master ]
-  pull_request:
-    branches: [ master ]
 
 jobs:
   build:
@@ -16,11 +14,11 @@ jobs:
       with:
         dotnet-version: 5.0.x
     - name: Restore dependencies
-      run: dotnet restore Integracja.Server.Web
+      run: dotnet restore src/Integracja.Server.Web
     - name: Build
-      run: dotnet build Integracja.Server.Web -c Release --no-restore
+      run: dotnet build src/Integracja.Server.Web -c Release --no-restore
     - name: Publish
-      run: dotnet publish Integracja.Server.Web -o ${{env.DOTNET_ROOT}}/publish
+      run: dotnet publish src/Integracja.Server.Web -o ${{env.DOTNET_ROOT}}/publish
     - name: Deploy
       uses: azure/webapps-deploy@v2
       with:
