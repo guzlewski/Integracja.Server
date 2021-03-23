@@ -36,4 +36,4 @@ jobs:
         SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
       with:
         environment: 'production'
-        version: '$Integracja.Server.Api@${{ env.RELEASE_VERSION }}'
+        version: 'Integracja.Server.Api@${{ env.RELEASE_VERSION }}'
