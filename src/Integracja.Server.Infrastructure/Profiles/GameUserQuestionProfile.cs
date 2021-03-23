@@ -8,7 +8,12 @@ namespace Integracja.Server.Infrastructure.Profiles
     {
         public GameUserQuestionProfile()
         {
-            CreateMap<GameUserQuestion, GameUserQuestionDto>()
+            CreateMap<GameUserQuestion, GameUserQuestionDto<AnswerDto>>()
+                .ForMember(
+                    gameUserQuestionDto => gameUserQuestionDto.GameOver,
+                    opt => opt.MapFrom(gameUser => gameUser.GameUser.GameOver)); 
+            
+            CreateMap<GameUserQuestion, GameUserQuestionDto<DetailAnswerDto>>()
                 .ForMember(
                     gameUserQuestionDto => gameUserQuestionDto.GameOver,
                     opt => opt.MapFrom(gameUser => gameUser.GameUser.GameOver));

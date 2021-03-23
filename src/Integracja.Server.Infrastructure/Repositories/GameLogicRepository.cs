@@ -21,7 +21,7 @@ namespace Integracja.Server.Infrastructure.Repositories
             _dbContext = dbContext;
         }
 
-        public async Task<IQueryable<GameQuestion>> GetQuestion(int gameId, int userId)
+        public async Task<IQueryable<GameUserQuestion>> GetQuestion(int gameId, int userId)
         {
             var entity = await _dbContext.GameUsers
                 .Where(gu => gu.GameId == gameId &&
@@ -32,7 +32,7 @@ namespace Integracja.Server.Infrastructure.Repositories
                 {
                     GameUser = gu,
                     gu.Game.Gamemode,
-                    Game = gu.Game
+                    gu.Game
                 })
                 .FirstOrDefaultAsync();
 
@@ -108,9 +108,10 @@ namespace Integracja.Server.Infrastructure.Repositories
                 await _dbContext.SaveChangesAsync();
             }
 
-            return _dbContext.GameQuestions
+            return _dbContext.GameUserQuestions
                 .AsNoTracking()
                 .Where(gu => gu.GameId == gameId &&
+                    gu.UserId == userId &&
                     gu.QuestionId == secondEntities.QuestionId);
         }
 

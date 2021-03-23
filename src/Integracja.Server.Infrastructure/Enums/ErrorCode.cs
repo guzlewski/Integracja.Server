@@ -3,7 +3,7 @@
     public enum ErrorCode
     {
         // GameLogicRepository.GetQuestion
-        AlreadyAnsweredAllQuestions,
+        AlreadyAnsweredAllQuestions = 1,
 
         // GameLogicRepository.SaveAnswers
         AlreadyAnsweredThisQuestion,
