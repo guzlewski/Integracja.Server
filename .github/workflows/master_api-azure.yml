@@ -13,12 +13,14 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 5.0.x
+    - name: Set Release Version
+      run: echo "RELEASE_VERSION=$(date +'%Y.%m.%d')-$(git rev-parse --short "$GITHUB_SHA")" >> $GITHUB_ENV
     - name: Restore dependencies
       run: dotnet restore src/Integracja.Server.Api
     - name: Build
-      run: dotnet build src/Integracja.Server.Api -c Release --no-restore
+      run: dotnet build src/Integracja.Server.Api -c Release --no-restore /p:Version="${{ env.RELEASE_VERSION }}"
     - name: Publish
-      run: dotnet publish src/Integracja.Server.Api -o ${{env.DOTNET_ROOT}}/publish
+      run: dotnet publish src/Integracja.Server.Api -c Release -o ${{env.DOTNET_ROOT}}/publish
     - name: Deploy
       uses: azure/webapps-deploy@v2
       with:
@@ -26,3 +28,12 @@ jobs:
         slot-name: 'production'
         publish-profile: ${{ secrets.AzureAppService_PublishProfile_a4830e98d59845459c74c90794461d22 }}
         package: ${{env.DOTNET_ROOT}}/publish
+    - name: Sentry Release
+      uses: getsentry/action-release@v1.1.5
+      env:
+        SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+        SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
+        SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
+      with:
+        environment: production
+        version: ${{ env.RELEASE_VERSION }}
