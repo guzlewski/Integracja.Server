@@ -1,18 +1,22 @@
-﻿using System.Text.Json;
+﻿using System;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Integracja.Server.Infrastructure.Exceptions;
 using Integracja.Server.Infrastructure.Models;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 
 namespace Integracja.Server.Api.Utilities
 {
     public class ExceptionMiddleware
     {
         private readonly RequestDelegate _next;
+        private readonly ILogger<ExceptionMiddleware> _logger;
 
-        public ExceptionMiddleware(RequestDelegate next)
+        public ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddleware> logger)
         {
             _next = next;
+            _logger = logger;
         }
 
         public async Task InvokeAsync(HttpContext httpContext)
@@ -31,6 +35,7 @@ namespace Integracja.Server.Api.Utilities
                 };
 
                 await WriteResponse(apiError, dae, httpContext);
+                _logger.LogWarning(dae, $"{nameof(DetailedApiException)}{Environment.NewLine}StatusCode: {dae.StatusCode}{Environment.NewLine}ErrorCode: {(int)dae.ErrorCode} {dae.ErrorCode}");
             }
             catch (ApiException ae)
             {
@@ -41,6 +46,7 @@ namespace Integracja.Server.Api.Utilities
                 };
 
                 await WriteResponse(response, ae, httpContext);
+                _logger.LogWarning(ae, $"{nameof(ApiException)}{Environment.NewLine}StatusCode: {ae.StatusCode}");
             }
         }
 
