@@ -7,7 +7,7 @@ namespace Integracja.Server.Core.Repositories
 {
     public interface IGameLogicRepository
     {
-        Task<IQueryable<GameUserQuestion>> SaveAnswers(int gameId, int userId,int questionId, IEnumerable<int> asnwers);
         Task<IQueryable<GameUserQuestion>> GetQuestion(int gameId, int userId);
+        Task<IQueryable<GameUserQuestion>> SaveAnswers(int gameId, int userId, int questionId, IEnumerable<int> asnwers);
     }
 }

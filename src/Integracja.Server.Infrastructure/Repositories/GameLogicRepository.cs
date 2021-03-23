@@ -32,7 +32,7 @@ namespace Integracja.Server.Infrastructure.Repositories
                 {
                     GameUser = gu,
                     gu.Game.Gamemode,
-                    Game = gu.Game
+                    gu.Game
                 })
                 .FirstOrDefaultAsync();
 
