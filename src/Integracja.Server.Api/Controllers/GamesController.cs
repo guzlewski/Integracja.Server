@@ -134,13 +134,13 @@ namespace Integracja.Server.Api.Controllers
         /// </response>
         /// <response code="500">Internal server error</response>
         [Mobile]
-        [ProducesResponseType(typeof(GameQuestionDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(GameUserQuestionDto<AnswerDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ApiError), StatusCodes.Status409Conflict)]
         [HttpGet("[action]/{id}")]
-        public async Task<GameQuestionDto> Play(int id)
+        public async Task<GameUserQuestionDto<AnswerDto>> Play(int id)
         {
-            return await _gameQuestionService.GetQuestion<GameQuestionDto>(id, UserId.Value);
+            return await _gameQuestionService.GetQuestion<GameUserQuestionDto<AnswerDto>>(id, UserId.Value);
         }
 
         /// <summary>
@@ -162,13 +162,13 @@ namespace Integracja.Server.Api.Controllers
         /// </response>
         /// <response code="500">Internal server error</response>
         [Mobile]
-        [ProducesResponseType(typeof(GameUserQuestionDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(GameUserQuestionDto<DetailAnswerDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ApiError), StatusCodes.Status409Conflict)]
         [HttpPost("[action]/{gameId}/{questionId}")]
-        public async Task<GameUserQuestionDto> Play(int gameId, int questionId, [Required] IEnumerable<int> answers)
+        public async Task<GameUserQuestionDto<DetailAnswerDto>> Play(int gameId, int questionId, [Required] IEnumerable<int> answers)
         {
-            return await _gameQuestionService.SaveAnswers<GameUserQuestionDto>(gameId, UserId.Value, questionId, answers);
+            return await _gameQuestionService.SaveAnswers<GameUserQuestionDto<DetailAnswerDto>>(gameId, UserId.Value, questionId, answers);
         }
     }
 }
