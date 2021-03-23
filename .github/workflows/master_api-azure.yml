@@ -20,7 +20,7 @@ jobs:
     - name: Build
       run: dotnet build src/Integracja.Server.Api -c Release --no-restore /p:Version="${{ env.RELEASE_VERSION }}"
     - name: Publish
-      run: dotnet publish src/Integracja.Server.Api -c Release -no-build -o ${{env.DOTNET_ROOT}}/publish
+      run: dotnet publish src/Integracja.Server.Api -c Release --no-build -o ${{env.DOTNET_ROOT}}/publish
     - name: Deploy
       uses: azure/webapps-deploy@v2
       with:
