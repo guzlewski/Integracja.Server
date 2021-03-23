@@ -14,6 +14,7 @@ namespace Integracja.Server.Infrastructure.Models
         public float PositivePoints { get; set; }
         public float NegativePoints { get; set; }
         public QuestionScoring QuestionScoring { get; set; }
+        public int CorrectAnswersCount { get; set; }
         public ICollection<T> Answers { get; set; }
     }
 }
