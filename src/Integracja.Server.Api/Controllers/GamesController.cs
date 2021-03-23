@@ -81,9 +81,9 @@ namespace Integracja.Server.Api.Controllers
         /// <response code="400">Invalid guid supplied</response>
         /// <response code="404">Game not found</response>
         /// <response code="409">Couldn't join to game, possible ErrorCodes:
-        /// <para>5 - game is full</para>
-        /// <para>4 - game has ended</para>
-        /// <para>2 - user already joined this game</para>
+        /// <para>6 - game is full</para>
+        /// <para>5 - game has ended</para>
+        /// <para>3 - user already joined this game</para>
         /// </response>
         /// <response code="500">Internal server error</response>
         [Mobile]
@@ -104,7 +104,7 @@ namespace Integracja.Server.Api.Controllers
         /// <response code="400">Invalid id supplied</response>
         /// <response code="404">Game not found</response>
         /// <response code="409">Couldn't left the game, possible ErrorCodes:
-        /// <para>4 - game has ended</para>
+        /// <para>5 - game has ended</para>
         /// </response>
         /// <response code="500">Internal server error</response>
         [Mobile]
@@ -126,11 +126,11 @@ namespace Integracja.Server.Api.Controllers
         /// <response code="400">Invalid id supplied</response>
         /// <response code="404">Game not found</response>
         /// <response code="409">Couldn't get questions, possible ErrorCodes:
-        /// <para>3 - game has been cancelled</para>
-        /// <para>4 - game has ended</para>
-        /// <para>0 - user already answered all questions</para>
-        /// <para>6 - game is over due to gamemode rules</para>
-        /// <para>7 - game time has expired</para>
+        /// <para>4 - game has been cancelled</para>
+        /// <para>5 - game has ended</para>
+        /// <para>1 - user already answered all questions</para>
+        /// <para>7 - game is over due to gamemode rules</para>
+        /// <para>8 - game time has expired</para>
         /// </response>
         /// <response code="500">Internal server error</response>
         [Mobile]
@@ -153,12 +153,12 @@ namespace Integracja.Server.Api.Controllers
         /// <response code="400">Invalid gameId or questionId or answers supplied</response>
         /// <response code="404">Game or question not found</response>
         /// <response code="409">Couldn't save answers, possible ErrorCodes:
-        /// <para>3 - game has been cancelled</para>
-        /// <para>4 - game has ended</para>
-        /// <para>1 - user already answered to this question</para>
-        /// <para>6 - game is over due to gamemode rules</para>
-        /// <para>8 - question time has expired</para>
-        /// <para>7 - game time has expired</para>
+        /// <para>4 - game has been cancelled</para>
+        /// <para>5 - game has ended</para>
+        /// <para>2 - user already answered to this question</para>
+        /// <para>7 - game is over due to gamemode rules</para>
+        /// <para>9 - question time has expired</para>
+        /// <para>8 - game time has expired</para>
         /// </response>
         /// <response code="500">Internal server error</response>
         [Mobile]
