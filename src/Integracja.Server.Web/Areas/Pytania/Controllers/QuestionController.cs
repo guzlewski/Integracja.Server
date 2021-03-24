@@ -4,7 +4,6 @@ using Integracja.Server.Infrastructure.Data;
 using Integracja.Server.Infrastructure.Models;
 using Integracja.Server.Web.Areas.Kategorie.Controllers;
 using Integracja.Server.Web.Areas.Pytania.Models.Question;
-using Integracja.Server.Web.Areas.Pytania.Models.QuestionCard;
 using Integracja.Server.Web.Controllers;
 using Integracja.Server.Web.Models.Shared.Alert;
 using Integracja.Server.Web.Models.Shared.Enums;
@@ -69,20 +68,29 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
 
             List<AlertModel> alerts = new List<AlertModel>();
             alerts.Add(QuestionAlert.CreateSuccess());
-            alerts.Add(new AlertModel(AlertType.Info, "Możesz teraz ponownie utworzyć pytanie dla wybranej kategorii."));
-            SetAlerts(alerts);
+            
+
 
             // jeśli weszło z edycji to cofamy do głównego panelu 
             if (question.Id.HasValue)
+            {
+                SetAlerts(alerts);
                 return RedirectToAction("Index");
+            }
             // jeśli inaczej to zostajemy i można dodać kolejne pytanie do kategorii
-            else return RedirectToAction( nameof(IQuestionActions.QuestionCreateViewStep2), new { categoryId = question.CategoryId });
+            else
+            {
+                alerts.Add(new AlertModel(AlertType.Info, "Możesz teraz ponownie utworzyć pytanie dla wybranej kategorii."));
+                SetAlerts(alerts);
+                return RedirectToAction(nameof(IQuestionActions.QuestionCreateViewStep2), new { categoryId = question.CategoryId });
+            }
+                
         }
         public async Task<IActionResult> QuestionReadView(int questionId)
         {
             QuestionModel q = await QuestionService.Get<QuestionModel>(questionId, UserId);
 
-            return View("~/Areas/Pytania/Views/Shared/_QuestionCard.cshtml", q);
+            return View("QuestionCard", q);
         }
         public async Task<IActionResult> QuestionUpdate(QuestionModel question)
         {

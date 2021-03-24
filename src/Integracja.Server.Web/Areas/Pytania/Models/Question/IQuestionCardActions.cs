@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
-namespace Integracja.Server.Web.Areas.Pytania.Models.QuestionCard
+namespace Integracja.Server.Web.Areas.Pytania.Models.Question
 {
     public interface IQuestionCardActions
     {

@@ -53,5 +53,9 @@ namespace Integracja.Server.Web.Areas.Gry.Controllers
             throw new System.NotImplementedException();
         }
 
+        public async Task<IActionResult> GotoGameHistory(int gameId)
+        {
+            return RedirectToAction("Index", "Home", new { area = "Historia", gameId });
+        }
     }
 }

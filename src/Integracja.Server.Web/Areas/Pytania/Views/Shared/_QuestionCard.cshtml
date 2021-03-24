@@ -1,15 +1,15 @@
-﻿@using Integracja.Server.Web.Areas.Pytania.Models.QuestionCard
-@using Integracja.Server.Web.Models.Shared.Question
+﻿@using Integracja.Server.Web.Models.Shared.Question
 @model QuestionModel
 
-<div class="card" style="max-width: 25rem;">
-    <div class="card-body">
 
-        <h2 class="card-title">@Model.CategoryId</h2>
-        <br />
+<div class="card-body">
 
-        <h4 class="card-subtitle mb-2 text-muted">@Model.Content</h4>
-        <br />
+    <h4 class="card-title">@Model.CategoryId</h4>
+    <br />
+
+    <div class="scroll-300">
+
+        <p class="card-subtitle mb-2 text-muted">@Model.Content</p>
 
         <ul>
             @foreach (var ans in Model.Answers)
@@ -23,25 +23,29 @@
             }
         </ul>
 
-        <br />
+    </div>
 
-        <h3>Punktacja</h3>
+    <div class="text-center">
         @if (Model.Scoring == Integracja.Server.Core.Enums.QuestionScoring.ScoreIfFullyCorrect)
         {
-            <p>Za pytanie</p>
+            <p>Punkty za pytanie</p>
         }
         else
         {
-            <p>Za odpowiedzi</p>
+            <p>Punkty za odpowiedzi</p>
         }
-        <h4>Poprawna odpowiedź</h4>
-        <h4>@Model.PositivePoints</h4>
-        <h4>Zła odpowiedź</h4>
-        <h4>@Model.NegativePoints</h4>
-
-        <br />
-
-        <a asp-action="@nameof(IQuestionCardActions.GotoQuestionUpdate)" asp-route-questionId="@Model.Id" class="card-link">Edytuj</a>
-        <a asp-action="@nameof(IQuestionCardActions.GotoQuestionDelete)" asp-route-questionId="@Model.Id" class="card-link">Usuń</a>
     </div>
+
+    <div class="row text-center">
+        <div class="col-6 ">
+            <p class="font-weight-bold">Poprawna odpowiedź</p>
+            <p>@Model.PositivePoints</p>
+        </div>
+        <div class="col-6">
+            <p class="font-weight-bold">Niepoprawna odpowiedź</p>
+            <p>@Model.NegativePoints</p>
+        </div>
+    </div>
+
 </div>
+
