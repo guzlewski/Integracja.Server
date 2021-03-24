@@ -1,8 +1,9 @@
 ﻿@using Integracja.Server.Web.Areas.Historia.Models
 @model HomeViewModel
 
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <link rel="stylesheet" href="~/css/Historia/Index.css" />
-<script type="text/javascript" src="~/js/konto/index.js"></script>
+<script type="text/javascript" src="~/js/Historia/Index.js"></script>
 
 <div class="container-fluid historia p-4">
 
@@ -40,8 +41,38 @@
             </div>
         </div>
     </div>
-    
-
-
-
 </div>
+
+<div class="container-fluid historia p-4 mt-4">
+
+    <p class="title"> Ranking graczy </p>
+
+    <div class="info">
+        <div class="table-wrapper-scroll-y">
+            <table id="users" class="table table-bordered table-striped table-sm ">
+                <thead>
+                    <tr>
+                        <th scope="col"> Numer </th>
+                        <th scope="col"> Nazwa użytkownika </th>
+                        <th scope="col"> Liczba punktów </th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @foreach (var i in Model.GameUsers.Select((value, index) => new { value, index }))
+                    {
+                        <tr>
+                            <td> @(i.index + 1)  </td>
+                            <td> @i.value.Username </td>
+                            <td> @i.value.gameuser.GameScore</td>
+
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
