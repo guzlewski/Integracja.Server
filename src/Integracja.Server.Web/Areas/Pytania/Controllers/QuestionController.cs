@@ -68,14 +68,23 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
 
             List<AlertModel> alerts = new List<AlertModel>();
             alerts.Add(QuestionAlert.CreateSuccess());
-            alerts.Add(new AlertModel(AlertType.Info, "Możesz teraz ponownie utworzyć pytanie dla wybranej kategorii."));
-            SetAlerts(alerts);
+            
+
 
             // jeśli weszło z edycji to cofamy do głównego panelu 
             if (question.Id.HasValue)
+            {
+                SetAlerts(alerts);
                 return RedirectToAction("Index");
+            }
             // jeśli inaczej to zostajemy i można dodać kolejne pytanie do kategorii
-            else return RedirectToAction( nameof(IQuestionActions.QuestionCreateViewStep2), new { categoryId = question.CategoryId });
+            else
+            {
+                SetAlerts(alerts);
+                alerts.Add(new AlertModel(AlertType.Info, "Możesz teraz ponownie utworzyć pytanie dla wybranej kategorii."));
+                return RedirectToAction(nameof(IQuestionActions.QuestionCreateViewStep2), new { categoryId = question.CategoryId });
+            }
+                
         }
         public async Task<IActionResult> QuestionReadView(int questionId)
         {
