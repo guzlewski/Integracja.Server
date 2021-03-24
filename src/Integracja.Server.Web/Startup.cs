@@ -112,6 +112,11 @@ namespace Integracja.Server.Web
                     pattern: "Konto/{controller=Home}/{action=Index}");
 
                 endpoints.MapAreaControllerRoute(
+                    name: "HistoriaArea",
+                    areaName: "Historia",
+                    pattern: "Historia/{controller=Home}/{action=Index}");
+
+                endpoints.MapAreaControllerRoute(
                     name: "default",
                     areaName: "Gry",
                     pattern: "{controller=Home}/{action=Index}");
