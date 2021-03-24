@@ -29,6 +29,7 @@
                     <td>@Model.Games[i].Settings.EndTime</td>
                     <td>
                         <a asp-action="@nameof(IHomeActions.GotoGameRead)" asp-route-gameId="@Model.Games[i].Id">Szczegóły</a> |
+                        <a asp-action="@nameof(IHomeActions.GotoGameHistory)" asp-route-gameId="@Model.Games[i].Id">Historia</a> |
                         <a asp-action="@nameof(IHomeActions.GotoGameUpdate)" asp-route-gameId="@Model.Games[i].Id">Edytuj</a> |
                         <a asp-action="@nameof(IHomeActions.GotoGameDelete)" asp-route-gameId="@Model.Games[i].Id">Anuluj</a>
                     </td>

@@ -123,16 +123,14 @@ namespace Integracja.Server.Web.Areas.Gry.Controllers
 
         public async Task<IActionResult> GameRead(int gameId)
         {
-            //var model = new GameCardViewModel();
+            var model = new GameCardViewModel();
 
-            //GameModel game = await GameService.Get<GameModel>(gameId, UserId);
+            GameModel game = await GameService.Get<GameModel>(gameId, UserId);
 
-            //model.Game = game;
-            //model.Gamemode = game.Settings.Gamemode;
+            model.Game = game;
+            model.Gamemode = game.Settings.Gamemode;
 
-            //return View("GameCard", model);
-
-            return RedirectToAction("Index", "Home", new { area = "Historia", gameId });
+            return View("GameCard", model);
         }
     }
 }
