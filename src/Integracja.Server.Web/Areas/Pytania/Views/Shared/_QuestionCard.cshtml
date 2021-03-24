@@ -4,42 +4,48 @@
 
 <div class="card-body">
 
-    <h2 class="card-title">@Model.CategoryId</h2>
+    <h4 class="card-title">@Model.CategoryId</h4>
     <br />
 
-    <h4 class="card-subtitle mb-2 text-muted">@Model.Content</h4>
-    <br />
+    <div class="scroll-300">
 
-    <ul>
-        @foreach (var ans in Model.Answers)
+        <p class="card-subtitle mb-2 text-muted">@Model.Content</p>
+
+        <ul>
+            @foreach (var ans in Model.Answers)
+            {
+                <li>
+                    <p class="card-text"
+                       style="@(ans.IsCorrect ? "color: green" : "" )">
+                        @ans.Content
+                    </p>
+                </li>
+            }
+        </ul>
+
+    </div>
+
+    <div class="text-center">
+        @if (Model.Scoring == Integracja.Server.Core.Enums.QuestionScoring.ScoreIfFullyCorrect)
         {
-            <li>
-                <p class="card-text"
-                   style="@(ans.IsCorrect ? "color: green" : "" )">
-                    @ans.Content
-                </p>
-            </li>
+            <p>Punkty za pytanie</p>
         }
-    </ul>
+        else
+        {
+            <p>Punkty za odpowiedzi</p>
+        }
+    </div>
 
-    <br />
-
-    <h3>Punktacja</h3>
-    @if (Model.Scoring == Integracja.Server.Core.Enums.QuestionScoring.ScoreIfFullyCorrect)
-    {
-        <p>Za pytanie</p>
-    }
-    else
-    {
-        <p>Za odpowiedzi</p>
-    }
-    <h4>Poprawna odpowiedź</h4>
-    <h4>@Model.PositivePoints</h4>
-    <h4>Zła odpowiedź</h4>
-    <h4>@Model.NegativePoints</h4>
-
-    <br />
-
+    <div class="row text-center">
+        <div class="col-6 ">
+            <p class="font-weight-bold">Poprawna odpowiedź</p>
+            <p>@Model.PositivePoints</p>
+        </div>
+        <div class="col-6">
+            <p class="font-weight-bold">Niepoprawna odpowiedź</p>
+            <p>@Model.NegativePoints</p>
+        </div>
+    </div>
 
 </div>
 

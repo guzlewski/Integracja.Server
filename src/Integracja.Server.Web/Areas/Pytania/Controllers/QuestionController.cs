@@ -80,8 +80,8 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
             // jeśli inaczej to zostajemy i można dodać kolejne pytanie do kategorii
             else
             {
-                SetAlerts(alerts);
                 alerts.Add(new AlertModel(AlertType.Info, "Możesz teraz ponownie utworzyć pytanie dla wybranej kategorii."));
+                SetAlerts(alerts);
                 return RedirectToAction(nameof(IQuestionActions.QuestionCreateViewStep2), new { categoryId = question.CategoryId });
             }
                 

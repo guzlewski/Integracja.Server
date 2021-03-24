@@ -63,6 +63,15 @@ a:active {
     color: green;
 }
 
+.top-buffer {
+    margin-top: 20px;
+}
+
+.scroll-300 {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
 /* ---------------------------------------------------
     SIDEBAR
 ----------------------------------------------------- */
