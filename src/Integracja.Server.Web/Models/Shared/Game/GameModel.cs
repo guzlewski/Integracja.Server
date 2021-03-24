@@ -14,7 +14,7 @@ namespace Integracja.Server.Web.Models.Shared.Game
 
         public GameSettingsModel Settings { get; set; }
 
-        public ICollection<QuestionModel> QuestionPool { get; set; }
+        public List<QuestionModel> QuestionPool { get; set; }
 
     }
 }

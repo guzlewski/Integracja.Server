@@ -128,7 +128,6 @@ namespace Integracja.Server.Web.Areas.Gry.Controllers
             GameModel game = await GameService.Get<GameModel>(gameId, UserId);
 
             model.Game = game;
-            model.Gamemode = game.Settings.Gamemode;
 
             return View("GameCard", model);
         }
