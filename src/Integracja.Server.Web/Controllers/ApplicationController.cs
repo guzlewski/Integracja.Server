@@ -59,6 +59,10 @@ namespace Integracja.Server.Web.Controllers
         protected IGameService GameService { get => 
         new GameService(new GameRepository(DbContext, new Random()), Mapper, Mapper.ConfigurationProvider); }
 
+        protected IGameUserService GameUserService { get =>
+        new GameUserService(new GameUserRepository(DbContext), Mapper.ConfigurationProvider); }
+        
+
         private string DefaultTempDataKey<T>() => typeof(T).ToString();
         protected void SaveToTempData<T>(T form, string key )
         {
@@ -75,7 +79,7 @@ namespace Integracja.Server.Web.Controllers
                     return default(T);
                 else return JsonSerializer.Deserialize<T>(jsonString);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return default(T);
             }

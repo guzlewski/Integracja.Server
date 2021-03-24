@@ -1,0 +1,22 @@
+﻿.historia {
+
+    background: #fff;
+    border: 1px solid #F0F0F0;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.title {
+    font-size: 2.4em;
+    color: #fed136;
+    width: 100%;
+    text-align: center;
+}
+
+.info {
+    font-size: 1.2em;
+    padding: 20px 40px;
+}
+
+.titles {
+    font-weight: bold;
+}
