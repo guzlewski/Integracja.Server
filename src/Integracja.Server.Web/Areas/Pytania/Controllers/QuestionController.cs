@@ -4,7 +4,6 @@ using Integracja.Server.Infrastructure.Data;
 using Integracja.Server.Infrastructure.Models;
 using Integracja.Server.Web.Areas.Kategorie.Controllers;
 using Integracja.Server.Web.Areas.Pytania.Models.Question;
-using Integracja.Server.Web.Areas.Pytania.Models.QuestionCard;
 using Integracja.Server.Web.Controllers;
 using Integracja.Server.Web.Models.Shared.Alert;
 using Integracja.Server.Web.Models.Shared.Enums;
@@ -82,7 +81,7 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
         {
             QuestionModel q = await QuestionService.Get<QuestionModel>(questionId, UserId);
 
-            return View("~/Areas/Pytania/Views/Shared/_QuestionCard.cshtml", q);
+            return View("QuestionCard", q);
         }
         public async Task<IActionResult> QuestionUpdate(QuestionModel question)
         {

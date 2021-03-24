@@ -1,0 +1,16 @@
+﻿@using Integracja.Server.Web.Areas.Pytania.Models.Question
+@using Integracja.Server.Web.Models.Shared.Question
+@model QuestionModel
+
+<div class="card" style="max-width: 25rem;">
+
+    <div class="card">
+        @{ Html.RenderPartialAsync("~/Areas/Pytania/Views/Shared/_QuestionCard.cshtml", Model); }
+    </div>
+
+    <div class="card-footer">
+        <a asp-action="@nameof(IQuestionCardActions.GotoQuestionUpdate)" asp-route-questionId="@Model.Id" class="card-link">Edytuj</a>
+        <a asp-action="@nameof(IQuestionCardActions.GotoQuestionDelete)" asp-route-questionId="@Model.Id" class="card-link">Usuń</a>
+    </div>
+
+</div>
