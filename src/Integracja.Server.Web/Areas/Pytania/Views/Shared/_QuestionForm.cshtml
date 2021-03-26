@@ -76,7 +76,14 @@
             <h4>Za dobrą odpowiedź</h4>
             <div class="points">
                 <input class="range mr-3" asp-for="Question.PositivePoints" type="range" min="1" max="10" onChange="rangeSlide(this.value)" onmousemove="rangeSlide(this.value)">
-                <span id="rangeValue" class="rangeValue"> 1 </span>
+                @if (@Model.Question.PositivePoints == 0)
+                {
+                    <span id="rangeValue" class="rangeValue"> 1 </span>
+                }
+                else
+                {
+                    <span id="rangeValue" class="rangeValue"> @Model.Question.PositivePoints </span>
+                }
             </div>
         </div>
 
@@ -84,7 +91,7 @@
             <h4>Za złą odpowiedź</h4>
             <div class="points">
                 <input class="range mr-3" asp-for="Question.NegativePoints" type="range" min="-10" max="0" onChange="rangeSlide2(this.value)" onmousemove="rangeSlide2(this.value)">
-                <span id="rangeValue2" class="rangeValue"> 0 </span>
+                <span id="rangeValue2" class="rangeValue"> @Model.Question.NegativePoints </span>
             </div>
         </div>
 
