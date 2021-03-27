@@ -20,5 +20,6 @@ namespace Integracja.Server.Web.Areas.Historia.Models
     {
         public GameUser gameuser;
         public string Username;
+        public int place;
     }
 }
