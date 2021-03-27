@@ -162,5 +162,10 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
         {
             return RedirectToAction(nameof(IQuestionActions.QuestionDelete), new { questionId = questionId });
         }
+
+        public async Task<IActionResult> GotoHome()
+        {
+            return RedirectToAction("Index", HomeController.Name);
+        }
     }
 }
