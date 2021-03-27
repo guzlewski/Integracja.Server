@@ -3,7 +3,11 @@
 });
 
 $(document).ready(function () {
-    $('table').DataTable();
+    $('table').DataTable(
+        {
+            stateSave: true
+        }
+    );
 });
 
 // zabrane z https://stackoverflow.com/questions/12744145/how-to-remember-scroll-position-of-page/12744617
