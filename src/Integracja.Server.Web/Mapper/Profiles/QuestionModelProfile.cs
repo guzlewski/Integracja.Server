@@ -26,7 +26,8 @@ namespace Integracja.Server.Web.Mapper.Profiles
             CreateMap<Question, QuestionModel>()
             .ForMember(dest => dest.Scoring, opt => opt.MapFrom(src => src.QuestionScoring))
             .ForMember(dest => dest.NegativePoints, opt => opt.MapFrom(src => (int)src.NegativePoints))
-            .ForMember(dest => dest.PositivePoints, opt => opt.MapFrom(src => (int)src.PositivePoints));
+            .ForMember(dest => dest.PositivePoints, opt => opt.MapFrom(src => (int)src.PositivePoints))
+            .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Category.Name));
 
             CreateMap<GameQuestion, QuestionModel>().IncludeMembers(src => src.Question);
 
