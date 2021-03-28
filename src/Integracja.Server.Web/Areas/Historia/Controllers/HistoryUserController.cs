@@ -33,7 +33,8 @@ namespace Integracja.Server.Web.Areas.Historia.Controllers
             HistoryUserModel historyUser = await GameUserService.Get<HistoryUserModel>(gameId, userId);
             
             List<HistoryUserInfo> HistoryGameUserInfo = new List<HistoryUserInfo>();
- 
+
+            int points = 0;
             for(int i = 0; i < historyQuestions.QuestionPool.Count; i++)
             {
                 List<string> answers = new List<string>();
@@ -53,6 +54,7 @@ namespace Integracja.Server.Web.Areas.Historia.Controllers
                 int pointsReceived = historyQuestions.QuestionPool[i].NegativePoints;
                 if (correctAnswer == userAnswer)
                     pointsReceived = historyQuestions.QuestionPool[i].PositivePoints;
+                points += pointsReceived;
 
                 HistoryUserInfo UserInfo = new HistoryUserInfo
                 {
@@ -67,11 +69,6 @@ namespace Integracja.Server.Web.Areas.Historia.Controllers
 
                 HistoryGameUserInfo.Add(UserInfo);
             }
-
-            int points = 0;
-            for (int i = 0; i < HistoryGameUserInfo.Count; i++)
-                if (HistoryGameUserInfo[i].correctAnswerId == HistoryGameUserInfo[i].userAnswerId)
-                    points++;
 
             Model.Points = points;
             Model.HistoryGameUserInfo = HistoryGameUserInfo;
