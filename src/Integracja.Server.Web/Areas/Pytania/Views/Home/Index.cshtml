@@ -23,7 +23,7 @@
             {
                 <tr>
                     <td>@question.Content</td>
-                    <td>@question.CategoryId</td>
+                    <td>@question.CategoryName</td>
                     <td>@(!question.IsPublic)</td>
                     <td>
                         <a asp-action="@nameof(IHomeActions.GotoQuestionRead)" asp-route-id="@question.Id">Szczegóły</a> |
@@ -44,4 +44,4 @@
         Stwórz nowe pytanie
     </a>
 </div>
-
+<br />

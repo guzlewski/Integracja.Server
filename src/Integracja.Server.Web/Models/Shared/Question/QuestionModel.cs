@@ -18,6 +18,7 @@ namespace Integracja.Server.Web.Models.Shared.Question
         public int NegativePoints { get; set; }
         public QuestionScoring Scoring { get; set; }
         public int? CategoryId { get; set; }
+        public string CategoryName { get; set; }
         public int? Id { get; set; }
         public bool IsPublic { get; set; }
 

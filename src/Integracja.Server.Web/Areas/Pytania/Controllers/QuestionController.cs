@@ -6,6 +6,7 @@ using Integracja.Server.Web.Areas.Kategorie.Controllers;
 using Integracja.Server.Web.Areas.Pytania.Models.Question;
 using Integracja.Server.Web.Controllers;
 using Integracja.Server.Web.Models.Shared.Alert;
+using Integracja.Server.Web.Models.Shared.Category;
 using Integracja.Server.Web.Models.Shared.Enums;
 using Integracja.Server.Web.Models.Shared.Question;
 using Microsoft.AspNetCore.Identity;
@@ -59,6 +60,9 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
             Model.Alerts = GetAlerts();
 
             Model.Form.Question.CategoryId = categoryId;
+
+            var tmp = await CategoryService.Get<CategoryModel>(categoryId, UserId);
+            Model.Form.Question.CategoryName = tmp.Name;
 
             return View(QuestionViewName, Model);
         }
@@ -157,6 +161,11 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
         public async Task<IActionResult> GotoQuestionDelete(int questionId)
         {
             return RedirectToAction(nameof(IQuestionActions.QuestionDelete), new { questionId = questionId });
+        }
+
+        public async Task<IActionResult> GotoHome()
+        {
+            return RedirectToAction("Index", HomeController.Name);
         }
     }
 }
