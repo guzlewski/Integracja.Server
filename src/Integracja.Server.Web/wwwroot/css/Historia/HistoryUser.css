@@ -1,0 +1,36 @@
+﻿#correctAnswer {
+    color: green;
+    font-weight: bold;
+}
+
+#wrongAnswer {
+    color: red;
+    font-weight: bold;
+}
+
+.historia {
+    background: #fff;
+    border: 1px solid #F0F0F0;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+p {
+    font-size: 1.5em;
+}
+
+.title {
+    font-size: 3.3em;
+    color: #fed136;
+    width: 100%;
+    text-align: center;
+}
+
+#question {
+    font-size: 2em;
+}
+
+#pytanie {
+    border-top: 2px solid #F0F0F0 !important;
+    padding-top: 1.2em;
+    padding-bottom: 1em;
+}

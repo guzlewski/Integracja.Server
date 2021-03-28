@@ -20,7 +20,6 @@ namespace Integracja.Server.Web.Areas.Historia.Controllers
     [Area("Historia")]
     public class HomeController : ApplicationController
     {
-
         public HomeController(UserManager<User> userManager, ApplicationDbContext dbContext, IMapper mapper) : base(userManager, dbContext, mapper)
         {
         }
@@ -68,9 +67,9 @@ namespace Integracja.Server.Web.Areas.Historia.Controllers
             return SortedList;
         }
 
-        public async Task<IActionResult> HistoryUserReadView(int userId)
+        public async Task<IActionResult> HistoryUserReadView(int gameId, int userId)
         {
-            return RedirectToAction("Index", "HistoryUser", new { userId });
+            return RedirectToAction("Index", "HistoryUser", new { gameId, userId });
         }
 
         public async Task<IActionResult> HistoryQuestionReadView(int questionId)

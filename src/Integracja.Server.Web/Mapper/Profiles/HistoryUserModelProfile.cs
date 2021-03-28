@@ -15,6 +15,9 @@ namespace Integracja.Server.Web.Mapper.Profiles
         {
             CreateMap<Game, HistoryUserModel>()
               .ForMember(dest => dest.GameUsers, opt => opt.MapFrom(src => src.GameUsers));
+
+            CreateMap<GameUser, HistoryUserModel>()
+              .ForMember(dest => dest.UserAnswerPool, opt => opt.MapFrom(src => src.GameUserQuestionAnswers));
         }
     }
 }
