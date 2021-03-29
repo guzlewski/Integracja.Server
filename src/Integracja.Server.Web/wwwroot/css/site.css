@@ -105,14 +105,15 @@ a:active {
     LOGO
 ----------------------------------------------------- */
     #sidebar .sidebar-header {
-    text-align: center;
-    padding: 20px 50px;
-}
+        text-align: center;
+        padding: 20px 50px;
+    }
 
         #sidebar .sidebar-header #logo {
-            padding: 10px 0;
             background: #fed136;
             color: #3E3E3E;
+            border: 1px solid #e8af14;
+            box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
         }
 
 /* ---------------------------------------------------
@@ -252,15 +253,11 @@ a:active {
     }
 
     #sidebar .sidebar-header {
-        text-align: center;
-        padding: 10px 15px;
+        padding: 10px 10px;
     }
 
         #sidebar .sidebar-header #logo {
-            padding: 5px 5px;
-            background: #fed136;
-            color: #3E3E3E;
-            font-size: 15px;
+            padding: 0;
         }
 
     #sidebar {
