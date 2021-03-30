@@ -160,7 +160,21 @@ namespace Integracja.Server.Infrastructure.Repositories
 
             if (gameUserQuestionEntity.Game.Gamemode.TimeForOneQuestion != null && (now - gameUserQuestionEntity.QuestionDownloadTime.Value).TotalSeconds > gameUserQuestionEntity.Game.Gamemode.TimeForOneQuestion)
             {
-                gameUserQuestionEntity.GameUser.GameOver = true;
+                gameUserQuestionEntity.IsAnswered = true;
+                gameUserQuestionEntity.GameUser.AnsweredQuestions++;
+                gameUserQuestionEntity.GameUser.IncorrectlyAnsweredQuestions++;
+
+                if (gameUserQuestionEntity.Game.Gamemode.NumberOfLives != null && gameUserQuestionEntity.GameUser.IncorrectlyAnsweredQuestions > gameUserQuestionEntity.Game.Gamemode.NumberOfLives)
+                {
+                    gameUserQuestionEntity.GameUser.GameOver = true;
+                    gameUserQuestionEntity.GameUser.GameEndTime = now;
+                }
+
+                if (gameUserQuestionEntity.GameUser.AnsweredQuestions == gameUserQuestionEntity.Game.QuestionsCount)
+                {
+                    gameUserQuestionEntity.GameUser.GameEndTime = now;
+                }
+
                 await _dbContext.SaveChangesAsync();
 
                 throw new ConflictException(ErrorCode.QuestionTimeHasExpired);
