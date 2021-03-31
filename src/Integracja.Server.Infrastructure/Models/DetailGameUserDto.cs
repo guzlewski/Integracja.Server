@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Integracja.Server.Infrastructure.Models
 {
@@ -11,6 +12,7 @@ namespace Integracja.Server.Infrastructure.Models
         public int AnsweredQuestions { get; set; }
         public int CorrectlyAnsweredQuestions { get; set; }
         public int IncorrectlyAnsweredQuestions { get; set; }
-        public DetailGameDto Game { get; set; }
+        public IEnumerable<DetailGameUserQuestionDto> GameUserQuestions { get; set; }
+        public IEnumerable<GameUserScoreDto> PlayerScores { get; set; }
     }
 }

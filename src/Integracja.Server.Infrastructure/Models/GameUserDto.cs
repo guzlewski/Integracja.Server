@@ -2,7 +2,7 @@
 
 namespace Integracja.Server.Infrastructure.Models
 {
-    public class GameUserDto
+    public class GameUserDto<T>
     {
         public float? GameScore { get; set; }
         public DateTimeOffset? GameStartTime { get; set; }
@@ -11,6 +11,6 @@ namespace Integracja.Server.Infrastructure.Models
         public int AnsweredQuestions { get; set; }
         public int CorrectlyAnsweredQuestions { get; set; }
         public int IncorrectlyAnsweredQuestions { get; set; }
-        public GameDto Game { get; set; }
+        public T Game { get; set; }
     }
 }
