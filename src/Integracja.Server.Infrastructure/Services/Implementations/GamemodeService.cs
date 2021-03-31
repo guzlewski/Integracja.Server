@@ -51,7 +51,7 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
         public async Task<IEnumerable<T>> GetOwned<T>(int userId)
         {
             return await _gamemodeRepository.GetAll()
-                .Where(gm => gm.OwnerId == userId && 
+                .Where(gm => gm.OwnerId == userId &&
                     !gm.IsDeleted)
                 .ProjectTo<T>(_configuration)
                 .ToListAsync();
