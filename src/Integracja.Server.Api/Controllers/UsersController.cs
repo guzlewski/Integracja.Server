@@ -54,12 +54,12 @@ namespace Integracja.Server.Api.Controllers
         /// </summary>
         /// <response code="200">Successful operation</response>
         /// <response code="500">Internal server error</response>
-        [ProducesResponseType(typeof(IEnumerable<GameUserDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(IEnumerable<GameUserDto<GameDto>>), StatusCodes.Status200OK)]
         [Mobile]
         [HttpGet("[action]")]
-        public async Task<IEnumerable<GameUserDto>> Games()
+        public async Task<IEnumerable<GameUserDto<GameDto>>> Games()
         {
-            return await _gameUserService.GetActive<GameUserDto>(UserId.Value);
+            return await _gameUserService.GetActive<GameUserDto<GameDto>>(UserId.Value);
         }
 
         /// <summary>
@@ -68,11 +68,11 @@ namespace Integracja.Server.Api.Controllers
         /// <response code="200">Successful operation</response>
         /// <response code="500">Internal server error</response>
         [Mobile]
-        [ProducesResponseType(typeof(IEnumerable<GameUserDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(IEnumerable<GameUserDto<GameDto>>), StatusCodes.Status200OK)]
         [HttpGet("[action]")]
-        public async Task<IEnumerable<GameUserDto>> GamesArchived()
+        public async Task<IEnumerable<GameUserDto<GameDto>>> GamesArchived()
         {
-            return await _gameUserService.GetArchived<GameUserDto>(UserId.Value);
+            return await _gameUserService.GetArchived<GameUserDto<GameDto>>(UserId.Value);
         }
 
         /// <summary>
@@ -83,12 +83,12 @@ namespace Integracja.Server.Api.Controllers
         /// <response code="400">Invalid id supplied</response>
         /// <response code="500">Internal server error</response>
         [Mobile]
-        [ProducesResponseType(typeof(DetailGameUserDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(GameUserDto<DetailGameDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
         [HttpGet("[action]/{id}")]
-        public async Task<DetailGameUserDto> Games(int id)
+        public async Task<GameUserDto<DetailGameDto>> Games(int id)
         {
-            return await _gameUserService.Get<DetailGameUserDto>(id, UserId.Value);
+            return await _gameUserService.Get<GameUserDto<DetailGameDto>>(id, UserId.Value);
         }
 
         [ProducesResponseType(StatusCodes.Status201Created)]
