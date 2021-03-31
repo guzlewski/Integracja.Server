@@ -1,6 +1,4 @@
-﻿using Integracja.Server.Infrastructure.Enums;
-
-namespace Integracja.Server.Infrastructure.Models
+﻿namespace Integracja.Server.Infrastructure.Models
 {
     public class ApiError
     {

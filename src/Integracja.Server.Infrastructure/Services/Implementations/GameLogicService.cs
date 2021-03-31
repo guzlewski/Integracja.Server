@@ -7,7 +7,6 @@ using AutoMapper.QueryableExtensions;
 using Integracja.Server.Core.Enums;
 using Integracja.Server.Core.Repositories;
 using Integracja.Server.Infrastructure.Exceptions;
-using Integracja.Server.Infrastructure.Models;
 using Integracja.Server.Infrastructure.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -29,8 +28,9 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
         public async Task<T> GetHistory<T>(int gameId, int userId)
         {
             var dto = await _gameUserRepository.Get(gameId, userId)
-                .Where(gu => gu.Game.GameState == GameState.Normal && 
-                    gu.Game.EndTime <= DateTimeOffset.Now)
+                .Where(gu => gu.Game.GameState == GameState.Normal &&
+                    gu.Game.EndTime <= DateTimeOffset.Now && 
+                    gu.GameUserState == GameUserState.Active)
                 .ProjectTo<T>(_configuration)
                 .FirstOrDefaultAsync();
 
