@@ -170,5 +170,22 @@ namespace Integracja.Server.Api.Controllers
         {
             return await _gameQuestionService.SaveAnswers<GameUserQuestionDto<DetailAnswerDto>>(gameId, UserId.Value, questionId, answers);
         }
+
+        /// <summary>
+        /// Returns history of the game by id
+        /// </summary>
+        /// <param name="id">Id of the game</param>
+        /// <response code="200">Successful operation</response>
+        /// <response code="400">Invalid gameId supplied</response>
+        /// <response code="404">Game not found or is still in progress or has been cancelled</response>
+        /// <response code="500">Internal server error</response>
+        [Mobile]
+        [ProducesResponseType(typeof(DetailGameUserDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
+        [HttpGet("[action]/{id}")]
+        public async Task<DetailGameUserDto> History(int id)
+        {
+            return await _gameQuestionService.GetHistory<DetailGameUserDto>(id, UserId.Value);
+        }
     }
 }
