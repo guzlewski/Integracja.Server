@@ -50,8 +50,7 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
             }
 
             var userEntity = await _dbContext.Users
-                .FirstOrDefaultAsync(u => u.Id == userId &&
-                !u.IsDeleted);
+                .FirstOrDefaultAsync(u => u.Id == userId && !u.IsDeleted);
 
             if (userEntity == null)
             {
@@ -82,8 +81,7 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
         public async Task Delete(int userId)
         {
             var userEntity = await _dbContext.Users
-                .FirstOrDefaultAsync(u => u.Id == userId &&
-                !u.IsDeleted);
+                .FirstOrDefaultAsync(u => u.Id == userId && !u.IsDeleted);
 
             if (userEntity == null)
             {
