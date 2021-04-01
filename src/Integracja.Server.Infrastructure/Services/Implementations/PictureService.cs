@@ -29,7 +29,36 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
         private readonly string _contentType;
         private readonly IImageEncoder _imageEncoder;
 
-        public PictureService(IOptions<PictureSettings> options, ApplicationDbContext dbContext, IStorageService fileService)
+        public static readonly string[] ValidMimeTypes =
+        {
+            "image/bmp",
+            "image/x-windows-bmp",
+            "image/gif",
+            "image/jpeg",
+            "image/pjpeg",
+            "image/png",
+            "image/tga",
+            "image/x-tga",
+            "image/x-targa"
+       };
+
+        public static readonly string[] ValidFileExtensions =
+        {
+            ".bm",
+            ".bmp",
+            ".dip",
+            ".gif",
+            ".jpg",
+            ".jpeg",
+            ".jfif",
+            ".png",
+            ".tga",
+            ".vda",
+            ".icb",
+            ".vst",
+        };
+
+        public PictureService(ApplicationDbContext dbContext, IOptions<PictureSettings> options, IStorageService fileService)
         {
             _dbContext = dbContext;
             _fileService = fileService;
@@ -133,41 +162,12 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
 
         private static bool ValidateContentType(string contentType)
         {
-            var acceptedContentTypes = new string[]
-            {
-                "image/bmp",
-                "image/x-windows-bmp",
-                "image/gif",
-                "image/jpeg",
-                "image/pjpeg",
-                "image/png",
-                "image/tga",
-                "image/x-tga",
-                "image/x-targa"
-            };
-
-            return acceptedContentTypes.Contains(contentType.ToLower());
+            return ValidMimeTypes.Contains(contentType.ToLower());
         }
 
         private static bool ValidateExtension(string fileName)
         {
-            var acceptedExtensions = new string[]
-            {
-                ".bm",
-                ".bmp",
-                ".dip",
-                ".gif",
-                ".jpg",
-                ".jpeg",
-                ".jfif",
-                ".png",
-                ".tga",
-                ".vda",
-                ".icb",
-                ".vst",
-            };
-
-            return acceptedExtensions.Contains(Path.GetExtension(fileName).ToLower());
+            return ValidFileExtensions.Contains(Path.GetExtension(fileName).ToLower());
         }
     }
 }
