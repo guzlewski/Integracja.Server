@@ -44,7 +44,7 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
                 throw new PayloadTooLargeException();
             }
 
-            if (!ValidateContentType(formFile.ContentType) || ValidateExtension(formFile.Name))
+            if (!ValidateContentType(formFile.ContentType) || !ValidateExtension(formFile.FileName))
             {
                 throw new UnsupportedMediaTypeException();
             }
