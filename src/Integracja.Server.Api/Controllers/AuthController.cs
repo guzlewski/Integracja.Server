@@ -23,7 +23,7 @@ namespace Integracja.Server.Api.Controllers
         /// <summary>
         /// Logs user into the system
         /// </summary>
-        /// <param name="dto">gdfgdf</param>
+        /// <param name="dto"></param>
         /// <response code="200">Successful operation</response>
         /// <response code="400">Invalid body supplied</response>
         /// <response code="401">Invalid username or password supplied</response>
