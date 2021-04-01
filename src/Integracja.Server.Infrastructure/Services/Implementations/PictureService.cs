@@ -94,9 +94,9 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
                 Resize(picture, formFile, _settings.PictureWidth, _settings.PictureHeight);
                 Resize(thumbnail, formFile, _settings.ThumbnailWidth, _settings.ThumbnailHeight);
             }
-            catch
+            catch (Exception ex)
             {
-                throw new BadRequestException("Invalid file.");
+                throw new UnprocessableEntityException(innerException: ex);
             }
 
             userEntity.ProfilePicture = (await _fileService.AddOrUpdate(picture, _contentType, GetFileName(ImageType.ProfilePicture, userId))).AbsoluteUri;
