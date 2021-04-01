@@ -136,6 +136,7 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
             using var input = formFile.OpenReadStream();
             using var image = Image.Load(input);
 
+            image.Metadata.ExifProfile = null;
             image.Mutate(x => x.Resize(width, height));
             image.Save(output, _imageEncoder);
 
