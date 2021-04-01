@@ -54,7 +54,7 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
 
             if (userEntity == null)
             {
-                throw new NotFoundException();
+                throw new UnauthorizedException();
             }
 
             using var picture = new MemoryStream();
@@ -85,7 +85,7 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
 
             if (userEntity == null)
             {
-                throw new NotFoundException();
+                throw new UnauthorizedException();
             }
 
             if (userEntity.ProfilePicture == null || userEntity.ProfileThumbnail == null)
