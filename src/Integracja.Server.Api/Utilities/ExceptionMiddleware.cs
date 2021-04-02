@@ -35,7 +35,7 @@ namespace Integracja.Server.Api.Utilities
                 };
 
                 await WriteResponse(apiError, dae, httpContext);
-                _logger.LogWarning(dae, $"{nameof(DetailedApiException)}{Environment.NewLine}StatusCode: {dae.StatusCode}{Environment.NewLine}ErrorCode: {(int)dae.ErrorCode} {dae.ErrorCode}");
+                _logger.LogInformation(dae, $"{nameof(DetailedApiException)}{Environment.NewLine}StatusCode: {dae.StatusCode}{Environment.NewLine}ErrorCode: {(int)dae.ErrorCode} {dae.ErrorCode}");
             }
             catch (ApiException ae)
             {
@@ -46,7 +46,7 @@ namespace Integracja.Server.Api.Utilities
                 };
 
                 await WriteResponse(response, ae, httpContext);
-                _logger.LogWarning(ae, $"{nameof(ApiException)}{Environment.NewLine}StatusCode: {ae.StatusCode}");
+                _logger.LogInformation(ae, $"{nameof(ApiException)}{Environment.NewLine}StatusCode: {ae.StatusCode}");
             }
         }
 
