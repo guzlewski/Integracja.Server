@@ -91,22 +91,58 @@ namespace Integracja.Server.Api.Controllers
             return await _gameUserService.Get<GameUserDto<DetailGameDto>>(id, UserId.Value);
         }
 
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status413PayloadTooLarge)]
-        [ProducesResponseType(StatusCodes.Status415UnsupportedMediaType)]
+        /// <summary>
+        /// Updates user's profile picture and profile thumbnail, returns url to updated picture
+        /// </summary>
+        /// <param name="formFile"></param>
+        /// <response code="201">Successful operation</response>
+        /// <response code="400">No picture supplied</response>
+        /// <response code="413">Picture too large</response>
+        /// <response code="415">Unsupported media type
+        /// <para>Supported MIME types:</para>
+        /// <para>image/bmp</para>
+        /// <para>image/x-windows-bmp</para>
+        /// <para>image/gif</para>
+        /// <para>image/jpeg</para>
+        /// <para>image/pjpeg</para>
+        /// <para>image/png</para>
+        /// <para>image/tga</para>
+        /// <para>image/x-tga</para>
+        /// <para>image/x-targa</para>
+        /// <para>Supported file extensions:</para>
+        /// <para>.bm</para>
+        /// <para>.bmp</para>
+        /// <para>.dip</para>
+        /// <para>.gif</para>
+        /// <para>.jpg</para>
+        /// <para>.jpeg</para>
+        /// <para>.jfif</para>
+        /// <para>.png</para>
+        /// <para>.tga</para>
+        /// <para>.vda</para>
+        /// <para>.icb</para>
+        /// <para>.vst</para>
+        /// </response>
+        /// <response code="422">Invalid picture supplied</response>
+        /// <response code="500">Internal server error</response>
+        [Mobile]
+        [ProducesResponseType(typeof(ValidationProblemDetails),StatusCodes.Status400BadRequest)]
         [HttpPost("[action]")]
-        public async Task<IActionResult> UploadPicture([Required] IFormFile profilePicture)
+        public async Task<IActionResult> ProfilePicture([Required] IFormFile formFile)
         {
-            var uri = await _pictureService.Save(profilePicture, UserId.Value);
+            var uri = await _pictureService.Save(formFile, UserId.Value);
             return Created(uri, null);
         }
 
+        /// <summary>
+        /// Deletes user's profile picture and profile thumbnail
+        /// </summary>
+        /// <response code="204">Successful operation</response>
+        /// <response code="500">Internal server error</response>
+        [Mobile]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [HttpGet("[action]")]
-        public async Task<IActionResult> DeletePicture()
+        [HttpDelete("[action]")]
+        public async Task<IActionResult> ProfilePicture()
         {
             await _pictureService.Delete(UserId.Value);
             return NoContent();
