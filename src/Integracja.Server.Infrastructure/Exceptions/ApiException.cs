@@ -10,5 +10,10 @@ namespace Integracja.Server.Infrastructure.Exceptions
         {
             StatusCode = code;
         }
+
+        public ApiException(int code, string message, Exception innerException) : base(message, innerException)
+        {
+            StatusCode = code;
+        }
     }
 }

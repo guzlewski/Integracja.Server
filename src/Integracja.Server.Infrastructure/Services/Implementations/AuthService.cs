@@ -51,11 +51,13 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
             var user = await _context.Users
                 .FirstOrDefaultAsync(u => u.Id == userId && !u.IsDeleted);
 
-            if (user != null)
+            if (user == null)
             {
-                user.SessionGuid = null;
-                await _context.SaveChangesAsync();
+                throw new UnauthorizedException();
             }
+
+            user.SessionGuid = null;
+            await _context.SaveChangesAsync();
         }
     }
 }
