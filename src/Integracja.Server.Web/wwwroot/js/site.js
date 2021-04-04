@@ -1,4 +1,35 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+﻿$('#sidebarCollapse').on('click touchstart touchend', function () {
+    $('#sidebar, .content').toggleClass('active');
+});
 
-// Write your JavaScript code.
+saveForm = function (formId, url, callback) {
+    return $.ajax({
+        type: "POST",
+        url: url,
+        data: $("#" + formId).serialize(),
+        success: callback
+    });
+}
+
+submitForm = function (formId) {
+    $("#" + formId).submit();
+}
+
+saveFormThenSubmitForm = function (formToSaveId, saveUrl, formToSubmitId) {
+    saveForm(formToSaveId, saveUrl, submitForm(formToSubmitId));
+}
+
+saveFormThenSubmitForm2 = function () {
+    var formToSaveId = this.dataset.saveForm;
+    var saveUrl = this.dataset.saveUrl;
+    var formToSubmitId = this.dataset.submitForm;
+    saveForm(formToSaveId, saveUrl, submitForm(formToSubmitId));
+}
+
+disableFormInputs = function (formId) {
+    $("#" + formId + " :input").attr("disabled", true);
+}
+
+emptyFunction = function () {
+
+}

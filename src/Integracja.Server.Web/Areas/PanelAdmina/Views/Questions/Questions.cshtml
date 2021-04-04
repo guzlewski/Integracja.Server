@@ -1,0 +1,47 @@
+﻿@using Integracja.Server.Web.Areas.PanelAdmina.Models.Questions
+@using Integracja.Server.Web.Models.Shared.Question
+@using static Integracja.Server.Web.Areas.PanelAdmina.Models.Questions.QuestionsViewModel
+@using static Integracja.Server.Web.Areas.PanelAdmina.Models.Questions.IQuestionsActions
+@model QuestionsViewModel
+
+@{ await Html.RenderPartialAsync("~/Views/Shared/Question/_QuestionAlert.cshtml", Model.Alert);}
+
+<h2>Pytania</h2>
+<br />
+
+<div class="table-wrapper-scroll-y scrollbar-secondary">
+    <table class="table table-bordered table-striped table-sm ">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">ID właściciela</th>
+                <th scope="col">Nazwa właściciela</th>
+                <th scope="col">ID kategorii</th>
+                <th scope="col">Publiczna</th>
+                <th scope="col">Akcje</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var question in Model.Questions)
+            {
+                <tr>
+                    <td>@question.Id</td>
+                    <td>@question.OwnerId</td>
+                    <td>Owner username placeholder</td>
+                    <td>@question.CategoryId</td>
+                    <td>@question.IsPublic</td>
+                    <td>
+                        <a asp-action="@NameOfGotoQuestionRead" asp-route-id="@question.Id">Podgląd</a> |
+                        <a asp-action="@NameOfGotoQuestionUpdate" asp-route-id="@question.Id">Edycja</a> |
+                        <a asp-action="@NameOfGotoQuestionDelete" asp-route-id="@question.Id">Usuń</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div>
+    <a asp-action="@NameOfGotoQuestionCreate">Stwórz pytanie</a>
+</div>
+

@@ -3,69 +3,62 @@
 @{
     ViewData["Title"] = "Register";
 }
-
-<h1>@ViewData["Title"]</h1>
-
-<div class="row">
-    <div class="col-md-4">
-        <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
-            <h4>Create a new account.</h4>
-            <hr />
-            <div asp-validation-summary="All" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Input.Username"></label>
-                <input asp-for="Input.Username" class="form-control" />
-                <span asp-validation-for="Input.Username" class="text-danger"></span>
-            </div>  
-            <div class="form-group">
-                <label asp-for="Input.Email"></label>
-                <input asp-for="Input.Email" class="form-control" />
-                <span asp-validation-for="Input.Email" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Input.Password"></label>
-                <input asp-for="Input.Password" class="form-control" />
-                <span asp-validation-for="Input.Password" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Input.ConfirmPassword"></label>
-                <input asp-for="Input.ConfirmPassword" class="form-control" />
-                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
-            </div>
-            <button type="submit" class="btn btn-primary">Register</button>
-        </form>
-    </div>
-    <div class="col-md-6 col-md-offset-2">
-        <section>
-            <h4>Use another service to register.</h4>
-            <hr />
-            @{
-                if ((Model.ExternalLogins?.Count ?? 0) == 0)
-                {
-                    <div>
-                        <p>
-                            There are no external authentication services configured. See <a href="https://go.microsoft.com/fwlink/?LinkID=532715">this article</a>
-                            for details on setting up this ASP.NET application to support logging in via external services.
-                        </p>
+<div class="picture h-100">
+    <div class="container h-100">
+        <div class="d-flex flex-column justify-content-center h-100">
+            <div class="logo">inte<span id="integration">GRA</span>cja</div>
+            <div class="login d-flex flex-row justify-content-center">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-center mt-2">
+                        <h2>Rejestracja</h2>
                     </div>
-                }
-                else
-                {
-                    <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
-                        <div>
-                            <p>
-                                @foreach (var provider in Model.ExternalLogins)
-                                {
-                                    <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
-                                }
-                            </p>
+                    <div class="card-body">
+                        <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
+                            <div asp-validation-summary="All" class="text-danger"></div>
+                            <div class="input-group form-group data">
+                                <div class="input-group-prepend input-icon">
+                                    <span class="input-group-text "><i class="fas fa-user"></i></span>
+                                </div>
+                                <input asp-for="Input.Username" class="form-control" placeholder="nazwa użytkownika">
+
+                            </div>
+                            <div class="input-group form-group data">
+                                <div class="input-group-prepend input-icon">
+                                    <span class="input-group-text "><i class="fas fa-envelope"></i></span>
+                                </div>
+                                <input asp-for="Input.Email" class="form-control" placeholder="adres e-mail">
+
+                            </div>
+                            <div class="input-group form-group data">
+                                <div class="input-group-prepend input-icon">
+                                    <span class="input-group-text"><i class="fas fa-key"></i></span>
+                                </div>
+                                <input asp-for="Input.Password" class="form-control" placeholder="hasło">
+                            </div>
+                            <div class="input-group form-group data">
+                                <div class="input-group-prepend input-icon">
+                                    <span class="input-group-text"><i class="fas fa-key"></i></span>
+                                </div>
+                                <input asp-for="Input.ConfirmPassword" class="form-control" placeholder="powtórz hasło">
+                            </div>
+                            <div class="form-group d-flex justify-content-center mt-5 mb-4 button">
+                                <input type="submit" value="Zarejestruj się" class="btn btn-primary float-right log_in">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="card-footer">
+                        <div class="d-flex justify-content-center links">
+                            <a asp-page="./Login" asp-route-returnUrl="@Model.ReturnUrl">Wróć do strony logowania</a>
                         </div>
-                    </form>
-                }
-            }
-        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
+
+<link href="~/css/login_and_register.css" rel="stylesheet" asp-append-version="true">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
