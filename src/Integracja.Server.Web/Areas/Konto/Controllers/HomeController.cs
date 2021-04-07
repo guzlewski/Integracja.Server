@@ -37,7 +37,7 @@ namespace Integracja.Server.Web.Areas.Konto.Controllers
         }
         
         protected IPictureService PictureService { get =>
-        new PictureService(_options, DbContext, _fileService); }
+        new PictureService(DbContext, _options, _fileService); }
 
         [HttpGet]
         public IActionResult Index()
