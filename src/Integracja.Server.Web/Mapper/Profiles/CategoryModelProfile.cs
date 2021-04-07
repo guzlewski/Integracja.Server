@@ -22,6 +22,6 @@ namespace Integracja.Server.Web.Mapper.Profiles
             CreateMap<Category, CategoryModel>();
             CreateMap<CategoryModel, Category>();
         }
- 
+
     }
 }

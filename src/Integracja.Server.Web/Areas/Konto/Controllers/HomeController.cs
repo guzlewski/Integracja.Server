@@ -1,8 +1,8 @@
-﻿using AutoMapper;
+﻿using System.Threading.Tasks;
+using AutoMapper;
 using Integracja.Server.Core.Models.Identity;
 using Integracja.Server.Infrastructure.Data;
 using Integracja.Server.Infrastructure.Exceptions;
-using Integracja.Server.Infrastructure.Services.Implementations;
 using Integracja.Server.Infrastructure.Services.Interfaces;
 using Integracja.Server.Infrastructure.Settings;
 using Integracja.Server.Web.Areas.Konto.Models;
@@ -11,10 +11,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using System;
-using System.ComponentModel.DataAnnotations;
-using System.IO;
-using System.Threading.Tasks;
 
 namespace Integracja.Server.Web.Areas.Konto.Controllers
 {
@@ -55,7 +51,7 @@ namespace Integracja.Server.Web.Areas.Konto.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> UploadPicture( IFormFile file)
+        public async Task<IActionResult> UploadPicture(IFormFile file)
         {
             if (file != null)
             {
@@ -79,7 +75,7 @@ namespace Integracja.Server.Web.Areas.Konto.Controllers
             else
             {
                 ModelState.AddModelError(nameof(file), "Nie wysłano żadnego pliku");
-            }    
+            }
 
             return View("Index", Model);
         }

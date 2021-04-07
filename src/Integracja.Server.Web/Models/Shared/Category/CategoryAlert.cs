@@ -1,5 +1,4 @@
 ﻿using Integracja.Server.Web.Models.Shared.Alert;
-using static Integracja.Server.Web.Models.Shared.Alert.AlertType;
 namespace Integracja.Server.Web.Models.Shared.Category
 {
     public class CategoryAlert : AlertModel

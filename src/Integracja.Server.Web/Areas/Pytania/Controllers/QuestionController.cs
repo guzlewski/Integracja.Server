@@ -1,4 +1,6 @@
-﻿using AutoMapper;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using AutoMapper;
 using Integracja.Server.Core.Models.Identity;
 using Integracja.Server.Infrastructure.Data;
 using Integracja.Server.Infrastructure.Models;
@@ -11,8 +13,6 @@ using Integracja.Server.Web.Models.Shared.Enums;
 using Integracja.Server.Web.Models.Shared.Question;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Integracja.Server.Web.Areas.Pytania.Controllers
 {
@@ -31,7 +31,7 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
             return IndexResult("Index", "Home");
         }
 
-        protected IActionResult IndexResult( string redirectActionName, string redirectControllerName )
+        protected IActionResult IndexResult(string redirectActionName, string redirectControllerName)
         {
             var alert = GetAlerts();
             var question = TryRetrieveFromTempData<QuestionModel>();
@@ -68,11 +68,11 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
         }
         public async Task<IActionResult> QuestionCreate(QuestionModel question)
         {
-            int questionId = await QuestionService.Add( Mapper.Map<CreateQuestionDto>(question), UserId);
+            int questionId = await QuestionService.Add(Mapper.Map<CreateQuestionDto>(question), UserId);
 
             List<AlertModel> alerts = new List<AlertModel>();
             alerts.Add(QuestionAlert.CreateSuccess());
-            
+
 
 
             // jeśli weszło z edycji to cofamy do głównego panelu 
@@ -88,7 +88,7 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
                 SetAlerts(alerts);
                 return RedirectToAction(nameof(IQuestionActions.QuestionCreateViewStep2), new { categoryId = question.CategoryId });
             }
-                
+
         }
         public async Task<IActionResult> QuestionReadView(int questionId)
         {
@@ -98,7 +98,7 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
         }
         public async Task<IActionResult> QuestionUpdate(QuestionModel question)
         {
-            int questionId = await QuestionService.Update( question.Id.Value, Mapper.Map<EditQuestionDto>(question), UserId );
+            int questionId = await QuestionService.Update(question.Id.Value, Mapper.Map<EditQuestionDto>(question), UserId);
 
             SetAlert(QuestionAlert.UpdateSuccess());
 
@@ -112,13 +112,13 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
             {
                 Model.Form.Question = await QuestionService.Get<QuestionModel>(questionId.Value, UserId);
             }
-                
+
             Model.Form.ViewMode = ViewMode.Updating;
             return View(QuestionViewName, Model);
         }
         public virtual async Task<IActionResult> QuestionDelete(int? questionId)
         {
-            return await QuestionDeleteResult( questionId, "Index", HomeController.Name);
+            return await QuestionDeleteResult(questionId, "Index", HomeController.Name);
         }
 
         protected async Task<IActionResult> QuestionDeleteResult(int? questionId, string redirectActionName, string redirectControllerName)
@@ -130,7 +130,7 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
 
             return RedirectToAction(redirectActionName, redirectControllerName);
         }
-        
+
         public async Task<IActionResult> AddAnswerField(QuestionModel question)
         {
             question.AddAnswer();

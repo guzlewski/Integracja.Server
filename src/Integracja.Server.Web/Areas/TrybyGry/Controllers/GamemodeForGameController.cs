@@ -1,4 +1,6 @@
-﻿using AutoMapper;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using AutoMapper;
 using Integracja.Server.Core.Models.Identity;
 using Integracja.Server.Infrastructure.Data;
 using Integracja.Server.Infrastructure.Models;
@@ -6,14 +8,11 @@ using Integracja.Server.Web.Areas.Gry.Controllers;
 using Integracja.Server.Web.Areas.TrybyGry.Models.GamemodeForGame;
 using Integracja.Server.Web.Areas.TrybyGry.Models.Shared;
 using Integracja.Server.Web.Controllers;
-using Integracja.Server.Web.Mapper;
 using Integracja.Server.Web.Models.Shared.Alert;
 using Integracja.Server.Web.Models.Shared.Enums;
 using Integracja.Server.Web.Models.Shared.Gamemode;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Integracja.Server.Web.Areas.TrybyGry.Controllers
 {
@@ -44,7 +43,7 @@ namespace Integracja.Server.Web.Areas.TrybyGry.Controllers
 
         public async Task<IActionResult> GamemodeUpdate(GamemodeModel gamemode)
         {
-            int gamemodeId = await GamemodeService.Update( gamemode.Id, Mapper.Map<EditGamemodeDto>(gamemode), UserId);
+            int gamemodeId = await GamemodeService.Update(gamemode.Id, Mapper.Map<EditGamemodeDto>(gamemode), UserId);
             return RedirectToAction("Index", new { id = gamemodeId });
         }
         public async Task<IActionResult> GamemodeRead(int? id)

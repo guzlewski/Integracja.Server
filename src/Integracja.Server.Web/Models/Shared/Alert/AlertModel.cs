@@ -2,7 +2,7 @@
 namespace Integracja.Server.Web.Models.Shared.Alert
 {
     public class AlertModel
-    { 
+    {
         public AlertType Type { get; set; }
         public string Message { get; set; }
         public AlertModel(AlertType type, string message) => (Type, Message) = (type, message);

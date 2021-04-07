@@ -61,7 +61,7 @@ namespace Integracja.Server.Web
             services.AddAutoMapper(new[] {
                 typeof(ApplicationDbContext),
                 typeof(Controllers.ApplicationController) });
-            }
+        }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {

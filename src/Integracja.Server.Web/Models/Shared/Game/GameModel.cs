@@ -1,9 +1,6 @@
-﻿using Integracja.Server.Core.Enums;
-using Integracja.Server.Infrastructure.Models;
-using Integracja.Server.Web.Mapper;
+﻿using System.Collections.Generic;
+using Integracja.Server.Core.Enums;
 using Integracja.Server.Web.Models.Shared.Question;
-using System;
-using System.Collections.Generic;
 
 namespace Integracja.Server.Web.Models.Shared.Game
 {

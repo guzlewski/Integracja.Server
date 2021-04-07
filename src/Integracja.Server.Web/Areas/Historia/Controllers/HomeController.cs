@@ -1,7 +1,8 @@
-﻿using AutoMapper;
-using Integracja.Server.Core.Models.Base;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using AutoMapper;
 using Integracja.Server.Core.Models.Identity;
-using Integracja.Server.Core.Models.Joins;
 using Integracja.Server.Infrastructure.Data;
 using Integracja.Server.Web.Areas.Historia.Models;
 using Integracja.Server.Web.Controllers;
@@ -9,11 +10,6 @@ using Integracja.Server.Web.Models.Shared.Game;
 using Integracja.Server.Web.Models.Shared.History;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Routing;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Integracja.Server.Web.Areas.Historia.Controllers
 {

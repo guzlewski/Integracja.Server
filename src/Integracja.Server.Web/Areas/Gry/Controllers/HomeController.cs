@@ -1,4 +1,6 @@
-﻿using AutoMapper;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using AutoMapper;
 using Integracja.Server.Core.Models.Identity;
 using Integracja.Server.Infrastructure.Data;
 using Integracja.Server.Infrastructure.Models;
@@ -6,12 +8,9 @@ using Integracja.Server.Web.Areas.Gry.Models.Game;
 using Integracja.Server.Web.Areas.Gry.Models.Home;
 using Integracja.Server.Web.Areas.TrybyGry.Controllers;
 using Integracja.Server.Web.Controllers;
-using Integracja.Server.Web.Mapper;
 using Integracja.Server.Web.Models.Shared.Game;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Integracja.Server.Web.Areas.Gry.Controllers
 {
@@ -23,7 +22,7 @@ namespace Integracja.Server.Web.Areas.Gry.Controllers
         public HomeController(UserManager<User> userManager, ApplicationDbContext dbContext, IMapper mapper) : base(userManager, dbContext, mapper)
         {
         }
-        
+
         public async Task<IActionResult> Index()
         {
             HomeViewModel model = new HomeViewModel();
@@ -35,7 +34,7 @@ namespace Integracja.Server.Web.Areas.Gry.Controllers
 
         public async Task<IActionResult> GotoGameCreate()
         {
-            return RedirectToAction("Index", GamemodeForGameController.Name, new { area = "TrybyGry" } );
+            return RedirectToAction("Index", GamemodeForGameController.Name, new { area = "TrybyGry" });
         }
 
         public async Task<IActionResult> GotoGameDelete(int gameId)

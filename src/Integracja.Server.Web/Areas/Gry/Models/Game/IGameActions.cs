@@ -1,7 +1,6 @@
-﻿using Integracja.Server.Web.Areas.Gry.Models.Shared;
-using Integracja.Server.Web.Models.Shared.Game;
+﻿using System.Threading.Tasks;
+using Integracja.Server.Web.Areas.Gry.Models.Shared;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
 
 namespace Integracja.Server.Web.Areas.Gry.Models.Game
 {
@@ -11,6 +10,6 @@ namespace Integracja.Server.Web.Areas.Gry.Models.Game
         Task<IActionResult> QuestionPoolCreateView();
         Task<IActionResult> GameCreate();
         Task<IActionResult> GameRead(int gameId);
-        Task<IActionResult> GameDelete( int gameId );
+        Task<IActionResult> GameDelete(int gameId);
     }
 }

@@ -1,8 +1,8 @@
-﻿using Integracja.Server.Web.Areas.Pytania.Models.Shared;
+﻿using System.Collections.Generic;
+using Integracja.Server.Web.Areas.Pytania.Models.Shared;
 using Integracja.Server.Web.Models.Shared.Alert;
 using Integracja.Server.Web.Models.Shared.Enums;
 using Integracja.Server.Web.Models.Shared.Question;
-using System.Collections.Generic;
 
 namespace Integracja.Server.Web.Areas.Pytania.Models.Question
 {
@@ -16,7 +16,7 @@ namespace Integracja.Server.Web.Areas.Pytania.Models.Question
         {
         }
 
-        public QuestionViewModel( QuestionModel question, List<AlertModel> alerts )
+        public QuestionViewModel(QuestionModel question, List<AlertModel> alerts)
         {
             Form = new QuestionFormViewModel(question);
             Alerts = alerts;

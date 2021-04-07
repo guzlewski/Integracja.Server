@@ -29,7 +29,7 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
         {
             var dto = await _gameUserRepository.Get(gameId, userId)
                 .Where(gu => gu.Game.GameState == GameState.Normal &&
-                    gu.Game.EndTime <= DateTimeOffset.Now && 
+                    gu.Game.EndTime <= DateTimeOffset.Now &&
                     gu.GameUserState == GameUserState.Active)
                 .ProjectTo<T>(_configuration)
                 .FirstOrDefaultAsync();

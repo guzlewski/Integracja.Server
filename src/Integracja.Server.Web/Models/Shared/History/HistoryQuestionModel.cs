@@ -1,8 +1,5 @@
-﻿using Integracja.Server.Web.Models.Shared.Question;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using Integracja.Server.Web.Models.Shared.Question;
 
 namespace Integracja.Server.Web.Models.Shared.History
 {

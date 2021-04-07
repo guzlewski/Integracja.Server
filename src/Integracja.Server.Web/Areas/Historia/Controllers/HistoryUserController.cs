@@ -1,17 +1,13 @@
-﻿using AutoMapper;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using AutoMapper;
 using Integracja.Server.Core.Models.Identity;
 using Integracja.Server.Infrastructure.Data;
-using Integracja.Server.Infrastructure.Services.Implementations;
 using Integracja.Server.Web.Areas.Historia.Models;
 using Integracja.Server.Web.Controllers;
-using Integracja.Server.Web.Models.Shared.Game;
 using Integracja.Server.Web.Models.Shared.History;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Integracja.Server.Web.Areas.Historia.Controllers
 {
@@ -31,11 +27,11 @@ namespace Integracja.Server.Web.Areas.Historia.Controllers
 
             HistoryQuestionModel historyQuestions = await GameService.Get<HistoryQuestionModel>(gameId, UserId);
             HistoryUserModel historyUser = await GameUserService.Get<HistoryUserModel>(gameId, userId);
-            
+
             List<HistoryUserInfo> HistoryGameUserInfo = new List<HistoryUserInfo>();
 
             int points = 0;
-            for(int i = 0; i < historyQuestions.QuestionPool.Count; i++)
+            for (int i = 0; i < historyQuestions.QuestionPool.Count; i++)
             {
                 List<string> answers = new List<string>();
                 int correctAnswer = 0, userAnswer = 0;
@@ -44,10 +40,10 @@ namespace Integracja.Server.Web.Areas.Historia.Controllers
                     answers.Add(historyQuestions.QuestionPool[i].Answers[j].Content);
                     if (historyQuestions.QuestionPool[i].Answers[j].IsCorrect)
                         correctAnswer = j;
-                    foreach(var k in historyUser.UserAnswerPool)
+                    foreach (var k in historyUser.UserAnswerPool)
                     {
-                        if(historyQuestions.QuestionPool[i].Id == k.UserQuestionId)
-                            if(historyQuestions.QuestionPool[i].Answers[j].Id == k.UserAnswerId)
+                        if (historyQuestions.QuestionPool[i].Id == k.UserQuestionId)
+                            if (historyQuestions.QuestionPool[i].Answers[j].Id == k.UserAnswerId)
                                 userAnswer = j;
                     }
                 }

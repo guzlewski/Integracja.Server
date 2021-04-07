@@ -1,5 +1,5 @@
-﻿using Integracja.Server.Web.Models.Shared.Question;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Integracja.Server.Web.Models.Shared.Question;
 
 namespace Integracja.Server.Web.Areas.Gry.Models.Shared
 {

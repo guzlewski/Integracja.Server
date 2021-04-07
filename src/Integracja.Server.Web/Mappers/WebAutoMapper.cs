@@ -23,7 +23,7 @@ namespace Integracja.Server.Web.Mappers
 
 
                 cfg.CreateMap<QuestionModel, CreateQuestionDto>()
-                .ForMember( dest => dest.QuestionScoring, opt => opt.MapFrom( src => src.Scoring ) );
+                .ForMember(dest => dest.QuestionScoring, opt => opt.MapFrom(src => src.Scoring));
                 cfg.CreateMap<QuestionModel, EditQuestionDto>()
                 .ForMember(dest => dest.QuestionScoring, opt => opt.MapFrom(src => src.Scoring));
                 cfg.CreateMap<DetailQuestionDto<DetailAnswerDto>, QuestionModel>();
@@ -33,7 +33,7 @@ namespace Integracja.Server.Web.Mappers
                 cfg.CreateMap<CategoryModel, EditCategoryDto>();
                 cfg.CreateMap<CategoryDto, CategoryModel>();
                 cfg.CreateMap<DetailCategoryDto, CategoryModel>();
-                
+
             })
             .CreateMapper();
         }

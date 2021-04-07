@@ -1,6 +1,6 @@
-﻿using Integracja.Server.Web.Areas.TrybyGry.Models.Shared;
+﻿using System.Threading.Tasks;
+using Integracja.Server.Web.Areas.TrybyGry.Models.Shared;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
 
 namespace Integracja.Server.Web.Areas.TrybyGry.Models.GamemodeForGame
 {

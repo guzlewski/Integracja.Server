@@ -1,9 +1,8 @@
-﻿using Integracja.Server.Core.Enums;
-using Integracja.Server.Infrastructure.Models;
-using Integracja.Server.Web.Models.Shared.Answer;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Integracja.Server.Core.Enums;
+using Integracja.Server.Web.Models.Shared.Answer;
 
 namespace Integracja.Server.Web.Models.Shared.Question
 {
@@ -52,7 +51,7 @@ namespace Integracja.Server.Web.Models.Shared.Question
 
         public override bool Equals(object obj)
         {
-            return this.Equals( obj as QuestionModel );
+            return this.Equals(obj as QuestionModel);
         }
 
         public bool Equals(QuestionModel obj)

@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.ComponentModel.DataAnnotations;
 
 namespace Integracja.Server.Web.Areas.Konto.Models
 {

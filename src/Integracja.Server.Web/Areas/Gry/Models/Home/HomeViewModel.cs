@@ -1,6 +1,6 @@
-﻿using Integracja.Server.Web.Models.Shared.Alert;
+﻿using System.Collections.Generic;
+using Integracja.Server.Web.Models.Shared.Alert;
 using Integracja.Server.Web.Models.Shared.Game;
-using System.Collections.Generic;
 
 namespace Integracja.Server.Web.Areas.Gry.Models.Home
 {

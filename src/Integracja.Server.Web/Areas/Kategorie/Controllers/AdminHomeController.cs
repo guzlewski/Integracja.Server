@@ -1,4 +1,6 @@
-﻿using AutoMapper;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using AutoMapper;
 using Integracja.Server.Core.Models.Identity;
 using Integracja.Server.Infrastructure.Data;
 using Integracja.Server.Infrastructure.Models;
@@ -7,8 +9,6 @@ using Integracja.Server.Web.Controllers;
 using Integracja.Server.Web.Models.Shared.Category;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Integracja.Server.Web.Areas.Kategorie.Controllers
 {
@@ -34,7 +34,7 @@ namespace Integracja.Server.Web.Areas.Kategorie.Controllers
                 Model.CategoryFormModel.Category = category;
                 Model.CategoryFormModel.ViewMode = Web.Models.Shared.Enums.ViewMode.Updating;
             }
-            
+
             return View("AdminHome", Model);
         }
 
