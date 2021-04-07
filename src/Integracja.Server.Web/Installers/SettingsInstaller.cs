@@ -1,4 +1,5 @@
 ﻿using Integracja.Server.Infrastructure.Settings;
+using Integracja.Server.Web.Settings;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -11,6 +12,8 @@ namespace Integracja.Server.Web.Installers
             services.Configure<BlobStorageSettings>(configuration.GetSection("BlobStorage"));
 
             services.Configure<PictureSettings>(configuration.GetSection("Picture"));
+
+            services.Configure<DefaultSettings>(configuration.GetSection("Default"));
         }
     }
 }
