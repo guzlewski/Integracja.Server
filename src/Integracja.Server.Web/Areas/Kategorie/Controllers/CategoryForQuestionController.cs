@@ -39,9 +39,9 @@ namespace Integracja.Server.Web.Areas.Kategorie.Controllers
             return View("CategoryForQuestion", Model);
         }
 
-        public async Task<IActionResult> CategoryRead(int? id)
+        public Task<IActionResult> CategoryRead(int? id)
         {
-            return RedirectToAction("Index", new { id = id });
+            return Task.FromResult<IActionResult>(RedirectToAction("Index", new { id = id }));
         }
 
         public async Task<IActionResult> CategoryCreate(CategoryModel category)
@@ -50,14 +50,14 @@ namespace Integracja.Server.Web.Areas.Kategorie.Controllers
             return RedirectToAction("Index", new { id = categoryId });
         }
 
-        public async Task<IActionResult> GotoQuestionCreate(int? id)
+        public Task<IActionResult> GotoQuestionCreate(int? id)
         {
             if (id == null)
             {
                 SetAlert(new AlertModel(AlertType.Warning, "Musisz wybrać lub utworzyć kategorię dla nowego pytania."));
-                return RedirectToAction("Index");
+                return Task.FromResult<IActionResult>(RedirectToAction("Index"));
             }
-            else return RedirectToAction(nameof(IQuestionActions.QuestionCreateViewStep2), QuestionController.Name, new { area = "Pytania", categoryId = id });
+            else return Task.FromResult<IActionResult>(RedirectToAction(nameof(IQuestionActions.QuestionCreateViewStep2), QuestionController.Name, new { area = "Pytania", categoryId = id }));
         }
 
         public Task<IActionResult> CategoryUpdate(CategoryModel category)

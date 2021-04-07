@@ -43,24 +43,24 @@ namespace Integracja.Server.Web.Areas.Gry.Controllers
             return model;
         }
 
-        public async Task<IActionResult> Index(int? gamemodeId)
+        public Task<IActionResult> Index(int? gamemodeId)
         {
-            return RedirectToAction(nameof(IGameActions.SettingsCreateView), new { gamemodeId = gamemodeId });
+            return Task.FromResult<IActionResult>(RedirectToAction(nameof(IGameActions.SettingsCreateView), new { gamemodeId = gamemodeId }));
         }
 
-        public async Task<IActionResult> SettingsCreateView(int gamemodeId)
+        public Task<IActionResult> SettingsCreateView(int gamemodeId)
         {
             GameSettingsFormViewModel model = new GameSettingsFormViewModel();
 
             model.Settings.Gamemode.Id = gamemodeId;
 
-            return View(SettingsViewName, model);
+            return Task.FromResult<IActionResult>(View(SettingsViewName, model));
         }
 
-        public async Task<IActionResult> GameSettingsCreate(GameSettingsModel settings)
+        public Task<IActionResult> GameSettingsCreate(GameSettingsModel settings)
         {
             SaveToTempData(settings, GameSettingsStoreKey);
-            return RedirectToAction(nameof(IGameActions.QuestionPoolCreateView));
+            return Task.FromResult<IActionResult>(RedirectToAction(nameof(IGameActions.QuestionPoolCreateView)));
         }
 
         public async Task<IActionResult> QuestionPoolCreateView()
@@ -95,10 +95,10 @@ namespace Integracja.Server.Web.Areas.Gry.Controllers
             return View(QuestionPoolViewName, model);
         }
 
-        public async Task<IActionResult> QuestionPoolCreate()
+        public Task<IActionResult> QuestionPoolCreate()
         {
             // powinno i tak już być zapisane można sprawdzić poprawność
-            return RedirectToAction(nameof(IGameActions.GameCreate));
+            return Task.FromResult<IActionResult>(RedirectToAction(nameof(IGameActions.GameCreate)));
         }
 
         public async Task<IActionResult> GameCreate()

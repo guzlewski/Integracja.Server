@@ -32,19 +32,19 @@ namespace Integracja.Server.Web.Areas.Gry.Controllers
             return View(model);
         }
 
-        public async Task<IActionResult> GotoGameCreate()
+        public Task<IActionResult> GotoGameCreate()
         {
-            return RedirectToAction("Index", GamemodeForGameController.Name, new { area = "TrybyGry" });
+            return Task.FromResult<IActionResult>(RedirectToAction("Index", GamemodeForGameController.Name, new { area = "TrybyGry" }));
         }
 
-        public async Task<IActionResult> GotoGameDelete(int gameId)
+        public Task<IActionResult> GotoGameDelete(int gameId)
         {
-            return RedirectToAction(nameof(IGameActions.GameDelete), GameController.Name, new { gameId = gameId });
+            return Task.FromResult<IActionResult>(RedirectToAction(nameof(IGameActions.GameDelete), GameController.Name, new { gameId = gameId }));
         }
 
-        public async Task<IActionResult> GotoGameRead(int gameId)
+        public Task<IActionResult> GotoGameRead(int gameId)
         {
-            return RedirectToAction(nameof(IGameActions.GameRead), GameController.Name, new { gameId = gameId });
+            return Task.FromResult<IActionResult>(RedirectToAction(nameof(IGameActions.GameRead), GameController.Name, new { gameId = gameId }));
         }
 
         public Task<IActionResult> GotoGameUpdate(int gameId)
@@ -52,9 +52,9 @@ namespace Integracja.Server.Web.Areas.Gry.Controllers
             throw new System.NotImplementedException();
         }
 
-        public async Task<IActionResult> GotoGameHistory(int gameId)
+        public Task<IActionResult> GotoGameHistory(int gameId)
         {
-            return RedirectToAction("Index", "Home", new { area = "Historia", gameId });
+            return Task.FromResult<IActionResult>(RedirectToAction("Index", "Home", new { area = "Historia", gameId }));
         }
     }
 }

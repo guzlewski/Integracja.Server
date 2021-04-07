@@ -59,9 +59,9 @@ namespace Integracja.Server.Web.Areas.Kategorie.Controllers
             return RedirectToAction("Index");
         }
 
-        public async Task<IActionResult> CategoryRead(int id)
+        public Task<IActionResult> CategoryRead(int id)
         {
-            return RedirectToAction("Index", new { id = id });
+            return Task.FromResult<IActionResult>(RedirectToAction("Index", new { id = id }));
         }
     }
 }

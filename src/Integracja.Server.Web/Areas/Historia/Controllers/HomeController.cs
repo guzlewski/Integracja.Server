@@ -63,14 +63,14 @@ namespace Integracja.Server.Web.Areas.Historia.Controllers
             return SortedList;
         }
 
-        public async Task<IActionResult> HistoryUserReadView(int gameId, int userId)
+        public Task<IActionResult> HistoryUserReadView(int gameId, int userId)
         {
-            return RedirectToAction("Index", "HistoryUser", new { gameId, userId });
+            return Task.FromResult<IActionResult>(RedirectToAction("Index", "HistoryUser", new { gameId, userId }));
         }
 
-        public async Task<IActionResult> HistoryQuestionReadView(int questionId)
+        public Task<IActionResult> HistoryQuestionReadView(int questionId)
         {
-            return RedirectToAction("Index", "HistoryQuestion", new { questionId });
+            return Task.FromResult<IActionResult>(RedirectToAction("Index", "HistoryQuestion", new { questionId }));
         }
 
     }

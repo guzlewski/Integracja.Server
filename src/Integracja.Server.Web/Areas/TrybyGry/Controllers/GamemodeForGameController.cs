@@ -46,9 +46,9 @@ namespace Integracja.Server.Web.Areas.TrybyGry.Controllers
             int gamemodeId = await GamemodeService.Update(gamemode.Id, Mapper.Map<EditGamemodeDto>(gamemode), UserId);
             return RedirectToAction("Index", new { id = gamemodeId });
         }
-        public async Task<IActionResult> GamemodeRead(int? id)
+        public Task<IActionResult> GamemodeRead(int? id)
         {
-            return RedirectToAction("Index", new { id = id });
+            return Task.FromResult<IActionResult>(RedirectToAction("Index", new { id = id }));
         }
 
         public async Task<IActionResult> GamemodeDelete(int? id)
@@ -73,21 +73,21 @@ namespace Integracja.Server.Web.Areas.TrybyGry.Controllers
             else return RedirectToAction("Index");
         }
 
-        public async Task<IActionResult> GamemodeCreateView()
+        public Task<IActionResult> GamemodeCreateView()
         {
             var formModel = new GamemodeFormViewModel();
             formModel.ViewMode = ViewMode.Creating;
-            return View("Gamemode", formModel);
+            return Task.FromResult<IActionResult>(View("Gamemode", formModel));
         }
 
-        public async Task<IActionResult> GotoGameCreate(int? gamemodeId)
+        public Task<IActionResult> GotoGameCreate(int? gamemodeId)
         {
             if (gamemodeId == null)
             {
                 SetAlert(new AlertModel(AlertType.Warning, "Musisz wybrać lub utworzyć tryb gry."));
-                return RedirectToAction("Index");
+                return Task.FromResult<IActionResult>(RedirectToAction("Index"));
             }
-            else return RedirectToAction("Index", GameController.Name, new { area = "Gry", gamemodeId = gamemodeId });
+            else return Task.FromResult<IActionResult>(RedirectToAction("Index", GameController.Name, new { area = "Gry", gamemodeId = gamemodeId }));
 
         }
     }

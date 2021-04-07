@@ -31,24 +31,24 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
             return View(Model);
         }
 
-        public async Task<IActionResult> GotoQuestionCreate()
+        public Task<IActionResult> GotoQuestionCreate()
         {
-            return RedirectToAction(nameof(IQuestionActions.QuestionCreateViewStep1), QuestionController.Name);
+            return Task.FromResult<IActionResult>(RedirectToAction(nameof(IQuestionActions.QuestionCreateViewStep1), QuestionController.Name));
         }
 
-        public async Task<IActionResult> GotoQuestionRead(int? id)
+        public Task<IActionResult> GotoQuestionRead(int? id)
         {
-            return RedirectToAction(nameof(IQuestionActions.QuestionReadView), QuestionController.Name, new { questionId = id });
+            return Task.FromResult<IActionResult>(RedirectToAction(nameof(IQuestionActions.QuestionReadView), QuestionController.Name, new { questionId = id }));
         }
 
-        public async Task<IActionResult> GotoQuestionUpdate(int? id)
+        public Task<IActionResult> GotoQuestionUpdate(int? id)
         {
-            return RedirectToAction(nameof(IQuestionActions.QuestionUpdateView), QuestionController.Name, new { questionId = id });
+            return Task.FromResult<IActionResult>(RedirectToAction(nameof(IQuestionActions.QuestionUpdateView), QuestionController.Name, new { questionId = id }));
         }
 
-        public async Task<IActionResult> GotoQuestionDelete(int? id)
+        public Task<IActionResult> GotoQuestionDelete(int? id)
         {
-            return RedirectToAction(nameof(IQuestionActions.QuestionDelete), QuestionController.Name, new { questionId = id });
+            return Task.FromResult<IActionResult>(RedirectToAction(nameof(IQuestionActions.QuestionDelete), QuestionController.Name, new { questionId = id }));
         }
     }
 }
