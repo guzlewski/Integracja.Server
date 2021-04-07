@@ -1,5 +1,6 @@
 using Integracja.Server.Core.Models.Identity;
 using Integracja.Server.Infrastructure.Data;
+using Integracja.Server.Web.Installers;
 using Integracja.Server.Web.Services;
 using Integracja.Server.Web.Ulitities;
 using Microsoft.AspNetCore.Builder;
@@ -24,6 +25,8 @@ namespace Integracja.Server.Web
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.InstallServices(typeof(Startup).Assembly, Configuration);
+
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DatabaseConnection")));
