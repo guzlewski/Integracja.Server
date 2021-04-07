@@ -7,11 +7,11 @@
 <div class="row col-12">
 
     <div class="card col-2">
-        <a asp-area="PanelAdmina" asp-controller="Categories" asp-action="Index" class="btn btn-primary">Kategorie</a>
+        <a asp-action="@nameof(IHomeActions.GotoKategorieAdminHome)" class="btn btn-primary">Kategorie</a>
     </div>
 
     <div class="card col-2">
-        <a asp-area="PanelAdmina" asp-controller="Questions" asp-action="Index" class="btn btn-primary">Pytania</a>
+        <a asp-action="@nameof(IHomeActions.GotoPytaniaAdminHome)" class="btn btn-primary">Pytania</a>
     </div>
 
 </div>

@@ -1,0 +1,34 @@
+﻿@using Integracja.Server.Web.Areas.Kategorie.Models.Shared
+@model CategorySelectViewModel
+@*tabela z przeglądem kategorii i możliwością wyboru*@
+
+<br />
+
+<link rel="stylesheet" href="~/css/Kategorie/_CategorySelect.css" />
+
+<div class="table-wrapper-scroll-y">
+    <table id="table_id" class="table table-bordered table-striped table-sm ">
+        <thead>
+            <tr>
+                <th scope="col">Nazwa</th>
+                <th scope="col">Ilość pytań</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.Categories.Count; i++)
+            {
+                <tr class="@(Model.CategorySelected==Model.Categories[i].Id ? "category_selected" : "")">
+                    <td>
+
+                        <a class="btn btn-light"
+                           asp-action="@nameof(ICategorySelectActions.CategoryRead)"
+                           asp-route-id="@Model.Categories[i].Id">
+                            @Model.Categories[i].Name
+                        </a>
+                    </td>
+                    <td>@Model.Categories[i].QuestionsCount</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

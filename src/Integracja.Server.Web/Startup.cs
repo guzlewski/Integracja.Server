@@ -55,8 +55,10 @@ namespace Integracja.Server.Web
                 options.Filters.Add(new AuthorizeFilter());
             });
 
-            services.AddAutoMapper(typeof(ApplicationDbContext));
-        }
+            services.AddAutoMapper(new[] {
+                typeof(ApplicationDbContext),
+                typeof(Controllers.ApplicationController) });
+            }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
@@ -86,6 +88,16 @@ namespace Integracja.Server.Web
                     pattern: "Gry/{controller=Home}/{action=Index}");
 
                 endpoints.MapAreaControllerRoute(
+                    name: "TrybyGryArea",
+                    areaName: "TrybyGry",
+                    pattern: "TrybyGry/{controller=GamemodeSelect}/{action=Index}");
+
+                endpoints.MapAreaControllerRoute(
+                    name: "KategorieArea",
+                    areaName: "Kategorie",
+                    pattern: "Kategorie/{controller=CategoryForQuestion}/{action=Index}");
+
+                endpoints.MapAreaControllerRoute(
                     name: "PytaniaArea",
                     areaName: "Pytania",
                     pattern: "Pytania/{controller=Home}/{action=Index}");
@@ -100,9 +112,15 @@ namespace Integracja.Server.Web
                     areaName: "Konto",
                     pattern: "Konto/{controller=Home}/{action=Index}");
 
-                endpoints.MapControllerRoute(
+                endpoints.MapAreaControllerRoute(
+                    name: "HistoriaArea",
+                    areaName: "Historia",
+                    pattern: "Historia/{controller=Home}/{action=Index}");
+
+                endpoints.MapAreaControllerRoute(
                     name: "default",
-                    pattern: "{controller=Przeglad}/{action=Index}/{id?}");
+                    areaName: "Gry",
+                    pattern: "{controller=Home}/{action=Index}");
                 endpoints.MapRazorPages();
             });
         }

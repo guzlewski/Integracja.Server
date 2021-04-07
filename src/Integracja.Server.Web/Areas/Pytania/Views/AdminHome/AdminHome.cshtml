@@ -1,0 +1,55 @@
+﻿@using Integracja.Server.Web.Areas.Pytania.Models.AdminHome
+@using Integracja.Server.Web.Models.Shared.Question
+@using static Integracja.Server.Web.Areas.Pytania.Models.AdminHome.AdminHomeViewModel
+@using static Integracja.Server.Web.Areas.Pytania.Models.AdminHome.IAdminHomeActions
+@model AdminHomeViewModel
+
+@{ await Html.RenderPartialAsync("~/Views/Shared/Alerts/_AlertsList.cshtml", Model.Alerts);}
+
+<h2>Pytania</h2>
+<br />
+
+
+<div class="table-wrapper-scroll-y">
+    <table id="table_id" class="table table-bordered table-striped table-sm ">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">ID właściciela</th>
+                <th scope="col">Nazwa właściciela</th>
+                <th scope="col">ID kategorii</th>
+                <th scope="col">Publiczna</th>
+                <th scope="col">Akcje</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var question in Model.Questions)
+            {
+                <tr>
+                    <td>@question.Id</td>
+                    <td>@question.OwnerId</td>
+                    <td>Owner username placeholder</td>
+                    <td>@question.CategoryId</td>
+                    <td>@question.IsPublic</td>
+                    <td>
+                        <a asp-action="@nameof(IAdminHomeActions.GotoQuestionRead)" asp-route-id="@question.Id">Szczegóły</a> |
+                        <a asp-action="@nameof(IAdminHomeActions.GotoQuestionUpdate)" asp-route-id="@question.Id">Edycja</a> |
+                        <a asp-action="@nameof(IAdminHomeActions.GotoQuestionDelete)" asp-route-id="@question.Id">Usuń</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@section Scripts{ 
+    <script type="text/javascript">
+        
+    </script>
+}
+
+
+<div>
+    <a asp-action="@nameof(IAdminHomeActions.GotoQuestionCreate)">Stwórz pytanie</a>
+</div>
+

@@ -1,0 +1,125 @@
+﻿@using Integracja.Server.Web.Areas.Historia.Models
+@model HomeViewModel
+
+@*<script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script type="text/javascript" src="~/js/Historia/Index.js"></script>*@
+
+<link rel="stylesheet" href="~/css/Historia/Index.css" />
+
+<div class="container-fluid historia p-4">
+
+    <p class="title"> Informacje o grze </p>
+
+    <div class="info">
+        <div class="row">
+            <div class="col-6 pr-5">
+                <div class="float-right">
+                    <p> <span class="titles"> Nazwa gry: </span> @Model.Game.Settings.Name </p>
+                    <p> <span class="titles"> Tryb gry: </span> @Model.Game.Settings.Gamemode.Name </p>
+                    <p> <span class="titles"> Czas na quiz: </span> @Model.Game.Settings.Gamemode.TimeForFullQuiz min </p>
+                    <p> <span class="titles"> Czas na pytanie: </span> @Model.Game.Settings.Gamemode.TimeForOneQuestion min </p>
+                </div>
+            </div>
+            <div class="col-6">
+                <p> <span class="titles"> Czas rozpoczęcia: </span> @Model.Game.Settings.StartTime </p>
+                <p> <span class="titles"> Czas zakończenia: </span> @Model.Game.Settings.EndTime </p>
+                @if (@Model.Game.Settings.Gamemode.NumberOfLives == 0)
+                {
+                    <p> <span class="titles"> Liczba żyć: </span> bez limitu </p>
+                }
+                else
+                {
+                    <p> <span class="titles"> Liczba żyć: </span> @Model.Game.Settings.Gamemode.NumberOfLives </p>
+                }
+                @if (@Model.Game.Settings.Gamemode.IsPublic)
+                {
+                    <p> <span class="titles"> Status gry: </span> publiczny </p>
+                }
+                else
+                {
+                    <p> <span class="titles"> Liczba żyć: </span> prywatny </p>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid historia p-4 mt-4">
+
+    <p class="title"> Ranking graczy </p>
+
+    <div class="info">
+        <div class="table-wrapper-scroll-y">
+            <table @*id="users"*@ class="table table-bordered table-striped table-sm ">
+                <thead>
+                    <tr>
+                        <th scope="col"> Miejsce </th>
+                        <th scope="col"> Nazwa użytkownika </th>
+                        <th scope="col"> Liczba punktów </th>
+                        <th scope="col"> Akcje </th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @*@foreach (var i in Model.GameUsers.Select((value, index) => new { value, index }))
+                        {
+                            <tr>
+                                <td> @(i.index + 1)  </td>
+                                <td> @i.value.Username </td>
+                                <td> @i.value.gameuser.GameScore</td>
+                            </tr>
+                        }*@
+
+                    @foreach (var i in Model.GameUsers)
+                    {
+                        <tr>
+                            <td> @i.place  </td>
+                            <td> @i.Username </td>
+                            <td> @i.gameuser.GameScore </td>
+                            <td>
+                                <a asp-action="HistoryUserReadView" asp-route-gameId="@i.gameuser.GameId" asp-route-userId="@i.gameuser.UserId"> Zobacz szczegóły </a>
+                            </td>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid historia p-4 mt-4 mb-5">
+
+    <p class="title"> Pytania </p>
+
+    <div class="info">
+        <div class="table-wrapper-scroll-y">
+            <table id="users" class="table table-bordered table-striped table-sm ">
+                <thead>
+                    <tr>
+                        <th scope="col"> Numer </th>
+                        <th scope="col"> Treść </th>
+                        <th scope="col"> Akcje </th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                   @foreach (var i in Model.Game.QuestionPool.Select((value, index) => new { value, index }))
+                    {
+                        <tr>
+                            <td> @(i.index + 1)  </td>
+                            <td> @i.value.Content </td>
+                            <td>
+                                <a asp-action="HistoryQuestionReadView" asp-route-questionId="@i.value.Id"> Zobacz szczegóły </a>
+                            </td>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+

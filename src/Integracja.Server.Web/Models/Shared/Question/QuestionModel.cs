@@ -10,27 +10,27 @@ namespace Integracja.Server.Web.Models.Shared.Question
     public class QuestionModel
     {
         [Required(ErrorMessage = "Musisz podać treść pytania")]
-        [MinLength(10)]
+        [MinLength(10, ErrorMessage = "Pytanie musi zawierać przynajmniej 10 znaków")]
+        [Display(Name = "Treść")]
         public string Content { get; set; }
-        public List<AnswerModel> Answers { get; set; }
+        public List<AnswerModel> Answers { get; set; } = new List<AnswerModel>();
         public int PositivePoints { get; set; }
         public int NegativePoints { get; set; }
         public QuestionScoring Scoring { get; set; }
         public int? CategoryId { get; set; }
+        public string CategoryName { get; set; }
         public int? Id { get; set; }
         public bool IsPublic { get; set; }
 
         public const int DefaultAnswerCount = 4;
 
-        // taki domyślny konstruktor jest konieczny bo asp.net core nie ogarnia z domyślnym parametrem
         public QuestionModel() : this(DefaultAnswerCount)
-        { 
+        {
         }
 
-        public QuestionModel(int answersCount = DefaultAnswerCount)
+        public QuestionModel(int answerCount)
         {
-            Answers = new List<AnswerModel>();
-            for (int i = 0; i < answersCount; ++i)
+            for (int i = 0; i < answerCount; ++i)
                 Answers.Add(new AnswerModel());
         }
 
@@ -45,35 +45,34 @@ namespace Integracja.Server.Web.Models.Shared.Question
                 this.Answers.RemoveAt(this.Answers.Count - 1);
         }
 
-        public CreateQuestionDto ToQuestionAdd()
+        public override int GetHashCode()
         {
-            var mapper = Mappers.WebAutoMapper.Initialize();
-            return mapper.Map<CreateQuestionDto>(this);
-        }
-        public EditQuestionDto ToQuestionModify()
-        {
-            var mapper = Mappers.WebAutoMapper.Initialize();
-            return mapper.Map<EditQuestionDto>(this);
-        }
-        static public List<QuestionModel> ConvertToList( IEnumerable<QuestionDto> dtoList )
-        {
-            var mapper = Mappers.WebAutoMapper.Initialize();
-            List<QuestionModel> resultList = new List<QuestionModel>();
-            foreach (var dtoQuestion in dtoList)
-                resultList.Add(mapper.Map<QuestionModel>(dtoQuestion));
-            return resultList;
+            return this.Id.GetHashCode();
         }
 
-        public static explicit operator QuestionModel(QuestionDto v)
+        public override bool Equals(object obj)
         {
-            var mapper = Mappers.WebAutoMapper.Initialize();
-            return mapper.Map<QuestionModel>(v);
+            return this.Equals( obj as QuestionModel );
         }
 
-        public static explicit operator QuestionModel(DetailQuestionDto<DetailAnswerDto> v)
+        public bool Equals(QuestionModel obj)
         {
-            var mapper = Mappers.WebAutoMapper.Initialize();
-            return mapper.Map<QuestionModel>(v);
+            if (Object.ReferenceEquals(obj, null))
+            {
+                return false;
+            }
+
+            if (Object.ReferenceEquals(this, obj))
+            {
+                return true;
+            }
+
+            if (this.GetType() != obj.GetType())
+            {
+                return false;
+            }
+
+            return this.Id == obj.Id;
         }
     }
 }

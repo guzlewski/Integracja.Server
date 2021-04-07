@@ -7,11 +7,11 @@ namespace Integracja.Server.Web.Areas.Konto.Models
 {
     public class HomeViewModel : PageModel
     {
-        public KontoModel NewFile { get; set; }
+        public KontoModel Details { get; set; }
 
         public HomeViewModel() : base()
         {
-            NewFile = new KontoModel();
+            Details = new KontoModel();
         }
     }
 

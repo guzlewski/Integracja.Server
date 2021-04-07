@@ -3,34 +3,40 @@
 @using static Integracja.Server.Web.Areas.Gry.Models.Home.IHomeActions
 @model HomeViewModel
 
+@{ await Html.RenderPartialAsync("~/Views/Shared/Alerts/_AlertsList.cshtml", Model.Alerts);}
+
 <h2>Gry</h2>
 <br />
 
-<div class="table-wrapper-scroll-y scrollbar-secondary">
-    <table class="table table-bordered table-striped table-sm ">
+<div class="table-wrapper-scroll-y">
+    <table class="table table-bordered table-striped table-sm">
         <thead>
             <tr>
                 <th scope="col">Nazwa gry</th>
-                <th scope="col">Ustawienia</th>
+                <th scope="col">Id</th>
                 <th scope="col">Rozpoczęcie</th>
                 <th scope="col">Czas trwania</th>
                 <th scope="col">Akcje</th>
             </tr>
         </thead>
         <tbody>
+            @for (int i = 0; i < Model.Games.Count; ++i)
+            {
+                <tr>
+                    <td>@Model.Games[i].Settings.Name</td>
+                    <td>@Model.Games[i].Id</td>
+                    <td>@Model.Games[i].Settings.StartTime</td>
+                    <td>@Model.Games[i].Settings.EndTime</td>
+                    <td>
+                        <a asp-action="@nameof(IHomeActions.GotoGameRead)" asp-route-gameId="@Model.Games[i].Id">Szczegóły</a> |
+                        <a asp-action="@nameof(IHomeActions.GotoGameHistory)" asp-route-gameId="@Model.Games[i].Id">Historia</a> |
+                        <a asp-action="@nameof(IHomeActions.GotoGameUpdate)" asp-route-gameId="@Model.Games[i].Id">Edytuj</a> |
+                        <a asp-action="@nameof(IHomeActions.GotoGameDelete)" asp-route-gameId="@Model.Games[i].Id">Anuluj</a>
+                    </td>
 
-            <tr>
-                <td>Gierki</td>
-                <td>Lista ustawień</td>
-                <td>Czas rozpoczęcia</td>
-                <td>60 min</td>
-                <td>
-                    <a asp-action="@NameOfGotoGameRead" asp-route-id="">Szczegóły</a> |
-                    <a asp-action="@NameOfGotoGameUpdate" asp-route-id="">Edytuj</a> |
-                    <a asp-action="@NameOfGotoGameDelete" asp-route-id="">Anuluj</a>
-                </td>
+                </tr>
+            }
 
-            </tr>
 
         </tbody>
     </table>
@@ -40,7 +46,7 @@
 
 <div>
     <a class="btn btn-primary"
-       asp-action="@NameOfGotoGameCreate">
+       asp-action="@nameof(IHomeActions.GotoGameCreate)">
         Stwórz nową grę
     </a>
 </div>

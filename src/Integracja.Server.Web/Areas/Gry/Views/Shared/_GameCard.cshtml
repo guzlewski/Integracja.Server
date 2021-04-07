@@ -1,0 +1,72 @@
+﻿@using Integracja.Server.Web.Areas.Gry.Models.Shared
+@model GameCardViewModel
+
+
+<div class="card-body">
+
+    <div class="text-center">
+
+        <h2 class="card-title">@Model.Game.Settings.Name</h2>
+        <br />
+
+        <div class="row">
+            <div class="col-lg-6">
+                <h3>Czas rozpoczęcia</h3>
+                <p class="card-text">
+                    @Model.Game.Settings.StartTime
+                </p>
+            </div>
+
+            <div class="col-lg-6">
+                <h3>Czas zakończenia</h3>
+                <p class="card-text">
+                    @Model.Game.Settings.EndTime
+                </p>
+            </div>
+        </div>
+        <br />
+
+        <h3>Maksymalna liczba graczy</h3>
+        <p class="card-text">
+            @Model.Game.Settings.MaxPlayersCount
+        </p>
+
+        <h3 class="card-text">Tryb gry @Model.Game.Settings.Gamemode.Name:</h3>
+        <br />
+
+        <p>
+            Liczba żyć:
+            @Model.Game.Settings.Gamemode.NumberOfLives
+            <br />
+            Czas na cały quiz:
+            @Model.Game.Settings.Gamemode.TimeForFullQuiz
+            <br />
+            Czas na jedno pytanie:
+            @Model.Game.Settings.Gamemode.TimeForOneQuestion
+            <br />
+
+        </p>
+        <br />
+
+        <h3>Pytania</h3>
+        <br />
+
+    </div>
+
+    <div class="container">
+        <div class="row">
+            @foreach (var question in Model.Game.QuestionPool)
+            {
+                <div class="col-lg-4  top-buffer">
+                    <div class="card">
+                        @{ await Html.RenderPartialAsync("~/Areas/Pytania/Views/Shared/_QuestionCard.cshtml", question); }
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    
+
+</div>
+
+

@@ -1,0 +1,49 @@
+﻿@using static Integracja.Server.Web.Areas.Kategorie.Models.Shared.ICategoryFormActions
+@using static Integracja.Server.Web.Areas.Kategorie.Models.Shared.CategoryFormViewModel
+@using static Integracja.Server.Web.Models.Shared.Enums.ViewMode
+@using Integracja.Server.Web.Areas.Kategorie.Models.Shared
+@model CategoryFormViewModel
+
+<form>
+    <input asp-for="Category.Id" type="hidden" />
+
+    <h4>Nazwa kategorii</h4>
+    <div class="form-group">
+        <input asp-for="Category.Name" />
+        <span asp-validation-for="Category.Name" class="text-danger"></span>
+    </div>
+
+    @if (Model.ViewMode == Updating)
+    {
+    <p>Stara nazwa: @Model.Category.Name</p>
+    }
+
+    @* można użyć ~"inject usermanager" żeby sprawdzić czy użytkownik jest adminem
+        albo po prostu w kontrolerze przekazać takie info do modelu *@
+    <div class="form-group">
+        <h4>Czy publiczna ?</h4>
+        <input asp-for="Category.IsPublic" class="form-check" type="checkbox" />
+    </div>
+
+    <div class="form-group">
+
+        @if (Model.ViewMode == Creating)
+        {
+            <button type="submit" class="btn btn-primary" asp-action="@NameOfCategoryCreate">
+                Stwórz
+            </button>
+            <button type="reset" class="btn btn-danger ">Wyczyść</button>
+        }
+        else if (Model.ViewMode == Updating)
+        {
+            <button type="submit" class="btn btn-primary" asp-action="@NameOfCategoryUpdate">
+                Zaaktualizuj
+            </button>
+            <button type="submit" class="btn btn-primary" asp-action="@NameOfCategoryCreate">
+                Dodaj jako nową
+            </button>
+        }
+
+    </div>
+</form>
+

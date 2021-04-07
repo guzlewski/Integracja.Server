@@ -1,6 +1,7 @@
 ﻿.konto {
     height: 78vmin;
-
+    background: #fff;
+    border: 1px solid #F0F0F0;
     box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
 }
 
@@ -10,28 +11,86 @@
     border: 0.2rem solid rgba(0, 0, 0, 0.1);
 }
 
-@media (max-width: 992px) {
-    .profile_picture {
-        width: 16rem;
-        height: 16rem;
-        margin-left: auto;
-        margin-right: auto;
+.username {
+    text-align: center;
+    font-size: 1.3em;
+}
+
+#title {
+    color: #fed136;
+    font-size: 1.7em;
+}
+
+#status_confirmed {
+    color: green;
+}
+
+#status_unconfirmed {
+    color: red;
+}
+
+.titles {
+    font-weight: bold !important;
+}
+
+.dane_konta .bord {
+    border-bottom: 2px solid #F0F0F0 !important;
+}
+
+.dane_konta .bord1 {
+    border-top: 2px solid #F0F0F0 !important;
+}
+
+input:focus {
+    outline: 0 0 0 0 !important;
+    box-shadow: 0 0 0 0 !important;
+}
+
+.inp:focus {
+    border-color: #fed136;
+}
+
+.btn-primary {
+    background-color: #fed136 !important;
+    border-color: #fed136 !important;
+}
+
+    .btn-primary:hover {
+        background-color: #e8af14 !important;
+        border-color: #e8af14 !important;
     }
+
+.change {
+    color: white !important;
+    font-family: Numans, sans-serif;
+}
+
+.custom-file-label::after {
+    content: "Szukaj" !important;
+}
+
+.custom-file-label {
+    top: -1.5px !important;
+    left: -1.5px !important;
+    width: 230px !important;
+}
+
+#file {
+    width: 100px !important;
+}
+
+.input-group {
+    display: block !important;
+}
+
+.form-control {
+    width: 90% !important;
 }
 
 @media (max-width: 768px) {
     .profile_picture {
-        width: 14rem;
-        height: 14rem;
-        margin-left: auto;
-        margin-right: auto;
-    }
-}
-
-@media (max-width: 576px) {
-    .profile_picture {
-        width: 9rem;
-        height: 9rem;
+        width: 10rem;
+        height: 10rem;
         margin-left: auto;
         margin-right: auto;
     }

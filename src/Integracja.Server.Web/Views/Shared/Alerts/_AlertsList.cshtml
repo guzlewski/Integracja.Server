@@ -1,0 +1,19 @@
+﻿@using Integracja.Server.Web.Models.Shared.Alert
+@model List<AlertModel>
+@{
+    if (Model != null)
+    {
+        foreach (var alert in Model)
+        {
+            if (alert != null && alert.Type != AlertType.None )
+            {
+                <div class="alert @alert.GetBootstrapClass()" role="alert">
+                    <strong>
+                        @alert.Message
+                    </strong>
+                </div>
+            }
+
+        }
+    }
+}

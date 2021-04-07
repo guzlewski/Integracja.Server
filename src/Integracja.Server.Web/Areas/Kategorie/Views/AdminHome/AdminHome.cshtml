@@ -1,0 +1,47 @@
+﻿@using Integracja.Server.Web.Areas.Kategorie.Models.AdminHome
+@using static Integracja.Server.Web.Areas.Kategorie.Models.AdminHome.AdminHomeViewModel
+@using static Integracja.Server.Web.Areas.Kategorie.Models.AdminHome.IAdminHomeActions
+@model AdminHomeViewModel
+
+@{ await Html.RenderPartialAsync("~/Views/Shared/Alerts/_AlertsList.cshtml", Model.Alerts);}
+
+<h2>Kategorie</h2>
+<br />
+
+<div class="table-wrapper-scroll-y">
+    <table id="table_id" class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Nazwa</th>
+                <th scope="col">ID właściciela</th>
+                <th scope="col">Nazwa właściciela</th>
+                <th scope="col">Publiczna</th>
+                <th scope="col">Pytania</th>
+                <th scope="col">Akcje</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var category in Model.Categories)
+            {
+                <tr>
+                    <td>@category.Id</td>
+                    <td>@category.Name</td>
+                    <td>@category.OwnerId</td>
+                    <td>category owner username placeholder</td>
+                    <td>@category.IsPublic</td>
+                    <td>@category.QuestionsCount</td>
+                    <td>
+                        <a asp-action="@nameof(IAdminHomeActions.CategoryRead)" asp-route-id="@category.Id">Edycja</a> |
+                        <a asp-action="@nameof(IAdminHomeActions.CategoryDelete)" asp-route-id="@category.Id">Usuń</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<br />
+<div>
+    @{ await Html.RenderPartialAsync("~/Areas/Kategorie/Views/Shared/_CategoryForm.cshtml", Model.CategoryFormModel);}
+</div>

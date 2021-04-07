@@ -1,0 +1,8 @@
+﻿@using Integracja.Server.Web.Areas.Gry.Models.Shared
+@model GameQuestionFormViewModel
+
+@*TODO: filtrowanie*@
+
+<div class="col-md-10">
+@{ await Html.RenderPartialAsync("~/Areas/Gry/Views/Shared/_GameQuestionForm.cshtml", Model);}
+</div>
