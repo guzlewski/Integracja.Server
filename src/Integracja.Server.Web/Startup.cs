@@ -26,7 +26,7 @@ namespace Integracja.Server.Web
         {
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
-                    Configuration.GetConnectionString("LocalDbConnection")));
+                    Configuration.GetConnectionString("DatabaseConnection")));
             services.AddDatabaseDeveloperPageExceptionFilter();
 
 
