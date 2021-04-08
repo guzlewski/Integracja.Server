@@ -6,7 +6,7 @@
 
 body {
     font-family: Poppins, sans-serif;
-    background: #fafafa;
+    background: #f2f6f8 !important;
 }
 
 .main {
@@ -20,12 +20,6 @@ h1,h2,h3,h4 {
 
 .input-number {
     max-width: 5em;
-}
-
-.scrollbar-secondary {
-    position: relative;
-    height: 400px;
-    overflow: auto;
 }
 
 .yellow-button {
@@ -69,6 +63,15 @@ a:active {
     color: green;
 }
 
+.top-buffer {
+    margin-top: 20px;
+}
+
+.scroll-300 {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
 /* ---------------------------------------------------
     SIDEBAR
 ----------------------------------------------------- */
@@ -102,14 +105,15 @@ a:active {
     LOGO
 ----------------------------------------------------- */
     #sidebar .sidebar-header {
-    text-align: center;
-    padding: 20px 50px;
-}
+        text-align: center;
+        padding: 20px 50px;
+    }
 
         #sidebar .sidebar-header #logo {
-            padding: 10px 0;
             background: #fed136;
             color: #3E3E3E;
+            border: 1px solid #e8af14;
+            box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
         }
 
 /* ---------------------------------------------------
@@ -190,12 +194,23 @@ a:active {
 .navbar {
     padding: 0 !important;
     background: #fff;
-    border: none;
+    border: 1px solid #F0F0F0;
     border-radius: 0;
-    margin-bottom: 40px;
-    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+    margin-bottom: 35px;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.05);
     height: 70px;
+}
 
+.navbar .container-fluid {
+    padding: 0 !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+.navbar .row, .col-10 {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding: 0 !important;
 }
 
 #sidebarCollapse {
@@ -238,15 +253,11 @@ a:active {
     }
 
     #sidebar .sidebar-header {
-        text-align: center;
-        padding: 10px 15px;
+        padding: 10px 8px;
     }
 
         #sidebar .sidebar-header #logo {
-            padding: 5px 5px;
-            background: #fed136;
-            color: #3E3E3E;
-            font-size: 15px;
+            padding: 0;
         }
 
     #sidebar {

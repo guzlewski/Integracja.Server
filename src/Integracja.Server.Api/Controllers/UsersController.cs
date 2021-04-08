@@ -126,7 +126,7 @@ namespace Integracja.Server.Api.Controllers
         /// <response code="422">Invalid picture supplied</response>
         /// <response code="500">Internal server error</response>
         [Mobile]
-        [ProducesResponseType(typeof(ValidationProblemDetails),StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
         [HttpPost("[action]")]
         public async Task<IActionResult> ProfilePicture([Required] IFormFile formFile)
         {

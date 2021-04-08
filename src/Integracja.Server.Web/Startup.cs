@@ -1,5 +1,6 @@
 using Integracja.Server.Core.Models.Identity;
 using Integracja.Server.Infrastructure.Data;
+using Integracja.Server.Web.Installers;
 using Integracja.Server.Web.Services;
 using Integracja.Server.Web.Ulitities;
 using Microsoft.AspNetCore.Builder;
@@ -15,18 +16,20 @@ namespace Integracja.Server.Web
 {
     public class Startup
     {
+        public IConfiguration Configuration { get; }
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
-
         public void ConfigureServices(IServiceCollection services)
         {
+            services.InstallServices(typeof(Startup).Assembly, Configuration);
+
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
-                    Configuration.GetConnectionString("LocalDbConnection")));
+                    Configuration.GetConnectionString("DatabaseConnection")));
             services.AddDatabaseDeveloperPageExceptionFilter();
 
 
@@ -55,7 +58,9 @@ namespace Integracja.Server.Web
                 options.Filters.Add(new AuthorizeFilter());
             });
 
-            services.AddAutoMapper(typeof(ApplicationDbContext));
+            services.AddAutoMapper(new[] {
+                typeof(ApplicationDbContext),
+                typeof(Controllers.ApplicationController) });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -86,6 +91,16 @@ namespace Integracja.Server.Web
                     pattern: "Gry/{controller=Home}/{action=Index}");
 
                 endpoints.MapAreaControllerRoute(
+                    name: "TrybyGryArea",
+                    areaName: "TrybyGry",
+                    pattern: "TrybyGry/{controller=GamemodeSelect}/{action=Index}");
+
+                endpoints.MapAreaControllerRoute(
+                    name: "KategorieArea",
+                    areaName: "Kategorie",
+                    pattern: "Kategorie/{controller=CategoryForQuestion}/{action=Index}");
+
+                endpoints.MapAreaControllerRoute(
                     name: "PytaniaArea",
                     areaName: "Pytania",
                     pattern: "Pytania/{controller=Home}/{action=Index}");
@@ -100,9 +115,15 @@ namespace Integracja.Server.Web
                     areaName: "Konto",
                     pattern: "Konto/{controller=Home}/{action=Index}");
 
-                endpoints.MapControllerRoute(
+                endpoints.MapAreaControllerRoute(
+                    name: "HistoriaArea",
+                    areaName: "Historia",
+                    pattern: "Historia/{controller=Home}/{action=Index}");
+
+                endpoints.MapAreaControllerRoute(
                     name: "default",
-                    pattern: "{controller=Przeglad}/{action=Index}/{id?}");
+                    areaName: "Gry",
+                    pattern: "{controller=Home}/{action=Index}");
                 endpoints.MapRazorPages();
             });
         }

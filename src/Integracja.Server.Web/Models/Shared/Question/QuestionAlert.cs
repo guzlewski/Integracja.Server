@@ -1,5 +1,4 @@
 ﻿using Integracja.Server.Web.Models.Shared.Alert;
-using static Integracja.Server.Web.Models.Shared.Alert.AlertType;
 namespace Integracja.Server.Web.Models.Shared.Question
 {
     public class QuestionAlert : AlertModel
@@ -8,17 +7,11 @@ namespace Integracja.Server.Web.Models.Shared.Question
         {
         }
 
-        public static QuestionAlert QuestionCreateSuccess() => new QuestionAlert
-            (Success, "Pomyślnie utworzono pytanie");
-        public static QuestionAlert QuestionUpdateSuccess() => new QuestionAlert
-            (Success, "Pomyślnie zaaktualizowano pytanie");
-        public static QuestionAlert QuestionDeleteSuccess() => new QuestionAlert
-            (Success, "Pomyślnie usunięto pytanie");
-        public static QuestionAlert QuestionCreateFailure() => new QuestionAlert
-            (Danger, "Nie udało się utworzyć pytania");
-        public static QuestionAlert QuestionUpdateFailure() => new QuestionAlert
-            (Danger, "Nie udało się zaaktualizować pytania");
-        public static QuestionAlert QuestionDeleteFailure() => new QuestionAlert
-            (Danger, "Nie udało się usunąć pytania");
+        public static AlertModel CreateSuccess() => CreateSuccess("pytanie");
+        public static AlertModel UpdateSuccess() => UpdateSuccess("pytanie");
+        public static AlertModel DeleteSuccess() => DeleteSuccess("pytanie");
+        public static AlertModel CreateFailure() => CreateFailure("pytania");
+        public static AlertModel UpdateFailure() => UpdateFailure("pytania");
+        public static AlertModel DeleteFailure() => DeleteFailure("pytania");
     }
 }

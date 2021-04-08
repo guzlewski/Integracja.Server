@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.ComponentModel.DataAnnotations;
 
 namespace Integracja.Server.Web.Areas.Konto.Models
 {
@@ -12,7 +12,15 @@ namespace Integracja.Server.Web.Areas.Konto.Models
         [Required(ErrorMessage = "Nie wybrano żadnego pliku.")]
         public IFormFile File { get; set; }
 
+        public string Username { get; set; }
 
+        public string Email { get; set; }
+
+        public string PhoneNumber { get; set; }
+
+        public bool EmailConfirmed { get; set; }
+
+        public bool PhoneNumberConfirmed { get; set; }
     }
 
 }

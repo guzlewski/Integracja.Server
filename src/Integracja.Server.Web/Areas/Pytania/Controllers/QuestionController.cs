@@ -1,13 +1,18 @@
-﻿using AutoMapper;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using AutoMapper;
 using Integracja.Server.Core.Models.Identity;
 using Integracja.Server.Infrastructure.Data;
+using Integracja.Server.Infrastructure.Models;
+using Integracja.Server.Web.Areas.Kategorie.Controllers;
 using Integracja.Server.Web.Areas.Pytania.Models.Question;
 using Integracja.Server.Web.Controllers;
+using Integracja.Server.Web.Models.Shared.Alert;
+using Integracja.Server.Web.Models.Shared.Category;
 using Integracja.Server.Web.Models.Shared.Enums;
 using Integracja.Server.Web.Models.Shared.Question;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
 
 namespace Integracja.Server.Web.Areas.Pytania.Controllers
 {
@@ -15,6 +20,7 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
     public class QuestionController : ApplicationController, IQuestionActions
     {
         protected QuestionViewModel Model { get; set; }
+        protected virtual string QuestionViewName => "Question";
         public static new string Name { get => "Question"; }
         public QuestionController(UserManager<User> userManager, ApplicationDbContext dbContext, IMapper mapper) : base(userManager, dbContext, mapper)
         {
@@ -22,60 +28,79 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
 
         public virtual IActionResult Index()
         {
-            var alert = GetAlert<QuestionAlert>();
+            return IndexResult("Index", "Home");
+        }
+
+        protected IActionResult IndexResult(string redirectActionName, string redirectControllerName)
+        {
+            var alert = GetAlerts();
             var question = TryRetrieveFromTempData<QuestionModel>();
 
             if (question != null)
             {
                 Model = new QuestionViewModel(question, alert);
-                return View("Question", Model);
+                return View(QuestionViewName, Model);
             }
             else
             {
-                SetAlert(alert); // przekazuję dalej
-                return RedirectToAction("Index", HomeController.Name);
+                SetAlerts(alert); // przekazuję dalej
+                return RedirectToAction(redirectActionName, redirectControllerName);
             }
         }
 
-        public async Task<IActionResult> QuestionCreateViewStep1()
+        public Task<IActionResult> QuestionCreateViewStep1(int? categoryId)
         {
-            return RedirectToAction("Index", CategorySelectController.Name);
+            return Task.FromResult<IActionResult>(RedirectToAction("Index", CategoryForQuestionController.Name, new { area = "Kategorie", id = categoryId }));
         }
 
         public async Task<IActionResult> QuestionCreateViewStep2(int categoryId)
         {
             Model = new QuestionViewModel(ViewMode.Creating);
             // mogłem właśnie dodać pytanie i trafić tutaj ponownie więc wyświetlam alert
-            Model.Alert = GetAlert<QuestionAlert>();
+            Model.Alerts = GetAlerts();
 
-            Model.Question.CategoryId = categoryId;
+            Model.Form.Question.CategoryId = categoryId;
 
-            return View("Question", Model);
+            var tmp = await CategoryService.Get<CategoryModel>(categoryId, UserId);
+            Model.Form.Question.CategoryName = tmp.Name;
+
+            return View(QuestionViewName, Model);
         }
         public async Task<IActionResult> QuestionCreate(QuestionModel question)
         {
-            int questionId = await QuestionService.Add(question.ToQuestionAdd(), UserId);
+            int questionId = await QuestionService.Add(Mapper.Map<CreateQuestionDto>(question), UserId);
 
-            SetAlert(QuestionAlert.QuestionCreateSuccess());
+            List<AlertModel> alerts = new List<AlertModel>();
+            alerts.Add(QuestionAlert.CreateSuccess());
 
-            // jeśli weszło z edycji to cofamy do głównego panelu jeśli inaczej to zostajemy i można dodać kolejny pytanie do kategorii
+
+
+            // jeśli weszło z edycji to cofamy do głównego panelu 
             if (question.Id.HasValue)
+            {
+                SetAlerts(alerts);
                 return RedirectToAction("Index");
-            else return RedirectToAction(IQuestionActions.NameOfQuestionCreateViewStep2, new { categoryId = question.CategoryId });
+            }
+            // jeśli inaczej to zostajemy i można dodać kolejne pytanie do kategorii
+            else
+            {
+                alerts.Add(new AlertModel(AlertType.Info, "Możesz teraz ponownie utworzyć pytanie dla wybranej kategorii."));
+                SetAlerts(alerts);
+                return RedirectToAction(nameof(IQuestionActions.QuestionCreateViewStep2), new { categoryId = question.CategoryId });
+            }
+
         }
-        public async Task<IActionResult> QuestionReadView(int? questionId)
+        public async Task<IActionResult> QuestionReadView(int questionId)
         {
-            Model = new QuestionViewModel();
-            if (questionId.HasValue)
-                Model.Question = (QuestionModel)await QuestionService.Get(questionId.Value, UserId);
-            Model.ViewMode = ViewMode.Reading;
-            return View("Question", Model);
+            QuestionModel q = await QuestionService.Get<QuestionModel>(questionId, UserId);
+
+            return View("QuestionCard", q);
         }
         public async Task<IActionResult> QuestionUpdate(QuestionModel question)
         {
-            int questionId = await QuestionService.Update( question.Id.Value, question.ToQuestionModify(), UserId );
+            int questionId = await QuestionService.Update(question.Id.Value, Mapper.Map<EditQuestionDto>(question), UserId);
 
-            SetAlert(QuestionAlert.QuestionUpdateSuccess());
+            SetAlert(QuestionAlert.UpdateSuccess());
 
             return RedirectToAction("Index");
         }
@@ -85,38 +110,62 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
 
             if (questionId.HasValue)
             {
-                Model.Question = (QuestionModel)await QuestionService.Get(questionId.Value, UserId);
-                var q = await QuestionService.Get(questionId.Value, UserId);
+                Model.Form.Question = await QuestionService.Get<QuestionModel>(questionId.Value, UserId);
             }
-                
-            Model.ViewMode = ViewMode.Updating;
-            return View("Question", Model);
+
+            Model.Form.ViewMode = ViewMode.Updating;
+            return View(QuestionViewName, Model);
         }
-        public async Task<IActionResult> QuestionDelete(int? questionId)
+        public virtual async Task<IActionResult> QuestionDelete(int? questionId)
+        {
+            return await QuestionDeleteResult(questionId, "Index", HomeController.Name);
+        }
+
+        protected async Task<IActionResult> QuestionDeleteResult(int? questionId, string redirectActionName, string redirectControllerName)
         {
             if (questionId.HasValue)
                 await QuestionService.Delete(questionId.Value, UserId);
 
-            SetAlert(QuestionAlert.QuestionDeleteSuccess());
+            SetAlert(QuestionAlert.DeleteSuccess());
 
-            return RedirectToAction("Index", HomeController.Name);
+            return RedirectToAction(redirectActionName, redirectControllerName);
         }
-        
-        public async Task<IActionResult> AddAnswerField(QuestionModel question)
+
+        public Task<IActionResult> AddAnswerField(QuestionModel question)
         {
             question.AddAnswer();
 
             SaveToTempData(question);
 
-            return RedirectToAction("Index");
+            return Task.FromResult<IActionResult>(RedirectToAction("Index"));
         }
-        public async Task<IActionResult> RemoveAnswerField(QuestionModel question)
+        public Task<IActionResult> RemoveAnswerField(QuestionModel question)
         {
             question.RemoveAnswer();
 
             SaveToTempData(question);
 
-            return RedirectToAction("Index");
+            return Task.FromResult<IActionResult>(RedirectToAction("Index"));
+        }
+
+        public Task<IActionResult> QuestionCreateCategoryUpdate(int categoryId)
+        {
+            return Task.FromResult<IActionResult>(RedirectToAction(nameof(IQuestionActions.QuestionCreateViewStep1), new { categoryId = categoryId }));
+        }
+
+        public Task<IActionResult> GotoQuestionUpdate(int questionId)
+        {
+            return Task.FromResult<IActionResult>(RedirectToAction(nameof(IQuestionActions.QuestionUpdateView), new { questionId = questionId }));
+        }
+
+        public Task<IActionResult> GotoQuestionDelete(int questionId)
+        {
+            return Task.FromResult<IActionResult>(RedirectToAction(nameof(IQuestionActions.QuestionDelete), new { questionId = questionId }));
+        }
+
+        public Task<IActionResult> GotoHome()
+        {
+            return Task.FromResult<IActionResult>(RedirectToAction("Index", HomeController.Name));
         }
     }
 }

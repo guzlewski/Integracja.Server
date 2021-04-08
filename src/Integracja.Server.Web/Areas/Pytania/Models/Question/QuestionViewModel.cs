@@ -1,27 +1,30 @@
-﻿using Integracja.Server.Web.Models.Shared.Enums;
+﻿using System.Collections.Generic;
+using Integracja.Server.Web.Areas.Pytania.Models.Shared;
+using Integracja.Server.Web.Models.Shared.Alert;
+using Integracja.Server.Web.Models.Shared.Enums;
 using Integracja.Server.Web.Models.Shared.Question;
 
 namespace Integracja.Server.Web.Areas.Pytania.Models.Question
 {
-    public class QuestionViewModel : QuestionPartialViewModel
+    public class QuestionViewModel
     {
-        public QuestionAlert Alert { get; set; }
+        public List<AlertModel> Alerts { get; set; }
 
-        public QuestionViewModel() : base()
+        public QuestionFormViewModel Form { get; set; } = new QuestionFormViewModel();
+
+        public QuestionViewModel()
         {
         }
 
-        public QuestionViewModel(ViewMode mode) : base(mode)
+        public QuestionViewModel(QuestionModel question, List<AlertModel> alerts)
         {
+            Form = new QuestionFormViewModel(question);
+            Alerts = alerts;
         }
 
-        public QuestionViewModel(QuestionModel question) : base(question)
+        public QuestionViewModel(ViewMode mode)
         {
-        }
-
-        public QuestionViewModel(QuestionModel question, QuestionAlert alert ) : base(question)
-        {
-            Alert = alert;
+            Form = new QuestionFormViewModel(mode);
         }
     }
 }

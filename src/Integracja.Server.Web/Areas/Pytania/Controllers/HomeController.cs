@@ -1,4 +1,6 @@
-﻿using AutoMapper;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using AutoMapper;
 using Integracja.Server.Core.Models.Identity;
 using Integracja.Server.Infrastructure.Data;
 using Integracja.Server.Web.Areas.Pytania.Models.Home;
@@ -7,7 +9,6 @@ using Integracja.Server.Web.Controllers;
 using Integracja.Server.Web.Models.Shared.Question;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
 
 namespace Integracja.Server.Web.Areas.Pytania.Controllers
 {
@@ -25,37 +26,29 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
         [HttpGet]
         public async Task<IActionResult> Index(int? id)
         {
-            Model.Alert = GetAlert<QuestionAlert>();
-
-            Model.Questions = QuestionModel.ConvertToList(await QuestionService.GetAll(UserId));
+            Model.Alerts = GetAlerts();
+            Model.Questions = (List<QuestionModel>)await QuestionService.GetAll<QuestionModel>(UserId);
             return View(Model);
         }
 
-        public async Task<string> Picture()
+        public Task<IActionResult> GotoQuestionCreate()
         {
-            var user = await UserManager.GetUserAsync(User);
-
-            return user.ProfilePicture;
+            return Task.FromResult<IActionResult>(RedirectToAction(nameof(IQuestionActions.QuestionCreateViewStep1), QuestionController.Name));
         }
 
-        public async Task<IActionResult> GotoQuestionCreate()
+        public Task<IActionResult> GotoQuestionRead(int? id)
         {
-            return RedirectToAction(IQuestionActions.NameOfQuestionCreateViewStep1, QuestionController.Name);
+            return Task.FromResult<IActionResult>(RedirectToAction(nameof(IQuestionActions.QuestionReadView), QuestionController.Name, new { questionId = id }));
         }
 
-        public async Task<IActionResult> GotoQuestionRead(int? id)
+        public Task<IActionResult> GotoQuestionUpdate(int? id)
         {
-            return RedirectToAction(IQuestionActions.NameOfQuestionReadView, QuestionController.Name, new { questionId = id });
+            return Task.FromResult<IActionResult>(RedirectToAction(nameof(IQuestionActions.QuestionUpdateView), QuestionController.Name, new { questionId = id }));
         }
 
-        public async Task<IActionResult> GotoQuestionUpdate(int? id)
+        public Task<IActionResult> GotoQuestionDelete(int? id)
         {
-            return RedirectToAction(IQuestionActions.NameOfQuestionUpdateView, QuestionController.Name, new { questionId = id });
-        }
-
-        public async Task<IActionResult> GotoQuestionDelete(int? id)
-        {
-            return RedirectToAction(IQuestionActions.NameOfQuestionDelete, QuestionController.Name, new { questionId = id });
+            return Task.FromResult<IActionResult>(RedirectToAction(nameof(IQuestionActions.QuestionDelete), QuestionController.Name, new { questionId = id }));
         }
     }
 }
