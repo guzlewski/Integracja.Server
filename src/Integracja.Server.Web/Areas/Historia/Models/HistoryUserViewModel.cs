@@ -17,8 +17,7 @@ namespace Integracja.Server.Web.Areas.Historia.Models
     {
         public string questionContent;
         public List<string> answers;
-        public int correctAnswerId;
-        public int userAnswerId;
+        public List<int> status;
         public int pointsReceived;
         public int positivePoints;
         public int negativePoints;

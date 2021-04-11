@@ -21,23 +21,10 @@ namespace Integracja.Server.Web.Areas.Konto.Controllers
     {
         private HomeViewModel Model { get; set; }
 
-        private IOptions<PictureSettings> _options;
-        private IStorageService _fileService;
-        public HomeController(UserManager<User> userManager, ApplicationDbContext dbContext, IMapper mapper, IOptions<PictureSettings> options, IStorageService fileService) : base(userManager, dbContext, mapper)
+        public HomeController(UserManager<User> userManager, ApplicationDbContext dbContext, IMapper mapper) : base(userManager, dbContext, mapper)
         {
             Model = new HomeViewModel();
-            _fileService = fileService;
-            _options = options;
-            _options.Value.MaxSize = 5000000;
-            _options.Value.PictureWidth = 500;
-            _options.Value.PictureHeight = 500;
-            _options.Value.ThumbnailHeight = 500;
-            _options.Value.ThumbnailWidth = 500;
-            _options.Value.Format = Infrastructure.Enums.ImageFormat.Jpeg;
         }
-        
-        protected IPictureService PictureService { get =>
-        new PictureService(_options, DbContext, _fileService); }
 
         [HttpGet]
         public IActionResult Index()
@@ -61,7 +48,6 @@ namespace Integracja.Server.Web.Areas.Konto.Controllers
         [HttpPost]
         public async Task<IActionResult> UploadPicture(IFormFile file)
         {
-            string picture = await PictureService.Save(file, UserId);
             //if (ModelState.IsValid)
             //{
             //    using (var memoryStream = new MemoryStream())
