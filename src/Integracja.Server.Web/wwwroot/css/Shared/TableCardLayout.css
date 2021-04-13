@@ -1,0 +1,27 @@
+﻿thead {
+    display: none;
+}
+
+tr {
+    display: block;
+    margin-bottom: 1.5rem;
+    padding: 1rem 0.5rem 0.5rem 1rem;
+}
+
+td {
+    display: inline-block;
+    margin: 0 0.5rem 0.5rem 0;
+    padding: 0.5rem;
+    text-align: left;
+    background-color: white;
+}
+
+    td:before {
+        float: left;
+        margin: -0.5rem 0.5rem -0.5rem -0.5rem;
+        padding: 0.625rem 0.5rem 0.625rem;
+        font-size: 0.75em;
+        font-weight: bold;
+        color: #58C25F;
+        content: attr(data-label) ": ";
+    }

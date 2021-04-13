@@ -2,19 +2,6 @@
     $('#sidebar, .content').toggleClass('active');
 });
 
-$(document).ready(function () {
-    $('table').DataTable(
-        {
-            stateSave: true,
-
-            language:
-            {
-                url: '/other/DataTables/localization/pl.json'
-            }
-        }
-    );
-});
-
 // zabrane z https://stackoverflow.com/questions/12744145/how-to-remember-scroll-position-of-page/12744617
 // i przeniesione na https://github.com/js-cookie/js-cookie
 $(document).ready(function() {

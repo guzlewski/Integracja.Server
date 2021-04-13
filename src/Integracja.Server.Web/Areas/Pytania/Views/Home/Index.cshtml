@@ -3,19 +3,31 @@
 @using static Integracja.Server.Web.Areas.Pytania.Models.Home.IHomeActions
 @model HomeViewModel
 
+@section Styles
+{
+    <link rel="stylesheet" href="~/css/Shared/TableCardLayout.css" />
+}
+
+@section Scripts
+{
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
+    <script src="~/js/Shared/DataTables.js"></script>
+    <script src="~/js/Shared/TableCardLayout.js"></script>
+}
+
 @{ await Html.RenderPartialAsync("~/Views/Shared/Alerts/_AlertsList.cshtml", Model.Alerts);}
 
 <h2>Pytania</h2>
 <br />
 
 <div class="table-wrapper-scroll-y">
-    <table id="table_id" class="table table-bordered table-striped table-sm ">
+    <table id="table_id" class="table table-sm data-table table-card-layout">
         <thead>
             <tr>
                 <th scope="col">Treść</th>
                 <th scope="col">Kategoria</th>
-                <th scope="col">Twoje</th>
                 <th scope="col">Akcje</th>
+                <th scope="col">Twoje</th>
             </tr>
         </thead>
         <tbody>
@@ -24,12 +36,12 @@
                 <tr>
                     <td>@question.Content</td>
                     <td>@question.CategoryName</td>
-                    <td>@(!question.IsPublic)</td>
                     <td>
                         <a asp-action="@nameof(IHomeActions.GotoQuestionRead)" asp-route-id="@question.Id">Szczegóły</a> |
                         <a asp-action="@nameof(IHomeActions.GotoQuestionUpdate)" asp-route-id="@question.Id">Edycja</a> |
                         <a asp-action="@nameof(IHomeActions.GotoQuestionDelete)" asp-route-id="@question.Id">Usuń</a>
                     </td>
+                    <td>@(!question.IsPublic)</td>
                 </tr>
             }
         </tbody>

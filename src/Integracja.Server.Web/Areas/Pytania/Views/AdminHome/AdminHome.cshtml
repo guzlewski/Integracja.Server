@@ -4,6 +4,12 @@
 @using static Integracja.Server.Web.Areas.Pytania.Models.AdminHome.IAdminHomeActions
 @model AdminHomeViewModel
 
+@section Scripts
+{
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
+    <script src="~/js/Shared/DataTables.js"></script>
+}
+
 @{ await Html.RenderPartialAsync("~/Views/Shared/Alerts/_AlertsList.cshtml", Model.Alerts);}
 
 <h2>Pytania</h2>
@@ -11,7 +17,7 @@
 
 
 <div class="table-wrapper-scroll-y">
-    <table id="table_id" class="table table-bordered table-striped table-sm ">
+    <table id="table_id" class="table table-bordered table-striped table-sm data-table">
         <thead>
             <tr>
                 <th scope="col">ID</th>
@@ -41,13 +47,6 @@
         </tbody>
     </table>
 </div>
-
-@section Scripts{ 
-    <script type="text/javascript">
-        
-    </script>
-}
-
 
 <div>
     <a asp-action="@nameof(IAdminHomeActions.GotoQuestionCreate)">Stwórz pytanie</a>
