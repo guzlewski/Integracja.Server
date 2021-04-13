@@ -1,17 +1,13 @@
-﻿using AutoMapper;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using AutoMapper;
 using Integracja.Server.Core.Models.Identity;
 using Integracja.Server.Infrastructure.Data;
-using Integracja.Server.Infrastructure.Services.Implementations;
 using Integracja.Server.Web.Areas.Historia.Models;
 using Integracja.Server.Web.Controllers;
-using Integracja.Server.Web.Models.Shared.Game;
 using Integracja.Server.Web.Models.Shared.History;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Integracja.Server.Web.Areas.Historia.Controllers
 {
@@ -38,6 +34,7 @@ namespace Integracja.Server.Web.Areas.Historia.Controllers
             List<HistoryUserInfo> HistoryGameUserInfo = new List<HistoryUserInfo>();
 
             int points = 0;
+
             foreach (var k in questionScore)
                 points += k.Value;
            

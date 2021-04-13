@@ -1,7 +1,7 @@
-﻿using Integracja.Server.Infrastructure.Models;
-using Integracja.Server.Web.Models.Shared.Gamemode;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using Integracja.Server.Infrastructure.Models;
+using Integracja.Server.Web.Models.Shared.Gamemode;
 
 namespace Integracja.Server.Web.Models.Shared.Game
 {

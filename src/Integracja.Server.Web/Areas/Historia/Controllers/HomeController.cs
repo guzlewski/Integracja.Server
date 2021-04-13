@@ -1,7 +1,8 @@
-﻿using AutoMapper;
-using Integracja.Server.Core.Models.Base;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using AutoMapper;
 using Integracja.Server.Core.Models.Identity;
-using Integracja.Server.Core.Models.Joins;
 using Integracja.Server.Infrastructure.Data;
 using Integracja.Server.Web.Areas.Historia.Models;
 using Integracja.Server.Web.Controllers;
@@ -9,11 +10,6 @@ using Integracja.Server.Web.Models.Shared.Game;
 using Integracja.Server.Web.Models.Shared.History;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Routing;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Integracja.Server.Web.Areas.Historia.Controllers
 {
@@ -67,14 +63,14 @@ namespace Integracja.Server.Web.Areas.Historia.Controllers
             return SortedList;
         }
 
-        public async Task<IActionResult> HistoryUserReadView(int gameId, int userId)
+        public Task<IActionResult> HistoryUserReadView(int gameId, int userId)
         {
-            return RedirectToAction("Index", "HistoryUser", new { gameId, userId });
+            return Task.FromResult<IActionResult>(RedirectToAction("Index", "HistoryUser", new { gameId, userId }));
         }
 
-        public async Task<IActionResult> HistoryQuestionReadView(int questionId)
+        public Task<IActionResult> HistoryQuestionReadView(int questionId)
         {
-            return RedirectToAction("Index", "HistoryQuestion", new { questionId });
+            return Task.FromResult<IActionResult>(RedirectToAction("Index", "HistoryQuestion", new { questionId }));
         }
 
     }

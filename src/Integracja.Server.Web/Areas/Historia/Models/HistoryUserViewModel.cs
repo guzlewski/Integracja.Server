@@ -1,8 +1,4 @@
-﻿using Integracja.Server.Core.Models.Joins;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Integracja.Server.Web.Areas.Historia.Models
 {

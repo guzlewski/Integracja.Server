@@ -53,7 +53,7 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
 
             if (user == null)
             {
-                throw new NotFoundException();
+                throw new UnauthorizedException();
             }
 
             user.SessionGuid = null;

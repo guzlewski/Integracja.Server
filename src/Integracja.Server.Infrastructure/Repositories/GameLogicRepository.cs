@@ -6,6 +6,7 @@ using Integracja.Server.Core.Enums;
 using Integracja.Server.Core.Models.Joins;
 using Integracja.Server.Core.Repositories;
 using Integracja.Server.Infrastructure.Data;
+using Integracja.Server.Infrastructure.Enums;
 using Integracja.Server.Infrastructure.Exceptions;
 using Microsoft.EntityFrameworkCore;
 
@@ -20,17 +21,18 @@ namespace Integracja.Server.Infrastructure.Repositories
             _dbContext = dbContext;
         }
 
-        public async Task<IQueryable<GameQuestion>> GetQuestion(int gameId, int userId)
+        public async Task<IQueryable<GameUserQuestion>> GetQuestion(int gameId, int userId)
         {
             var entity = await _dbContext.GameUsers
                 .Where(gu => gu.GameId == gameId &&
                     gu.UserId == userId &&
                     gu.GameUserState == GameUserState.Active &&
-                    gu.Game.EndTime > DateTimeOffset.Now)
+                    gu.Game.GameState != GameState.Deleted)
                 .Select(gu => new
                 {
                     GameUser = gu,
-                    gu.Game.Gamemode
+                    gu.Game.Gamemode,
+                    gu.Game
                 })
                 .FirstOrDefaultAsync();
 
@@ -39,13 +41,29 @@ namespace Integracja.Server.Infrastructure.Repositories
                 throw new NotFoundException();
             }
 
+            if (entity.Game.GameState != GameState.Normal)
+            {
+                throw new ConflictException(ErrorCode.GameHasBeenCancelled);
+            }
+
+            var now = DateTimeOffset.Now;
+
+            if (entity.Game.EndTime <= now)
+            {
+                throw new ConflictException(ErrorCode.GameHasEnded);
+            }
+
+            if (entity.GameUser.AnsweredQuestions == entity.Game.QuestionsCount)
+            {
+                throw new ConflictException(ErrorCode.AlreadyAnsweredAllQuestions);
+            }
+
             if (entity.GameUser.GameOver)
             {
-                throw new ConflictException("You cannot play this game.");
+                throw new ConflictException(ErrorCode.GameIsOver);
             }
 
             var entitiesChanged = false;
-            var now = DateTimeOffset.Now;
 
             if (entity.GameUser.AnsweredQuestions == 0)
             {
@@ -58,7 +76,7 @@ namespace Integracja.Server.Infrastructure.Repositories
                 entity.GameUser.GameOver = true;
                 await _dbContext.SaveChangesAsync();
 
-                throw new ConflictException("Time for this game has left.");
+                throw new ConflictException(ErrorCode.GameTimeHasExpired);
             }
 
             var secondEntities = await _dbContext.GameQuestions
@@ -90,9 +108,10 @@ namespace Integracja.Server.Infrastructure.Repositories
                 await _dbContext.SaveChangesAsync();
             }
 
-            return _dbContext.GameQuestions
+            return _dbContext.GameUserQuestions
                 .AsNoTracking()
                 .Where(gu => gu.GameId == gameId &&
+                    gu.UserId == userId &&
                     gu.QuestionId == secondEntities.QuestionId);
         }
 
@@ -103,8 +122,7 @@ namespace Integracja.Server.Infrastructure.Repositories
                     guq.UserId == userId &&
                     guq.QuestionId == questionId &&
                     guq.Game.GameState != GameState.Deleted &&
-                    guq.GameUser.GameUserState == GameUserState.Active &&
-                    !guq.IsAnswered)
+                    guq.GameUser.GameUserState == GameUserState.Active)
                 .Include(guq => guq.Game)
                     .ThenInclude(g => g.Gamemode)
                 .Include(guq => guq.Question)
@@ -118,29 +136,48 @@ namespace Integracja.Server.Infrastructure.Repositories
                 throw new NotFoundException();
             }
 
-            if (gameUserQuestionEntity.GameUser.GameOver)
-            {
-                throw new ConflictException("You cannot play this game.");
-            }
-
             if (gameUserQuestionEntity.Game.GameState != GameState.Normal)
             {
-                throw new ConflictException("This game has been stopped.");
+                throw new ConflictException(ErrorCode.GameHasBeenCancelled);
             }
 
             var now = DateTimeOffset.Now;
 
-            if (gameUserQuestionEntity.Game.EndTime < now)
+            if (gameUserQuestionEntity.Game.EndTime <= now)
             {
-                throw new ConflictException("This game has ended.");
+                throw new ConflictException(ErrorCode.GameHasEnded);
+            }
+
+            if (gameUserQuestionEntity.IsAnswered)
+            {
+                throw new ConflictException(ErrorCode.AlreadyAnsweredThisQuestion);
+            }
+
+            if (gameUserQuestionEntity.GameUser.GameOver)
+            {
+                throw new ConflictException(ErrorCode.GameIsOver);
             }
 
             if (gameUserQuestionEntity.Game.Gamemode.TimeForOneQuestion != null && (now - gameUserQuestionEntity.QuestionDownloadTime.Value).TotalSeconds > gameUserQuestionEntity.Game.Gamemode.TimeForOneQuestion)
             {
-                gameUserQuestionEntity.GameUser.GameOver = true;
+                gameUserQuestionEntity.IsAnswered = true;
+                gameUserQuestionEntity.GameUser.AnsweredQuestions++;
+                gameUserQuestionEntity.GameUser.IncorrectlyAnsweredQuestions++;
+
+                if (gameUserQuestionEntity.Game.Gamemode.NumberOfLives != null && gameUserQuestionEntity.GameUser.IncorrectlyAnsweredQuestions > gameUserQuestionEntity.Game.Gamemode.NumberOfLives)
+                {
+                    gameUserQuestionEntity.GameUser.GameOver = true;
+                    gameUserQuestionEntity.GameUser.GameEndTime = now;
+                }
+
+                if (gameUserQuestionEntity.GameUser.AnsweredQuestions == gameUserQuestionEntity.Game.QuestionsCount)
+                {
+                    gameUserQuestionEntity.GameUser.GameEndTime = now;
+                }
+
                 await _dbContext.SaveChangesAsync();
 
-                throw new ConflictException("Time for this question has left.");
+                throw new ConflictException(ErrorCode.QuestionTimeHasExpired);
             }
 
             if (gameUserQuestionEntity.Game.Gamemode.TimeForFullQuiz != null && (now - gameUserQuestionEntity.GameUser.GameStartTime.Value).TotalSeconds > gameUserQuestionEntity.Game.Gamemode.TimeForFullQuiz)
@@ -148,12 +185,13 @@ namespace Integracja.Server.Infrastructure.Repositories
                 gameUserQuestionEntity.GameUser.GameOver = true;
                 await _dbContext.SaveChangesAsync();
 
-                throw new ConflictException("Time for this game has left.");
+                throw new ConflictException(ErrorCode.GameTimeHasExpired);
             }
 
             var correctAnswers = gameUserQuestionEntity.Question.Answers
                 .Where(a => a.IsCorrect)
                 .Select(a => a.Id);
+
             var selectedAnswers = asnwers
                 .Where(id => gameUserQuestionEntity.Question.Answers.Any(a => a.Id == id));
 

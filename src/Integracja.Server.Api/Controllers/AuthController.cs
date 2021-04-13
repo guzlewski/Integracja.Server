@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Integracja.Server.Api.Attributes;
 using Integracja.Server.Infrastructure.Models;
 using Integracja.Server.Infrastructure.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -7,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Integracja.Server.Api.Controllers
 {
+    [Mobile]
     [Route("api/[controller]")]
     [ApiController]
     public class AuthController : DefaultController
@@ -18,19 +20,30 @@ namespace Integracja.Server.Api.Controllers
             _authService = authService;
         }
 
-        [HttpPost("[action]")]
+        /// <summary>
+        /// Logs user into the system
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <response code="200">Successful operation</response>
+        /// <response code="400">Invalid body supplied</response>
+        /// <response code="401">Invalid username or password supplied</response>
+        /// <response code="500">Internal server error</response>
+        [ProducesResponseType(typeof(DetailUserDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
         [AllowAnonymous]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [HttpPost("[action]")]
         public async Task<DetailUserDto> Login(LoginDto dto)
         {
             return await _authService.Login(dto);
         }
 
-        [HttpGet("[action]")]
+        /// <summary>
+        /// Logs out current logged in user session
+        /// </summary>
+        /// <response code="204">Successful operation</response>
+        /// <response code="500">Internal server error</response>
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [HttpGet("[action]")]
         public async Task<IActionResult> Logout()
         {
             await _authService.Logout(UserId.Value);

@@ -1,4 +1,6 @@
-﻿using AutoMapper;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using AutoMapper;
 using Integracja.Server.Core.Models.Identity;
 using Integracja.Server.Infrastructure.Data;
 using Integracja.Server.Infrastructure.Models;
@@ -11,8 +13,6 @@ using Integracja.Server.Web.Models.Shared.Enums;
 using Integracja.Server.Web.Models.Shared.Question;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Integracja.Server.Web.Areas.Pytania.Controllers
 {
@@ -31,7 +31,7 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
             return IndexResult("Index", "Home");
         }
 
-        protected IActionResult IndexResult( string redirectActionName, string redirectControllerName )
+        protected IActionResult IndexResult(string redirectActionName, string redirectControllerName)
         {
             var alert = GetAlerts();
             var question = TryRetrieveFromTempData<QuestionModel>();
@@ -48,9 +48,9 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
             }
         }
 
-        public async Task<IActionResult> QuestionCreateViewStep1(int? categoryId)
+        public Task<IActionResult> QuestionCreateViewStep1(int? categoryId)
         {
-            return RedirectToAction("Index", CategoryForQuestionController.Name, new { area = "Kategorie", id = categoryId });
+            return Task.FromResult<IActionResult>(RedirectToAction("Index", CategoryForQuestionController.Name, new { area = "Kategorie", id = categoryId }));
         }
 
         public async Task<IActionResult> QuestionCreateViewStep2(int categoryId)
@@ -68,11 +68,11 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
         }
         public async Task<IActionResult> QuestionCreate(QuestionModel question)
         {
-            int questionId = await QuestionService.Add( Mapper.Map<CreateQuestionDto>(question), UserId);
+            int questionId = await QuestionService.Add(Mapper.Map<CreateQuestionDto>(question), UserId);
 
             List<AlertModel> alerts = new List<AlertModel>();
             alerts.Add(QuestionAlert.CreateSuccess());
-            
+
 
 
             // jeśli weszło z edycji to cofamy do głównego panelu 
@@ -88,7 +88,7 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
                 SetAlerts(alerts);
                 return RedirectToAction(nameof(IQuestionActions.QuestionCreateViewStep2), new { categoryId = question.CategoryId });
             }
-                
+
         }
         public async Task<IActionResult> QuestionReadView(int questionId)
         {
@@ -98,7 +98,7 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
         }
         public async Task<IActionResult> QuestionUpdate(QuestionModel question)
         {
-            int questionId = await QuestionService.Update( question.Id.Value, Mapper.Map<EditQuestionDto>(question), UserId );
+            int questionId = await QuestionService.Update(question.Id.Value, Mapper.Map<EditQuestionDto>(question), UserId);
 
             SetAlert(QuestionAlert.UpdateSuccess());
 
@@ -112,13 +112,13 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
             {
                 Model.Form.Question = await QuestionService.Get<QuestionModel>(questionId.Value, UserId);
             }
-                
+
             Model.Form.ViewMode = ViewMode.Updating;
             return View(QuestionViewName, Model);
         }
         public virtual async Task<IActionResult> QuestionDelete(int? questionId)
         {
-            return await QuestionDeleteResult( questionId, "Index", HomeController.Name);
+            return await QuestionDeleteResult(questionId, "Index", HomeController.Name);
         }
 
         protected async Task<IActionResult> QuestionDeleteResult(int? questionId, string redirectActionName, string redirectControllerName)
@@ -130,42 +130,42 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
 
             return RedirectToAction(redirectActionName, redirectControllerName);
         }
-        
-        public async Task<IActionResult> AddAnswerField(QuestionModel question)
+
+        public Task<IActionResult> AddAnswerField(QuestionModel question)
         {
             question.AddAnswer();
 
             SaveToTempData(question);
 
-            return RedirectToAction("Index");
+            return Task.FromResult<IActionResult>(RedirectToAction("Index"));
         }
-        public async Task<IActionResult> RemoveAnswerField(QuestionModel question)
+        public Task<IActionResult> RemoveAnswerField(QuestionModel question)
         {
             question.RemoveAnswer();
 
             SaveToTempData(question);
 
-            return RedirectToAction("Index");
+            return Task.FromResult<IActionResult>(RedirectToAction("Index"));
         }
 
-        public async Task<IActionResult> QuestionCreateCategoryUpdate(int categoryId)
+        public Task<IActionResult> QuestionCreateCategoryUpdate(int categoryId)
         {
-            return RedirectToAction(nameof(IQuestionActions.QuestionCreateViewStep1), new { categoryId = categoryId });
+            return Task.FromResult<IActionResult>(RedirectToAction(nameof(IQuestionActions.QuestionCreateViewStep1), new { categoryId = categoryId }));
         }
 
-        public async Task<IActionResult> GotoQuestionUpdate(int questionId)
+        public Task<IActionResult> GotoQuestionUpdate(int questionId)
         {
-            return RedirectToAction(nameof(IQuestionActions.QuestionUpdateView), new { questionId = questionId });
+            return Task.FromResult<IActionResult>(RedirectToAction(nameof(IQuestionActions.QuestionUpdateView), new { questionId = questionId }));
         }
 
-        public async Task<IActionResult> GotoQuestionDelete(int questionId)
+        public Task<IActionResult> GotoQuestionDelete(int questionId)
         {
-            return RedirectToAction(nameof(IQuestionActions.QuestionDelete), new { questionId = questionId });
+            return Task.FromResult<IActionResult>(RedirectToAction(nameof(IQuestionActions.QuestionDelete), new { questionId = questionId }));
         }
 
-        public async Task<IActionResult> GotoHome()
+        public Task<IActionResult> GotoHome()
         {
-            return RedirectToAction("Index", HomeController.Name);
+            return Task.FromResult<IActionResult>(RedirectToAction("Index", HomeController.Name));
         }
     }
 }

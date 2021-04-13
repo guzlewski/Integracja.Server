@@ -15,7 +15,7 @@ namespace Integracja.Server.Core.Models.Identity
         public string ProfileThumbnail { get; set; }
 
         public ICollection<Category> CreatedCategories { get; set; }
-        public ICollection<Question> CreatedQuestions { get; set; }  
+        public ICollection<Question> CreatedQuestions { get; set; }
         public ICollection<Gamemode> CreatedGamemodes { get; set; }
         public ICollection<Game> CreatedGames { get; set; }
 

@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Integracja.Server.Web.Areas.Konto.Models
 {

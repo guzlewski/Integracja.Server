@@ -1,12 +1,12 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Integracja.Server.Infrastructure.Enums;
+using Microsoft.AspNetCore.Http;
 
 namespace Integracja.Server.Infrastructure.Exceptions
 {
-    public class ConflictException : ApiException
+    public class ConflictException : DetailedApiException
     {
-        public ConflictException(string details = null) : base(StatusCodes.Status409Conflict, details)
+        public ConflictException(ErrorCode errorCode, string message = null) : base(errorCode, StatusCodes.Status409Conflict, message)
         {
-
         }
     }
 }

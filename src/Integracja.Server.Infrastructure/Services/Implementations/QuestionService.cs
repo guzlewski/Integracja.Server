@@ -53,8 +53,8 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
         public async Task<IEnumerable<T>> GetOwned<T>(int userId)
         {
             return await _questionRepository.GetAll()
-                .Where(q => q.OwnerId == userId && 
-                    !q.IsDeleted && 
+                .Where(q => q.OwnerId == userId &&
+                    !q.IsDeleted &&
                     !q.Category.IsDeleted)
                 .ProjectTo<T>(_configuration)
                 .ToListAsync();

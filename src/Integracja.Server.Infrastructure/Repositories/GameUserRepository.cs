@@ -5,6 +5,7 @@ using Integracja.Server.Core.Enums;
 using Integracja.Server.Core.Models.Joins;
 using Integracja.Server.Core.Repositories;
 using Integracja.Server.Infrastructure.Data;
+using Integracja.Server.Infrastructure.Enums;
 using Integracja.Server.Infrastructure.Exceptions;
 using Microsoft.EntityFrameworkCore;
 
@@ -38,8 +39,7 @@ namespace Integracja.Server.Infrastructure.Repositories
         {
             var entity = await _dbContext.Games
                 .Where(g => g.Guid == gameGuid &&
-                    g.GameState == GameState.Normal &&
-                    g.EndTime > DateTimeOffset.Now)
+                    g.GameState == GameState.Normal)
                 .Select(g => new
                 {
                     Game = g,
@@ -57,14 +57,19 @@ namespace Integracja.Server.Infrastructure.Repositories
                 throw new NotFoundException();
             }
 
+            if (entity.Game.EndTime <= DateTimeOffset.Now)
+            {
+                throw new ConflictException(ErrorCode.GameHasEnded);
+            }
+
             if (entity.GameUser != null && entity.GameUser.GameUserState == GameUserState.Active)
             {
-                throw new ConflictException("You already joined this game.");
+                throw new ConflictException(ErrorCode.AlreadyJoinedGame);
             }
 
             if (entity.Game.MaxPlayersCount.HasValue && entity.GameUsersCount >= entity.Game.MaxPlayersCount.Value)
             {
-                throw new ConflictException("Game is full.");
+                throw new ConflictException(ErrorCode.GameIsFull);
             }
 
             if (entity.GameUser == null)
@@ -92,8 +97,7 @@ namespace Integracja.Server.Infrastructure.Repositories
                 .Where(gu => gu.GameId == gameId &&
                     gu.UserId == userId &&
                     gu.GameUserState != GameUserState.Left &&
-                    gu.Game.GameState == GameState.Normal &&
-                    gu.Game.EndTime > DateTimeOffset.Now)
+                    gu.Game.GameState == GameState.Normal)
                 .Select(gu => new
                 {
                     gu.Game,
@@ -104,6 +108,11 @@ namespace Integracja.Server.Infrastructure.Repositories
             if (entity == null)
             {
                 throw new NotFoundException();
+            }
+
+            if (entity.Game.EndTime <= DateTimeOffset.Now)
+            {
+                throw new ConflictException(ErrorCode.GameHasEnded);
             }
 
             entity.GameUser.GameUserState = GameUserState.Left;

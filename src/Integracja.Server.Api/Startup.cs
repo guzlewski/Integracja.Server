@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Sentry.AspNetCore;
 
 namespace Integracja.Server.Api
 {
@@ -40,6 +41,8 @@ namespace Integracja.Server.Api
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseSentryTracing();
 
             app.UseAuthentication();
 

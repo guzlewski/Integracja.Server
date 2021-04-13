@@ -1,6 +1,8 @@
 using Integracja.Server.Core.Models.Identity;
 using Integracja.Server.Infrastructure.Data;
+using Integracja.Server.Web.Installers;
 using Integracja.Server.Web.Services;
+using Integracja.Server.Web.Ulitities;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity.UI.Services;
@@ -9,33 +11,35 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
 
 namespace Integracja.Server.Web
 {
     public class Startup
     {
+        public IConfiguration Configuration { get; }
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
-
         public void ConfigureServices(IServiceCollection services)
         {
+            services.InstallServices(typeof(Startup).Assembly, Configuration);
+
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
-                    Configuration.GetConnectionString("LocalDbConnection")));
+                    Configuration.GetConnectionString("DatabaseConnection")));
             services.AddDatabaseDeveloperPageExceptionFilter();
-            
+
 
             services.AddDefaultIdentity<User>(options =>
             {
                 options.SignIn.RequireConfirmedAccount = false;
                 options.User.RequireUniqueEmail = true;
             })
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddClaimsPrincipalFactory<ProfilePicturesClaimsPrincipalFactory>();
 
             services.Configure<SmtpSettings>(Configuration.GetSection("SmtpSettings"));
             services.AddTransient<IEmailSender, SmtpEmailSender>();
@@ -43,11 +47,11 @@ namespace Integracja.Server.Web
             services.AddControllersWithViews();
             services.AddRazorPages().AddRazorRuntimeCompilation();
 
-            services.ConfigureApplicationCookie( options =>
-            {
-                options.LoginPath = "/Identity/Account/Login";
-                options.AccessDeniedPath = "/Identity/Account/Login";
-            });
+            services.ConfigureApplicationCookie(options =>
+           {
+               options.LoginPath = "/Identity/Account/Login";
+               options.AccessDeniedPath = "/Identity/Account/Login";
+           });
 
             services.AddMvc(options =>
             {
@@ -57,7 +61,7 @@ namespace Integracja.Server.Web
             services.AddAutoMapper(new[] {
                 typeof(ApplicationDbContext),
                 typeof(Controllers.ApplicationController) });
-            }
+        }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {

@@ -1,11 +1,7 @@
-﻿using Integracja.Server.Core.Models.Joins;
+﻿using System.Collections.Generic;
+using Integracja.Server.Core.Models.Joins;
 using Integracja.Server.Web.Models.Shared.Game;
 using Integracja.Server.Web.Models.Shared.Gamemode;
-using Integracja.Server.Web.Models.Shared.History;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Integracja.Server.Web.Areas.Historia.Models
 {

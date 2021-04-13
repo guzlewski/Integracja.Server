@@ -1,4 +1,7 @@
-﻿using AutoMapper;
+﻿using System;
+using System.Collections.Generic;
+using System.Text.Json;
+using AutoMapper;
 using Integracja.Server.Core.Models.Identity;
 using Integracja.Server.Infrastructure.Data;
 using Integracja.Server.Infrastructure.Repositories;
@@ -8,17 +11,14 @@ using Integracja.Server.Web.Models.Shared.Alert;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Text.Json;
 
 namespace Integracja.Server.Web.Controllers
 {
     [Authorize]
     public class ApplicationController : Controller, IAlerts
     {
-        public ApplicationController(UserManager<User> userManager, ApplicationDbContext dbContext, IMapper mapper ) : base()
-        { 
+        public ApplicationController(UserManager<User> userManager, ApplicationDbContext dbContext, IMapper mapper) : base()
+        {
             _context = dbContext;
             _userManager = userManager;
             _userId = null;
@@ -47,24 +47,39 @@ namespace Integracja.Server.Web.Controllers
 
         public static string Name { get; private set; }
 
-        protected ICategoryService CategoryService { get =>
-        new CategoryService(new CategoryRepository(DbContext), Mapper, Mapper.ConfigurationProvider ); }
+        protected ICategoryService CategoryService
+        {
+            get =>
+new CategoryService(new CategoryRepository(DbContext), Mapper, Mapper.ConfigurationProvider);
+        }
 
-        protected IQuestionService QuestionService { get => 
-        new QuestionService(new QuestionRepository(DbContext), Mapper, Mapper.ConfigurationProvider); }
+        protected IQuestionService QuestionService
+        {
+            get =>
+new QuestionService(new QuestionRepository(DbContext), Mapper, Mapper.ConfigurationProvider);
+        }
 
-        protected IGamemodeService GamemodeService { get => 
-        new GamemodeService(new GamemodeRepository(DbContext), Mapper, Mapper.ConfigurationProvider); }
+        protected IGamemodeService GamemodeService
+        {
+            get =>
+new GamemodeService(new GamemodeRepository(DbContext), Mapper, Mapper.ConfigurationProvider);
+        }
 
-        protected IGameService GameService { get => 
-        new GameService(new GameRepository(DbContext, new Random()), Mapper, Mapper.ConfigurationProvider); }
+        protected IGameService GameService
+        {
+            get =>
+new GameService(new GameRepository(DbContext, new Random()), Mapper, Mapper.ConfigurationProvider);
+        }
 
-        protected IGameUserService GameUserService { get =>
-        new GameUserService(new GameUserRepository(DbContext), Mapper.ConfigurationProvider); }
-        
+        protected IGameUserService GameUserService
+        {
+            get =>
+new GameUserService(new GameUserRepository(DbContext), Mapper.ConfigurationProvider);
+        }
+
 
         private string DefaultTempDataKey<T>() => typeof(T).ToString();
-        protected void SaveToTempData<T>(T form, string key )
+        protected void SaveToTempData<T>(T form, string key)
         {
             string jsonString = JsonSerializer.Serialize<T>(form);
             TempData[key] = jsonString;
@@ -104,21 +119,6 @@ namespace Integracja.Server.Web.Controllers
         public List<AlertModel> GetAlerts()
         {
             return TryRetrieveFromTempData<List<AlertModel>>();
-        }
-
-        // TODO:
-        public FileContentResult Picture()
-        {
-            /*var user = UserManager.GetUserAsync(User);
-
-            if(user.Result.Picture == null)
-            {
-                var imageBytes = System.IO.File.ReadAllBytes("wwwroot/img/user.png");
-                return new FileContentResult(imageBytes, "image/jpeg");
-            }
-
-            return new FileContentResult(user.Result.Picture, "image/jpeg");*/
-            throw new NotImplementedException();
         }
     }
 }

@@ -29,7 +29,36 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
         private readonly string _contentType;
         private readonly IImageEncoder _imageEncoder;
 
-        public PictureService(IOptions<PictureSettings> options, ApplicationDbContext dbContext, IStorageService fileService)
+        public static readonly string[] ValidMimeTypes =
+        {
+            "image/bmp",
+            "image/x-windows-bmp",
+            "image/gif",
+            "image/jpeg",
+            "image/pjpeg",
+            "image/png",
+            "image/tga",
+            "image/x-tga",
+            "image/x-targa"
+       };
+
+        public static readonly string[] ValidFileExtensions =
+        {
+            ".bm",
+            ".bmp",
+            ".dip",
+            ".gif",
+            ".jpg",
+            ".jpeg",
+            ".jfif",
+            ".png",
+            ".tga",
+            ".vda",
+            ".icb",
+            ".vst",
+        };
+
+        public PictureService(ApplicationDbContext dbContext, IOptions<PictureSettings> options, IStorageService fileService)
         {
             _dbContext = dbContext;
             _fileService = fileService;
@@ -44,18 +73,17 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
                 throw new PayloadTooLargeException();
             }
 
-            if (!ValidateContentType(formFile.ContentType) || ValidateExtension(formFile.Name))
+            if (!ValidateContentType(formFile.ContentType) || !ValidateExtension(formFile.FileName))
             {
                 throw new UnsupportedMediaTypeException();
             }
 
             var userEntity = await _dbContext.Users
-                .FirstOrDefaultAsync(u => u.Id == userId &&
-                !u.IsDeleted);
+                .FirstOrDefaultAsync(u => u.Id == userId && !u.IsDeleted);
 
             if (userEntity == null)
             {
-                throw new NotFoundException();
+                throw new UnauthorizedException();
             }
 
             using var picture = new MemoryStream();
@@ -66,9 +94,9 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
                 Resize(picture, formFile, _settings.PictureWidth, _settings.PictureHeight);
                 Resize(thumbnail, formFile, _settings.ThumbnailWidth, _settings.ThumbnailHeight);
             }
-            catch
+            catch (Exception ex)
             {
-                throw new BadRequestException("Invalid file.");
+                throw new UnprocessableEntityException(innerException: ex);
             }
 
             userEntity.ProfilePicture = (await _fileService.AddOrUpdate(picture, _contentType, GetFileName(ImageType.ProfilePicture, userId))).AbsoluteUri;
@@ -82,12 +110,11 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
         public async Task Delete(int userId)
         {
             var userEntity = await _dbContext.Users
-                .FirstOrDefaultAsync(u => u.Id == userId &&
-                !u.IsDeleted);
+                .FirstOrDefaultAsync(u => u.Id == userId && !u.IsDeleted);
 
             if (userEntity == null)
             {
-                throw new NotFoundException();
+                throw new UnauthorizedException();
             }
 
             if (userEntity.ProfilePicture == null || userEntity.ProfileThumbnail == null)
@@ -109,6 +136,7 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
             using var input = formFile.OpenReadStream();
             using var image = Image.Load(input);
 
+            image.Metadata.ExifProfile = null;
             image.Mutate(x => x.Resize(width, height));
             image.Save(output, _imageEncoder);
 
@@ -135,41 +163,12 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
 
         private static bool ValidateContentType(string contentType)
         {
-            var acceptedContentTypes = new string[]
-            {
-                "image/bmp",
-                "image/x-windows-bmp",
-                "image/gif",
-                "image/jpeg",
-                "image/pjpeg",
-                "image/png",
-                "image/tga",
-                "image/x-tga",
-                "image/x-targa"
-            };
-
-            return acceptedContentTypes.Contains(contentType.ToLower());
+            return ValidMimeTypes.Contains(contentType.ToLower());
         }
 
         private static bool ValidateExtension(string fileName)
         {
-            var acceptedExtensions = new string[]
-            {
-                ".bm",
-                ".bmp",
-                ".dip",
-                ".gif",
-                ".jpg",
-                ".jpeg",
-                ".jfif",
-                ".png",
-                ".tga",
-                ".vda",
-                ".icb",
-                ".vst",
-            };
-
-            return acceptedExtensions.Contains(Path.GetExtension(fileName).ToLower());
+            return ValidFileExtensions.Contains(Path.GetExtension(fileName).ToLower());
         }
     }
 }

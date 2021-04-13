@@ -1,17 +1,16 @@
-﻿using AutoMapper;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using AutoMapper;
 using Integracja.Server.Core.Models.Identity;
 using Integracja.Server.Infrastructure.Data;
 using Integracja.Server.Infrastructure.Models;
 using Integracja.Server.Web.Areas.Gry.Models.Game;
 using Integracja.Server.Web.Areas.Gry.Models.Shared;
 using Integracja.Server.Web.Controllers;
-using Integracja.Server.Web.Mapper;
 using Integracja.Server.Web.Models.Shared.Game;
 using Integracja.Server.Web.Models.Shared.Question;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Integracja.Server.Web.Areas.Gry.Controllers
 {
@@ -36,7 +35,7 @@ namespace Integracja.Server.Web.Areas.Gry.Controllers
 
             var questionPool = TryRetrieveFromTempData<List<QuestionModel>>(QuestionPoolStoreKey);
 
-            if( questionPool != null )
+            if (questionPool != null)
                 model.GameQuestions = questionPool;
 
             model.Questions = Mapper.Map<List<QuestionModel>>(await QuestionService.GetAll<QuestionModel>(UserId));
@@ -44,24 +43,24 @@ namespace Integracja.Server.Web.Areas.Gry.Controllers
             return model;
         }
 
-        public async Task<IActionResult> Index(int? gamemodeId) 
+        public Task<IActionResult> Index(int? gamemodeId)
         {
-            return RedirectToAction(nameof(IGameActions.SettingsCreateView), new { gamemodeId = gamemodeId });
+            return Task.FromResult<IActionResult>(RedirectToAction(nameof(IGameActions.SettingsCreateView), new { gamemodeId = gamemodeId }));
         }
 
-        public async Task<IActionResult> SettingsCreateView(int gamemodeId)
+        public Task<IActionResult> SettingsCreateView(int gamemodeId)
         {
             GameSettingsFormViewModel model = new GameSettingsFormViewModel();
 
             model.Settings.Gamemode.Id = gamemodeId;
 
-            return View(SettingsViewName, model);
+            return Task.FromResult<IActionResult>(View(SettingsViewName, model));
         }
 
-        public async Task<IActionResult> GameSettingsCreate(GameSettingsModel settings)
+        public Task<IActionResult> GameSettingsCreate(GameSettingsModel settings)
         {
             SaveToTempData(settings, GameSettingsStoreKey);
-            return RedirectToAction(nameof(IGameActions.QuestionPoolCreateView));
+            return Task.FromResult<IActionResult>(RedirectToAction(nameof(IGameActions.QuestionPoolCreateView)));
         }
 
         public async Task<IActionResult> QuestionPoolCreateView()
@@ -96,10 +95,10 @@ namespace Integracja.Server.Web.Areas.Gry.Controllers
             return View(QuestionPoolViewName, model);
         }
 
-        public async Task<IActionResult> QuestionPoolCreate()
+        public Task<IActionResult> QuestionPoolCreate()
         {
             // powinno i tak już być zapisane można sprawdzić poprawność
-            return RedirectToAction(nameof(IGameActions.GameCreate));
+            return Task.FromResult<IActionResult>(RedirectToAction(nameof(IGameActions.GameCreate)));
         }
 
         public async Task<IActionResult> GameCreate()
@@ -111,7 +110,7 @@ namespace Integracja.Server.Web.Areas.Gry.Controllers
 
             await GameService.Add(Mapper.Map<CreateGameDto>(game), UserId);
 
-            return RedirectToAction("Index",HomeController.Name);
+            return RedirectToAction("Index", HomeController.Name);
         }
 
         public async Task<IActionResult> GameDelete(int gameId)

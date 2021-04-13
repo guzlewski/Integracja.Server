@@ -1,6 +1,6 @@
-﻿using Integracja.Server.Infrastructure.Models;
+﻿using System.Collections.Generic;
+using Integracja.Server.Infrastructure.Models;
 using Integracja.Server.Web.Models.Shared.Alert;
-using System.Collections.Generic;
 
 namespace Integracja.Server.Web.Areas.Pytania.Models.AdminHome
 {
