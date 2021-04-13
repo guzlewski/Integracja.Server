@@ -47,6 +47,10 @@
                 </li>
 
                 <li>
+                    <a class="nav-link" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage"><i class="bi-gear-fill"></i> Ustawienia</a>
+                </li>
+
+                <li>
                     <a asp-area="Identity"
                        asp-page="/Account/Logout"
                        asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "Gry" })">
