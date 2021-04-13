@@ -3,13 +3,25 @@
 @using static Integracja.Server.Web.Areas.Gry.Models.Home.IHomeActions
 @model HomeViewModel
 
+@section Styles
+{
+    <link rel="stylesheet" href="~/css/Shared/TableCardLayout.css" />
+}
+
+@section Scripts
+{
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
+    <script src="~/js/Shared/DataTables.js"></script>
+    <script src="~/js/Shared/TableCardLayout.js"></script>
+}
+
 @{ await Html.RenderPartialAsync("~/Views/Shared/Alerts/_AlertsList.cshtml", Model.Alerts);}
 
 <h2>Gry</h2>
 <br />
 
 <div class="table-wrapper-scroll-y">
-    <table class="table table-bordered table-striped table-sm">
+    <table class="table table-bordered table-striped table-sm data-table table-card-layout">
         <thead>
             <tr>
                 <th scope="col">Nazwa gry</th>

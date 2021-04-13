@@ -1,13 +1,9 @@
 ﻿@using Integracja.Server.Web.Areas.Kategorie.Models.Shared
 @model CategorySelectViewModel
-@*tabela z przeglądem kategorii i możliwością wyboru*@
 
 <br />
-
-<link rel="stylesheet" href="~/css/Kategorie/_CategorySelect.css" />
-
 <div class="table-wrapper-scroll-y">
-    <table id="table_id" class="table table-bordered table-striped table-sm ">
+    <table id="table_id" class="table table-bordered table-striped data-table">
         <thead>
             <tr>
                 <th scope="col">Nazwa</th>
@@ -17,7 +13,7 @@
         <tbody>
             @for (int i = 0; i < Model.Categories.Count; i++)
             {
-                <tr class="@(Model.CategorySelected==Model.Categories[i].Id ? "category_selected" : "")">
+                <tr class="@(Model.CategorySelected==Model.Categories[i].Id ? "category-selected" : "")">
                     <td>
 
                         <a class="btn btn-light"

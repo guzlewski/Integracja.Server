@@ -1,6 +1,18 @@
 ﻿@using Integracja.Server.Web.Areas.Kategorie.Models.CategoryForQuestion
 @model CategoryForQuestionViewModel
 
+@section Styles
+{
+    <link rel="stylesheet" href="~/css/Kategorie/_CategorySelect.css" />
+}
+
+@section Scripts
+{
+    @* aktywacja DataTables dla tabeli z _CategorySelect *@
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
+    <script src="~/js/Shared/DataTables.js"></script> 
+}
+
 @{ await Html.RenderPartialAsync("~/Views/Shared/Alerts/_AlertsList.cshtml", Model.Alerts);}
 
 @*wybór i dodawanie kategorii*@

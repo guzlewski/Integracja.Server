@@ -21,25 +21,25 @@
         <div id="pytanie">
             <p id="question"> @(i+1). @Model.HistoryGameUserInfo[i].questionContent </p>
             @for (int j = 0; j < Model.HistoryGameUserInfo[i].answers.Count; j++)
+            {
+                if (Model.HistoryGameUserInfo[i].status[j] == 0)
                 {
-                    if (Model.HistoryGameUserInfo[i].correctAnswerId == j && Model.HistoryGameUserInfo[i].correctAnswerId == Model.HistoryGameUserInfo[i].userAnswerId)
-                    {
-                        <p> <i class="bi bi-dot"></i> <span id="correctAnswer"> @Model.HistoryGameUserInfo[i].answers[j] <i class="bi bi-check"> </i> </span> </p>
-                    }
-                    else if (Model.HistoryGameUserInfo[i].correctAnswerId == j)
-                    {
-                        <p> <i class="bi bi-dot"></i> <span id="correctAnswer"> @Model.HistoryGameUserInfo[i].answers[j] </span> </p>
-                    }
-                    else if (Model.HistoryGameUserInfo[i].userAnswerId == j)
-                    {
-                        <p> <i class="bi bi-dot"></i> <span id="wrongAnswer"> @Model.HistoryGameUserInfo[i].answers[j] <i class="bi bi-x"> </i> </span> </p>
-                    }
-                    else
-                    {
-                        <p> <i class="bi bi-dot"></i> @Model.HistoryGameUserInfo[i].answers[j] </p>
-                    }
+                    <p> <i class="bi bi-dot"></i> <span id="correctAnswer"> @Model.HistoryGameUserInfo[i].answers[j] <i class="bi bi-check"> </i> </span> </p>
                 }
-                <p> Przyznane punkty: @Model.HistoryGameUserInfo[i].pointsReceived</p>
+                if (Model.HistoryGameUserInfo[i].status[j] == 1)
+                {
+                    <p> <i class="bi bi-dot"></i> <span id="correctAnswer"> @Model.HistoryGameUserInfo[i].answers[j] </span> </p>
+                }
+                if (Model.HistoryGameUserInfo[i].status[j] == 2)
+                {
+                    <p> <i class="bi bi-dot"></i> <span id="wrongAnswer"> @Model.HistoryGameUserInfo[i].answers[j] <i class="bi bi-x"> </i> </span> </p>
+                }
+                if (Model.HistoryGameUserInfo[i].status[j] == 3)
+                {
+                    <p> <i class="bi bi-dot"></i> @Model.HistoryGameUserInfo[i].answers[j] </p>
+                }
+            }
+            <p> Przyznane punkty: @Model.HistoryGameUserInfo[i].pointsReceived</p>
         </div>
             
         }

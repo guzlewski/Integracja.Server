@@ -18,10 +18,9 @@ namespace Integracja.Server.Web.Areas.Konto.Controllers
     public class HomeController : ApplicationController, IHomeActions
     {
         private HomeViewModel Model { get; set; }
-
+        
         private readonly IPictureService _pictureService;
         private readonly PictureSettings _pictureSettings;
-
 
         public HomeController(UserManager<User> userManager, ApplicationDbContext dbContext, IMapper mapper, IPictureService pictureService, IOptions<PictureSettings> options) : base(userManager, dbContext, mapper)
         {
@@ -29,7 +28,6 @@ namespace Integracja.Server.Web.Areas.Konto.Controllers
             _pictureService = pictureService;
             _pictureSettings = options.Value;
         }
-
 
         [HttpGet]
         public IActionResult Index()
