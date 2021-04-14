@@ -13,6 +13,31 @@ namespace Integracja.Server.Web.Models.Shared.Game
 
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
+        public string DurationString
+        {
+            get
+            {
+                var duration = EndTime - StartTime;
+                int days = duration.Days;
+                int hours = duration.Hours;
+                int minutes = duration.Minutes;
+
+                var output = "error: DurationString";
+                if (days > 0)
+                {
+                    output = days + "d " + hours + "h " + minutes + "m";
+                }
+                else if (hours > 0)
+                {
+                    output = hours + "h " + minutes + "m";
+                }
+                else if( minutes > 0)
+                {
+                    output = minutes + "m";
+                }
+                return output;
+            }
+        }
 
         public bool RandomizeQuestionOrder { get; set; }
 

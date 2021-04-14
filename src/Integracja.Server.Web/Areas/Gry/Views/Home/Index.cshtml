@@ -13,6 +13,7 @@
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
     <script src="~/js/Shared/DataTables.js"></script>
     <script src="~/js/Shared/TableCardLayout.js"></script>
+    <script src="~/js/Shared/CountdownTimer.js"></script>
 }
 
 @{ await Html.RenderPartialAsync("~/Views/Shared/Alerts/_AlertsList.cshtml", Model.Alerts);}
@@ -21,7 +22,7 @@
 <br />
 
 <div class="table-wrapper-scroll-y">
-    <table class="table table-bordered table-striped table-sm data-table table-card-layout">
+    <table class="table table-bordered data-table table-card-layout">
         <thead>
             <tr>
                 <th scope="col">Nazwa gry</th>
@@ -34,19 +35,24 @@
         <tbody>
             @for (int i = 0; i < Model.Games.Count; ++i)
             {
-                <tr>
-                    <td>@Model.Games[i].Settings.Name</td>
-                    <td>@Model.Games[i].Id</td>
-                    <td>@Model.Games[i].Settings.StartTime</td>
-                    <td>@Model.Games[i].Settings.EndTime</td>
-                    <td>
-                        <a asp-action="@nameof(IHomeActions.GotoGameRead)" asp-route-gameId="@Model.Games[i].Id">Szczegóły</a> |
-                        <a asp-action="@nameof(IHomeActions.GotoGameHistory)" asp-route-gameId="@Model.Games[i].Id">Historia</a> |
-                        <a asp-action="@nameof(IHomeActions.GotoGameUpdate)" asp-route-gameId="@Model.Games[i].Id">Edytuj</a> |
-                        <a asp-action="@nameof(IHomeActions.GotoGameDelete)" asp-route-gameId="@Model.Games[i].Id">Anuluj</a>
-                    </td>
+            <tr>
+                <td>@Model.Games[i].Settings.Name</td>
+                <td>@Model.Games[i].Id</td>
+                @{ 
+                    var t = Model.Games[i].Settings.StartTime.ToUniversalTime().Subtract( new DateTime(1970,1,1) ).TotalMilliseconds;
+                }
+                <td class="countdown-timer" data-countdown-date="@t">
+                    @Model.Games[i].Settings.StartTime
+                </td>
+                <td>@Model.Games[i].Settings.DurationString</td>
+                <td>
+                    <a asp-action="@nameof(IHomeActions.GotoGameRead)" asp-route-gameId="@Model.Games[i].Id">Szczegóły</a> |
+                    <a asp-action="@nameof(IHomeActions.GotoGameHistory)" asp-route-gameId="@Model.Games[i].Id">Historia</a> |
+                    <a asp-action="@nameof(IHomeActions.GotoGameUpdate)" asp-route-gameId="@Model.Games[i].Id">Edytuj</a> |
+                    <a asp-action="@nameof(IHomeActions.GotoGameDelete)" asp-route-gameId="@Model.Games[i].Id">Anuluj</a>
+                </td>
 
-                </tr>
+            </tr>
             }
 
 
