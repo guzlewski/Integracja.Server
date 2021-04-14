@@ -46,7 +46,8 @@ function updateTimer() {
         var output = "";
 
         if (distance < 0) {
-            output = "EXPIRED";
+            var expiredText = $(this).data("expired-text");
+            output = expiredText;
         }
         else {
             output = getDurationString(distance);

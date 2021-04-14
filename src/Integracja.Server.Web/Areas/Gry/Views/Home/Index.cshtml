@@ -44,6 +44,7 @@
                 @{
                     var t = Model.Games[i].Settings.StartTime.ToUniversalTime().Subtract(new DateTime(1970, 1, 1)).TotalMilliseconds;
                 }
+                <td class="countdown-timer" data-countdown-date="@t" data-expired-text="Gra w trakcie!">
                     @Model.Games[i].Settings.StartTime
                 </td>
                 <td>@Model.Games[i].Settings.DurationString</td>
