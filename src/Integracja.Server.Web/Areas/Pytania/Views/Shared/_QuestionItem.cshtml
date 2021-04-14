@@ -6,24 +6,24 @@
 
     <h4 class="card-title">@Model.CategoryName</h4>
 
-        <p class="card-subtitle mb-2 text-muted">@Model.Content</p>
-        
-        <ul>
-            <div class="row">
-                @foreach (var ans in Model.Answers)
-                {
-                    <div class="col-3">
-                        <li>
-                            <p class="card-text"
-                               style="@(ans.IsCorrect ? "color: green" : "" )">
-                                @ans.Content
-                            </p>
-                        </li>
-                    </div>
-                }
-            </div>
+    <p class="card-subtitle mb-2 text-muted">@Model.Content</p>
+
+
+        <ul class="row">
+            @foreach (var ans in Model.Answers)
+            {
+                <li class="col-3">
+
+                    <p class="card-text"
+                       style="@(ans.IsCorrect ? "color: green" : "" )">
+                        @ans.Content
+                    </p>
+
+                </li>
+            }
         </ul>
-        
+
+
 
     <div class="text-center">
         @if (Model.Scoring == Integracja.Server.Core.Enums.QuestionScoring.ScoreIfFullyCorrect)
