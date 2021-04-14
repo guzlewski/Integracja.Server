@@ -77,7 +77,7 @@
                             <td> @i.Username </td>
                             <td> @i.gameuser.GameScore </td>
                             <td>
-                                <a asp-action="HistoryUserReadView" asp-route-gameId="@i.gameuser.GameId" asp-route-userId="@i.gameuser.UserId"> Zobacz szczegóły </a>
+                                <a class="link" asp-action="HistoryUserReadView" asp-route-gameId="@i.gameuser.GameId" asp-route-userId="@i.gameuser.UserId"> Zobacz szczegóły </a>
                             </td>
                         </tr>
                     }
@@ -109,8 +109,8 @@
                         <tr>
                             <td> @(i.index + 1)  </td>
                             <td> @i.value.Content </td>
-                            <td>
-                                <a asp-action="HistoryQuestionReadView" asp-route-questionId="@i.value.Id"> Zobacz szczegóły </a>
+                            <td class="link">
+                                <a asp-action="HistoryQuestionReadView" asp-route-gameId="@Model.gameId" asp-route-questionId="@i.value.Id"> Zobacz szczegóły </a>
                             </td>
                         </tr>
                     }

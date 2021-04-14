@@ -23,6 +23,7 @@ namespace Integracja.Server.Web.Areas.Historia.Controllers
         public async Task<IActionResult> Index(int gameId)
         {
             HomeViewModel Model = new HomeViewModel();
+            Model.gameId = gameId;
 
             GameModel game = await GameService.Get<GameModel>(gameId, UserId);
             Model.Game = game;
@@ -68,9 +69,9 @@ namespace Integracja.Server.Web.Areas.Historia.Controllers
             return Task.FromResult<IActionResult>(RedirectToAction("Index", "HistoryUser", new { gameId, userId }));
         }
 
-        public Task<IActionResult> HistoryQuestionReadView(int questionId)
+        public Task<IActionResult> HistoryQuestionReadView(int gameId, int questionId)
         {
-            return Task.FromResult<IActionResult>(RedirectToAction("Index", "HistoryQuestion", new { questionId }));
+            return Task.FromResult<IActionResult>(RedirectToAction("Index", "HistoryQuestion", new { gameId, questionId }));
         }
 
     }

@@ -8,6 +8,7 @@ namespace Integracja.Server.Web.Areas.Historia.Models
     public class HomeViewModel
     {
         public GameModel Game { get; set; }
+        public int gameId { get; set; }
         public GamemodeModel Gamemode { get; set; }
         public List<HistoryGameUser> GameUsers { get; set; }
     }
