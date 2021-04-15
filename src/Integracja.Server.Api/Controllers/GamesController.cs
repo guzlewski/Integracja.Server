@@ -131,6 +131,7 @@ namespace Integracja.Server.Api.Controllers
         /// <para>1 - user already answered all questions</para>
         /// <para>7 - game is over due to gamemode rules</para>
         /// <para>8 - game time has expired</para>
+        /// <para>10 - game has not started yet</para>
         /// </response>
         /// <response code="500">Internal server error</response>
         [Mobile]
@@ -159,6 +160,7 @@ namespace Integracja.Server.Api.Controllers
         /// <para>7 - game is over due to gamemode rules</para>
         /// <para>9 - question time has expired</para>
         /// <para>8 - game time has expired</para>
+        /// <para>10 - game has not started yet</para>
         /// </response>
         /// <response code="500">Internal server error</response>
         [Mobile]

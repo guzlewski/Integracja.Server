@@ -27,6 +27,9 @@
         GameTimeHasExpired,
 
         // GameLogicRepository.SaveAnswers
-        QuestionTimeHasExpired
+        QuestionTimeHasExpired,
+
+        // GameLogicRepository.GetQuestion GameLogicRepository.SaveAnswers
+        GameHasNotStarted
     }
 }
