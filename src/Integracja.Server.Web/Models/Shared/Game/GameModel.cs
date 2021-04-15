@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Integracja.Server.Core.Enums;
 using Integracja.Server.Web.Models.Shared.Question;
 
@@ -8,6 +9,8 @@ namespace Integracja.Server.Web.Models.Shared.Game
     {
         public int Id { get; set; }
         public GameState GameState { get; set; }
+
+        public Guid Guid { get; set; }
 
         public GameSettingsModel Settings { get; set; }
 
