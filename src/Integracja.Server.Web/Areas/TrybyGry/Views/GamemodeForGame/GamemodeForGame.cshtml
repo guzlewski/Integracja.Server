@@ -43,8 +43,8 @@
                         </a>
                     </td>
                     <td>@Model.Gamemodes[i].NumberOfLives</td>
-                    <td>@ReadableSeconds(Model.Gamemodes[i].TimeForFullQuiz.Value)</td>
-                    <td>@ReadableSeconds(Model.Gamemodes[i].TimeForOneQuestion.Value)</td>
+                    <td>@if(Model.Gamemodes[i].TimeForFullQuiz != null) @ReadableSeconds(Model.Gamemodes[i].TimeForFullQuiz.Value)</td>
+                    <td>@if(Model.Gamemodes[i].TimeForOneQuestion != null) @ReadableSeconds(Model.Gamemodes[i].TimeForOneQuestion.Value)</td>
                     <td>
                         <a asp-action="@nameof(IGamemodeForGameActions.GamemodeUpdateView)" asp-route-id="@Model.Gamemodes[i].Id">Edytuj</a> |
                         <a asp-action="@nameof(IGamemodeForGameActions.GamemodeDelete)" asp-route-id="@Model.Gamemodes[i].Id">Usuń</a>
