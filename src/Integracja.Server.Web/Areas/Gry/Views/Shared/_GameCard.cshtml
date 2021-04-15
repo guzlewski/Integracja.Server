@@ -77,13 +77,16 @@
 
         <p>
             Liczba żyć:
-            @Model.Game.Settings.Gamemode.NumberOfLives
+            @Model.Game.Settings.Gamemode?.NumberOfLives
             <br />
             Czas na cały quiz:
-            @ReadableSeconds(Model.Game.Settings.Gamemode.TimeForFullQuiz.Value)
+            @if (Model.Game.Settings.Gamemode.TimeForFullQuiz != null)
+                ReadableSeconds(Model.Game.Settings.Gamemode.TimeForFullQuiz.Value);
+
             <br />
-            Czas na jedno pytanie:
-            @ReadableSeconds(Model.Game.Settings.Gamemode.TimeForOneQuestion.Value)
+                Czas na jedno pytanie:
+            @if(Model.Game.Settings.Gamemode.TimeForOneQuestion != null)
+                @ReadableSeconds(Model.Game.Settings.Gamemode.TimeForOneQuestion.Value)
             <br />
 
         </p>
