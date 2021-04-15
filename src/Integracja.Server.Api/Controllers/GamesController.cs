@@ -17,13 +17,13 @@ namespace Integracja.Server.Api.Controllers
     {
         private readonly IGameService _gameService;
         private readonly IGameUserService _gameUserService;
-        private readonly IGameLogicService _gameQuestionService;
+        private readonly IGameLogicService _gameLogicService;
 
-        public GamesController(IGameService gameService, IGameUserService gameUserService, IGameLogicService gameQuestionService)
+        public GamesController(IGameService gameService, IGameUserService gameUserService, IGameLogicService gameLogicService)
         {
             _gameService = gameService;
             _gameUserService = gameUserService;
-            _gameQuestionService = gameQuestionService;
+            _gameLogicService = gameLogicService;
         }
 
         [HttpGet]
@@ -141,7 +141,7 @@ namespace Integracja.Server.Api.Controllers
         [HttpGet("[action]/{id}")]
         public async Task<GameUserQuestionDto<AnswerDto>> Play(int id)
         {
-            return await _gameQuestionService.GetQuestion<GameUserQuestionDto<AnswerDto>>(id, UserId.Value);
+            return await _gameLogicService.GetQuestion<GameUserQuestionDto<AnswerDto>>(id, UserId.Value);
         }
 
         /// <summary>
@@ -170,7 +170,7 @@ namespace Integracja.Server.Api.Controllers
         [HttpPost("[action]/{gameId}/{questionId}")]
         public async Task<GameUserQuestionDto<DetailAnswerDto>> Play(int gameId, int questionId, [Required] IEnumerable<int> answers)
         {
-            return await _gameQuestionService.SaveAnswers<GameUserQuestionDto<DetailAnswerDto>>(gameId, UserId.Value, questionId, answers);
+            return await _gameLogicService.SaveAnswers<GameUserQuestionDto<DetailAnswerDto>>(gameId, UserId.Value, questionId, answers);
         }
 
         /// <summary>
@@ -187,7 +187,7 @@ namespace Integracja.Server.Api.Controllers
         [HttpGet("[action]/{id}")]
         public async Task<DetailGameUserDto> History(int id)
         {
-            return await _gameQuestionService.GetHistory<DetailGameUserDto>(id, UserId.Value);
+            return await _gameLogicService.GetHistory<DetailGameUserDto>(id, UserId.Value);
         }
     }
 }
