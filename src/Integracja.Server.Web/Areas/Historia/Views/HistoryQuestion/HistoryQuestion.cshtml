@@ -1,4 +1,85 @@
 ﻿@using Integracja.Server.Web.Areas.Historia.Models
 @model HistoryQuestionViewModel
 
-<p> ID pytania: @Model.questionId </p>
+<link rel="stylesheet" href="~/css/Historia/HistoryQuestion.css" />
+
+<div class="container-fluid historia pl-4 pt-4 mt-4 pb-3 mb-3">
+
+    <p class="title mb-4"> Informacje o pytaniu </p>
+
+    <div class="info">
+        <div class="row">
+            <div class="col-6 pr-5">
+                <div class="float-right">
+
+                    <p> <span class="titles"> Liczba punktów za poprawną odpowiedź: </span> @Model.question.PositivePoints </p>
+                    <p> <span class="titles"> Liczba punktów za niepoprawną odpowiedź: </span> @Model.question.NegativePoints </p>
+                </div>
+            </div>
+            <div class="col-6">
+                <p> <span class="titles"> Kategoria: </span> @Model.question.CategoryName </p>
+                @if (@Model.question.Scoring == Integracja.Server.Core.Enums.QuestionScoring.ScoreIfFullyCorrect)
+                {
+                    <p> <span class="titles"> Sposób punktacji: </span> Punkty przyznawane za pełną poprawność </p>
+                }
+                else
+                {
+                    <p> <span class="titles"> Sposób punktacji: </span> Punkty przyznawane za częściową poprawność </p>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid historia pl-4 pt-4 mt-4 pb-3 mb-3">
+
+    <p class="title mb-4"> Pytanie </p>
+
+    <div class="p-3">
+        <div id="pytanie">
+            <p id="question"> @Model.question.Content </p>
+            @for (int i = 0; i < Model.question.Answers.Count; i++)
+            {
+                if (Model.question.Answers[i].IsCorrect == true)
+                {
+                    <p> <i class="bi bi-dot"></i> <span id="correctAnswer"> @Model.question.Answers[i].Content </span> </p>
+                }
+                else
+                {
+                    <p> <i class="bi bi-dot"></i> @Model.question.Answers[i].Content </p>
+                }
+            }
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid historia pl-4 pt-4 mt-4 pb-3 mb-3">
+
+    <p class="title mb-4"> Odpowiedzi graczy </p>
+
+    <div class="p-3">
+
+        @for (int i = 0; i < Model.usersStats.Count; i++)
+         {
+        <div id="answers">
+            <p id="user"> @(i+1). @Model.usersStats[i].username </p>
+            <p> Odpowiedzi: </p>
+            @for (int j = 0; j < Model.question.Answers.Count; j++)
+            {
+                if (Model.usersStats[i].answersState[j] == 1)
+                {
+                    <p> <i class="bi bi-dot"></i> <span id="correctAnswer"> @Model.question.Answers[j].Content <i class="bi bi-check"> </i> </span> </p>
+                }
+                else if (Model.usersStats[i].answersState[j] == -1)
+                {
+                    <p> <i class="bi bi-dot"> </i> <span id="wrongAnswer"> @Model.question.Answers[j].Content <i class="bi bi-x"> </i> </span> </p>
+                }
+            }
+
+            <p> Zdobyte punkty: @Model.usersStats[i].questionScore </p>
+
+        </div>
+         }
+    </div>
+        
+</div>

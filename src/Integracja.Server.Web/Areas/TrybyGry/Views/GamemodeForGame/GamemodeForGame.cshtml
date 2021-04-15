@@ -3,6 +3,11 @@
 @using static Integracja.Server.Web.Areas.TrybyGry.Models.GamemodeForGame.IGamemodeForGameActions
 @model GamemodeForGameViewModel
 
+@section Styles
+{
+    <link rel="stylesheet" href="~/css/TrybyGry/GamemodeForGame.css" />
+}
+
 @{ await Html.RenderPartialAsync("~/Views/Shared/Alerts/_AlertsList.cshtml", Model.Alerts);}
 
 <h2>Wybierz tryb gry</h2>
@@ -30,7 +35,7 @@
         <tbody>
             @for (int i = 0; i < Model.Gamemodes.Count; ++i)
             {
-                <tr>
+                <tr class="@(Model.SelectedGamemode==Model.Gamemodes[i].Id ? "gamemode-selected" : "")">
                     <td>
                         <a asp-action="@nameof(IGamemodeForGameActions.GamemodeRead)" asp-route-id="@Model.Gamemodes[i].Id">
                             @Model.Gamemodes[i].Name

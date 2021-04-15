@@ -24,25 +24,25 @@
     <table id="table_id" class="table table-sm data-table table-card-layout">
         <thead>
             <tr>
-                <th scope="col">Treść</th>
-                <th scope="col">Kategoria</th>
-                <th scope="col">Akcje</th>
-                <th scope="col">Twoje</th>
+                <th scope="col">Kategoria: </th>
+                <th scope="col">Twoje: </th>
+                <th scope="col">Akcje: </th>
+                <th scope="col">Treść: </th>
             </tr>
         </thead>
         <tbody>
             @foreach (var question in Model.Questions)
             {
-                <tr>
-                    <td>@question.Content</td>
-                    <td>@question.CategoryName</td>
-                    <td>
-                        <a asp-action="@nameof(IHomeActions.GotoQuestionRead)" asp-route-id="@question.Id">Szczegóły</a> |
-                        <a asp-action="@nameof(IHomeActions.GotoQuestionUpdate)" asp-route-id="@question.Id">Edycja</a> |
-                        <a asp-action="@nameof(IHomeActions.GotoQuestionDelete)" asp-route-id="@question.Id">Usuń</a>
-                    </td>
-                    <td>@(!question.IsPublic)</td>
-                </tr>
+            <tr>
+                <td>@question.CategoryName</td>
+                <td>@(!question.IsPublic)</td>
+                <td>
+                    <a asp-action="@nameof(IHomeActions.GotoQuestionRead)" asp-route-id="@question.Id">Szczegóły</a> |
+                    <a asp-action="@nameof(IHomeActions.GotoQuestionUpdate)" asp-route-id="@question.Id">Edycja</a> |
+                    <a asp-action="@nameof(IHomeActions.GotoQuestionDelete)" asp-route-id="@question.Id">Usuń</a>
+                </td>
+                <td class="d-lg-table-cell">@question.Content</td>
+            </tr>
             }
         </tbody>
     </table>

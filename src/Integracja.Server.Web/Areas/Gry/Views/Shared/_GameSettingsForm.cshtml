@@ -30,7 +30,7 @@
 
     <h4>Maksymalna liczba graczy</h4>
     <div class="form-group">
-        <input asp-for="Settings.MaxPlayersCount" type="number" />
+        <input asp-for="Settings.MaxPlayersCount" type="number" min="0" />
     </div>
 
     <button type="submit" class="btn btn-primary"

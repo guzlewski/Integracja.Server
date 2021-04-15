@@ -22,6 +22,6 @@ td {
         padding: 0.625rem 0.5rem 0.625rem;
         font-size: 0.75em;
         font-weight: bold;
-        color: #58C25F;
-        content: attr(data-label) ": ";
+        color: #707070;
+        content: attr(data-label);
     }

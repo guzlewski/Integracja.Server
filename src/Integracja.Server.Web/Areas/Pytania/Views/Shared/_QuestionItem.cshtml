@@ -1,0 +1,50 @@
+﻿@using Integracja.Server.Web.Models.Shared.Question
+@model QuestionModel
+
+
+<div class="container">
+
+    <h4 class="card-title">@Model.CategoryName</h4>
+
+    <p class="card-subtitle mb-2 text-muted">@Model.Content</p>
+
+
+        <ul class="row">
+            @foreach (var ans in Model.Answers)
+            {
+                <li class="col-3">
+
+                    <p class="card-text"
+                       style="@(ans.IsCorrect ? "color: green" : "" )">
+                        @ans.Content
+                    </p>
+
+                </li>
+            }
+        </ul>
+
+
+
+    <div class="text-center">
+        @if (Model.Scoring == Integracja.Server.Core.Enums.QuestionScoring.ScoreIfFullyCorrect)
+        {
+            <p>Punkty za pytanie</p>
+        }
+        else
+        {
+            <p>Punkty za odpowiedzi</p>
+        }
+    </div>
+
+    <div class="row text-center">
+        <div class="col-6 ">
+            <p class="font-weight-bold">Poprawna odpowiedź</p>
+            <p>@Model.PositivePoints</p>
+        </div>
+        <div class="col-6">
+            <p class="font-weight-bold">Niepoprawna odpowiedź</p>
+            <p>@Model.NegativePoints</p>
+        </div>
+    </div>
+
+</div>

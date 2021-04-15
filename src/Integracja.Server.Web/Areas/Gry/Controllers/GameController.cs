@@ -108,7 +108,14 @@ namespace Integracja.Server.Web.Areas.Gry.Controllers
             game.Settings = TryRetrieveFromTempData<GameSettingsModel>(GameSettingsStoreKey);
             game.QuestionPool = TryRetrieveFromTempData<List<QuestionModel>>(QuestionPoolStoreKey);
 
-            await GameService.Add(Mapper.Map<CreateGameDto>(game), UserId);
+            var createGameDto = Mapper.Map<CreateGameDto>(game);
+
+            if(game.Settings.MaxPlayersCount == 0)
+            {
+                createGameDto.MaxPlayers = null;
+            }
+
+            await GameService.Add(createGameDto, UserId);
 
             return RedirectToAction("Index", HomeController.Name);
         }

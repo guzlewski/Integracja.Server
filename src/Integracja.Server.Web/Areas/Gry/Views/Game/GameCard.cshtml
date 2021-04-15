@@ -1,6 +1,11 @@
 ﻿@using Integracja.Server.Web.Areas.Gry.Models.Shared
 @model GameCardViewModel
 
-<div class="card" >
+@section Scripts
+{
+    <script src="~/js/Shared/CountdownTimer.js"></script>
+}
+
+<div class="card">
     @{ await Html.RenderPartialAsync("~/Areas/Gry/Views/Shared/_GameCard.cshtml", Model);}
 </div>
