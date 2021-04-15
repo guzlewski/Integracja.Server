@@ -53,6 +53,11 @@ namespace Integracja.Server.Infrastructure.Repositories
                 throw new ConflictException(ErrorCode.GameHasEnded);
             }
 
+            if (entity.Game.StartTime > now)
+            {
+                throw new ConflictException(ErrorCode.GameHasNotStarted);
+            }
+
             if (entity.GameUser.AnsweredQuestions == entity.Game.QuestionsCount)
             {
                 throw new ConflictException(ErrorCode.AlreadyAnsweredAllQuestions);
@@ -146,6 +151,11 @@ namespace Integracja.Server.Infrastructure.Repositories
             if (gameUserQuestionEntity.Game.EndTime <= now)
             {
                 throw new ConflictException(ErrorCode.GameHasEnded);
+            }
+
+            if (gameUserQuestionEntity.Game.StartTime > now)
+            {
+                throw new ConflictException(ErrorCode.GameHasNotStarted);
             }
 
             if (gameUserQuestionEntity.IsAnswered)
