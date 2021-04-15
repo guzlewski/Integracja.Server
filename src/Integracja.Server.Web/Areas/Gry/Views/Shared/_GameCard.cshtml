@@ -1,4 +1,5 @@
 ﻿@using Integracja.Server.Web.Areas.Gry.Models.Shared
+@using static Integracja.Server.Web.Models.Shared.Time.TimeHelper
 @model GameCardViewModel
 
 
@@ -10,14 +11,46 @@
         <br />
 
         <div class="row">
-            <div class="col-lg-6">
+            <div class="col-lg-4">
                 <h3>Czas rozpoczęcia</h3>
                 <p class="card-text">
                     @Model.Game.Settings.StartTime
                 </p>
             </div>
 
-            <div class="col-lg-6">
+            <div class="col-lg-4">
+                @{
+                    var now = DateTime.Now;
+                    string expiredText = "W trakcie!";
+                }
+                <h3 id="countdown_timer_data" data-expired-text="@expiredText" data-prefix-text="Start za ">
+                    Status
+                </h3>
+                @if (now < Model.Game.Settings.StartTime) // przed startem
+                {
+
+                    // konwersja dla js
+                    var t = Model.Game.Settings.StartTime.ToUniversalTime().Subtract(new DateTime(1970, 1, 1)).TotalMilliseconds;
+
+                    <p class="card-text countdown-timer" data-countdown-date="@t">
+                        Oczekująca @* z jsem będzie wyświetlony timer do rozpoczęcia albo "w trakcie" *@
+                    </p>
+                }
+                else if (now < Model.Game.Settings.EndTime)
+                {
+                    <p class="card-text">
+                        @expiredText
+                    </p>
+                }
+                else
+                {
+                    <p class="card-text">
+                        Gra zakończona
+                    </p>
+                }
+            </div>
+
+            <div class="col-lg-4">
                 <h3>Czas zakończenia</h3>
                 <p class="card-text">
                     @Model.Game.Settings.EndTime
@@ -27,8 +60,16 @@
         <br />
 
         <h3>Maksymalna liczba graczy</h3>
+
+        @{
+            var playerCount = @Model.Game.Settings.MaxPlayersCount;
+            string playerCountText = playerCount.ToString();
+            if (playerCount == 0)
+                playerCountText = "Nieograniczona";
+        }
+
         <p class="card-text">
-            @Model.Game.Settings.MaxPlayersCount
+            @playerCountText
         </p>
 
         <h3 class="card-text">Tryb gry @Model.Game.Settings.Gamemode.Name:</h3>
@@ -39,10 +80,10 @@
             @Model.Game.Settings.Gamemode.NumberOfLives
             <br />
             Czas na cały quiz:
-            @Model.Game.Settings.Gamemode.TimeForFullQuiz
+            @ReadableSeconds(Model.Game.Settings.Gamemode.TimeForFullQuiz.Value)
             <br />
             Czas na jedno pytanie:
-            @Model.Game.Settings.Gamemode.TimeForOneQuestion
+            @ReadableSeconds(Model.Game.Settings.Gamemode.TimeForOneQuestion.Value)
             <br />
 
         </p>
@@ -54,17 +95,16 @@
     </div>
 
     <div class="container">
-            @foreach (var question in Model.Game.QuestionPool)
-            { 
-                    <div class="container border-bottom">
-                        @{ await Html.RenderPartialAsync("~/Areas/Pytania/Views/Shared/_QuestionItem.cshtml", question); }
-                    </div>
-                    <br />
-            }
-        </div>
+        @foreach (var question in Model.Game.QuestionPool)
+        {
+            <div class="container border-bottom">
+                @{ await Html.RenderPartialAsync("~/Areas/Pytania/Views/Shared/_QuestionItem.cshtml", question); }
+            </div>
+            <br />
+        }
     </div>
-    
-
 </div>
+
+
 
 
