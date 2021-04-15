@@ -13,7 +13,7 @@ function getDurationString(timeTicks) {
     var days = Math.floor(timeTicks / DayTicks);
     var hours = Math.floor((timeTicks % DayTicks) / HourTicks);
     var minutes = Math.floor((timeTicks % HourTicks) / MinuteTicks);
-    //var seconds = Math.floor(  distance% MinuteTicks  / 1000 ); chyba nie będziemy używać sekund co
+    var seconds = Math.floor(timeTicks% MinuteTicks  / 1000 ); // chyba nie będziemy używać sekund co
 
     var output = "error: getDurationString()";
     if (days > 0) {
@@ -22,8 +22,11 @@ function getDurationString(timeTicks) {
     else if (hours > 0) {
         output = hours + "h " + minutes + "m";
     }
-    else if( minutes > 0){
+    else if (minutes > 0) {
         output = minutes + "m";
+    }
+    else if (seconds >= 0) {
+        output = "<1m";
     }
 
     return output;
@@ -45,12 +48,13 @@ function updateTimer() {
 
         var output = "";
 
-        if (distance < 0) {
-            var expiredText = $(this).data("expired-text");
+        if (distance <= 0 ) {
+            var expiredText = $("#countdown_timer_data").data("expired-text");
             output = expiredText;
         }
         else {
-            output = getDurationString(distance);
+            var prefixText = $("#countdown_timer_data").data("prefix-text");
+            output = prefixText + getDurationString(distance);
         }
 
         this.innerHTML = output;

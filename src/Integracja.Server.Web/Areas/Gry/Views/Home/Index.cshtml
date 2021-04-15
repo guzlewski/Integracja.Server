@@ -26,28 +26,56 @@
         <thead>
             <tr>
                 <th scope="col">Nazwa gry: </th>
-                <th scope="col">Id: </th>
+                <th scope="col">Status: </th>
                 <th scope="col">Rozpoczęcie: </th>
                 <th scope="col">Czas trwania: </th>
                 <th scope="col">Akcje: </th>
             </tr>
         </thead>
-        <tbody>
-            @{ 
-                var now = DateTime.Now;
-            }
+
+        @{
+            var now = DateTime.Now;
+            string expiredText = "W trakcie!";
+        }
+
+        <tbody id="countdown_timer_data" data-expired-text="@expiredText" data-prefix-text="Start za ">
+
             @for (int i = 0; i < Model.Games.Count; ++i)
             {
             <tr>
                 <td>@Model.Games[i].Settings.Name</td>
-                <td>@Model.Games[i].Id</td>
-                @{
+
+                @*status*@
+                @if (now < Model.Games[i].Settings.StartTime) // przed startem
+                {
+
+                    // konwersja dla js
                     var t = Model.Games[i].Settings.StartTime.ToUniversalTime().Subtract(new DateTime(1970, 1, 1)).TotalMilliseconds;
+
+                    <td class="countdown-timer" data-countdown-date="@t">
+                        Oczekująca @* z jsem będzie wyświetlony timer do rozpoczęcia albo "w trakcie" *@
+                    </td>
                 }
-                <td class="countdown-timer" data-countdown-date="@t" data-expired-text="Gra w trakcie!">
-                    @Model.Games[i].Settings.StartTime
-                </td>
+                else if (now < Model.Games[i].Settings.EndTime)
+                {
+                    <td>
+                        @expiredText
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        Gra zakończona
+                    </td>
+                }
+
+                @* rozpoczęcie *@
+                <td>@Model.Games[i].Settings.StartTime</td>
+
+                @*czas trwania*@
                 <td>@Model.Games[i].Settings.DurationString</td>
+
+                @*akcje*@
                 <td>
                     <a asp-action="@nameof(IHomeActions.GotoGameRead)" asp-route-gameId="@Model.Games[i].Id">Szczegóły</a>
                     @if (Model.Games[i].Settings.EndTime < now)
