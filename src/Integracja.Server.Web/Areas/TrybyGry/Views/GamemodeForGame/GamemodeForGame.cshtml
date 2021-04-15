@@ -1,6 +1,7 @@
 ﻿@using Integracja.Server.Web.Areas.TrybyGry.Models.GamemodeForGame
 @using static Integracja.Server.Web.Areas.TrybyGry.Models.GamemodeForGame.GamemodeForGameViewModel
 @using static Integracja.Server.Web.Areas.TrybyGry.Models.GamemodeForGame.IGamemodeForGameActions
+@using static Integracja.Server.Web.Models.Shared.Time.TimeHelper
 @model GamemodeForGameViewModel
 
 @section Styles
@@ -42,8 +43,8 @@
                         </a>
                     </td>
                     <td>@Model.Gamemodes[i].NumberOfLives</td>
-                    <td>@Model.Gamemodes[i].TimeForFullQuiz</td>
-                    <td>@Model.Gamemodes[i].TimeForOneQuestion</td>
+                    <td>@ReadableSeconds(Model.Gamemodes[i].TimeForFullQuiz.Value)</td>
+                    <td>@ReadableSeconds(Model.Gamemodes[i].TimeForOneQuestion.Value)</td>
                     <td>
                         <a asp-action="@nameof(IGamemodeForGameActions.GamemodeUpdateView)" asp-route-id="@Model.Gamemodes[i].Id">Edytuj</a> |
                         <a asp-action="@nameof(IGamemodeForGameActions.GamemodeDelete)" asp-route-id="@Model.Gamemodes[i].Id">Usuń</a>
