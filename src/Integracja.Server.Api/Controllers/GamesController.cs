@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Threading.Tasks;
 using Integracja.Server.Api.Attributes;
 using Integracja.Server.Api.Utilities;
@@ -8,6 +9,7 @@ using Integracja.Server.Infrastructure.Models;
 using Integracja.Server.Infrastructure.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace Integracja.Server.Api.Controllers
 {
@@ -18,12 +20,14 @@ namespace Integracja.Server.Api.Controllers
         private readonly IGameService _gameService;
         private readonly IGameUserService _gameUserService;
         private readonly IGameLogicService _gameLogicService;
+        private readonly ILogger<GamesController> _logger;
 
-        public GamesController(IGameService gameService, IGameUserService gameUserService, IGameLogicService gameLogicService)
+        public GamesController(IGameService gameService, IGameUserService gameUserService, IGameLogicService gameLogicService, ILogger<GamesController> logger)
         {
             _gameService = gameService;
             _gameUserService = gameUserService;
             _gameLogicService = gameLogicService;
+            _logger = logger;
         }
 
         [HttpGet]
@@ -170,6 +174,15 @@ namespace Integracja.Server.Api.Controllers
         [HttpPost("[action]/{gameId}/{questionId}")]
         public async Task<GameUserQuestionDto<DetailAnswerDto>> Play(int gameId, int questionId, [Required] IEnumerable<int> answers)
         {
+            var x = "";
+
+            foreach (var a in answers)
+            {
+                x += $"{a}, ";
+            }
+
+            _logger.LogWarning($"Answers {answers.Count()}, {x}");
+
             return await _gameLogicService.SaveAnswers<GameUserQuestionDto<DetailAnswerDto>>(gameId, UserId.Value, questionId, answers);
         }
 
