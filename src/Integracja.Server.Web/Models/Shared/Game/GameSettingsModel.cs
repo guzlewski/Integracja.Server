@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Integracja.Server.Infrastructure.Models;
 using Integracja.Server.Web.Models.Shared.Gamemode;
+using Integracja.Server.Web.Models.Shared.Time;
 
 namespace Integracja.Server.Web.Models.Shared.Game
 {
@@ -17,25 +18,7 @@ namespace Integracja.Server.Web.Models.Shared.Game
         {
             get
             {
-                var duration = EndTime - StartTime;
-                int days = duration.Days;
-                int hours = duration.Hours;
-                int minutes = duration.Minutes;
-
-                var output = "error: DurationString";
-                if (days > 0)
-                {
-                    output = days + "d " + hours + "h " + minutes + "m";
-                }
-                else if (hours > 0)
-                {
-                    output = hours + "h " + minutes + "m";
-                }
-                else if( minutes > 0)
-                {
-                    output = minutes + "m";
-                }
-                return output;
+                return TimeHelper.ReadableTimeSpan(EndTime - StartTime);
             }
         }
 
