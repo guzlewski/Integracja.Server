@@ -23,7 +23,7 @@ namespace Integracja.Server.Web.Areas.Pytania.Models.Shared
         public QuestionFormViewModel(QuestionModel question)
         {
             this.Question = question;
-            if (question.Id.HasValue)
+            if (question.IsPersisted)
                 this.ViewMode = ViewMode.Updating;
             else this.ViewMode = ViewMode.Creating;
         }

@@ -27,6 +27,7 @@ namespace Integracja.Server.Web.Models.Shared.Question
         public string CategoryName { get; set; }
         public int? Id { get; set; }
         public bool IsPublic { get; set; }
+        public bool IsPersisted { get => Id.HasValue; }
 
         public const int DefaultAnswerCount = 4;
 

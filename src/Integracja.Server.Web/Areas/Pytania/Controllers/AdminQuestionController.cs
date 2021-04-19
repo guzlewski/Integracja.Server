@@ -21,7 +21,7 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
             return IndexResult("Index", AdminHomeController.Name);
         }
 
-        public override Task<IActionResult> QuestionDelete(int? questionId)
+        public override Task<IActionResult> QuestionDelete(int questionId)
         {
             return QuestionDeleteResult(questionId, "Index", AdminHomeController.Name);
         }

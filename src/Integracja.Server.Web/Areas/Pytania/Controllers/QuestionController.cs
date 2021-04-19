@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Integracja.Server.Core.Models.Identity;
 using Integracja.Server.Infrastructure.Data;
 using Integracja.Server.Infrastructure.Models;
@@ -9,10 +7,11 @@ using Integracja.Server.Web.Areas.Pytania.Models.Question;
 using Integracja.Server.Web.Controllers;
 using Integracja.Server.Web.Models.Shared.Alert;
 using Integracja.Server.Web.Models.Shared.Category;
-using Integracja.Server.Web.Models.Shared.Enums;
 using Integracja.Server.Web.Models.Shared.Question;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Integracja.Server.Web.Areas.Pytania.Controllers
 {
@@ -55,16 +54,15 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
 
         public async Task<IActionResult> QuestionCreateViewStep2(int categoryId)
         {
-            Model = new QuestionViewModel(ViewMode.Creating);
-            // mogłem właśnie dodać pytanie i trafić tutaj ponownie więc wyświetlam alert
-            Model.Alerts = GetAlerts();
+            var question = new QuestionModel();
 
-            Model.Form.Question.CategoryId = categoryId;
+            var category = await CategoryService.Get<CategoryModel>(categoryId, UserId);
+            question.CategoryName = category.Name;
+            question.CategoryId = categoryId;
 
-            var tmp = await CategoryService.Get<CategoryModel>(categoryId, UserId);
-            Model.Form.Question.CategoryName = tmp.Name;
+            SaveToTempData(question);
 
-            return View(QuestionViewName, Model);
+            return RedirectToAction("Index");
         }
         public async Task<IActionResult> QuestionCreate(QuestionModel question)
         {
@@ -73,10 +71,8 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
             List<AlertModel> alerts = new List<AlertModel>();
             alerts.Add(QuestionAlert.CreateSuccess());
 
-
-
             // jeśli weszło z edycji to cofamy do głównego panelu 
-            if (question.Id.HasValue)
+            if (question.IsPersisted)
             {
                 SetAlerts(alerts);
                 return RedirectToAction("Index");
@@ -104,19 +100,13 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
 
             return RedirectToAction("Index");
         }
-        public async Task<IActionResult> QuestionUpdateView(int? questionId)
+        public async Task<IActionResult> QuestionUpdateView(int questionId)
         {
-            Model = new QuestionViewModel();
-
-            if (questionId.HasValue)
-            {
-                Model.Form.Question = await QuestionService.Get<QuestionModel>(questionId.Value, UserId);
-            }
-
-            Model.Form.ViewMode = ViewMode.Updating;
-            return View(QuestionViewName, Model);
+            var question = await QuestionService.Get<QuestionModel>(questionId, UserId);
+            SaveToTempData(question);
+            return RedirectToAction("Index");
         }
-        public virtual async Task<IActionResult> QuestionDelete(int? questionId)
+        public virtual async Task<IActionResult> QuestionDelete(int questionId)
         {
             return await QuestionDeleteResult(questionId, "Index", HomeController.Name);
         }
