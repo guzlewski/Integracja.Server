@@ -30,7 +30,35 @@ namespace Integracja.Server.Web.Areas.Historia.Controllers
 
             List<guser> usersStats = new List<guser>();
             string username;
-            int questionScore;
+            int? questionScore;
+
+            foreach (var element in users.GameUsers)
+            {
+                int counter = 0;
+                foreach (var element2 in users.GameUserQuestions)
+                {
+                    if (element.UserId == element2.UserId && questionId == element2.QuestionId)
+                        break;
+                    else if (counter == users.GameUserQuestions.Count - 1)
+                    {
+                        var user = await UserManager.FindByIdAsync(element.UserId.ToString());
+                        username = user.UserName;
+
+                        List<int> answersState = new List<int>();
+                        answersState.Add(-2);
+
+                        guser userStats = new guser
+                        {
+                            username = username,
+                            questionScore = 0,
+                            answersState = answersState
+                        };
+
+                        usersStats.Add(userStats);
+                    }
+                    counter++;
+                }
+            }
 
             foreach (var element in users.GameUserQuestions)
             {
@@ -38,7 +66,9 @@ namespace Integracja.Server.Web.Areas.Historia.Controllers
                 {
                     var user = await UserManager.FindByIdAsync(element.UserId.ToString());
                     username = user.UserName;
-                    questionScore = (int)element.QuestionScore;
+                    questionScore = (int?)element.QuestionScore;
+                    if (questionScore == null)
+                        questionScore = 0;
 
                     HistoryUserModel historyUser = await GameUserService.Get<HistoryUserModel>(gameId, element.UserId);
 
@@ -48,6 +78,10 @@ namespace Integracja.Server.Web.Areas.Historia.Controllers
                             userAnswers.Add(k.UserAnswerId);
 
                     List<int> answersState = new List<int>();
+
+                    if (element.IsAnswered == false)
+                        answersState.Add(-2);
+
                     for (int i = 0; i < Model.question.Answers.Count; i++)
                     {
                         for (int j = 0; j < userAnswers.Count; j++)
@@ -78,7 +112,7 @@ namespace Integracja.Server.Web.Areas.Historia.Controllers
                 }
             }
 
-            usersStats.OrderByDescending(o => o.questionScore);
+            usersStats = usersStats.OrderByDescending(o => o.questionScore).ToList();
 
             Model.usersStats = usersStats;
 

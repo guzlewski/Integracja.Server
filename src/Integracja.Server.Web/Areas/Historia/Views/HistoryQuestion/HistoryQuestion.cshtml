@@ -61,24 +61,32 @@
 
         @for (int i = 0; i < Model.usersStats.Count; i++)
          {
-        <div id="answers">
-            <p id="user"> @(i+1). @Model.usersStats[i].username </p>
-            <p> Odpowiedzi: </p>
-            @for (int j = 0; j < Model.question.Answers.Count; j++)
-            {
-                if (Model.usersStats[i].answersState[j] == 1)
-                {
-                    <p> <i class="bi bi-dot"></i> <span id="correctAnswer"> @Model.question.Answers[j].Content <i class="bi bi-check"> </i> </span> </p>
-                }
-                else if (Model.usersStats[i].answersState[j] == -1)
-                {
-                    <p> <i class="bi bi-dot"> </i> <span id="wrongAnswer"> @Model.question.Answers[j].Content <i class="bi bi-x"> </i> </span> </p>
-                }
-            }
+            <div id="answers">
+                <p id="user"> @(i+1). @Model.usersStats[i].username </p>
 
-            <p> Zdobyte punkty: @Model.usersStats[i].questionScore </p>
+                @if (Model.usersStats[i].answersState[0] != -2)
+                {
+                    <p> Odpowiedzi: </p>
+                    @for (int j = 0; j < Model.question.Answers.Count; j++)
+                    {
+                        if (Model.usersStats[i].answersState[j] == 1)
+                        {
+                            <p> <i class="bi bi-dot"></i> <span id="correctAnswer"> @Model.question.Answers[j].Content <i class="bi bi-check"> </i> </span> </p>
+                        }
+                        else if (Model.usersStats[i].answersState[j] == -1)
+                        {
+                            <p> <i class="bi bi-dot"> </i> <span id="wrongAnswer"> @Model.question.Answers[j].Content <i class="bi bi-x"> </i> </span> </p>
+                        }
+                    }
+                }
+                else
+                {
+                    <p> Użytkownik nie odpowiedział na pytanie </p>
+                }
 
-        </div>
+                <p> Zdobyte punkty: @Model.usersStats[i].questionScore </p>
+
+            </div>
          }
     </div>
         

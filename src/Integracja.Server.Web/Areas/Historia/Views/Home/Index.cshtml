@@ -16,14 +16,28 @@
                 <div class="float-right">
                     <p> <span class="titles"> Nazwa gry: </span> @Model.Game.Settings.Name </p>
                     <p> <span class="titles"> Tryb gry: </span> @Model.Game.Settings.Gamemode.Name </p>
-                    <p> <span class="titles"> Czas na quiz: </span> @Model.Game.Settings.Gamemode.TimeForFullQuiz min </p>
-                    <p> <span class="titles"> Czas na pytanie: </span> @Model.Game.Settings.Gamemode.TimeForOneQuestion min </p>
+                    @if (@Model.Game.Settings.Gamemode.TimeForFullQuiz == null)
+                    {
+                        <p> <span class="titles"> Czas na quiz: </span> nieograniczony </p>
+                    }
+                    else
+                    {
+                        <p> <span class="titles"> Czas na quiz: </span> @Model.Game.Settings.Gamemode.TimeForFullQuiz min </p>
+                    }
+                    @if (@Model.Game.Settings.Gamemode.TimeForOneQuestion == null)
+                    {
+                        <p> <span class="titles"> Czas na quiz: </span> nieograniczony </p>
+                    }
+                    else
+                    {
+                        <p> <span class="titles"> Czas na quiz: </span> @Model.Game.Settings.Gamemode.TimeForOneQuestion min </p>
+                    }
                 </div>
             </div>
             <div class="col-6">
                 <p> <span class="titles"> Czas rozpoczęcia: </span> @Model.Game.Settings.StartTime </p>
                 <p> <span class="titles"> Czas zakończenia: </span> @Model.Game.Settings.EndTime </p>
-                @if (@Model.Game.Settings.Gamemode.NumberOfLives == 0)
+                @if (@Model.Game.Settings.Gamemode.NumberOfLives == 0 || @Model.Game.Settings.Gamemode.NumberOfLives == null)
                 {
                     <p> <span class="titles"> Liczba żyć: </span> bez limitu </p>
                 }

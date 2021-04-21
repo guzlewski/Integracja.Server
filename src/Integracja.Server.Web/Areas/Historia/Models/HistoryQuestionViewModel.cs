@@ -13,7 +13,7 @@ namespace Integracja.Server.Web.Areas.Historia.Models
     public class guser
     {
         public string username;
-        public int questionScore;
+        public int? questionScore;
         public List<int> answersState;
     }
 }
