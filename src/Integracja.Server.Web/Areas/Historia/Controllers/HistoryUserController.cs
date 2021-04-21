@@ -28,16 +28,17 @@ namespace Integracja.Server.Web.Areas.Historia.Controllers
             HistoryQuestionModel historyQuestions = await GameService.Get<HistoryQuestionModel>(gameId, UserId);
             HistoryUserModel historyUser = await GameUserService.Get<HistoryUserModel>(gameId, userId);
             
-            List<KeyValuePair<int, int>> questionScore;
+            List<KeyValuePair<int, int?>> questionScore;
             questionScore = FillScore(historyUser);
 
             List<HistoryUserInfo> HistoryGameUserInfo = new List<HistoryUserInfo>();
 
-            int points = 0;
-
+            int? points = 0;
             foreach (var k in questionScore)
-                points += k.Value;
-           
+                if(k.Value != null)
+                    points += k.Value;
+            
+
             for(int i = 0; i < historyQuestions.QuestionPool.Count; i++)
             {
                 List<string> answers = new List<string>();
@@ -127,7 +128,10 @@ namespace Integracja.Server.Web.Areas.Historia.Controllers
                     }
                 }
 
-                int pointsReceived = 0;
+                if(usercorrectAnswers.Count == 0 && userincorrectAnswers.Count == 0)
+                    status.Add(4);
+
+                int? pointsReceived = 0;
                 foreach (var k in questionScore)
                 {
                     if (k.Key == historyQuestions.QuestionPool[i].Id)
@@ -154,13 +158,13 @@ namespace Integracja.Server.Web.Areas.Historia.Controllers
             return View("HistoryUser", Model);
         }
 
-        List<KeyValuePair<int, int> > FillScore(HistoryUserModel historyUser)
+        List<KeyValuePair<int, int?> > FillScore(HistoryUserModel historyUser)
         {
-            List<KeyValuePair<int, int>> questionScore = new List<KeyValuePair<int, int>>();
+            List<KeyValuePair<int, int?>> questionScore = new List<KeyValuePair<int, int?>>();
 
             foreach(var k in historyUser.GameUserQuestions)
             {
-                questionScore.Add(new KeyValuePair<int, int>(k.QuestionId, (int)k.QuestionScore));
+                questionScore.Add(new KeyValuePair<int, int?>(k.QuestionId, (int?)k.QuestionScore));
             }
 
             return questionScore;
