@@ -25,11 +25,11 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
             _configuration = configuration;
         }
 
-        public async Task<T> Get<T>(int id, int userId)
+        public async Task<T> Get<T>(int id, int userId, bool skipUserVerification = false)
         {
             var dto = await _questionRepository.Get(id)
-                .Where(q => (q.IsPublic || q.OwnerId == userId) && !q.IsDeleted &&
-                    (q.Category.IsPublic || q.Category.OwnerId == userId) && !q.Category.IsDeleted)
+                .Where(q => (q.IsPublic || q.OwnerId == userId || skipUserVerification) && !q.IsDeleted &&
+                    (q.Category.IsPublic || q.Category.OwnerId == userId || skipUserVerification) && !q.Category.IsDeleted)
                 .ProjectTo<T>(_configuration)
                 .FirstOrDefaultAsync();
 
@@ -41,11 +41,11 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
             return dto;
         }
 
-        public async Task<IEnumerable<T>> GetAll<T>(int userId)
+        public async Task<IEnumerable<T>> GetAll<T>(int userId, bool skipUserVerification = false)
         {
             return await _questionRepository.GetAll()
-                .Where(q => (q.IsPublic || q.OwnerId == userId) && !q.IsDeleted &&
-                    (q.Category.IsPublic || q.Category.OwnerId == userId) && !q.Category.IsDeleted)
+                .Where(q => (q.IsPublic || q.OwnerId == userId || skipUserVerification) && !q.IsDeleted &&
+                    (q.Category.IsPublic || q.Category.OwnerId == userId || skipUserVerification) && !q.Category.IsDeleted)
                 .ProjectTo<T>(_configuration)
                 .ToListAsync();
         }
@@ -73,30 +73,30 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
                 .ToListAsync();
         }
 
-        public async Task<int> Add(CreateQuestionDto createQuestionDto, int userId)
+        public async Task<int> Add(CreateQuestionDto createQuestionDto, int userId, bool skipUserVerification = false)
         {
             var question = _mapper.Map<Question>(createQuestionDto);
             question.OwnerId = userId;
 
-            return await _questionRepository.Add(question);
+            return await _questionRepository.Add(question, skipUserVerification);
         }
 
-        public async Task Delete(int id, int userId)
+        public async Task Delete(int id, int userId, bool skipUserVerification = false)
         {
             await _questionRepository.Delete(new Question
             {
                 Id = id,
                 OwnerId = userId
-            });
+            }, skipUserVerification);
         }
 
-        public async Task<int> Update(int id, EditQuestionDto editQuestionDto, int userId)
+        public async Task<int> Update(int id, EditQuestionDto editQuestionDto, int userId, bool skipUserVerification = false)
         {
             var question = _mapper.Map<Question>(editQuestionDto);
             question.Id = id;
             question.OwnerId = userId;
 
-            return await _questionRepository.Update(question);
+            return await _questionRepository.Update(question, skipUserVerification);
         }
     }
 }

@@ -30,19 +30,19 @@ namespace Integracja.Server.Infrastructure.Repositories
                 .AsNoTracking();
         }
 
-        public async Task<int> Add(Question question)
+        public async Task<int> Add(Question question, bool skipUserVerification = false)
         {
             var categoryOwnerId = await _dbContext.Categories
                 .Where(c => c.Id == question.CategoryId && !c.IsDeleted)
                 .Select(c => c.OwnerId)
                 .FirstOrDefaultAsync();
 
-            if (categoryOwnerId == default)
+            if (categoryOwnerId == default && !skipUserVerification)
             {
                 throw new NotFoundException();
             }
 
-            if (categoryOwnerId != question.OwnerId)
+            if (categoryOwnerId != question.OwnerId && !skipUserVerification)
             {
                 throw new ForbiddenException();
             }
@@ -53,11 +53,11 @@ namespace Integracja.Server.Infrastructure.Repositories
             return question.Id;
         }
 
-        public async Task Delete(Question question)
+        public async Task Delete(Question question, bool skipUserVerification = false)
         {
             var questionEntity = await _dbContext.Questions
                 .FirstOrDefaultAsync(q => q.Id == question.Id &&
-                    q.OwnerId == question.OwnerId &&
+                    (q.OwnerId == question.OwnerId || skipUserVerification) &&
                     !q.IsDeleted &&
                     !q.Category.IsDeleted);
 
@@ -72,12 +72,12 @@ namespace Integracja.Server.Infrastructure.Repositories
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task<int> Update(Question question)
+        public async Task<int> Update(Question question, bool skipUserVerification = false)
         {
             var entity = await _dbContext.Questions
                 .Include(q => q.Answers)
                 .Where(q => q.Id == question.Id &&
-                    q.OwnerId == question.OwnerId &&
+                    (q.OwnerId == question.OwnerId || skipUserVerification) &&
                     !q.IsDeleted &&
                     !q.Category.IsDeleted)
                 .Select(q => new
