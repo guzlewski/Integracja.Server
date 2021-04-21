@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Security.Claims;
+using System.Threading.Tasks;
 using AutoMapper;
 using Integracja.Server.Core.Models.Identity;
 using Integracja.Server.Infrastructure.Data;
@@ -18,7 +19,7 @@ namespace Integracja.Server.Web.Areas.Konto.Controllers
     public class HomeController : ApplicationController, IHomeActions
     {
         private HomeViewModel Model { get; set; }
-        
+
         private readonly IPictureService _pictureService;
         private readonly PictureSettings _pictureSettings;
 
@@ -55,7 +56,9 @@ namespace Integracja.Server.Web.Areas.Konto.Controllers
             {
                 try
                 {
-                    await _pictureService.Save(file, UserId);
+                    var url = await _pictureService.Save(file, UserId);
+
+                    UpdateClaim("ProfilePicture", url);
                 }
                 catch (PayloadTooLargeException)
                 {
@@ -76,6 +79,21 @@ namespace Integracja.Server.Web.Areas.Konto.Controllers
             }
 
             return View("Index", Model);
+        }
+
+        private void UpdateClaim(string key, string value)
+        {
+            if (User.Identity is ClaimsIdentity identity)
+            {
+                var existingClaim = identity.FindFirst(key);
+
+                if (existingClaim != null)
+                {
+                    identity.RemoveClaim(existingClaim);
+                }
+
+                identity.AddClaim(new Claim(key, value));
+            }
         }
 
         [HttpPost]
