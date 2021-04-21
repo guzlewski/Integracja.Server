@@ -8,8 +8,8 @@ namespace Integracja.Server.Core.Repositories
     {
         IQueryable<Game> Get(int id);
         IQueryable<Game> GetAll();
-        Task<int> Add(Game game, bool randomizeQuestionOrder = false);
-        Task Delete(Game game);
-        Task<int> Update(Game game);
+        Task<int> Add(Game game, bool randomizeQuestionOrder = false, bool skipUserVerification = false);
+        Task Delete(Game game, bool skipUserVerification = false);
+        Task<int> Update(Game game, bool skipUserVerification = false);
     }
 }

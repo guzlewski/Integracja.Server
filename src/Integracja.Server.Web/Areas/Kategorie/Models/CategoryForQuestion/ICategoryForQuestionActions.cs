@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Integracja.Server.Web.Areas.Kategorie.Models.CategoryForQuestion
 {
-    public interface ICategoryForQuestionActions : ICategorySelectActions, ICategoryFormActions
+    public interface ICategoryForQuestionActions : ICategorySelectTableActions, ICategoryFormActions
     {
         Task<IActionResult> GotoQuestionCreate(int? id);
         Task<IActionResult> Index(int? id);

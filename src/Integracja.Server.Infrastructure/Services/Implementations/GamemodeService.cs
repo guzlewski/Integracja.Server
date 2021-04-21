@@ -25,10 +25,10 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
             _configuration = configuration;
         }
 
-        public async Task<T> Get<T>(int id, int userId)
+        public async Task<T> Get<T>(int id, int userId, bool skipUserVerification = false)
         {
             var dto = await _gamemodeRepository.Get(id)
-                .Where(gm => (gm.IsPublic || gm.OwnerId == userId) && !gm.IsDeleted)
+                .Where(gm => (gm.IsPublic || gm.OwnerId == userId || skipUserVerification) && !gm.IsDeleted)
                 .ProjectTo<T>(_configuration)
                 .FirstOrDefaultAsync();
 
@@ -40,10 +40,10 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
             return dto;
         }
 
-        public async Task<IEnumerable<T>> GetAll<T>(int userId)
+        public async Task<IEnumerable<T>> GetAll<T>(int userId, bool skipUserVerification = false)
         {
             return await _gamemodeRepository.GetAll()
-                .Where(gm => (gm.IsPublic || gm.OwnerId == userId) && !gm.IsDeleted)
+                .Where(gm => (gm.IsPublic || gm.OwnerId == userId || skipUserVerification) && !gm.IsDeleted)
                 .ProjectTo<T>(_configuration)
                 .ToListAsync();
         }
@@ -65,22 +65,22 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
             return await _gamemodeRepository.Add(gamemode);
         }
 
-        public async Task Delete(int id, int userId)
+        public async Task Delete(int id, int userId, bool skipUserVerification = false)
         {
             await _gamemodeRepository.Delete(new Gamemode
             {
                 Id = id,
                 OwnerId = userId
-            });
+            }, skipUserVerification);
         }
 
-        public async Task<int> Update(int id, EditGamemodeDto editGamemodeDto, int userId)
+        public async Task<int> Update(int id, EditGamemodeDto editGamemodeDto, int userId, bool skipUserVerification = false)
         {
             var gamemode = _mapper.Map<Gamemode>(editGamemodeDto);
             gamemode.Id = id;
             gamemode.OwnerId = userId;
 
-            return await _gamemodeRepository.Update(gamemode);
+            return await _gamemodeRepository.Update(gamemode, skipUserVerification);
         }
     }
 }

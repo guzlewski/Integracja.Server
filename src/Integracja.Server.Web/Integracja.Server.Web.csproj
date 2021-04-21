@@ -36,6 +36,7 @@
 
   <ItemGroup>
     <Folder Include="Areas\Gry\Controllers\" />
+    <Folder Include="Areas\Pytania\Views\Question\" />
     <Folder Include="wwwroot\js\Gry\" />
   </ItemGroup>
 

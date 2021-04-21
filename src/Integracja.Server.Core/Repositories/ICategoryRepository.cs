@@ -9,7 +9,7 @@ namespace Integracja.Server.Core.Repositories
         IQueryable<Category> Get(int id);
         IQueryable<Category> GetAll();
         Task<int> Add(Category category);
-        Task Delete(Category category);
-        Task<int> Update(Category category);
+        Task Delete(Category category, bool skipUserVerification = false);
+        Task<int> Update(Category category, bool skipUserVerification = false);
     }
 }

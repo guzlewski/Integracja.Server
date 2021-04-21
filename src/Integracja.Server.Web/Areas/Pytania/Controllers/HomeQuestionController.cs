@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Integracja.Server.Core.Models.Identity;
 using Integracja.Server.Infrastructure.Data;
 using Integracja.Server.Infrastructure.Models;
@@ -9,29 +7,31 @@ using Integracja.Server.Web.Areas.Pytania.Models.Question;
 using Integracja.Server.Web.Controllers;
 using Integracja.Server.Web.Models.Shared.Alert;
 using Integracja.Server.Web.Models.Shared.Category;
-using Integracja.Server.Web.Models.Shared.Enums;
 using Integracja.Server.Web.Models.Shared.Question;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Integracja.Server.Web.Areas.Pytania.Controllers
 {
     [Area("Pytania")]
-    public class QuestionController : ApplicationController, IQuestionActions
+    public class HomeQuestionController : ApplicationController, IQuestionActions
     {
         protected QuestionViewModel Model { get; set; }
         protected virtual string QuestionViewName => "Question";
-        public static new string Name { get => "Question"; }
-        public QuestionController(UserManager<User> userManager, ApplicationDbContext dbContext, IMapper mapper) : base(userManager, dbContext, mapper)
+        public static new string Name { get => "HomeQuestion"; }
+
+        public HomeQuestionController(UserManager<User> userManager, ApplicationDbContext dbContext, IMapper mapper) : base(userManager, dbContext, mapper)
         {
         }
 
-        public virtual IActionResult Index()
+        public virtual IActionResult Index(int categoryId)
         {
-            return IndexResult("Index", "Home");
+            return IndexResult("Index", "Home", new { categoryId });
         }
 
-        protected IActionResult IndexResult(string redirectActionName, string redirectControllerName)
+        protected IActionResult IndexResult(string redirectActionName, string redirectControllerName, object routeValues = null)
         {
             var alert = GetAlerts();
             var question = TryRetrieveFromTempData<QuestionModel>();
@@ -44,7 +44,7 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
             else
             {
                 SetAlerts(alert); // przekazuję dalej
-                return RedirectToAction(redirectActionName, redirectControllerName);
+                return RedirectToAction(redirectActionName, redirectControllerName, routeValues);
             }
         }
 
@@ -55,16 +55,15 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
 
         public async Task<IActionResult> QuestionCreateViewStep2(int categoryId)
         {
-            Model = new QuestionViewModel(ViewMode.Creating);
-            // mogłem właśnie dodać pytanie i trafić tutaj ponownie więc wyświetlam alert
-            Model.Alerts = GetAlerts();
+            var question = new QuestionModel();
 
-            Model.Form.Question.CategoryId = categoryId;
+            var category = await CategoryService.Get<CategoryModel>(categoryId, UserId);
+            question.CategoryName = category.Name;
+            question.CategoryId = categoryId;
 
-            var tmp = await CategoryService.Get<CategoryModel>(categoryId, UserId);
-            Model.Form.Question.CategoryName = tmp.Name;
+            SaveToTempData(question);
 
-            return View(QuestionViewName, Model);
+            return RedirectToAction("Index");
         }
         public async Task<IActionResult> QuestionCreate(QuestionModel question)
         {
@@ -73,13 +72,11 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
             List<AlertModel> alerts = new List<AlertModel>();
             alerts.Add(QuestionAlert.CreateSuccess());
 
-
-
             // jeśli weszło z edycji to cofamy do głównego panelu 
-            if (question.Id.HasValue)
+            if (question.IsPersisted)
             {
                 SetAlerts(alerts);
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { categoryId = question.CategoryId });
             }
             // jeśli inaczej to zostajemy i można dodać kolejne pytanie do kategorii
             else
@@ -102,33 +99,21 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
 
             SetAlert(QuestionAlert.UpdateSuccess());
 
+            return RedirectToAction("Index", new { categoryId = question.CategoryId });
+        }
+        public async Task<IActionResult> QuestionUpdateView(int questionId)
+        {
+            var question = await QuestionService.Get<QuestionModel>(questionId, UserId);
+            SaveToTempData(question);
             return RedirectToAction("Index");
         }
-        public async Task<IActionResult> QuestionUpdateView(int? questionId)
+        public async Task<IActionResult> QuestionDelete(int questionId, int categoryId)
         {
-            Model = new QuestionViewModel();
-
-            if (questionId.HasValue)
-            {
-                Model.Form.Question = await QuestionService.Get<QuestionModel>(questionId.Value, UserId);
-            }
-
-            Model.Form.ViewMode = ViewMode.Updating;
-            return View(QuestionViewName, Model);
-        }
-        public virtual async Task<IActionResult> QuestionDelete(int? questionId)
-        {
-            return await QuestionDeleteResult(questionId, "Index", HomeController.Name);
-        }
-
-        protected async Task<IActionResult> QuestionDeleteResult(int? questionId, string redirectActionName, string redirectControllerName)
-        {
-            if (questionId.HasValue)
-                await QuestionService.Delete(questionId.Value, UserId);
+            await QuestionService.Delete(questionId, UserId);
 
             SetAlert(QuestionAlert.DeleteSuccess());
 
-            return RedirectToAction(redirectActionName, redirectControllerName);
+            return RedirectToAction("Index", new { categoryId });
         }
 
         public Task<IActionResult> AddAnswerField(QuestionModel question)
@@ -163,9 +148,9 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
             return Task.FromResult<IActionResult>(RedirectToAction(nameof(IQuestionActions.QuestionDelete), new { questionId = questionId }));
         }
 
-        public Task<IActionResult> GotoHome()
+        public virtual Task<IActionResult> GotoHome(int? categoryId)
         {
-            return Task.FromResult<IActionResult>(RedirectToAction("Index", HomeController.Name));
+            return Task.FromResult<IActionResult>( RedirectToAction("Index"));
         }
     }
 }

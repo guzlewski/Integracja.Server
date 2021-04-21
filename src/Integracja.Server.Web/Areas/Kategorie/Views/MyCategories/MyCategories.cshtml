@@ -1,0 +1,16 @@
+﻿@using Integracja.Server.Web.Areas.Kategorie.Models.MyCategories
+@model MyCategoriesViewModel
+
+
+
+@{ await Html.RenderPartialAsync("~/Areas/Pytania/Views/Shared/_HomeNavButtons.cshtml"); }
+
+
+<h2>Moje kategorie</h2>
+<br />
+
+@{ await Html.RenderPartialAsync("~/Areas/Kategorie/Views/Shared/_CategoryTable.cshtml", Model.Categories); }
+
+<br />
+
+@{ await Html.RenderPartialAsync("~/Areas/Kategorie/Views/Shared/_CategoryFormModal.cshtml", Model.Form);}

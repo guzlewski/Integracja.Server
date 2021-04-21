@@ -27,10 +27,10 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
             _configuration = configuration;
         }
 
-        public async Task<T> Get<T>(int id, int userId)
+        public async Task<T> Get<T>(int id, int userId, bool skipUserVerification = false)
         {
             var dto = await _gameRepository.Get(id)
-                .Where(g => g.OwnerId == userId && g.GameState != GameState.Deleted)
+                .Where(g => (g.OwnerId == userId || skipUserVerification) && g.GameState != GameState.Deleted)
                 .ProjectTo<T>(_configuration)
                 .FirstOrDefaultAsync();
 
@@ -42,39 +42,39 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
             return dto;
         }
 
-        public async Task<IEnumerable<T>> GetAll<T>(int userId)
+        public async Task<IEnumerable<T>> GetAll<T>(int userId, bool skipUserVerification = false)
         {
             return await _gameRepository.GetAll()
-                .Where(g => g.OwnerId == userId && g.GameState != GameState.Deleted)
+                .Where(g => (g.OwnerId == userId || skipUserVerification) && g.GameState != GameState.Deleted)
                 .ProjectTo<T>(_configuration)
                 .ToListAsync();
         }
 
-        public async Task<int> Add(CreateGameDto createGameDto, int userId)
+        public async Task<int> Add(CreateGameDto createGameDto, int userId, bool skipUserVerification = false)
         {
             var game = _mapper.Map<Game>(createGameDto);
             game.OwnerId = userId;
             game.Guid = Guid.NewGuid();
 
-            return await _gameRepository.Add(game, createGameDto.RandomizeQuestionOrder.Value);
+            return await _gameRepository.Add(game, createGameDto.RandomizeQuestionOrder.Value, skipUserVerification);
         }
 
-        public async Task Delete(int id, int userId)
+        public async Task Delete(int id, int userId, bool skipUserVerification = false)
         {
             await _gameRepository.Delete(new Game
             {
                 Id = id,
                 OwnerId = userId
-            });
+            }, skipUserVerification);
         }
 
-        public async Task<int> Update(int id, EditGameDto dto, int userId)
+        public async Task<int> Update(int id, EditGameDto dto, int userId, bool skipUserVerification = false)
         {
             var game = _mapper.Map<Game>(dto);
             game.Id = id;
             game.OwnerId = userId;
 
-            return await _gameRepository.Update(game);
+            return await _gameRepository.Update(game, skipUserVerification);
         }
     }
 }

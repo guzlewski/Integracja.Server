@@ -3,8 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Integracja.Server.Web.Areas.Kategorie.Models.Shared
 {
-    public interface ICategorySelectActions
+    public interface ICategorySelectTableActions
     {
-        Task<IActionResult> CategoryRead(int? id);
+        Task<IActionResult> CategoryRead(int id);
     }
 }

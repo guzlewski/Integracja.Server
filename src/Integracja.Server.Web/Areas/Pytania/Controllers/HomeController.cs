@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Integracja.Server.Core.Models.Identity;
 using Integracja.Server.Infrastructure.Data;
+using Integracja.Server.Web.Areas.Kategorie.Controllers;
 using Integracja.Server.Web.Areas.Pytania.Models.Home;
 using Integracja.Server.Web.Areas.Pytania.Models.Question;
 using Integracja.Server.Web.Controllers;
@@ -15,40 +16,59 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
     [Area("Pytania")]
     public class HomeController : ApplicationController, IHomeActions
     {
-        private HomeViewModel Model { get; set; }
         public static new string Name { get => "Home"; }
 
         public HomeController(UserManager<User> userManager, ApplicationDbContext dbContext, IMapper mapper) : base(userManager, dbContext, mapper)
         {
-            Model = new HomeViewModel();
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index(int? id)
+        public Task<IActionResult> Index()
         {
-            Model.Alerts = GetAlerts();
-            Model.Questions = (List<QuestionModel>)await QuestionService.GetAll<QuestionModel>(UserId);
-            return View(Model);
+            return Task.FromResult < IActionResult >(RedirectToAction(nameof(IHomeActions.MyQuestions)));
         }
 
         public Task<IActionResult> GotoQuestionCreate()
         {
-            return Task.FromResult<IActionResult>(RedirectToAction(nameof(IQuestionActions.QuestionCreateViewStep1), QuestionController.Name));
+            return Task.FromResult<IActionResult>(RedirectToAction(nameof(IQuestionActions.QuestionCreateViewStep1), HomeQuestionController.Name));
         }
 
-        public Task<IActionResult> GotoQuestionRead(int? id)
+        public Task<IActionResult> GotoQuestionRead(int questionId)
         {
-            return Task.FromResult<IActionResult>(RedirectToAction(nameof(IQuestionActions.QuestionReadView), QuestionController.Name, new { questionId = id }));
+            return Task.FromResult<IActionResult>(RedirectToAction(nameof(IQuestionActions.QuestionReadView), HomeQuestionController.Name, new { questionId }));
         }
 
-        public Task<IActionResult> GotoQuestionUpdate(int? id)
+        public Task<IActionResult> GotoQuestionUpdate(int questionId)
         {
-            return Task.FromResult<IActionResult>(RedirectToAction(nameof(IQuestionActions.QuestionUpdateView), QuestionController.Name, new { questionId = id }));
+            return Task.FromResult<IActionResult>(RedirectToAction(nameof(IQuestionActions.QuestionUpdateView), HomeQuestionController.Name, new { questionId }));
         }
 
-        public Task<IActionResult> GotoQuestionDelete(int? id)
+        public Task<IActionResult> GotoQuestionDelete(int questionId, int categoryId)
         {
-            return Task.FromResult<IActionResult>(RedirectToAction(nameof(IQuestionActions.QuestionDelete), QuestionController.Name, new { questionId = id }));
+            return Task.FromResult<IActionResult>(RedirectToAction(nameof(IQuestionActions.QuestionDelete), HomeQuestionController.Name, new { questionId }));
+        }
+
+        public async Task<IActionResult> MyQuestions()
+        {
+            HomeViewModel model = new HomeViewModel();
+            model.Alerts = GetAlerts();
+            model.Questions = (List<QuestionModel>)await QuestionService.GetOwned<QuestionModel>(UserId);
+            model.Title = "Moje pytania";
+            return View("Index", model);
+        }
+
+        public async Task<IActionResult> AllQuestions()
+        {
+            HomeViewModel model = new HomeViewModel();
+            model.Alerts = GetAlerts();
+            model.Questions = (List<QuestionModel>)await QuestionService.GetAll<QuestionModel>(UserId);
+            model.Title = "Wszystkie pytania";
+            return View("Index", model);
+        }
+
+        public Task<IActionResult> MyCategories()
+        {
+            return Task.FromResult<IActionResult>(RedirectToAction("Index", MyCategoriesController.Name, new { area = "Kategorie" }));
         }
     }
 }

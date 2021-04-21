@@ -9,7 +9,7 @@ namespace Integracja.Server.Core.Repositories
         IQueryable<Gamemode> Get(int id);
         IQueryable<Gamemode> GetAll();
         Task<int> Add(Gamemode gamemode);
-        Task Delete(Gamemode gamemode);
-        Task<int> Update(Gamemode gamemode);
+        Task Delete(Gamemode gamemode, bool skipUserVerification = false);
+        Task<int> Update(Gamemode gamemode, bool skipUserVerification = false);
     }
 }

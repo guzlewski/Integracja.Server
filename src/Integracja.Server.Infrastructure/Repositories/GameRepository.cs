@@ -37,11 +37,11 @@ namespace Integracja.Server.Infrastructure.Repositories
                 .AsNoTracking();
         }
 
-        public async Task<int> Add(Game game, bool randomizeQuestionOrder = false)
+        public async Task<int> Add(Game game, bool randomizeQuestionOrder = false, bool skipUserVerification = false)
         {
             var gamemodeEntity = await _dbContext.Gamemodes
                 .FirstOrDefaultAsync(gm => gm.Id == game.GamemodeId &&
-                    (gm.IsPublic || gm.OwnerId == game.OwnerId) &&
+                    (gm.IsPublic || gm.OwnerId == game.OwnerId || skipUserVerification) &&
                     !gm.IsDeleted);
 
             if (gamemodeEntity == null)
@@ -54,7 +54,7 @@ namespace Integracja.Server.Infrastructure.Repositories
             var ids = game.Questions.Select(gq => gq.QuestionId);
             var entities = await _dbContext.Questions
                 .Where(q => !q.IsDeleted &&
-                    (q.IsPublic || q.OwnerId == game.OwnerId) &&
+                    (q.IsPublic || q.OwnerId == game.OwnerId || skipUserVerification) &&
                     ids.Contains(q.Id))
                 .Select(q => new GameQuestion
                 {
@@ -88,10 +88,10 @@ namespace Integracja.Server.Infrastructure.Repositories
             return game.Id;
         }
 
-        public async Task Delete(Game game)
+        public async Task Delete(Game game, bool skipUserVerification = false)
         {
             var entity = await _dbContext.Games
-                .Where(g => g.Id == game.Id && g.OwnerId == game.OwnerId && g.GameState == GameState.Normal)
+                .Where(g => g.Id == game.Id && (g.OwnerId == game.OwnerId || skipUserVerification) && g.GameState == GameState.Normal)
                 .Select(g => new
                 {
                     Game = g,
@@ -117,10 +117,10 @@ namespace Integracja.Server.Infrastructure.Repositories
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task<int> Update(Game game)
+        public async Task<int> Update(Game game, bool skipUserVerification = false)
         {
             var entity = await _dbContext.Games
-              .Where(g => g.Id == game.Id && g.OwnerId == game.OwnerId && g.GameState == GameState.Normal)
+              .Where(g => g.Id == game.Id && (g.OwnerId == game.OwnerId || skipUserVerification) && g.GameState == GameState.Normal)
               .Select(g => new
               {
                   Game = g,

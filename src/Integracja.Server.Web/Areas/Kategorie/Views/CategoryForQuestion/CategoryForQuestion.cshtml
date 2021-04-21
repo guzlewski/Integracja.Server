@@ -10,7 +10,7 @@
 {
     @* aktywacja DataTables dla tabeli z _CategorySelect *@
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
-    <script src="~/js/Shared/DataTables.js"></script> 
+    <script src="~/js/Shared/DataTables.js"></script>
 }
 
 @{ await Html.RenderPartialAsync("~/Views/Shared/Alerts/_AlertsList.cshtml", Model.Alerts);}
@@ -27,15 +27,16 @@
             Dalej...
         </a>
         <br />
+        <br />
 
-        @{ Model.CategorySelectModel.CategorySelected = Model.CategoryFormModel.Category.Id;}
-        @{ await Html.RenderPartialAsync("~/Areas/Kategorie/Views/Shared/_CategorySelect.cshtml", Model.CategorySelectModel);}
+        @{ Model.CategorySelectModel.CategorySelected = Model.CategoryFormModel.Category.Id;} @*do kontrolera*@
+        @{ await Html.RenderPartialAsync("~/Areas/Kategorie/Views/Shared/_CategorySelectTable.cshtml", Model.CategorySelectModel);}
 
         @*dodawanie kategorii*@
         <h2>Lub stwórz nową</h2>
         <br />
 
-        @{ await Html.RenderPartialAsync("~/Areas/Kategorie/Views/Shared/_CategoryForm.cshtml", Model.CategoryFormModel);}
+        @{ await Html.RenderPartialAsync("~/Areas/Kategorie/Views/Shared/_CategoryFormModal.cshtml", Model.CategoryFormModel);}
 
     </div>
 </div>

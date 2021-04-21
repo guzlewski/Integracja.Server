@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Integracja.Server.Web.Areas.Pytania.Controllers
 {
     // dla przekierowań dla admina z powrotem w AdminHome zamiast Home
-    public class AdminQuestionController : QuestionController
+    public class AdminQuestionController : HomeQuestionController
     {
         public static new string Name { get => "AdminQuestion"; }
         protected override string QuestionViewName => "AdminQuestion";
@@ -16,14 +16,9 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
         {
         }
 
-        public override IActionResult Index()
+        public override IActionResult Index(int categoryId)
         {
             return IndexResult("Index", AdminHomeController.Name);
-        }
-
-        public override Task<IActionResult> QuestionDelete(int? questionId)
-        {
-            return QuestionDeleteResult(questionId, "Index", AdminHomeController.Name);
         }
     }
 }
