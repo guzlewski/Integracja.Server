@@ -25,6 +25,7 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
     {
         private readonly ApplicationDbContext _dbContext;
         private readonly IStorageService _fileService;
+        private readonly DefaultSettings _defaultSettings;
         private readonly PictureSettings _settings;
         private readonly string _contentType;
         private readonly IImageEncoder _imageEncoder;
@@ -58,11 +59,12 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
             ".vst",
         };
 
-        public PictureService(ApplicationDbContext dbContext, IOptions<PictureSettings> options, IStorageService fileService)
+        public PictureService(ApplicationDbContext dbContext, IOptions<PictureSettings> options, IStorageService fileService, IOptions<DefaultSettings> defaultOptions)
         {
             _dbContext = dbContext;
             _fileService = fileService;
             _settings = options.Value;
+            _defaultSettings = defaultOptions.Value;
             (_contentType, _imageEncoder) = Init(_settings);
         }
 
@@ -117,16 +119,18 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
                 throw new UnauthorizedException();
             }
 
-            if (userEntity.ProfilePicture == null || userEntity.ProfileThumbnail == null)
+            if (userEntity.ProfilePicture != null && userEntity.ProfilePicture != _defaultSettings.ProfilePicture)
             {
-                return;
+                await _fileService.Delete(GetFileName(ImageType.ProfilePicture, userId));
             }
 
-            await _fileService.Delete(GetFileName(ImageType.ProfilePicture, userId));
-            await _fileService.Delete(GetFileName(ImageType.ProfileThumbnail, userId));
+            if (userEntity.ProfileThumbnail != null && userEntity.ProfileThumbnail != _defaultSettings.ProfileThumbnail)
+            {
+                await _fileService.Delete(GetFileName(ImageType.ProfileThumbnail, userId));
+            }
 
-            userEntity.ProfilePicture = null;
-            userEntity.ProfileThumbnail = null;
+            userEntity.ProfilePicture = _defaultSettings.ProfilePicture;
+            userEntity.ProfileThumbnail = _defaultSettings.ProfileThumbnail;
 
             await _dbContext.SaveChangesAsync();
         }
