@@ -54,5 +54,25 @@ namespace Integracja.Server.Web.Areas.Kategorie.Controllers
         {
             throw new System.NotImplementedException();
         }
+
+        public Task<IActionResult> MyQuestions()
+        {
+            return Task.FromResult<IActionResult>(RedirectToAction(nameof(MyQuestions), Pytania.Controllers.HomeController.Name, new { area = "Pytania" }));
+        }
+
+        public Task<IActionResult> AllQuestions()
+        {
+            return Task.FromResult<IActionResult>(RedirectToAction(nameof(AllQuestions), Pytania.Controllers.HomeController.Name, new { area = "Pytania" }));
+        }
+
+        public Task<IActionResult> MyCategories()
+        {
+            return Task.FromResult<IActionResult>(RedirectToAction(nameof(MyCategories), Pytania.Controllers.HomeController.Name, new { area = "Pytania" }));
+        }
+
+        public Task<IActionResult> GotoQuestionCreate()
+        {
+            return Task.FromResult<IActionResult>(RedirectToAction(nameof(GotoQuestionCreate), Pytania.Controllers.HomeController.Name, new { area = "Pytania" }));
+        }
     }
 }
