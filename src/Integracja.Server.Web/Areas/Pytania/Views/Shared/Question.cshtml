@@ -11,7 +11,7 @@
 
 <div class="container-fluid dodaj_pytanie mb-5 p-4">
 
-    <a asp-action="@nameof(IQuestionActions.GotoHome)">
+    <a asp-action="@nameof(IQuestionActions.GotoHome)" asp-route-categoryId="@Model.Form.Question.CategoryId">
     Wróć
     </a>
     <br />

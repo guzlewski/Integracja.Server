@@ -38,11 +38,11 @@ namespace Integracja.Server.Infrastructure.Repositories
             return gamemode.Id;
         }
 
-        public async Task Delete(Gamemode gamemode)
+        public async Task Delete(Gamemode gamemode, bool skipUserVerification = false)
         {
             var gamemodeEntity = await _dbContext.Gamemodes
                 .FirstOrDefaultAsync(gm => gm.Id == gamemode.Id &&
-                    gm.OwnerId == gamemode.OwnerId &&
+                    (gm.OwnerId == gamemode.OwnerId || skipUserVerification) &&
                     !gm.IsDeleted);
 
             if (gamemodeEntity == null)
@@ -56,11 +56,11 @@ namespace Integracja.Server.Infrastructure.Repositories
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task<int> Update(Gamemode gamemode)
+        public async Task<int> Update(Gamemode gamemode, bool skipUserVerification = false)
         {
             var entity = await _dbContext.Gamemodes
                 .Where(gm => gm.Id == gamemode.Id &&
-                    gm.OwnerId == gamemode.OwnerId &&
+                    (gm.OwnerId == gamemode.OwnerId || skipUserVerification) &&
                     !gm.IsDeleted)
                 .Select(gm => new
                 {

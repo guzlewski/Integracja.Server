@@ -29,17 +29,17 @@
 
         @if (Model.ViewMode == Creating)
         {
-            <button type="submit" class="btn btn-primary" asp-action="@NameOfCategoryCreate">
+            <button type="submit" class="btn btn-primary" asp-action="@nameof(ICategoryFormActions.CategoryCreate)">
                 Stwórz
             </button>
             <button type="reset" class="btn btn-danger ">Wyczyść</button>
         }
         else if (Model.ViewMode == Updating)
         {
-            <button type="submit" class="btn btn-primary" asp-action="@NameOfCategoryUpdate">
+            <button type="submit" class="btn btn-primary" asp-action="@nameof(ICategoryFormActions.CategoryUpdate)">
                 Zaaktualizuj
             </button>
-            <button type="submit" class="btn btn-primary" asp-action="@NameOfCategoryCreate">
+            <button type="submit" class="btn btn-primary" asp-action="@nameof(ICategoryFormActions.CategoryCreate)">
                 Dodaj jako nową
             </button>
         }

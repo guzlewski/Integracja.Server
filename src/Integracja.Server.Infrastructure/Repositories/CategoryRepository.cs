@@ -38,11 +38,11 @@ namespace Integracja.Server.Infrastructure.Repositories
             return category.Id;
         }
 
-        public async Task Delete(Category category)
+        public async Task Delete(Category category, bool skipUserVerification = false)
         {
             var categoryEntity = await _dbContext.Categories
                 .FirstOrDefaultAsync(c => c.Id == category.Id &&
-                    c.OwnerId == category.OwnerId &&
+                    (c.OwnerId == category.OwnerId || skipUserVerification) &&
                     !c.IsDeleted);
 
             if (categoryEntity == null)
@@ -56,11 +56,11 @@ namespace Integracja.Server.Infrastructure.Repositories
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task<int> Update(Category category)
+        public async Task<int> Update(Category category, bool skipUserVerification = false)
         {
             var categoryEntity = await _dbContext.Categories
                 .FirstOrDefaultAsync(c => c.Id == category.Id &&
-                c.OwnerId == category.OwnerId &&
+                (c.OwnerId == category.OwnerId || skipUserVerification) &&
                 !c.IsDeleted);
 
             if (categoryEntity == null)

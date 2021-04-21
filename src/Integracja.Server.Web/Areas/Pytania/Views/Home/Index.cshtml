@@ -17,43 +17,11 @@
 
 @{ await Html.RenderPartialAsync("~/Views/Shared/Alerts/_AlertsList.cshtml", Model.Alerts);}
 
-<h2>Pytania</h2>
+@{ await Html.RenderPartialAsync("../Shared/_HomeNavButtons.cshtml"); }
+
+<h2>@Model.Title</h2>
 <br />
 
-<div class="table-wrapper-scroll-y">
-    <table id="table_id" class="table table-sm data-table table-card-layout">
-        <thead>
-            <tr>
-                <th scope="col">Kategoria: </th>
-                <th scope="col">Twoje: </th>
-                <th scope="col">Akcje: </th>
-                <th scope="col">Treść: </th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var question in Model.Questions)
-            {
-            <tr>
-                <td>@question.CategoryName</td>
-                <td>@(!question.IsPublic)</td>
-                <td>
-                    <a asp-action="@nameof(IHomeActions.GotoQuestionRead)" asp-route-id="@question.Id">Szczegóły</a> |
-                    <a asp-action="@nameof(IHomeActions.GotoQuestionUpdate)" asp-route-id="@question.Id">Edycja</a> |
-                    <a asp-action="@nameof(IHomeActions.GotoQuestionDelete)" asp-route-id="@question.Id">Usuń</a>
-                </td>
-                <td class="d-lg-table-cell">@question.Content</td>
-            </tr>
-            }
-        </tbody>
-    </table>
-</div>
+@{ await Html.RenderPartialAsync("../Shared/_QuestionTable.cshtml", Model.Questions ); }
 
-<br />
-
-<div>
-    <a class="btn btn-primary"
-       asp-action="@nameof(IHomeActions.GotoQuestionCreate)">
-        Stwórz nowe pytanie
-    </a>
-</div>
 <br />

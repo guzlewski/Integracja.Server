@@ -7,6 +7,7 @@ namespace Integracja.Server.Web.Areas.Pytania.Models.Home
 {
     public class HomeViewModel : PageModel
     {
+        public string Title = "Pytania";
         public List<QuestionModel> Questions { get; set; }
         public List<AlertModel> Alerts { get; set; }
 

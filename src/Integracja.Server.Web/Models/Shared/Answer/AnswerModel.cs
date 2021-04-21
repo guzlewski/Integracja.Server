@@ -1,8 +1,11 @@
-﻿namespace Integracja.Server.Web.Models.Shared.Answer
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Integracja.Server.Web.Models.Shared.Answer
 {
     public class AnswerModel
     {
         public int Id { get; set; }
+        [Required(ErrorMessage = "Musisz podać treść odpowiedzi")]
         public string Content { get; set; }
         public bool IsCorrect { get; set; }
 
