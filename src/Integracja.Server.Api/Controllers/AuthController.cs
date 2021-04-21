@@ -123,7 +123,7 @@ namespace Integracja.Server.Api.Controllers
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
         [AllowAnonymous]
         [HttpGet("[action]")]
-        public async Task<IActionResult> ConfirmEmail(string userId, string code)
+        public async Task<IActionResult> ConfirmEmail([Required] string userId, [Required] string code)
         {
             var user = await _userManager.FindByIdAsync(userId);
             if (user == null)
@@ -144,7 +144,7 @@ namespace Integracja.Server.Api.Controllers
 
             if (result.Succeeded)
             {
-                return NoContent();
+                return Ok();
             }
             else
             {
