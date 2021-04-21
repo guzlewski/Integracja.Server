@@ -60,6 +60,19 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
                 .ToListAsync();
         }
 
+        public async Task<IEnumerable<T>> GetOwned<T>(int categoryId, int userId)
+        {
+            return await _questionRepository.GetAll()
+                .Where(q =>
+                q.OwnerId == userId
+                && !q.IsDeleted
+                && q.Category.OwnerId == userId
+                && q.CategoryId == categoryId
+                && !q.Category.IsDeleted)
+                .ProjectTo<T>(_configuration)
+                .ToListAsync();
+        }
+
         public async Task<int> Add(CreateQuestionDto createQuestionDto, int userId)
         {
             var question = _mapper.Map<Question>(createQuestionDto);
