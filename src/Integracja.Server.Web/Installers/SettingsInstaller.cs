@@ -1,5 +1,4 @@
 ﻿using Integracja.Server.Infrastructure.Settings;
-using Integracja.Server.Web.Settings;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 

@@ -1,4 +1,4 @@
-﻿namespace Integracja.Server.Web.Settings
+﻿namespace Integracja.Server.Infrastructure.Settings
 {
     public class DefaultSettings
     {

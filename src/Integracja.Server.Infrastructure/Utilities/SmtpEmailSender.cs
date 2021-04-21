@@ -1,28 +1,19 @@
 ﻿using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
+using Integracja.Server.Infrastructure.Settings;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.Extensions.Options;
 
-namespace Integracja.Server.Web.Services
+namespace Integracja.Server.Infrastructure.Utilities
 {
-    public class SmtpSettings
-    {
-        public string Host { get; set; }
-        public int Port { get; set; }
-        public bool EnableSSL { get; set; }
-        public string UserName { get; set; }
-        public string Password { get; set; }
-        public string From { get; set; }
-    }
-
     public class SmtpEmailSender : IEmailSender
     {
         private readonly SmtpSettings settings;
 
-        public SmtpEmailSender(IOptionsMonitor<SmtpSettings> emailSettings)
+        public SmtpEmailSender(IOptions<SmtpSettings> emailSettings)
         {
-            settings = emailSettings.CurrentValue;
+            settings = emailSettings.Value;
         }
 
         public Task SendEmailAsync(string email, string subject, string message)
