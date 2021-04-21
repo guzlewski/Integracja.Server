@@ -1,0 +1,71 @@
+﻿.modal .modal-close {
+    display: inline;
+    text-decoration: none;
+}
+
+.modal,
+.modal > .modal-close,
+#faux-body {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+}
+
+.modal {
+    left: -100vw;
+    opacity: 0;
+    padding: 1em;
+    transition: opacity 0.3s, left 0s 0.3s;
+    background: radial-gradient( hsla(220, 100%, 100%, 0.8) 20%, hsla(220, 100%, 85%, 0.95) 100% );
+}
+
+    .modal > div {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100%;
+    }
+
+        .modal > div > section,
+        .modal > div > nav {
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+            max-width: 24em;
+            background: hsl(220, 100%, 95%);
+            border: 1px solid #0484;
+            border-radius: 0.5em;
+            box-shadow: 0 0.25em 1em #0006;
+            transform: scale(0);
+            transition: transform 0.3s;
+        }
+
+    .modal:target > div > section,
+    .modal:target > div > nav {
+        transform: scale(1);
+    }
+
+section .modal-close,
+nav .modal-close {
+    position: absolute;
+    top: 0;
+    right: 0.325em;
+    font-size: 1.75em;
+    color: #C00;
+    transition: transform 0.3s;
+}
+
+    section .modal-close:after,
+    nav .modal-close:after {
+        content: "\1F5D9";
+    }
+
+    section .modal-close:focus,
+    section .modal-close:hover,
+    nav .modal-close:focus,
+    nav .modal-close:hover {
+        transform: scale(1.2);
+    }

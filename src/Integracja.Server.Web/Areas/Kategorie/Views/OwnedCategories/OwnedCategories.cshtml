@@ -1,0 +1,11 @@
+﻿@using Integracja.Server.Web.Areas.Kategorie.Models.OwnedCategories
+@model OwnedCategoriesViewModel
+
+<h2>Moje kategorie</h2>
+<br />
+
+@{ await Html.RenderPartialAsync("~/Areas/Kategorie/Views/Shared/_CategoryTable.cshtml", Model.Categories); }
+
+<br />
+
+@{ await Html.RenderPartialAsync("~/Areas/Kategorie/Views/Shared/_CategoryFormModal.cshtml", Model.Form);}

@@ -1,0 +1,6 @@
+﻿@using Integracja.Server.Web.Areas.Pytania.Models.OwnedCategoryQuestions
+@model OwnedCategoryQuestionsViewModel
+
+<h2>Pytania z kategorii</h2>
+
+@{ await Html.RenderPartialAsync("../Shared/_QuestionTable.cshtml", Model.Questions); }

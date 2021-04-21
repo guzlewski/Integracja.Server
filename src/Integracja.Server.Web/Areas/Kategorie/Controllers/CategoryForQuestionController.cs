@@ -18,7 +18,6 @@ namespace Integracja.Server.Web.Areas.Kategorie.Controllers
     [Area("Kategorie")]
     public class CategoryForQuestionController : ApplicationController, ICategoryForQuestionActions
     {
-        private CategoryForQuestionViewModel Model { get; set; }
         public static new string Name { get => "CategoryForQuestion"; }
 
         public CategoryForQuestionController(UserManager<User> userManager, ApplicationDbContext dbContext, IMapper mapper) : base(userManager, dbContext, mapper)
@@ -27,19 +26,19 @@ namespace Integracja.Server.Web.Areas.Kategorie.Controllers
 
         public async Task<IActionResult> Index(int? id)
         {
-            Model = new CategoryForQuestionViewModel();
-            Model.CategorySelectModel.Categories = (List<CategoryModel>)await CategoryService.GetAll<CategoryModel>(UserId);
-            Model.Alerts = GetAlerts();
+            var model = new CategoryForQuestionViewModel();
+            model.CategorySelectModel.Categories = (List<CategoryModel>)await CategoryService.GetAll<CategoryModel>(UserId);
+            model.Alerts = GetAlerts();
 
             if (id.HasValue)
             {
-                Model.CategoryFormModel.Category.Id = id.Value;
+                model.CategoryFormModel.Category.Id = id.Value;
             }
 
-            return View("CategoryForQuestion", Model);
+            return View("CategoryForQuestion", model);
         }
 
-        public Task<IActionResult> CategoryRead(int? id)
+        public Task<IActionResult> CategoryRead(int id)
         {
             return Task.FromResult<IActionResult>(RedirectToAction("Index", new { id = id }));
         }
@@ -57,7 +56,7 @@ namespace Integracja.Server.Web.Areas.Kategorie.Controllers
                 SetAlert(new AlertModel(AlertType.Warning, "Musisz wybrać lub utworzyć kategorię dla nowego pytania."));
                 return Task.FromResult<IActionResult>(RedirectToAction("Index"));
             }
-            else return Task.FromResult<IActionResult>(RedirectToAction(nameof(IQuestionActions.QuestionCreateViewStep2), QuestionController.Name, new { area = "Pytania", categoryId = id }));
+            else return Task.FromResult<IActionResult>(RedirectToAction(nameof(IQuestionActions.QuestionCreateViewStep2), HomeQuestionController.Name, new { area = "Pytania", categoryId = id }));
         }
 
         public Task<IActionResult> CategoryUpdate(CategoryModel category)

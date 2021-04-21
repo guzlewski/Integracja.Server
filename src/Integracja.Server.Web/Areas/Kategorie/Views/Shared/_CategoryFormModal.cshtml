@@ -1,0 +1,69 @@
+﻿@using static Integracja.Server.Web.Areas.Kategorie.Models.Shared.ICategoryFormActions
+@using static Integracja.Server.Web.Areas.Kategorie.Models.Shared.CategoryFormViewModel
+@using static Integracja.Server.Web.Models.Shared.Enums.ViewMode
+@using Integracja.Server.Web.Areas.Kategorie.Models.Shared
+@model CategoryFormViewModel
+
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#categoryForm">
+    Nowa kategoria
+</button>
+
+<div class="modal fade" id="categoryForm" tabindex="-1" role="dialog" aria-labelledby="categoryFormLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <form>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="categoryFormLabel">Stwórz nową kategorię</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+
+                    <input asp-for="Category.Id" type="hidden" />
+
+                    <h4>Nazwa kategorii</h4>
+                    <div class="form-group">
+                        <input asp-for="Category.Name" class="form-control" />
+                        <span asp-validation-for="Category.Name" class="text-danger"></span>
+                    </div>
+
+                    @if (Model.ViewMode == Updating)
+                    {
+                        <p>Stara nazwa: @Model.Category.Name</p>
+                    }
+
+                    @* można użyć ~"inject usermanager" żeby sprawdzić czy użytkownik jest adminem
+                        albo po prostu w kontrolerze przekazać takie info do modelu *@
+                    <div class="form-group">
+                        <h4>Czy publiczna ?</h4>
+                        <input asp-for="Category.IsPublic" class="form-check" type="checkbox" />
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+
+                    @if (Model.ViewMode == Creating)
+                    {
+                        <button type="submit" class="btn btn-primary" asp-action="@nameof(ICategoryFormActions.CategoryCreate)">
+                            Stwórz
+                        </button>
+                        <button type="reset" class="btn btn-danger ">Wyczyść</button>
+                    }
+                    else if (Model.ViewMode == Updating)
+                    {
+                        <button type="submit" class="btn btn-primary" asp-action="@nameof(ICategoryFormActions.CategoryUpdate)">
+                            Zaaktualizuj
+                        </button>
+                        <button type="submit" class="btn btn-primary" asp-action="@nameof(ICategoryFormActions.CategoryCreate)">
+                            Dodaj jako nową
+                        </button>
+                    }
+
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

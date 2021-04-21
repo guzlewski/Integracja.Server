@@ -6,7 +6,7 @@ namespace Integracja.Server.Web.Areas.Kategorie.Models.CategoryForQuestion
 {
     public class CategoryForQuestionViewModel
     {
-        public CategorySelectViewModel CategorySelectModel { get; set; } = new CategorySelectViewModel();
+        public CategorySelectTableViewModel CategorySelectModel { get; set; } = new CategorySelectTableViewModel();
 
         public CategoryFormViewModel CategoryFormModel { get; set; } = new CategoryFormViewModel();
 

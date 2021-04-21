@@ -1,13 +1,10 @@
 ﻿using System.Threading.Tasks;
+using Integracja.Server.Web.Areas.Pytania.Models.Shared;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Integracja.Server.Web.Areas.Pytania.Models.Home
 {
-    public interface IHomeActions
+    public interface IHomeActions : IHomeNav, IQuestionTableActions
     {
-        Task<IActionResult> GotoQuestionCreate();
-        Task<IActionResult> GotoQuestionRead(int? id);
-        Task<IActionResult> GotoQuestionUpdate(int? id);
-        Task<IActionResult> GotoQuestionDelete(int? id);
     }
 }
