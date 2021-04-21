@@ -15,6 +15,8 @@ namespace Integracja.Server.Api.Installers
             services.Configure<PictureSettings>(configuration.GetSection("Picture"));
 
             services.Configure<DefaultSettings>(configuration.GetSection("Default"));
+
+            services.Configure<SmtpSettings>(configuration.GetSection("Smtp"));
         }
     }
 }
