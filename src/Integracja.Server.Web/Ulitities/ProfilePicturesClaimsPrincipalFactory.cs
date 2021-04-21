@@ -16,7 +16,6 @@ namespace Integracja.Server.Web.Ulitities
         {
             var identity = await base.GenerateClaimsAsync(user);
             identity.AddClaim(new Claim("ProfilePicture", user.ProfilePicture));
-            identity.AddClaim(new Claim("ProfileThumbnail", user.ProfileThumbnail));
 
             return identity;
         }
