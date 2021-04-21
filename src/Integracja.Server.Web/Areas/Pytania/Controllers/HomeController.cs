@@ -25,7 +25,7 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
         [HttpGet]
         public Task<IActionResult> Index()
         {
-            return Task.FromResult < IActionResult >(RedirectToAction(nameof(IHomeActions.GotoOwnedQuestions)));
+            return Task.FromResult < IActionResult >(RedirectToAction(nameof(IHomeActions.MyQuestions)));
         }
 
         public Task<IActionResult> GotoQuestionCreate()
@@ -48,7 +48,7 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
             return Task.FromResult<IActionResult>(RedirectToAction(nameof(IQuestionActions.QuestionDelete), HomeQuestionController.Name, new { questionId }));
         }
 
-        public async Task<IActionResult> GotoOwnedQuestions()
+        public async Task<IActionResult> MyQuestions()
         {
             HomeViewModel model = new HomeViewModel();
             model.Alerts = GetAlerts();
@@ -57,7 +57,7 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
             return View("Index", model);
         }
 
-        public async Task<IActionResult> GotoAllQuestions()
+        public async Task<IActionResult> AllQuestions()
         {
             HomeViewModel model = new HomeViewModel();
             model.Alerts = GetAlerts();
@@ -66,9 +66,9 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
             return View("Index", model);
         }
 
-        public Task<IActionResult> GotoOwnedCategories()
+        public Task<IActionResult> MyCategories()
         {
-            return Task.FromResult<IActionResult>(RedirectToAction("Index", OwnedCategoriesController.Name, new { area = "Kategorie" }));
+            return Task.FromResult<IActionResult>(RedirectToAction("Index", MyCategoriesController.Name, new { area = "Kategorie" }));
         }
     }
 }

@@ -2,9 +2,9 @@
 using Integracja.Server.Web.Models.Shared.Category;
 using System.Collections.Generic;
 
-namespace Integracja.Server.Web.Areas.Kategorie.Models.OwnedCategories
+namespace Integracja.Server.Web.Areas.Kategorie.Models.MyCategories
 {
-    public class OwnedCategoriesViewModel
+    public class MyCategoriesViewModel
     {
         public List<CategoryModel> Categories { get; set; }
         public CategoryFormViewModel Form { get; set; } = new();

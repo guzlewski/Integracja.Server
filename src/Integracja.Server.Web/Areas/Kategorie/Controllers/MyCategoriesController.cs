@@ -2,7 +2,7 @@
 using Integracja.Server.Core.Models.Identity;
 using Integracja.Server.Infrastructure.Data;
 using Integracja.Server.Infrastructure.Models;
-using Integracja.Server.Web.Areas.Kategorie.Models.OwnedCategories;
+using Integracja.Server.Web.Areas.Kategorie.Models.MyCategories;
 using Integracja.Server.Web.Areas.Pytania.Controllers;
 using Integracja.Server.Web.Controllers;
 using Integracja.Server.Web.Models.Shared.Category;
@@ -13,29 +13,24 @@ using System.Threading.Tasks;
 namespace Integracja.Server.Web.Areas.Kategorie.Controllers
 {
     [Area("Kategorie")]
-    public class OwnedCategoriesController : ApplicationController, IOwnedCategoriesActions
+    public class MyCategoriesController : ApplicationController, IMyCategoriesActions
     {
-        public static new string Name { get => "OwnedCategories"; }
+        public static new string Name { get => "MyCategories"; }
 
-        public OwnedCategoriesController(UserManager<User> userManager, ApplicationDbContext dbContext, IMapper mapper) : base(userManager, dbContext, mapper)
+        public MyCategoriesController(UserManager<User> userManager, ApplicationDbContext dbContext, IMapper mapper) : base(userManager, dbContext, mapper)
         {
         }
 
         public async Task<IActionResult> Index()
         {
-            OwnedCategoriesViewModel model = new();
+            MyCategoriesViewModel model = new();
             model.Categories = (System.Collections.Generic.List<CategoryModel>)await CategoryService.GetOwned<CategoryModel>(UserId);
-            return View("OwnedCategories", model);
+            return View("MyCategories", model);
         }
 
         public Task<IActionResult> GotoCategoryRead(int id)
         {
-            return Task.FromResult<IActionResult>(RedirectToAction("Index",OwnedCategoryQuestionsController.Name, new { categoryId = id, area = "Pytania" }));
-        }
-
-        public Task<IActionResult> GotoCategoryUpdate(int id)
-        {
-            throw new System.NotImplementedException();
+            return Task.FromResult<IActionResult>(RedirectToAction("Index",MyCategoryController.Name, new { categoryId = id, area = "Pytania" }));
         }
 
         public async Task<IActionResult> GotoCategoryDelete(int id)
@@ -48,6 +43,11 @@ namespace Integracja.Server.Web.Areas.Kategorie.Controllers
         {
             await CategoryService.Add(Mapper.Map<CreateCategoryDto>(category), UserId);
             return RedirectToAction("Index");
+        }
+
+        public Task<IActionResult> GotoCategoryUpdate(int id)
+        {
+            throw new System.NotImplementedException();
         }
 
         public Task<IActionResult> CategoryUpdate(CategoryModel category) 
