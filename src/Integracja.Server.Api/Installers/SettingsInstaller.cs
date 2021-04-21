@@ -13,6 +13,8 @@ namespace Integracja.Server.Api.Installers
             services.Configure<BlobStorageSettings>(configuration.GetSection("BlobStorage"));
 
             services.Configure<PictureSettings>(configuration.GetSection("Picture"));
+
+            services.Configure<DefaultSettings>(configuration.GetSection("Default"));
         }
     }
 }
