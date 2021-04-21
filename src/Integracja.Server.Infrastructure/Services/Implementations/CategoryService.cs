@@ -25,10 +25,10 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
             _configuration = configuration;
         }
 
-        public async Task<T> Get<T>(int id, int userId)
+        public async Task<T> Get<T>(int id, int userId, bool skipUserVerification = false)
         {
             var dto = await _categoryRepository.Get(id)
-                .Where(c => (c.IsPublic || c.OwnerId == userId) && !c.IsDeleted)
+                .Where(c => (c.IsPublic || c.OwnerId == userId || skipUserVerification) && !c.IsDeleted)
                 .ProjectTo<T>(_configuration, new Dictionary<string, object> { { "userId", userId } })
                 .FirstOrDefaultAsync();
 
@@ -40,10 +40,10 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
             return dto;
         }
 
-        public async Task<IEnumerable<T>> GetAll<T>(int userId)
+        public async Task<IEnumerable<T>> GetAll<T>(int userId, bool skipUserVerification = false)
         {
             return await _categoryRepository.GetAll()
-                .Where(c => (c.IsPublic || c.OwnerId == userId) && !c.IsDeleted)
+                .Where(c => (c.IsPublic || c.OwnerId == userId || skipUserVerification) && !c.IsDeleted)
                 .ProjectTo<T>(_configuration, new Dictionary<string, object> { { "userId", userId } })
                 .ToListAsync();
         }
@@ -70,22 +70,22 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
             return await _categoryRepository.Add(category);
         }
 
-        public async Task Delete(int id, int userId)
+        public async Task Delete(int id, int userId, bool skipUserVerification = false)
         {
             await _categoryRepository.Delete(new Category
             {
                 Id = id,
                 OwnerId = userId
-            });
+            }, skipUserVerification);
         }
 
-        public async Task<int> Update(int id, EditCategoryDto editCategoryDto, int userId)
+        public async Task<int> Update(int id, EditCategoryDto editCategoryDto, int userId, bool skipUserVerification = false)
         {
             var category = _mapper.Map<Category>(editCategoryDto);
             category.Id = id;
             category.OwnerId = userId;
 
-            return await _categoryRepository.Update(category);
+            return await _categoryRepository.Update(category, skipUserVerification);
         }
     }
 }
