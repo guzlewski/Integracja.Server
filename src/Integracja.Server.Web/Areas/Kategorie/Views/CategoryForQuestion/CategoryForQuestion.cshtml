@@ -36,10 +36,6 @@
         <h2>Lub stwórz nową</h2>
         <br />
 
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#categoryForm">
-            Nowa kategoria
-        </button>
-
         @{ await Html.RenderPartialAsync("~/Areas/Kategorie/Views/Shared/_CategoryFormModal.cshtml", Model.CategoryFormModel);}
 
     </div>
