@@ -14,13 +14,13 @@
             <div class="col-lg-4">
                 <h3>Czas rozpoczęcia</h3>
                 <p class="card-text">
-                    @Model.Game.Settings.StartDateTime
+                    @Model.Game.Settings.StartDateTime.ToLocalTime()
                 </p>
             </div>
 
             <div class="col-lg-4">
                 @{
-                    var now = DateTime.Now;
+                    DateTime now = DateTime.Now;
                     string expiredText = "W trakcie!";
                 }
                 <h3 id="countdown_timer_data" data-expired-text="@expiredText" data-prefix-text="Start za ">
@@ -53,7 +53,7 @@
             <div class="col-lg-4">
                 <h3>Czas zakończenia</h3>
                 <p class="card-text">
-                    @Model.Game.Settings.EndDateTime
+                    @Model.Game.Settings.EndDateTime.ToLocalTime()
                 </p>
             </div>
         </div>

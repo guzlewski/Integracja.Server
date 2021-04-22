@@ -29,12 +29,12 @@ namespace Integracja.Server.Web.Models.Shared.Game
         {
             get
             {
-                return new DateTime( StartTime.TimeOfDay.Ticks + StartDate.Date.Ticks );
+                return new DateTime( StartTime.TimeOfDay.Ticks + StartDate.Date.Ticks, StartDate.Kind).ToUniversalTime();
             }
             set
             {
-                StartTime = new DateTime(value.TimeOfDay.Ticks);
-                StartDate = new DateTime(value.Date.Ticks);
+                StartTime = new DateTime(value.TimeOfDay.Ticks, value.Kind).ToUniversalTime();
+                StartDate = new DateTime(value.Date.Ticks, value.Kind).ToUniversalTime();
             }
         }
 
@@ -53,12 +53,12 @@ namespace Integracja.Server.Web.Models.Shared.Game
         {
             get
             {
-                return new DateTime(EndTime.TimeOfDay.Ticks + EndDate.Date.Ticks);
+                return new DateTime(EndTime.TimeOfDay.Ticks + EndDate.Date.Ticks, EndDate.Kind ).ToUniversalTime();
             }
             set
             {
-                EndTime = new DateTime(value.TimeOfDay.Ticks);
-                EndDate = new DateTime(value.Date.Ticks);
+                EndTime = new DateTime(value.TimeOfDay.Ticks, value.Kind).ToUniversalTime();
+                EndDate = new DateTime(value.Date.Ticks, value.Kind).ToUniversalTime();
             }
         }
 

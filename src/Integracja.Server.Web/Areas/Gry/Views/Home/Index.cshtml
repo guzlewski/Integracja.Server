@@ -72,7 +72,7 @@
                 }
 
                 @* rozpoczęcie *@
-                <td>@Model.Games[i].Settings.StartDateTime</td>
+                <td>@Model.Games[i].Settings.StartDateTime.ToLocalTime()</td>
 
                 @*czas trwania*@
                 <td>@TimeHelper.ReadableTimeSpan( Model.Games[i].Settings.Duration )</td>
