@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using Integracja.Server.Core.Models.Identity;
@@ -15,15 +16,15 @@ using Microsoft.AspNetCore.Mvc;
 namespace Integracja.Server.Web.Areas.Gry.Controllers
 {
     [Area("Gry")]
-    public class GameController : ApplicationController, IGameActions
+    public class GameController : ApplicationController, IGameActions, IGameSettingsValidation
     {
         public static new string Name { get => "Game"; }
 
-        private static string GameSettingsStoreKey = "GameSettings";
-        private static string QuestionPoolStoreKey = "QuestionPool";
+        private const string GameSettingsStoreKey = "GameSettings";
+        private const string QuestionPoolStoreKey = "QuestionPool";
 
-        private static string QuestionPoolViewName = "QuestionPool";
-        private static string SettingsViewName = "Settings";
+        private const string QuestionPoolViewName = "QuestionPool";
+        private const string SettingsViewName = "Settings";
 
         public GameController(UserManager<User> userManager, ApplicationDbContext dbContext, IMapper mapper) : base(userManager, dbContext, mapper)
         {
@@ -110,7 +111,7 @@ namespace Integracja.Server.Web.Areas.Gry.Controllers
 
             var createGameDto = Mapper.Map<CreateGameDto>(game);
 
-            if(game.Settings.MaxPlayersCount == 0)
+            if (game.Settings.MaxPlayersCount == 0)
             {
                 createGameDto.MaxPlayers = null;
             }
@@ -137,5 +138,38 @@ namespace Integracja.Server.Web.Areas.Gry.Controllers
 
             return View("GameCard", model);
         }
+
+
+        public IActionResult VerifyDates(
+            [Bind(Prefix = "Settings.StartDate")] string startDate,
+            [Bind(Prefix = "Settings.StartTime")] string startTime,
+            [Bind(Prefix = "Settings.EndDate")] string endDate,
+            [Bind(Prefix = "Settings.EndTime")] string endTime)
+        {
+            if (startDate == null || startTime == null || endDate == null || endTime == null)
+                return Json(true); // pominięcie walidacji jeśli się nie są podane wszystkie parametry
+
+            if (!DateTime.TryParse(startDate + " " + startTime, out DateTime start) 
+                || !DateTime.TryParse(endDate + " " + endTime, out DateTime end))
+                return Json($"Podane czasy są w złym formacie");
+
+            var now = DateTime.Now;
+
+            if( start < now )
+            {
+                return Json($"Podany czas rozpoczęcia jest w przeszłości");
+            }
+            if( start >= end )
+            {
+                return Json($"Czas rozpoczęcia nie może być po czasie zakończenia");
+            }
+            if( end > now.AddYears(1) )
+            {
+                return Json($"Gra może się zakończyć najpóźniej za rok");
+            }
+
+            return Json(true);
+        }
+        
     }
 }

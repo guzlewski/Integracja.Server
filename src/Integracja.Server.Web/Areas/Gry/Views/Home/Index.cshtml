@@ -1,6 +1,7 @@
 ﻿@using Integracja.Server.Web.Areas.Gry.Models.Home
 @using static Integracja.Server.Web.Areas.Gry.Models.Home.HomeViewModel
 @using static Integracja.Server.Web.Areas.Gry.Models.Home.IHomeActions
+@using Integracja.Server.Web.Models.Shared.Time
 @model HomeViewModel
 
 @section Styles
@@ -47,17 +48,17 @@
                 <td>@Model.Games[i].Settings.Name</td>
 
                 @*status*@
-                @if (now < Model.Games[i].Settings.StartTime) // przed startem
+                @if (now < Model.Games[i].Settings.StartDateTime) // przed startem
                 {
 
                     // konwersja dla js
-                    var t = Model.Games[i].Settings.StartTime.ToUniversalTime().Subtract(new DateTime(1970, 1, 1)).TotalMilliseconds;
+                    var t = Model.Games[i].Settings.StartDateTime.ToUniversalTime().Subtract(new DateTime(1970, 1, 1)).TotalMilliseconds;
 
                     <td class="countdown-timer" data-countdown-date="@t">
                         Oczekująca @* z jsem będzie wyświetlony timer do rozpoczęcia albo "w trakcie" *@
                     </td>
                 }
-                else if (now < Model.Games[i].Settings.EndTime)
+                else if (now < Model.Games[i].Settings.EndDateTime)
                 {
                     <td>
                         @expiredText
@@ -71,20 +72,20 @@
                 }
 
                 @* rozpoczęcie *@
-                <td>@Model.Games[i].Settings.StartTime</td>
+                <td>@Model.Games[i].Settings.StartDateTime.ToLocalTime()</td>
 
                 @*czas trwania*@
-                <td>@Model.Games[i].Settings.DurationString</td>
+                <td>@TimeHelper.ReadableTimeSpan( Model.Games[i].Settings.Duration )</td>
 
                 @*akcje*@
                 <td>
                     <a asp-action="@nameof(IHomeActions.GotoGameRead)" asp-route-gameId="@Model.Games[i].Id">Szczegóły</a>
-                    @if (Model.Games[i].Settings.EndTime < now)
+                    @if (Model.Games[i].Settings.EndDateTime < now)
                     {
                         @Html.Raw(" | ")
                         <a asp-action="@nameof(IHomeActions.GotoGameHistory)" asp-route-gameId="@Model.Games[i].Id">Historia</a>
                     }
-                    @if (Model.Games[i].Settings.StartTime > now)
+                    @if (Model.Games[i].Settings.StartDateTime > now)
                     {
                         @Html.Raw(" | ")
                         <a asp-action="@nameof(IHomeActions.GotoGameUpdate)" asp-route-gameId="@Model.Games[i].Id">Edytuj</a>@Html.Raw(" | ")
