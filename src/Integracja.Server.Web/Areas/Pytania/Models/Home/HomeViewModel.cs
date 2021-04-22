@@ -15,9 +15,5 @@ namespace Integracja.Server.Web.Areas.Pytania.Models.Home
         {
             Questions = new List<QuestionModel>();
         }
-
-        public static class Ids
-        {
-        }
     }
 }
