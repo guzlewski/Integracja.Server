@@ -14,7 +14,7 @@
             <div class="col-lg-4">
                 <h3>Czas rozpoczęcia</h3>
                 <p class="card-text">
-                    @Model.Game.Settings.StartTime
+                    @Model.Game.Settings.StartDateTime
                 </p>
             </div>
 
@@ -26,17 +26,17 @@
                 <h3 id="countdown_timer_data" data-expired-text="@expiredText" data-prefix-text="Start za ">
                     Status
                 </h3>
-                @if (now < Model.Game.Settings.StartTime) // przed startem
+                @if (now < Model.Game.Settings.StartDateTime) // przed startem
                 {
 
                     // konwersja dla js
-                    var t = Model.Game.Settings.StartTime.ToUniversalTime().Subtract(new DateTime(1970, 1, 1)).TotalMilliseconds;
+                    var t = Model.Game.Settings.StartDateTime.ToUniversalTime().Subtract(new DateTime(1970, 1, 1)).TotalMilliseconds;
 
                     <p class="card-text countdown-timer" data-countdown-date="@t">
                         Oczekująca @* z jsem będzie wyświetlony timer do rozpoczęcia albo "w trakcie" *@
                     </p>
                 }
-                else if (now < Model.Game.Settings.EndTime)
+                else if (now < Model.Game.Settings.EndDateTime)
                 {
                     <p class="card-text">
                         @expiredText
@@ -53,7 +53,7 @@
             <div class="col-lg-4">
                 <h3>Czas zakończenia</h3>
                 <p class="card-text">
-                    @Model.Game.Settings.EndTime
+                    @Model.Game.Settings.EndDateTime
                 </p>
             </div>
         </div>

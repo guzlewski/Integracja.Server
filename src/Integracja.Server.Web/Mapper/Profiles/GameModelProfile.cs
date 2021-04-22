@@ -13,8 +13,8 @@ namespace Integracja.Server.Web.Mapper.Profiles
             .ForMember(dest => dest.MaxPlayers, opt => opt.MapFrom(src => src.Settings.MaxPlayersCount))
             .ForMember(dest => dest.RandomizeQuestionOrder, opt => opt.MapFrom(src => src.Settings.RandomizeQuestionOrder))
             .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Settings.Name))
-            .ForMember(dest => dest.StartTime, opt => opt.MapFrom(src => src.Settings.StartTime))
-            .ForMember(dest => dest.EndTime, opt => opt.MapFrom(src => src.Settings.EndTime))
+            .ForMember(dest => dest.StartTime, opt => opt.MapFrom(src => src.Settings.StartDateTime))
+            .ForMember(dest => dest.EndTime, opt => opt.MapFrom(src => src.Settings.EndDateTime))
             .ForMember(dest => dest.GamemodeId, opt => opt.MapFrom(src => src.Settings.Gamemode.Id))
             .ForMember(dest => dest.QuestionsCount, opt => opt.MapFrom(src => src.QuestionPool.Count));
 

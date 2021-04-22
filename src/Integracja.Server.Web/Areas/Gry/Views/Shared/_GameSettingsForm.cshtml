@@ -3,7 +3,7 @@
 
 @*Pozostałe proste parametry gry*@
 
-<form>
+<form asp-controller="Game" asp-area="Gry" asp-action="@nameof(IGameSettingsFormActions.GameSettingsCreate)" method="post">
     <input type="hidden" asp-for="Settings.Gamemode.Id" />
 
     <div class="row">
@@ -17,14 +17,20 @@
     <div class="row">
         <div class="form-group col-md-3">
             <h4>Czas rozpoczęcia</h4>
-            <input asp-for="Settings.StartTime" value="@DateTime.Now" class="form-control"/>
+            <input asp-for="Settings.StartDate" value="@DateTime.Now" class="form-control" />
+            <span asp-validation-for="Settings.StartDate" class="text-danger"></span>
+            <input asp-for="Settings.StartTime" value="@DateTime.Now" class="form-control" />
+            <span asp-validation-for="Settings.StartTime" class="text-danger"></span>
         </div>
     </div>
 
     <div class="row">
         <div class="form-group col-md-3">
             <h4>Czas zakończenia</h4>
-            <input asp-for="Settings.EndTime" value="@DateTime.Now" class="form-control"/>
+            <input asp-for="Settings.EndDate" value="@DateTime.Now" class="form-control" />
+            <span asp-validation-for="Settings.EndDate" class="text-danger"></span>
+            <input asp-for="Settings.EndTime" value="@DateTime.Now" class="form-control" />
+            <span asp-validation-for="Settings.EndTime" class="text-danger"></span>
         </div>
     </div>
 
@@ -42,10 +48,7 @@
         </div>
     </div>
 
-    <button type="submit" class="btn btn-primary"
-            asp-action="@nameof(IGameSettingsFormActions.GameSettingsCreate)">
-        Zatwierdź ustawienia
-    </button>
+    <input type="submit" class="btn btn-primary" value="Zatwierdź ustawienia"/>
 
 </form>
 
