@@ -36,7 +36,7 @@
         </thead>
 
         @{
-            var now = DateTime.Now;
+            var now = DateTime.UtcNow;
             string expiredText = "W trakcie!";
         }
 
@@ -52,7 +52,7 @@
                 {
 
                     // konwersja dla js
-                    var t = Model.Games[i].Settings.StartDateTime.ToUniversalTime().Subtract(new DateTime(1970, 1, 1)).TotalMilliseconds;
+                    var t = TimeHelper.ToEpochMiliseconds( Model.Games[i].Settings.StartDateTime );
 
                     <td class="countdown-timer" data-countdown-date="@t">
                         Oczekująca @* z jsem będzie wyświetlony timer do rozpoczęcia albo "w trakcie" *@

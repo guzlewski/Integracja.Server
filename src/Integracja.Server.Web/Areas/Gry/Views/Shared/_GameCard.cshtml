@@ -20,7 +20,7 @@
 
             <div class="col-lg-4">
                 @{
-                    DateTime now = DateTime.Now;
+                    DateTime now = DateTime.UtcNow;
                     string expiredText = "W trakcie!";
                 }
                 <h3 id="countdown_timer_data" data-expired-text="@expiredText" data-prefix-text="Start za ">
@@ -30,7 +30,7 @@
                 {
 
                     // konwersja dla js
-                    var t = Model.Game.Settings.StartDateTime.ToUniversalTime().Subtract(new DateTime(1970, 1, 1)).TotalMilliseconds;
+                    var t = ToEpochMiliseconds(Model.Game.Settings.StartDateTime);
 
                     <p class="card-text countdown-timer" data-countdown-date="@t">
                         Oczekująca @* z jsem będzie wyświetlony timer do rozpoczęcia albo "w trakcie" *@
