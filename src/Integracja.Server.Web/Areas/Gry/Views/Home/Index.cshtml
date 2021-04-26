@@ -4,11 +4,6 @@
 @using Integracja.Server.Web.Models.Shared.Time
 @model HomeViewModel
 
-@section Styles
-{
-    <link rel="stylesheet" href="~/css/Shared/TableCardLayout.css" />
-}
-
 @section Scripts
 {
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
@@ -20,11 +15,14 @@
 
 @{ await Html.RenderPartialAsync("~/Views/Shared/Alerts/_AlertsList.cshtml", Model.Alerts);}
 
+@{ await Html.RenderPartialAsync("~/Areas/Gry/Views/Shared/_HomeNavButtons.cshtml"); }
+<br />
+
 <h2>Gry</h2>
 <br />
 
 <div class="table-wrapper-scroll-y">
-    <table class="table data-table-games table-card-layout">
+    <table class="table data-table-games">
         <thead>
             <tr>
                 <th scope="col">Nazwa gry: </th>
@@ -36,7 +34,7 @@
         </thead>
 
         @{
-            var now = DateTime.Now;
+            var now = DateTime.UtcNow;
             string expiredText = "W trakcie!";
         }
 
@@ -52,7 +50,7 @@
                 {
 
                     // konwersja dla js
-                    var t = Model.Games[i].Settings.StartDateTime.ToUniversalTime().Subtract(new DateTime(1970, 1, 1)).TotalMilliseconds;
+                    var t = TimeHelper.ToEpochMiliseconds( Model.Games[i].Settings.StartDateTime );
 
                     <td class="countdown-timer" data-countdown-date="@t">
                         Oczekująca @* z jsem będzie wyświetlony timer do rozpoczęcia albo "w trakcie" *@
@@ -102,11 +100,4 @@
 </div>
 
 <br />
-
-<div>
-    <a class="btn btn-primary"
-       asp-action="@nameof(IHomeActions.GotoGameCreate)">
-        Stwórz nową grę
-    </a>
-</div>
 

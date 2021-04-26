@@ -2,7 +2,7 @@
     $('.data-table-games').DataTable
     (
         {
-            order: [[2, "desc"]]
+            order: [[1, "desc"]]
         }
     );
 }); 

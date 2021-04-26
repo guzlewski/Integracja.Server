@@ -50,6 +50,26 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
                 .ToListAsync();
         }
 
+        public async Task<IEnumerable<T>> GetEnded<T>(int userId, bool skipUserVerification = false)
+        {
+            var now = DateTimeOffset.UtcNow;
+            return await _gameRepository.GetAll()
+                .Where(g => (g.OwnerId == userId || skipUserVerification) && g.GameState != GameState.Deleted
+                && now > g.EndTime )
+                .ProjectTo<T>(_configuration)
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<T>> GetCurrent<T>(int userId, bool skipUserVerification = false)
+        {
+            var now = DateTimeOffset.UtcNow;
+            return await _gameRepository.GetAll()
+                .Where(g => (g.OwnerId == userId || skipUserVerification) && g.GameState != GameState.Deleted
+                && now <= g.EndTime )
+                .ProjectTo<T>(_configuration)
+                .ToListAsync();
+        }
+
         public async Task<int> Add(CreateGameDto createGameDto, int userId, bool skipUserVerification = false)
         {
             var game = _mapper.Map<Game>(createGameDto);

@@ -1,0 +1,63 @@
+﻿@using Integracja.Server.Web.Areas.Gry.Models.Home
+@using static Integracja.Server.Web.Areas.Gry.Models.Home.HomeViewModel
+@using static Integracja.Server.Web.Areas.Gry.Models.Home.IHomeActions
+@using Integracja.Server.Web.Models.Shared.Time
+@model HomeViewModel
+
+@section Scripts
+{
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
+    <script src="~/js/Shared/DataTables.js"></script>
+    <script src="~/js/Gry/Home.js"></script>
+}
+
+@{ await Html.RenderPartialAsync("~/Views/Shared/Alerts/_AlertsList.cshtml", Model.Alerts);}
+
+@{ await Html.RenderPartialAsync("~/Areas/Gry/Views/Shared/_HomeNavButtons.cshtml"); }
+<br />
+
+<h2>Zakończone gry</h2>
+<br />
+
+<div class="table-wrapper-scroll-y">
+    <table class="table data-table-games">
+        <thead>
+            <tr>
+                <th scope="col">Nazwa gry</th>
+                <th scope="col">Zakończenie</th>
+                <th scope="col">Czas trwania</th>
+                <th scope="col">Akcje</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            @for (int i = 0; i < Model.Games.Count; ++i)
+            {
+                <tr>
+                    <td>
+                        @Model.Games[i].Settings.Name
+                    </td>
+
+                    @* zakończenie *@
+                    <td>@Model.Games[i].Settings.EndDateTime.ToLocalTime()</td>
+
+                    @*czas trwania*@
+                    <td>@TimeHelper.ReadableTimeSpan(Model.Games[i].Settings.Duration)</td>
+
+                    @*akcje*@
+                    <td>
+                        <a asp-action="@nameof(IHomeActions.GotoGameHistory)" asp-route-gameId="@Model.Games[i].Id">Podsumowanie</a> | 
+                        <a asp-action="@nameof(IHomeActions.GotoGameDelete)" asp-route-gameId="@Model.Games[i].Id">Usuń</a>
+                    </td>
+
+                </tr>
+            }
+
+
+        </tbody>
+    </table>
+</div>
+
+<br />
+

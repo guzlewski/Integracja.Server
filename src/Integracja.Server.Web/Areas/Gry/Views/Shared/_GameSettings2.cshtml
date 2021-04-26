@@ -1,0 +1,55 @@
+﻿@using Integracja.Server.Web.Models.Shared.Game
+@using Integracja.Server.Web.Models.Shared.Time
+@model GameSettingsModel
+
+<div class="container-fluid historia p-4">
+
+    <p class="title"> Informacje o grze </p>
+
+    <div class="info">
+        <div class="row">
+            <div class="col-6 pr-5">
+                <div class="float-right">
+                    <p> <span class="titles"> Nazwa gry: </span> @Model.Name </p>
+                    <p> <span class="titles"> Tryb gry: </span> @Model.Gamemode.Name </p>
+                    @if (@Model.Gamemode.TimeForFullQuiz == null)
+                    {
+                        <p> <span class="titles"> Czas na quiz: </span> nieograniczony </p>
+                    }
+                    else
+                    {
+                        <p> <span class="titles"> Czas na quiz: </span> @Model.Gamemode.TimeForFullQuiz min </p>
+                    }
+                    @if (@Model.Gamemode.TimeForOneQuestion == null)
+                    {
+                        <p> <span class="titles"> Czas na quiz: </span> nieograniczony </p>
+                    }
+                    else
+                    {
+                        <p> <span class="titles"> Czas na quiz: </span> @Model.Gamemode.TimeForOneQuestion min </p>
+                    }
+                </div>
+            </div>
+            <div class="col-6">
+                <p> <span class="titles"> Czas rozpoczęcia: </span> @Model.StartTime </p>
+                <p> <span class="titles"> Czas zakończenia: </span> @Model.EndTime </p>
+                @if (@Model.Gamemode.NumberOfLives == 0 || @Model.Gamemode.NumberOfLives == null)
+                {
+                    <p> <span class="titles"> Liczba żyć: </span> bez limitu </p>
+                }
+                else
+                {
+                    <p> <span class="titles"> Liczba żyć: </span> @Model.Gamemode.NumberOfLives </p>
+                }
+                @if (@Model.Gamemode.IsPublic)
+                {
+                    <p> <span class="titles"> Status gry: </span> publiczny </p>
+                }
+                else
+                {
+                    <p> <span class="titles"> Status gry: </span> prywatny </p>
+                }
+            </div>
+        </div>
+    </div>
+</div>

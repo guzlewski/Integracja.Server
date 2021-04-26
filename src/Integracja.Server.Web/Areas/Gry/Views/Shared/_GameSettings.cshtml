@@ -1,0 +1,89 @@
+﻿@using Integracja.Server.Web.Models.Shared.Game
+@using Integracja.Server.Web.Models.Shared.Time
+@model GameSettingsModel
+<div>
+    <h2 class="card-title">@Model.Name</h2>
+    <br />
+
+    <div class="row">
+        <div class="col-lg-4">
+            <h3>Czas rozpoczęcia</h3>
+            <p class="card-text">
+                @Model.StartDateTime.ToLocalTime()
+            </p>
+        </div>
+
+        <div class="col-lg-4">
+            @{
+                DateTime now = DateTime.UtcNow;
+                string expiredText = "W trakcie!";
+            }
+            <h3 id="countdown_timer_data" data-expired-text="@expiredText" data-prefix-text="Start za ">
+                Status
+            </h3>
+            @if (now < Model.StartDateTime) // przed startem
+            {
+
+                // konwersja dla js
+                var t = TimeHelper.ToEpochMiliseconds(Model.StartDateTime);
+
+                <p class="card-text countdown-timer" data-countdown-date="@t">
+                    Oczekująca @* z jsem będzie wyświetlony timer do rozpoczęcia albo "w trakcie" *@
+                </p>
+            }
+            else if (now < Model.EndDateTime)
+            {
+                <p class="card-text">
+                    @expiredText
+                </p>
+            }
+            else
+            {
+                <p class="card-text">
+                    Gra zakończona
+                </p>
+            }
+        </div>
+
+        <div class="col-lg-4">
+            <h3>Czas zakończenia</h3>
+            <p class="card-text">
+                @Model.EndDateTime.ToLocalTime()
+            </p>
+        </div>
+    </div>
+    <br />
+
+    <h3>Maksymalna liczba graczy</h3>
+
+    @{
+        var playerCount = @Model.MaxPlayersCount;
+        string playerCountText = playerCount.ToString();
+        if (playerCount == 0)
+            playerCountText = "Nieograniczona";
+    }
+
+    <p class="card-text">
+        @playerCountText
+    </p>
+
+    <h3 class="card-text">Tryb gry @Model.Gamemode.Name:</h3>
+    <br />
+
+    <p>
+        Liczba żyć:
+        @Model.Gamemode?.NumberOfLives
+        <br />
+        Czas na cały quiz:
+        @if (Model.Gamemode.TimeForFullQuiz != null)
+            TimeHelper.ReadableSeconds(Model.Gamemode.TimeForFullQuiz.Value);
+
+        <br />
+        Czas na jedno pytanie:
+        @if (Model.Gamemode.TimeForOneQuestion != null)
+            TimeHelper.ReadableSeconds(Model.Gamemode.TimeForOneQuestion.Value);
+        <br />
+
+    </p>
+    <br />
+</div>
