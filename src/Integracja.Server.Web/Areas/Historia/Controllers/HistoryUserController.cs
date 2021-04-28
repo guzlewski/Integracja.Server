@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Integracja.Server.Core.Models.Identity;
@@ -50,6 +51,11 @@ namespace Integracja.Server.Web.Areas.Historia.Controllers
                 List<int> usercorrectAnswers = new List<int>();
                 List<int> userincorrectAnswers = new List<int>();
                 List<int> status = new List<int>();
+
+                int index = 0;
+                foreach (var element in historyUser.GameQuestions)
+                    if (historyQuestions.QuestionPool[i].Id == element.QuestionId)
+                        index = element.Index;
 
                 for (int j = 0; j < historyQuestions.QuestionPool[i].Answers.Count; j++)
                 {
@@ -140,6 +146,7 @@ namespace Integracja.Server.Web.Areas.Historia.Controllers
 
                 HistoryUserInfo UserInfo = new HistoryUserInfo
                 {
+                    index = index,
                     questionContent = historyQuestions.QuestionPool[i].Content,
                     answers = answers,
                     status = status,
@@ -153,7 +160,7 @@ namespace Integracja.Server.Web.Areas.Historia.Controllers
             }
 
             Model.Points = points;
-            Model.HistoryGameUserInfo = HistoryGameUserInfo;
+            Model.HistoryGameUserInfo = HistoryGameUserInfo.OrderBy(o => o.index).ToList();
 
             return View("HistoryUser", Model);
         }
