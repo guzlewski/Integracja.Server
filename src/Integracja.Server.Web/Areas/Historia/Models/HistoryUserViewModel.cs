@@ -11,6 +11,7 @@ namespace Integracja.Server.Web.Areas.Historia.Models
 
     public class HistoryUserInfo
     {
+        public int index;
         public string questionContent;
         public List<string> answers;
         public List<int> status;

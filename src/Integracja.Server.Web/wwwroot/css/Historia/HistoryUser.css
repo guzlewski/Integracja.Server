@@ -35,3 +35,7 @@ p {
     padding-top: 1.2em;
     padding-bottom: 1em;
 }
+
+#lackAnswer {
+    color: red;
+}

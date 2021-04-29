@@ -34,20 +34,20 @@ namespace Integracja.Server.Web.Areas.Identity.Pages.Account.Manage
 
         public class InputModel
         {
-            [Required]
+            [Required(ErrorMessage = "Pole Obecne has³o jest wymagane")]
             [DataType(DataType.Password)]
-            [Display(Name = "Current password")]
+            [Display(Name = "Obecne has³o")]
             public string OldPassword { get; set; }
 
-            [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+            [Required(ErrorMessage = "Pole Nowe has³o jest wymagane")]
+            [StringLength(100, ErrorMessage = "Has³o musi mieæ przynajmnie 6 znaków i nie mo¿e przekraczaæ 100 znaków.", MinimumLength = 6)]
             [DataType(DataType.Password)]
-            [Display(Name = "New password")]
+            [Display(Name = "Nowe has³o")]
             public string NewPassword { get; set; }
 
             [DataType(DataType.Password)]
-            [Display(Name = "Confirm new password")]
-            [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
+            [Display(Name = "PotwierdŸ nowe has³o")]
+            [Compare("NewPassword", ErrorMessage = "Nowe has³o i potwierdzaj¹ce has³o nie s¹ takie same.")]
             public string ConfirmPassword { get; set; }
         }
 
@@ -93,7 +93,7 @@ namespace Integracja.Server.Web.Areas.Identity.Pages.Account.Manage
 
             await _signInManager.RefreshSignInAsync(user);
             _logger.LogInformation("User changed their password successfully.");
-            StatusMessage = "Your password has been changed.";
+            StatusMessage = "Twoje has³o zosta³o zmienione.";
 
             return RedirectToPage();
         }
