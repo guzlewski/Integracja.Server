@@ -21,12 +21,10 @@
         <div id="pytanie">
             @if (Model.HistoryGameUserInfo[i].status[Model.HistoryGameUserInfo[i].status.Count - 1] == 4)
             {
-                <p id="question"> @(i + 1). @Model.HistoryGameUserInfo[i].questionContent - brak odpowiedzi na to pytanie </p>
+                <p id="lackAnswer"> brak odpowiedzi na to pytanie </p>
             }
-            else
-            {
-                <p id="question"> @(i + 1). @Model.HistoryGameUserInfo[i].questionContent </p>
-            }
+            <p id="question"> @(i + 1). @Model.HistoryGameUserInfo[i].questionContent </p>
+
             @for (int j = 0; j < Model.HistoryGameUserInfo[i].answers.Count; j++)
             {
                 if (Model.HistoryGameUserInfo[i].status[j] == 0)
@@ -47,13 +45,14 @@
                 }
             }
             @if (@Model.HistoryGameUserInfo[i].pointsReceived == null)
-            { 
+            {
                 <p> Przyznane punkty: 0 </p>
             }
-            else 
+            else
             {
                 <p> Przyznane punkty: @Model.HistoryGameUserInfo[i].pointsReceived </p>
             }
+
         </div>
             
         }

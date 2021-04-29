@@ -7,7 +7,6 @@ namespace Integracja.Server.Web.Areas.Pytania.Models.Shared
     {
         Task<IActionResult> QuestionReadView(int questionId);
         Task<IActionResult> GotoQuestionUpdate(int questionId);
-        Task<IActionResult> GotoQuestionDelete(int questionId);
-        Task<IActionResult> GotoHome(int? categoryId);
+        Task<IActionResult> GotoQuestionDelete(int questionId, int categoryId);
     }
 }

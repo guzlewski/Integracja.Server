@@ -8,9 +8,11 @@ namespace Integracja.Server.Web.Areas.Pytania.Models.Question
 {
     public class QuestionViewModel
     {
-        public List<AlertModel> Alerts { get; set; }
+        public List<AlertModel> Alerts { get; set; } = new();
 
         public QuestionFormViewModel Form { get; set; } = new QuestionFormViewModel();
+
+        public string GoBackActionName { get; set; } = "";
 
         public QuestionViewModel()
         {

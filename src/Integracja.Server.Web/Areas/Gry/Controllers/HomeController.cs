@@ -24,9 +24,9 @@ namespace Integracja.Server.Web.Areas.Gry.Controllers
         {
         }
 
-        public async Task<IActionResult> Index()
+        public Task<IActionResult> Index()
         {
-            return RedirectToAction(nameof(IHomeNav.CurrentGames));
+            return Task.FromResult<IActionResult>(RedirectToAction(nameof(IHomeNav.CurrentGames)));
         }
 
         public Task<IActionResult> GotoGameCreate()
