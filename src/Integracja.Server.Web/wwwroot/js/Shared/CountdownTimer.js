@@ -40,8 +40,9 @@ function updateTimer() {
 
         var ticksInput = $(this).data("countdown-date");
 
-        var countdownDate = new Date(ticksInput);
-        var now = new Date();        
+        var countdownDate = new Date(ticksInput).getTime();
+
+        var now = new Date().getTime();
 
         var distance = countdownDate - now;
 
