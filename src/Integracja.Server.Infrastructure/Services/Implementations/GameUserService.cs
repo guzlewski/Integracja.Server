@@ -44,7 +44,7 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
             return await _gameUserRepository.GetAll(userId)
                 .Where(gu => gu.GameUserState != GameUserState.Left &&
                     gu.Game.GameState != GameState.Deleted &&
-                    gu.Game.EndTime > DateTimeOffset.Now &&
+                    gu.Game.EndTime > DateTimeOffset.UtcNow &&
                     gu.AnsweredQuestions != gu.Game.QuestionsCount &&
                     !gu.GameOver)
                 .ProjectTo<T>(_configuration)
@@ -56,7 +56,7 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
             return await _gameUserRepository.GetAll(userId)
                 .Where(gu => gu.GameUserState != GameUserState.Left &&
                     gu.Game.GameState != GameState.Deleted &&
-                    (gu.Game.EndTime <= DateTimeOffset.Now ||
+                    (gu.Game.EndTime <= DateTimeOffset.UtcNow ||
                     gu.AnsweredQuestions == gu.Game.QuestionsCount ||
                     gu.GameOver))
                 .ProjectTo<T>(_configuration)
