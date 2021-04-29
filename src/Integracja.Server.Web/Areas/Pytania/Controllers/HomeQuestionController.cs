@@ -4,6 +4,7 @@ using Integracja.Server.Infrastructure.Data;
 using Integracja.Server.Infrastructure.Models;
 using Integracja.Server.Web.Areas.Kategorie.Controllers;
 using Integracja.Server.Web.Areas.Pytania.Models.Question;
+using Integracja.Server.Web.Areas.Pytania.Models.Shared;
 using Integracja.Server.Web.Controllers;
 using Integracja.Server.Web.Models.Shared.Alert;
 using Integracja.Server.Web.Models.Shared.Category;
@@ -20,7 +21,7 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
     {
         protected QuestionViewModel Model { get; set; }
         protected virtual string QuestionViewName => "Question";
-        public static new string Name { get => "HomeQuestion"; }
+        public new const string Name = "HomeQuestion";
 
         public HomeQuestionController(UserManager<User> userManager, ApplicationDbContext dbContext, IMapper mapper) : base(userManager, dbContext, mapper)
         {
@@ -87,11 +88,12 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
             }
 
         }
-        public async Task<IActionResult> QuestionReadView(int questionId)
-        {
-            QuestionModel q = await QuestionService.Get<QuestionModel>(questionId, UserId);
 
-            return View("QuestionCard", q);
+        public async Task<IActionResult> QuestionReadView(int questionId )
+        {
+            QuestionDetailsViewModel model = new();
+            model.Question = await QuestionService.Get<QuestionModel>(questionId, UserId);
+            return View("QuestionCard", model);
         }
         public async Task<IActionResult> QuestionUpdate(QuestionModel question)
         {
@@ -143,14 +145,9 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
             return Task.FromResult<IActionResult>(RedirectToAction(nameof(IQuestionActions.QuestionUpdateView), new { questionId = questionId }));
         }
 
-        public Task<IActionResult> GotoQuestionDelete(int questionId)
+        public Task<IActionResult> GotoQuestionDelete(int questionId, int categoryId )
         {
-            return Task.FromResult<IActionResult>(RedirectToAction(nameof(IQuestionActions.QuestionDelete), new { questionId = questionId }));
-        }
-
-        public virtual Task<IActionResult> GotoHome(int? categoryId)
-        {
-            return Task.FromResult<IActionResult>( RedirectToAction("Index"));
+            return Task.FromResult<IActionResult>(RedirectToAction(nameof(IQuestionActions.QuestionDelete), new { questionId = questionId, categoryId = categoryId }));
         }
     }
 }

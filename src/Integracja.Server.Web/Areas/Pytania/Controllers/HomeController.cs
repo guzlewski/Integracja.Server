@@ -17,53 +17,47 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
     public class HomeController : ApplicationController, IHomeActions
     {
         public static new string Name { get => "Home"; }
+        virtual public string RedirectController { get => HomeQuestionController.Name; }
+        public const string IndexViewPath = "~/Areas/Pytania/Views/Home/Index.cshtml";
 
         public HomeController(UserManager<User> userManager, ApplicationDbContext dbContext, IMapper mapper) : base(userManager, dbContext, mapper)
         {
         }
 
         [HttpGet]
-        public Task<IActionResult> Index()
+        virtual public Task<IActionResult> Index()
         {
             return Task.FromResult < IActionResult >(RedirectToAction(nameof(IHomeActions.MyQuestions)));
         }
 
         public Task<IActionResult> GotoQuestionCreate()
         {
-            return Task.FromResult<IActionResult>(RedirectToAction(nameof(IQuestionActions.QuestionCreateViewStep1), HomeQuestionController.Name));
+            return Task.FromResult<IActionResult>(RedirectToAction(nameof(IQuestionActions.QuestionCreateViewStep1), RedirectController));
         }
 
         public Task<IActionResult> GotoQuestionRead(int questionId)
         {
-            return Task.FromResult<IActionResult>(RedirectToAction(nameof(IQuestionActions.QuestionReadView), HomeQuestionController.Name, new { questionId }));
+            return Task.FromResult<IActionResult>(RedirectToAction(nameof(IQuestionActions.QuestionReadView), RedirectController, new { questionId }));
         }
 
         public Task<IActionResult> GotoQuestionUpdate(int questionId)
         {
-            return Task.FromResult<IActionResult>(RedirectToAction(nameof(IQuestionActions.QuestionUpdateView), HomeQuestionController.Name, new { questionId }));
+            return Task.FromResult<IActionResult>(RedirectToAction(nameof(IQuestionActions.QuestionUpdateView), RedirectController, new { questionId }));
         }
 
         public Task<IActionResult> GotoQuestionDelete(int questionId, int categoryId)
         {
-            return Task.FromResult<IActionResult>(RedirectToAction(nameof(IQuestionActions.QuestionDelete), HomeQuestionController.Name, new { questionId }));
+            return Task.FromResult<IActionResult>(RedirectToAction(nameof(IQuestionActions.QuestionDelete), RedirectController, new { questionId }));
         }
 
-        public async Task<IActionResult> MyQuestions()
+        public Task<IActionResult> MyQuestions()
         {
-            HomeViewModel model = new HomeViewModel();
-            model.Alerts = GetAlerts();
-            model.Questions = (List<QuestionModel>)await QuestionService.GetOwned<QuestionModel>(UserId);
-            model.Title = "Moje pytania";
-            return View("Index", model);
+            return Task.FromResult<IActionResult>(RedirectToAction("Index", MyQuestionsController.Name));
         }
 
-        public async Task<IActionResult> AllQuestions()
+        public Task<IActionResult> AllQuestions()
         {
-            HomeViewModel model = new HomeViewModel();
-            model.Alerts = GetAlerts();
-            model.Questions = (List<QuestionModel>)await QuestionService.GetAll<QuestionModel>(UserId);
-            model.Title = "Wszystkie pytania";
-            return View("Index", model);
+            return Task.FromResult<IActionResult>(RedirectToAction("Index", AllQuestionsController.Name));
         }
 
         public Task<IActionResult> MyCategories()

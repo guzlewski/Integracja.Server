@@ -1,15 +1,15 @@
 ﻿@using Integracja.Server.Web.Areas.Pytania.Models.Shared
 @using Integracja.Server.Web.Models.Shared.Question
-@model QuestionModel
+@model QuestionDetailsViewModel
 
 <div class="row">
 
             @{ await Html.RenderPartialAsync("~/Areas/Pytania/Views/Shared/_QuestionItem.cshtml", Model); }
 
             <div class="container">
-                <a asp-action="@nameof(IQuestionCardActions.GotoHome)" asp-route-categoryId="@Model.CategoryId">Wróć</a>
-                <a asp-action="@nameof(IQuestionCardActions.GotoQuestionUpdate)" asp-route-questionId="@Model.Id" class="card-link">Edytuj</a>
-                <a asp-action="@nameof(IQuestionCardActions.GotoQuestionDelete)" asp-route-questionId="@Model.Id" asp-route-categoryId="@Model.CategoryId" class="card-link">Usuń</a>
+                <a asp-action="@Model.GoBackActionName" asp-route-categoryId="@Model.Question.CategoryId">Wróć</a>
+                <a asp-action="@nameof(IQuestionCardActions.GotoQuestionUpdate)" asp-route-questionId="@Model.Question.Id" class="card-link">Edytuj</a>
+                <a asp-action="@nameof(IQuestionCardActions.GotoQuestionDelete)" asp-route-questionId="@Model.Question.Id" asp-route-categoryId="@Model.Question.CategoryId" class="card-link">Usuń</a>
             </div>
 
 </div>

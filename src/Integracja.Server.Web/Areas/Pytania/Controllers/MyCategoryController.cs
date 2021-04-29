@@ -1,21 +1,21 @@
 ﻿using AutoMapper;
 using Integracja.Server.Core.Models.Identity;
 using Integracja.Server.Infrastructure.Data;
+using Integracja.Server.Web.Areas.Kategorie.Controllers;
 using Integracja.Server.Web.Areas.Pytania.Models.MyCategory;
+using Integracja.Server.Web.Areas.Pytania.Models.Question;
+using Integracja.Server.Web.Areas.Pytania.Models.Shared;
 using Integracja.Server.Web.Controllers;
 using Integracja.Server.Web.Models.Shared.Question;
-using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Integracja.Server.Web.Areas.Pytania.Controllers
 {
     [Area("Pytania")]
-    public class MyCategoryController : ApplicationController, IMyCategoryActions
+    public class MyCategoryController : ApplicationController, IMyCategoryActions, IHomeNav
     {
         public static new string Name => "MyCategory";
 
@@ -45,6 +45,26 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
         public Task<IActionResult> GotoQuestionDelete(int questionId, int categoryId)
         {
             return Task.FromResult<IActionResult>(RedirectToAction(nameof(MyCategoryQuestionController.QuestionDelete), MyCategoryQuestionController.Name, new { questionId, categoryId}));
+        }
+
+        public Task<IActionResult> MyQuestions()
+        {
+            return Task.FromResult<IActionResult>(RedirectToAction("Index", MyQuestionsController.Name));
+        }
+
+        public Task<IActionResult> AllQuestions()
+        {
+            return Task.FromResult<IActionResult>(RedirectToAction("Index", AllQuestionsController.Name));
+        }
+
+        public Task<IActionResult> MyCategories()
+        {
+            return Task.FromResult<IActionResult>(RedirectToAction("Index", MyCategoriesController.Name, new { area = "Kategorie" }));
+        }
+
+        public Task<IActionResult> GotoQuestionCreate()
+        {
+            return Task.FromResult<IActionResult>(RedirectToAction(nameof(IQuestionActions.QuestionCreateViewStep1), MyCategoryQuestionController.Name));
         }
     }
 }
