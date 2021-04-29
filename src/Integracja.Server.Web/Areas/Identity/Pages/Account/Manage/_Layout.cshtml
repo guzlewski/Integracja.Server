@@ -9,19 +9,24 @@
     }
 }
 
-<h2>Manage your account</h2>
+<link href="~/css/ustawienia.css" rel="stylesheet" asp-append-version="true">
 
-<div>
-    <h4>Change your account settings</h4>
-    <hr />
-    <div class="row">
-        <div class="col-md-3">
-            <partial name="_ManageNav" />
-        </div>
-        <div class="col-md-9">
-            @RenderBody()
+<div id="content">
+
+    <h2>Ustawienia</h2>
+    <a asp-area="Konto" asp-controller="Home" asp-action="Index">Wróć</a>
+    <div>
+        <hr />
+        <div class="row">
+            <div class="col-md-3">
+                <partial name="_ManageNav" />
+            </div>
+            <div class="col-md-9">
+                @RenderBody()
+            </div>
         </div>
     </div>
+
 </div>
 
 @section Scripts {
