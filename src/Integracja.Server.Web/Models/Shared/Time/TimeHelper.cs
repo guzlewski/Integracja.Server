@@ -53,9 +53,15 @@ namespace Integracja.Server.Web.Models.Shared.Time
             return output;
         }
 
+        public static double ToEpochMiliseconds(DateTimeOffset t)
+        {
+            return t.Subtract(new DateTime(1970, 1, 1)).TotalMilliseconds;
+        }
+
         public static double ToEpochMiliseconds( DateTime t )
         {
             return t.Subtract(new DateTime(1970, 1, 1)).TotalMilliseconds;
         }
+
     }
 }

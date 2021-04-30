@@ -1,5 +1,6 @@
 ﻿using Integracja.Server.Infrastructure.Models;
 using Integracja.Server.Web.Models.Shared.Gamemode;
+using Integracja.Server.Web.Models.Shared.Time;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -17,24 +18,25 @@ namespace Integracja.Server.Web.Models.Shared.Game
         [Required]
         [Remote(action: nameof(IGameSettingsValidation.VerifyDates), controller: "Game",
             AdditionalFields = nameof(StartDate) + "," + nameof(EndDate) + "," + nameof(EndTime))]
-        public DateTime StartTime { get; set; }
+        public TimeSpan StartTime { get; set; }
 
         [DataType(DataType.Date)]
         [Required]
         [Remote(action: nameof(IGameSettingsValidation.VerifyDates), controller: "Game",
             AdditionalFields = nameof(StartTime) + "," + nameof(EndDate) + "," + nameof(EndTime))]
-        public DateTime StartDate { get; set; }
+        public DateTimeOffset StartDate { get; set; }
 
-        public DateTime StartDateTime
+        public DateTimeOffset StartDateTime
         {
             get
             {
-                return new DateTime( StartTime.TimeOfDay.Ticks + StartDate.Date.Ticks, StartDate.Kind).ToUniversalTime();
+                var d = new DateTimeOffset(StartDate.Year, StartDate.Month, StartDate.Day, StartTime.Hours, StartTime.Minutes, StartTime.Seconds, StartDate.Offset);
+                return d;
             }
             set
             {
-                StartTime = new DateTime(value.TimeOfDay.Ticks, value.Kind).ToUniversalTime();
-                StartDate = new DateTime(value.Date.Ticks, value.Kind).ToUniversalTime();
+                StartDate = value;
+                StartTime = value.TimeOfDay;
             }
         }
 
@@ -42,23 +44,25 @@ namespace Integracja.Server.Web.Models.Shared.Game
         [Required]
         [Remote(action: nameof(IGameSettingsValidation.VerifyDates), controller: "Game",
             AdditionalFields = nameof(StartTime) + "," + nameof(EndDate) + "," + nameof(StartDate))]
-        public DateTime EndTime { get; set; }
+        public TimeSpan EndTime { get; set; }
+
         [DataType(DataType.Date)]
         [Required]
         [Remote(action: nameof(IGameSettingsValidation.VerifyDates), controller: "Game",
             AdditionalFields = nameof(StartTime) + "," + nameof(StartDate) + "," + nameof(EndTime))]
-        public DateTime EndDate { get; set; }
+        public DateTimeOffset EndDate { get; set; }
 
-        public DateTime EndDateTime
+        public DateTimeOffset EndDateTime
         {
             get
             {
-                return new DateTime(EndTime.TimeOfDay.Ticks + EndDate.Date.Ticks, EndDate.Kind ).ToUniversalTime();
+                var d = new DateTimeOffset(EndDate.Year, EndDate.Month, EndDate.Day, EndTime.Hours, EndTime.Minutes, EndTime.Seconds, EndDate.Offset);
+                return d;
             }
             set
             {
-                EndTime = new DateTime(value.TimeOfDay.Ticks, value.Kind).ToUniversalTime();
-                EndDate = new DateTime(value.Date.Ticks, value.Kind).ToUniversalTime();
+                EndDate = value;
+                EndTime = value.TimeOfDay;
             }
         }
 
@@ -74,8 +78,6 @@ namespace Integracja.Server.Web.Models.Shared.Game
 
         public int MaxPlayersCount { get; set; }
         public ICollection<CreateGameUserDto> InvitedUsers { get; set; }
-
-
 
     }
 }

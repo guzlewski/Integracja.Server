@@ -15,7 +15,7 @@
 
         <div class="col-lg-4">
             @{
-                DateTime now = DateTime.UtcNow;
+                DateTimeOffset now = DateTimeOffset.UtcNow;
                 string expiredText = "W trakcie!";
             }
             <h3 id="countdown_timer_data" data-expired-text="@expiredText" data-prefix-text="Start za ">
