@@ -57,5 +57,6 @@ namespace Integracja.Server.Web.Models.Shared.Time
         {
             return t.Subtract(new DateTime(1970, 1, 1)).TotalMilliseconds;
         }
+
     }
 }

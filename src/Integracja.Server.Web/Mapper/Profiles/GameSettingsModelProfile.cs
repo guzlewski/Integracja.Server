@@ -17,8 +17,8 @@ namespace Integracja.Server.Web.Mapper.Profiles
               .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
               .ForMember(dest => dest.StartTime, opt => opt.Ignore())
               .ForMember(dest => dest.EndTime, opt => opt.Ignore())
-              .ForMember(dest => dest.StartDateTime, opt => opt.MapFrom(src => src.StartTime.UtcDateTime))
-              .ForMember(dest => dest.EndDateTime, opt => opt.MapFrom(src => src.EndTime.UtcDateTime))
+              .ForMember(dest => dest.StartDateTime, opt => opt.MapFrom(src => src.StartTime))
+              .ForMember(dest => dest.EndDateTime, opt => opt.MapFrom(src => src.EndTime))
               .ForMember(dest => dest.Gamemode, opt => opt.MapFrom(src => src.Gamemode));
 
             CreateMap<DetailGameDto, GameSettingsModel>()
@@ -26,8 +26,8 @@ namespace Integracja.Server.Web.Mapper.Profiles
             .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
             .ForMember(dest => dest.StartTime, opt => opt.Ignore())
             .ForMember(dest => dest.EndTime, opt => opt.Ignore())
-            .ForMember(dest => dest.StartDateTime, opt => opt.MapFrom(src => src.StartTime.UtcDateTime))
-            .ForMember(dest => dest.EndDateTime, opt => opt.MapFrom(src => src.EndTime.UtcDateTime))
+            .ForMember(dest => dest.StartDateTime, opt => opt.MapFrom(src => src.StartTime))
+            .ForMember(dest => dest.EndDateTime, opt => opt.MapFrom(src => src.EndTime))
             .ForMember(dest => dest.Gamemode, opt => opt.MapFrom(src => src.Gamemode));
 
 
@@ -36,8 +36,8 @@ namespace Integracja.Server.Web.Mapper.Profiles
             .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
             .ForMember(dest => dest.StartTime, opt => opt.Ignore())
             .ForMember(dest => dest.EndTime, opt => opt.Ignore())
-            .ForMember(dest => dest.StartDateTime, opt => opt.MapFrom(src => src.StartTime.UtcDateTime))
-            .ForMember(dest => dest.EndDateTime, opt => opt.MapFrom(src => src.EndTime.UtcDateTime))
+            .ForMember(dest => dest.StartDateTime, opt => opt.MapFrom(src => src.StartTime))
+            .ForMember(dest => dest.EndDateTime, opt => opt.MapFrom(src => src.EndTime))
             .ForMember(dest => dest.Gamemode, opt => opt.MapFrom(src => src.Gamemode));
         }
     }
