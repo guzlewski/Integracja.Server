@@ -25,7 +25,7 @@
             {
 
                 // konwersja dla js
-                var t = TimeHelper.ToEpochMiliseconds(Model.StartDateTime);
+                var t = Model.StartDateTime.ToUnixTimeMilliseconds();
 
                 <p class="card-text countdown-timer" data-countdown-date="@t">
                     Oczekująca @* z jsem będzie wyświetlony timer do rozpoczęcia albo "w trakcie" *@

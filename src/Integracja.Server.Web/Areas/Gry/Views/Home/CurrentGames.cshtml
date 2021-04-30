@@ -52,7 +52,7 @@
                     {
 
                         // konwersja dla js
-                        var t = TimeHelper.ToEpochMiliseconds(Model.Games[i].Settings.StartDateTime);
+                        var t = Model.Games[i].Settings.StartDateTime.ToUnixTimeMilliseconds();
 
                         <td class="countdown-timer" data-countdown-date="@t">
                             Oczekująca @* z jsem będzie wyświetlony timer do rozpoczęcia albo "w trakcie" *@
