@@ -33,7 +33,7 @@ namespace Integracja.Server.Web.Models.Shared.Game
             get => GetStartDateTimeOffset(StartDate.Offset);
             set
             {
-                StartDate = value;
+                StartDate = new DateTimeOffset(value.Date, value.Offset);
                 StartTime = value.TimeOfDay;
             }
         }
@@ -55,12 +55,18 @@ namespace Integracja.Server.Web.Models.Shared.Game
             get => GetEndDateTimeOffset(EndDate.Offset);
             set
             {
-                EndDate = value;
+                EndDate = new DateTimeOffset(value.Date, value.Offset );
                 EndTime = value.TimeOfDay;
             }
         }
 
         public TimeSpan Duration => (EndDateTime - StartDateTime);
+
+        public void SetTimeZone(TimeZoneInfo timeZone)
+        {   
+            EndDateTime = EndDateTime.ToOffset(timeZone.GetUtcOffset(EndDateTime));
+            StartDateTime = StartDateTime.ToOffset(timeZone.GetUtcOffset(StartDateTime));
+        }
 
         private DateTimeOffset GetEndDateTimeOffset(TimeSpan timeZoneOffset) => new DateTimeOffset(EndDate.Year, EndDate.Month, EndDate.Day, EndTime.Hours, EndTime.Minutes, EndTime.Seconds, timeZoneOffset);
         private DateTimeOffset GetStartDateTimeOffset(TimeSpan timeZoneOffset) => new DateTimeOffset(StartDate.Year, StartDate.Month, StartDate.Day, StartTime.Hours, StartTime.Minutes, StartTime.Seconds, timeZoneOffset);
