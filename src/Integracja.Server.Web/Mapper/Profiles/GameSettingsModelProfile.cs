@@ -14,7 +14,7 @@ namespace Integracja.Server.Web.Mapper.Profiles
 
             CreateMap<GameDto, GameSettingsModel>()
               .ForMember(dest => dest.MaxPlayersCount, opt => opt.MapFrom(src => src.MaxPlayersCount))
-              .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
+              .ForMember(dest => dest.GameName, opt => opt.MapFrom(src => src.Name))
               .ForMember(dest => dest.StartTime, opt => opt.Ignore())
               .ForMember(dest => dest.EndTime, opt => opt.Ignore())
               .ForMember(dest => dest.StartDateTime, opt => opt.MapFrom(src => src.StartTime))
@@ -23,7 +23,7 @@ namespace Integracja.Server.Web.Mapper.Profiles
 
             CreateMap<DetailGameDto, GameSettingsModel>()
             .ForMember(dest => dest.MaxPlayersCount, opt => opt.MapFrom(src => src.MaxPlayersCount))
-            .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
+            .ForMember(dest => dest.GameName, opt => opt.MapFrom(src => src.Name))
             .ForMember(dest => dest.StartTime, opt => opt.Ignore())
             .ForMember(dest => dest.EndTime, opt => opt.Ignore())
             .ForMember(dest => dest.StartDateTime, opt => opt.MapFrom(src => src.StartTime))
@@ -33,7 +33,7 @@ namespace Integracja.Server.Web.Mapper.Profiles
 
             CreateMap<Game, GameSettingsModel>()
             .ForMember(dest => dest.MaxPlayersCount, opt => opt.MapFrom(src => src.MaxPlayersCount))
-            .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
+            .ForMember(dest => dest.GameName, opt => opt.MapFrom(src => src.Name))
             .ForMember(dest => dest.StartTime, opt => opt.Ignore())
             .ForMember(dest => dest.EndTime, opt => opt.Ignore())
             .ForMember(dest => dest.StartDateTime, opt => opt.MapFrom(src => src.StartTime))

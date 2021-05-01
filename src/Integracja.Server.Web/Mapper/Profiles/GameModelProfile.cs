@@ -12,7 +12,7 @@ namespace Integracja.Server.Web.Mapper.Profiles
             CreateMap<GameModel, CreateGameDto>()
             .ForMember(dest => dest.MaxPlayers, opt => opt.MapFrom(src => src.Settings.MaxPlayersCount))
             .ForMember(dest => dest.RandomizeQuestionOrder, opt => opt.MapFrom(src => src.Settings.RandomizeQuestionOrder))
-            .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Settings.Name))
+            .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Settings.GameName))
             .ForMember(dest => dest.StartTime, opt => opt.MapFrom(src => src.Settings.StartDateTime))
             .ForMember(dest => dest.EndTime, opt => opt.MapFrom(src => src.Settings.EndDateTime))
             .ForMember(dest => dest.GamemodeId, opt => opt.MapFrom(src => src.Settings.Gamemode.Id))

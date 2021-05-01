@@ -10,9 +10,11 @@ namespace Integracja.Server.Web.Models.Shared.Game
 {
     public class GameSettingsModel
     {
-        public string Name { get; set; }
-
+        public string GameName { get; set; }
         public GamemodeModel Gamemode { get; set; } = new GamemodeModel();
+        public bool RandomizeQuestionOrder { get; set; }
+        public int MaxPlayersCount { get; set; }
+        public ICollection<CreateGameUserDto> InvitedUsers { get; set; }
 
         [DataType(DataType.Time)]
         [Required]
@@ -28,11 +30,7 @@ namespace Integracja.Server.Web.Models.Shared.Game
 
         public DateTimeOffset StartDateTime
         {
-            get
-            {
-                var d = new DateTimeOffset(StartDate.Year, StartDate.Month, StartDate.Day, StartTime.Hours, StartTime.Minutes, StartTime.Seconds, StartDate.Offset);
-                return d;
-            }
+            get => GetStartDateTimeOffset(StartDate.Offset);
             set
             {
                 StartDate = value;
@@ -54,11 +52,7 @@ namespace Integracja.Server.Web.Models.Shared.Game
 
         public DateTimeOffset EndDateTime
         {
-            get
-            {
-                var d = new DateTimeOffset(EndDate.Year, EndDate.Month, EndDate.Day, EndTime.Hours, EndTime.Minutes, EndTime.Seconds, EndDate.Offset);
-                return d;
-            }
+            get => GetEndDateTimeOffset(EndDate.Offset);
             set
             {
                 EndDate = value;
@@ -66,18 +60,9 @@ namespace Integracja.Server.Web.Models.Shared.Game
             }
         }
 
-        public TimeSpan Duration
-        {
-            get
-            {
-                return EndDateTime - StartDateTime;
-            }
-        }
+        public TimeSpan Duration => (EndDateTime - StartDateTime);
 
-        public bool RandomizeQuestionOrder { get; set; }
-
-        public int MaxPlayersCount { get; set; }
-        public ICollection<CreateGameUserDto> InvitedUsers { get; set; }
-
+        private DateTimeOffset GetEndDateTimeOffset(TimeSpan timeZoneOffset) => new DateTimeOffset(EndDate.Year, EndDate.Month, EndDate.Day, EndTime.Hours, EndTime.Minutes, EndTime.Seconds, timeZoneOffset);
+        private DateTimeOffset GetStartDateTimeOffset(TimeSpan timeZoneOffset) => new DateTimeOffset(StartDate.Year, StartDate.Month, StartDate.Day, StartTime.Hours, StartTime.Minutes, StartTime.Seconds, timeZoneOffset);
     }
 }
