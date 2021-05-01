@@ -51,7 +51,7 @@ namespace Integracja.Server.Web.Areas.Gry.Controllers
 
         public Task<IActionResult> SettingsCreateView(int gamemodeId)
         {
-            GameSettingsFormViewModel model = new GameSettingsFormViewModel();
+            GameSettingsFormViewModel model = new ();
 
             model.Settings.Gamemode.Id = gamemodeId;
 
@@ -106,7 +106,7 @@ namespace Integracja.Server.Web.Areas.Gry.Controllers
         public async Task<IActionResult> GameCreate()
         {
             // składanie
-            GameModel game = new GameModel();
+            GameModel game = new ();
             game.Settings = TryRetrieveFromTempData<GameSettingsModel>(GameSettingsStoreKey);
             game.QuestionPool = TryRetrieveFromTempData<List<QuestionModel>>(QuestionPoolStoreKey);
 

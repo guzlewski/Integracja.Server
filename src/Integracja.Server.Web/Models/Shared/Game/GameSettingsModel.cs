@@ -68,7 +68,7 @@ namespace Integracja.Server.Web.Models.Shared.Game
             StartDateTime = StartDateTime.ToOffset(timeZone.GetUtcOffset(StartDateTime));
         }
 
-        private DateTimeOffset GetEndDateTimeOffset(TimeSpan timeZoneOffset) => new DateTimeOffset(EndDate.Year, EndDate.Month, EndDate.Day, EndTime.Hours, EndTime.Minutes, EndTime.Seconds, timeZoneOffset);
-        private DateTimeOffset GetStartDateTimeOffset(TimeSpan timeZoneOffset) => new DateTimeOffset(StartDate.Year, StartDate.Month, StartDate.Day, StartTime.Hours, StartTime.Minutes, StartTime.Seconds, timeZoneOffset);
+        private DateTimeOffset GetEndDateTimeOffset(TimeSpan timeZoneOffset) => new (EndDate.Year, EndDate.Month, EndDate.Day, EndTime.Hours, EndTime.Minutes, EndTime.Seconds, timeZoneOffset);
+        private DateTimeOffset GetStartDateTimeOffset(TimeSpan timeZoneOffset) => new (StartDate.Year, StartDate.Month, StartDate.Day, StartTime.Hours, StartTime.Minutes, StartTime.Seconds, timeZoneOffset);
     }
 }
