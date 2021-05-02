@@ -42,7 +42,7 @@
             @for (int i = 0; i < Model.Games.Count; ++i)
             {
                 <tr>
-                    <td>@Model.Games[i].Settings.Name</td>
+                    <td>@Model.Games[i].Settings.GameName</td>
 
                     @* rozpoczęcie *@
                     <td>@Model.Games[i].Settings.StartDateTime.ToLocalTime()</td>

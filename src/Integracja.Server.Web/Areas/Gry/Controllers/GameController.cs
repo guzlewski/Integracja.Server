@@ -51,7 +51,7 @@ namespace Integracja.Server.Web.Areas.Gry.Controllers
 
         public Task<IActionResult> SettingsCreateView(int gamemodeId)
         {
-            GameSettingsFormViewModel model = new GameSettingsFormViewModel();
+            GameSettingsFormViewModel model = new ();
 
             model.Settings.Gamemode.Id = gamemodeId;
 
@@ -60,6 +60,7 @@ namespace Integracja.Server.Web.Areas.Gry.Controllers
 
         public Task<IActionResult> GameSettingsCreate(GameSettingsModel settings)
         {
+            settings.SetTimeZone(TimeZoneConverter.TZConvert.GetTimeZoneInfo("Europe/Warsaw"));
             SaveToTempData(settings, GameSettingsStoreKey);
             return Task.FromResult<IActionResult>(RedirectToAction(nameof(IGameActions.QuestionPoolCreateView)));
         }
@@ -105,7 +106,7 @@ namespace Integracja.Server.Web.Areas.Gry.Controllers
         public async Task<IActionResult> GameCreate()
         {
             // składanie
-            GameModel game = new GameModel();
+            GameModel game = new ();
             game.Settings = TryRetrieveFromTempData<GameSettingsModel>(GameSettingsStoreKey);
             game.QuestionPool = TryRetrieveFromTempData<List<QuestionModel>>(QuestionPoolStoreKey);
 
@@ -149,11 +150,11 @@ namespace Integracja.Server.Web.Areas.Gry.Controllers
             if (startDate == null || startTime == null || endDate == null || endTime == null)
                 return Json(true); // pominięcie walidacji jeśli się nie są podane wszystkie parametry
 
-            if (!DateTime.TryParse(startDate + " " + startTime, out DateTime start) 
-                || !DateTime.TryParse(endDate + " " + endTime, out DateTime end))
+            if (!DateTimeOffset.TryParse(startDate + " " + startTime, out DateTimeOffset start) 
+                || !DateTimeOffset.TryParse(endDate + " " + endTime, out DateTimeOffset end))
                 return Json($"Podane czasy są w złym formacie");
 
-            var now = DateTime.Now;
+            var now = DateTimeOffset.Now;
 
             if( start < now )
             {
