@@ -21,27 +21,13 @@ namespace Integracja.Server.Web.Areas.Gry.Controllers
         public static new string Name { get => "Game"; }
 
         private const string GameSettingsStoreKey = "GameSettings";
-        private const string QuestionPoolStoreKey = "QuestionPool";
+        private const string GameQuestionsStoreKey = "GameQuestions";
 
-        private const string QuestionPoolViewName = "QuestionPool";
-        private const string SettingsViewName = "Settings";
+        private const string QuestionPoolViewName = "GameQuestions";
+        private const string SettingsViewName = "GameSettings";
 
         public GameController(UserManager<User> userManager, ApplicationDbContext dbContext, IMapper mapper) : base(userManager, dbContext, mapper)
         {
-        }
-
-        protected async Task<GameQuestionFormViewModel> GetGameQuestionFormModel()
-        {
-            var model = new GameQuestionFormViewModel();
-
-            var questionPool = TryRetrieveFromTempData<List<QuestionModel>>(QuestionPoolStoreKey);
-
-            if (questionPool != null)
-                model.GameQuestions = questionPool;
-
-            model.Questions = Mapper.Map<List<QuestionModel>>(await QuestionService.GetAll<QuestionModel>(UserId));
-
-            return model;
         }
 
         public Task<IActionResult> Index(int? gamemodeId)
@@ -67,48 +53,34 @@ namespace Integracja.Server.Web.Areas.Gry.Controllers
 
         public async Task<IActionResult> QuestionPoolCreateView()
         {
-            return View(QuestionPoolViewName, await GetGameQuestionFormModel());
+            GameQuestionsFormViewModel model = new();
+            model.Questions = (List<QuestionModel>)await QuestionService.GetAll<QuestionModel>(UserId);
+            return View(QuestionPoolViewName, model );
         }
 
-        public async Task<IActionResult> GameQuestionCreate(int? id)
+        public Task<IActionResult> GameQuestionsCreate( List<int> gameQuestions )
         {
-            // bazowy model
-            var model = await GetGameQuestionFormModel();
-            // dodaję pytanie
-            var question = await QuestionService.Get<QuestionModel>(id.Value, UserId);
-            model.GameQuestions.Add(question);
-            // zapamiętuję dla następnego przekierowania
-            SaveToTempData(model.GameQuestions, QuestionPoolStoreKey);
-
-            return View(QuestionPoolViewName, model);
-        }
-
-        public async Task<IActionResult> GameQuestionDelete(int? id)
-        {
-            // bazowy model
-            var model = await GetGameQuestionFormModel();
-            // usuwam pytanie
-            var q = new QuestionModel();
-            q.Id = id;
-            model.GameQuestions.Remove(q);
-            // zapamiętuję dla następnego przekierowania
-            SaveToTempData(model.GameQuestions, QuestionPoolStoreKey);
-
-            return View(QuestionPoolViewName, model);
-        }
-
-        public Task<IActionResult> QuestionPoolCreate()
-        {
-            // powinno i tak już być zapisane można sprawdzić poprawność
+            SaveToTempData(gameQuestions, GameQuestionsStoreKey);
             return Task.FromResult<IActionResult>(RedirectToAction(nameof(IGameActions.GameCreate)));
+        }
+
+        private async Task<List<QuestionModel>> GetQuestionsByIds( List<int> questionIds )
+        {
+            List<QuestionModel> result = new();
+            foreach( var id in questionIds )
+            {
+                var q = await QuestionService.Get<QuestionModel>(id, UserId);
+                result.Add(q);
+            }
+            return result;
         }
 
         public async Task<IActionResult> GameCreate()
         {
             // składanie
             GameModel game = new ();
+            game.Questions = await GetQuestionsByIds(TryRetrieveFromTempData<List<int>>(GameQuestionsStoreKey));
             game.Settings = TryRetrieveFromTempData<GameSettingsModel>(GameSettingsStoreKey);
-            game.QuestionPool = TryRetrieveFromTempData<List<QuestionModel>>(QuestionPoolStoreKey);
 
             var createGameDto = Mapper.Map<CreateGameDto>(game);
 
@@ -119,7 +91,7 @@ namespace Integracja.Server.Web.Areas.Gry.Controllers
 
             await GameService.Add(createGameDto, UserId);
 
-            return RedirectToAction("Index", HomeController.Name);
+            return Ok();
         }
 
         public async Task<IActionResult> GameDelete(int gameId)

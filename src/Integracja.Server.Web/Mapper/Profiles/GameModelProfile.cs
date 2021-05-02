@@ -16,7 +16,8 @@ namespace Integracja.Server.Web.Mapper.Profiles
             .ForMember(dest => dest.StartTime, opt => opt.MapFrom(src => src.Settings.StartDateTime))
             .ForMember(dest => dest.EndTime, opt => opt.MapFrom(src => src.Settings.EndDateTime))
             .ForMember(dest => dest.GamemodeId, opt => opt.MapFrom(src => src.Settings.Gamemode.Id))
-            .ForMember(dest => dest.QuestionsCount, opt => opt.MapFrom(src => src.QuestionPool.Count));
+            .ForMember(dest => dest.QuestionsCount, opt => opt.MapFrom(src => src.Questions.Count))
+            .ForMember(dest => dest.QuestionPool, opt => opt.MapFrom(src => src.Questions));
 
             CreateMap<GameDto, GameModel>()
             .ForMember(dest => dest.Settings, opt => opt.MapFrom(src => src));
@@ -26,7 +27,7 @@ namespace Integracja.Server.Web.Mapper.Profiles
 
 
             CreateMap<Game, GameModel>()
-            .ForMember(dest => dest.QuestionPool, opt => opt.MapFrom(src => src.Questions))
+            .ForMember(dest => dest.Questions, opt => opt.MapFrom(src => src.Questions))
             .ForMember(dest => dest.Settings, opt => opt.MapFrom(src => src)) // z Game mapuję do GameSettings
             ;
         }

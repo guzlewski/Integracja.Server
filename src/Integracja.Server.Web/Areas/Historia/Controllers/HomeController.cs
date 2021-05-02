@@ -36,13 +36,13 @@ namespace Integracja.Server.Web.Areas.Historia.Controllers
             int index = 0; 
             int? questionId = 0;
             string content;
-            for (int i = 0; i < game.QuestionPool.Count; i++)
+            for (int i = 0; i < game.Questions.Count; i++)
             {
                 foreach (var element in users.GameQuestions)
-                    if (game.QuestionPool[i].Id == element.QuestionId)
+                    if (game.Questions[i].Id == element.QuestionId)
                         index = element.Index;
-                content = game.QuestionPool[i].Content;
-                questionId = game.QuestionPool[i].Id;
+                content = game.Questions[i].Content;
+                questionId = game.Questions[i].Id;
 
                 HistoryGameQuestion gquestion = new HistoryGameQuestion
                 {

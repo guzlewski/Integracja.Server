@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Integracja.Server.Web.Areas.Gry.Models.Game
 {
-    public interface IGameActions : IGameQuestionFormActions, IGameSettingsFormActions
+    public interface IGameActions : IGameQuestionsFormActions, IGameSettingsFormActions
     {
         Task<IActionResult> SettingsCreateView(int gamemodeId);
         Task<IActionResult> QuestionPoolCreateView();
