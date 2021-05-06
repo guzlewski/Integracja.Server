@@ -32,7 +32,6 @@ namespace Integracja.Server.Web.Mapper.Profiles
             CreateMap<GameQuestion, QuestionModel>().IncludeMembers(src => src.Question);
 
 
-            // TODO:
             CreateMap<QuestionModel, CreateGameQuestionDto>()
             .ForMember(dest => dest.QuestionId, opt => opt.MapFrom(src => src.Id));
         }

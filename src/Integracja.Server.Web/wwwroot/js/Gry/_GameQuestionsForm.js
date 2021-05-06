@@ -1,5 +1,6 @@
 ﻿$(document).ready(function () {
-    $('.data-table-game-questions').DataTable({
+
+    $('#gameQuestionsTable').DataTable({
         initComplete: function () {
             this.api().columns(1).every(function () {
                 var column = this;
@@ -23,6 +24,42 @@
                     }
                 });
             });
+        },
+        "aoColumnDefs": [
+            { "aTargets": [2], "orderDataType": "dom-text", type: 'string' },
+        ]
+    });
+
+    $("#gameQuestionsCreateBtn").on("click", function () {
+
+        if ($('[name="gameQuestionCheckbox"]:checked').length <= 0) {
+            alert('Please select minimum one data');
+        }
+        else {
+
+            var questionIds = new Array();
+            $('[name="gameQuestionCheckbox"]:checked').each(function (data) {
+
+                var questionId = $(this).data("question-id");
+
+                questionIds.push(questionId);
+            });
+
+            var url = $(this).data("post-url");
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                traditional: true,
+                data: {
+                    "gameQuestions": questionIds
+                },
+                async: false
+            });
+
+            var redirectUrl = $(this).data("redirect-url");
+            window.location.href = redirectUrl;
         }
     });
+
 });
