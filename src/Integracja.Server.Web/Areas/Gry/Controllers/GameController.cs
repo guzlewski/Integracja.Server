@@ -46,6 +46,7 @@ namespace Integracja.Server.Web.Areas.Gry.Controllers
 
         public Task<IActionResult> GameSettingsCreate(GameSettingsModel settings)
         {
+            settings.SetTimeZone(TimeZoneConverter.TZConvert.GetTimeZoneInfo("Europe/Warsaw"));
             SaveToTempData(settings, GameSettingsStoreKey);
             return Task.FromResult<IActionResult>(RedirectToAction(nameof(IGameActions.QuestionPoolCreateView)));
         }
