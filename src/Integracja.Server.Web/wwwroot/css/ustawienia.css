@@ -4,11 +4,17 @@
 }
 
 #content {
+    position: absolute;
     padding: 50px;
-    margin: 50px;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    top: 5em;
     background: #fff;
     border: 1px solid #F0F0F0;
     box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+    max-width: 1000px;
 }
 
 #settings {
@@ -16,3 +22,44 @@
     border-color: #fed136;
     font-family: Numans, sans-serif;
 }
+
+.btn-primary {
+    background-color: #fed136 !important;
+    border-color: #fed136 !important;
+}
+
+    .btn-primary:hover {
+        background-color: #e8af14 !important;
+        border-color: #e8af14 !important;
+    }
+
+#title {
+    color: #fed136;
+    font-size: 2.2em;
+    margin-bottom: 5px;
+}
+
+.items {
+    color: #fed136 !important;
+}
+
+.nav-pills .nav-link.active {
+    color: #fff;
+    background-color: #636161;
+}
+
+.nav-pills .nav-link {
+    color: #636161;
+    font-weight: bold;
+}
+
+.btn-link {
+    color: #fed136;
+    font-weight: bold;
+    font-size: 0.95em;
+}
+
+    .btn-link:hover {
+        color: #e8af14;
+        text-decoration: none;
+    }

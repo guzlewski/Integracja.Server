@@ -13,21 +13,29 @@
 
 <div id="content">
 
-    <h2>Ustawienia</h2>
-    <a asp-area="Konto" asp-controller="Home" asp-action="Index">Wróć</a>
+    <div class="row">
+        <div class="col-6">
+            <h2 id="title" class="">Ustawienia</h2>
+        </div>
+        <div class="col-6" >
+            <a class="btn btn-primary float-right mt-2" asp-area="Konto" asp-controller="Home" asp-action="Index">Wróć</a>
+        </div>
+        </div>
     <div>
         <hr />
-        <div class="row">
-            <div class="col-md-3">
+        <div class="row mt-4">
+            <div id="sidebar" class="col-md-3">
                 <partial name="_ManageNav" />
             </div>
-            <div class="col-md-9">
+            <div class="col-md-1"> </div>
+            <div class="col-md-8">
                 @RenderBody()
             </div>
         </div>
     </div>
 
 </div>
+
 
 @section Scripts {
     @RenderSection("Scripts", required: false)
