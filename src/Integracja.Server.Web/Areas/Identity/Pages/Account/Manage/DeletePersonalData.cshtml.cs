@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using Integracja.Server.Core.Models.Identity;
@@ -30,8 +31,9 @@ namespace Integracja.Server.Web.Areas.Identity.Pages.Account.Manage
 
         public class InputModel
         {
-            [Required]
+            [Required(ErrorMessage = "Pole Has³o jest wymagane")]
             [DataType(DataType.Password)]
+            [DisplayName("Has³o")]
             public string Password { get; set; }
         }
 
@@ -62,7 +64,7 @@ namespace Integracja.Server.Web.Areas.Identity.Pages.Account.Manage
             {
                 if (!await _userManager.CheckPasswordAsync(user, Input.Password))
                 {
-                    ModelState.AddModelError(string.Empty, "Incorrect password.");
+                    ModelState.AddModelError(string.Empty, "Niepoprawne has³o.");
                     return Page();
                 }
             }

@@ -7,6 +7,7 @@ namespace Integracja.Server.Web.Areas.Historia.Models
         public string Username { get; set; }
         public int? Points { get; set; }
         public List<HistoryUserInfo> HistoryGameUserInfo { get; set; }
+        public int GameId { get; set; }
     }
 
     public class HistoryUserInfo

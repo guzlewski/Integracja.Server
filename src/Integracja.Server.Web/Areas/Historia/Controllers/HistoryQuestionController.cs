@@ -24,6 +24,7 @@ namespace Integracja.Server.Web.Areas.Historia.Controllers
         public async Task<IActionResult> Index(int gameId, int questionId)
         {
             HistoryQuestionViewModel Model = new HistoryQuestionViewModel();
+            Model.GameId = gameId;
 
             Model.question = await QuestionService.Get<QuestionModel>(questionId, UserId);
             HistoryUserModel users = await GameService.Get<HistoryUserModel>(gameId, UserId);

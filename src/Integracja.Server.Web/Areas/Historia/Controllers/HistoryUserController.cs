@@ -23,6 +23,7 @@ namespace Integracja.Server.Web.Areas.Historia.Controllers
         public async Task<IActionResult> Index(int gameId, int userId)
         {
             HistoryUserViewModel Model = new HistoryUserViewModel();
+            Model.GameId = gameId;
             var user = await UserManager.FindByIdAsync(userId.ToString());
             Model.Username = user.UserName;
 

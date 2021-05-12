@@ -1,5 +1,8 @@
 ﻿$(document).ready(function () {
-    $('#users').DataTable({
-        "order": [[2, "desc"]]
-    });
-});
+    $('.data-table-games').DataTable
+        (
+            {
+                order: [[0, "asc"]]
+            }
+        );
+}); 

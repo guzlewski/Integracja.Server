@@ -6,8 +6,8 @@ namespace Integracja.Server.Web.Areas.Historia.Models
     public class HistoryQuestionViewModel
     {
         public QuestionModel question { get; set; }
-
         public List<guser> usersStats { get; set; }
+        public int GameId { get; set; }
     }
 
     public class guser

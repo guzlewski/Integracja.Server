@@ -2,42 +2,39 @@
 @using Integracja.Server.Web.Areas.Gry.Controllers
 @using Integracja.Server.Web.Areas.Gry.Models.Shared
 @model HomeViewModel
-@*<script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
-    <script type="text/javascript" src="~/js/Historia/Index.js"></script>*@
+
+@section Scripts
+{
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
+    <script src="~/js/Historia/Index.js"></script>
+}
 
 <link rel="stylesheet" href="~/css/Historia/Index.css" />
+<link rel="stylesheet" href="~/css/Shared/Buttons.css" />
 
-<div>
-    <a href="@Url.Action(nameof(IHomeNav.EndedGames),HomeController.Name, new { area = "Gry" })">Wróć</a>
-</div>
+
+<a id="back" class="btn btn-primary" href="@Url.Action(nameof(IHomeNav.EndedGames),HomeController.Name, new { area = "Gry" })"> Wróć </a>
+
 
 @{ await Html.RenderPartialAsync("~/Areas/Gry/Views/Shared/_GameSettings2.cshtml", Model.Game.Settings); }
 
 <div class="container-fluid historia p-4 mt-4">
 
     <p class="title"> Ranking graczy </p>
-
+    
     <div class="info">
         <div class="table-wrapper-scroll-y">
-            <table @*id="users"*@ class="table table-bordered table-striped table-sm ">
+            <table class="table data-table-games">
                 <thead>
                     <tr>
-                        <th scope="col"> Miejsce </th>
-                        <th scope="col"> Nazwa użytkownika </th>
-                        <th scope="col"> Liczba punktów </th>
-                        <th scope="col"> Akcje </th>
+                        <th scope="col">Miejsce</th>
+                        <th scope="col">Nazwa użytkownika</th>
+                        <th scope="col">Liczba punktów</th>
+                        <th scope="col">Akcje</th>
                     </tr>
                 </thead>
-                <tbody>
 
-                    @*@foreach (var i in Model.GameUsers.Select((value, index) => new { value, index }))
-                        {
-                            <tr>
-                                <td> @(i.index + 1)  </td>
-                                <td> @i.value.Username </td>
-                                <td> @i.value.gameuser.GameScore</td>
-                            </tr>
-                        }*@
+                <tbody>
 
                     @foreach (var i in Model.GameUsers)
                     {
@@ -63,7 +60,7 @@
 
     <div class="info">
         <div class="table-wrapper-scroll-y">
-            <table id="users" class="table table-bordered table-striped table-sm ">
+            <table id="users" class="table data-table-games">
                 <thead>
                     <tr>
                         <th scope="col"> Numer </th>
@@ -72,17 +69,6 @@
                     </tr>
                 </thead>
                 <tbody>
-
-                    @*@foreach (var i in Model.Game.QuestionPool.Select((value, index) => new { value, index }))
-                    {
-                        <tr>
-                            <td> @(i.index + 1)  </td>
-                            <td> @i.value.Content </td>
-                            <td class="link">
-                                <a asp-action="HistoryQuestionReadView" asp-route-gameId="@Model.gameId" asp-route-questionId="@i.value.Id"> Zobacz szczegóły </a>
-                            </td>
-                        </tr>
-                    }*@
 
                     @foreach (var i in Model.GameQuestions.Select((value, index) => new { value, index }))
                     {
