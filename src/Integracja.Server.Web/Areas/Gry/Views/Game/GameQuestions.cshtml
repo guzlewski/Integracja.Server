@@ -8,12 +8,14 @@
     <script src="~/js/Gry/_GameQuestionsForm.js"></script>
     <script src="~/js/Shared/TableCardLayout.js"></script>
 }
+
 @section Styles
 {
     @*<link rel="stylesheet" href="~/css/Shared/TableCardLayout.css" />*@
+    <link rel="stylesheet" href="~/css/Gry/GameQuestions.css" />
+    <link rel="stylesheet" href="~/css/Shared/Buttons.css" />
 }
 
-
-<div class="col-md-12">
+<div class="container-fluid gameQuestions h-100">
     @{ await Html.RenderPartialAsync("~/Areas/Gry/Views/Shared/_GameQuestionsForm.cshtml", Model);}
 </div>

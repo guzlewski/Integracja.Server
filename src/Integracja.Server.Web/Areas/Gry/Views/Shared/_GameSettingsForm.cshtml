@@ -6,49 +6,70 @@
 <form asp-controller="Game" asp-area="Gry" asp-action="@nameof(IGameSettingsFormActions.GameSettingsCreate)" method="post">
     <input type="hidden" asp-for="Settings.Gamemode.Id" />
 
-    <div class="row">
-        <div class="form-group col-md-3">
-            <h4>Nazwa gry</h4>
-            <input asp-for="Settings.GameName" class="form-control" />
-            <span asp-validation-for="Settings.GameName" class="text-danger"></span>
-        </div>
-    </div>
+    <div class="row form-group">
+        <div class="col-6 pr-5">
+            <div class="float-right">
+                <div class="row mb-3">
+                    <div class="col-7">
+                        <p class="titles m-0"> Nazwa gry: </p>
+                    </div>
+                    <div class="col-5 p-0 d-flex flex-column justify-content-center">
+                        <input asp-for="Settings.GameName" class="form-control name" />
+                        <span asp-validation-for="Settings.GameName" class="text-danger"></span>
+                    </div>
+                </div>
 
-    <div class="row">
-        <div class="form-group col-md-3">
-            <h4>Czas rozpoczęcia</h4>
-            <input asp-for="Settings.StartDate" value="@DateTime.Now" class="form-control" />
-            <span asp-validation-for="Settings.StartDate" class="text-danger"></span>
-            <input asp-for="Settings.StartTime" value="@DateTime.Now" class="form-control" />
-            <span asp-validation-for="Settings.StartTime" class="text-danger"></span>
-        </div>
-    </div>
+                <div class="row mb-3">
+                    <div class="col-7 pr-0">
+                        <p class="titles float-left m-0"> Losować kolejność pytań? </p>
+                    </div>
+                    <div class="col-5 p-0 d-flex flex-column justify-content-center">
+                        <input asp-for="Settings.RandomizeQuestionOrder" class="form-control checkbox float-left" />
+                    </div>
+                </div>
 
-    <div class="row">
-        <div class="form-group col-md-3">
-            <h4>Czas zakończenia</h4>
-            <input asp-for="Settings.EndDate" value="@DateTime.Now" class="form-control" />
-            <span asp-validation-for="Settings.EndDate" class="text-danger"></span>
-            <input asp-for="Settings.EndTime" value="@DateTime.Now" class="form-control" />
-            <span asp-validation-for="Settings.EndTime" class="text-danger"></span>
-        </div>
-    </div>
+                <div class="row mb-3">
+                    <div class="col-7">
+                        <p class="titles m-0"> Maksymalna liczba graczy: </p>
+                    </div>
+                    <div class="col-5 p-0 d-flex flex-column justify-content-center">
+                        <input asp-for="Settings.MaxPlayersCount" type="number" min="0" class="form-control input-number" />
+                    </div>
+                </div>
 
-    <div class="row col-md-3">
-        <div class="form-group">
-            <h4>Losować kolejność pytań?</h4>
-            <input asp-for="Settings.RandomizeQuestionOrder" type="checkbox" class="form-control" />
+                <input type="submit" class="btn btn-primary mt-4" value="Zatwierdź ustawienia" />
+            </div>
         </div>
-    </div>
 
-    <div class="row col-md-3">
-        <div class="form-group">
-            <h4>Maksymalna liczba graczy</h4>
-            <input asp-for="Settings.MaxPlayersCount" type="number" min="0" class="form-control"/>
+        <div class="col-6">
+
+            <div class="row mb-3">
+                    <div class="mr-3 startdate">
+                        <p class="titles m-0"> Czas rozpoczęcia: </p>
+                    </div>
+                    <div>
+                        <input asp-for="Settings.StartDate" value="@DateTime.Now" class="form-control" />
+                        <span asp-validation-for="Settings.StartDate" class="text-danger"></span>
+                        <input asp-for="Settings.StartTime" value="@DateTime.Now" class="form-control" />
+                        <span asp-validation-for="Settings.StartTime" class="text-danger"></span>
+                    </div>
+            </div>
+
+            <div class="row mb-3">
+                    <div class="mr-3">
+                        <p class="titles m-0"> Czas zakończenia: </p>
+                    </div>
+                    <div>
+                        <input asp-for="Settings.EndDate" value="@DateTime.Now" class="form-control" />
+                        <span asp-validation-for="Settings.EndDate" class="text-danger"></span>
+                        <input asp-for="Settings.EndTime" value="@DateTime.Now" class="form-control" />
+                        <span asp-validation-for="Settings.EndTime" class="text-danger"></span>
+                    </div>
+            </div>
+
         </div>
-    </div>
 
-    <input type="submit" class="btn btn-primary" value="Zatwierdź ustawienia"/>
+    </div>
 
 </form>
 

@@ -1,11 +1,17 @@
 ﻿@using Integracja.Server.Web.Areas.TrybyGry.Models.Shared
 @model GamemodeFormViewModel
 
-<h2>Tryb gry</h2>
-<br />
+@section Styles
+{
+    <link rel="stylesheet" href="~/css/TrybyGry/GameMode.css" />
+    <link rel="stylesheet" href="~/css/Shared/Buttons.css" />
+}
 
-<div class="row">
-    <div class="col-md-10">
-        @{ await Html.RenderPartialAsync("~/Areas/TrybyGry/Views/Shared/_GamemodeForm.cshtml", Model);}
-    </div>
+<div class="container-fluid gameMode h-100">
+
+    <p id="title">Tryb gry</p>
+    <br />
+
+    @{ await Html.RenderPartialAsync("~/Areas/TrybyGry/Views/Shared/_GamemodeForm.cshtml", Model);}
+
 </div>

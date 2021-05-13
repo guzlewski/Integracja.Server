@@ -12,82 +12,89 @@
     <script src="~/js/Shared/CountdownTimer.js"></script>
 }
 
-@{ await Html.RenderPartialAsync("~/Views/Shared/Alerts/_AlertsList.cshtml", Model.Alerts);}
+<link rel="stylesheet" href="~/css/Gry/Games.css" />
 
-@{ await Html.RenderPartialAsync("~/Areas/Gry/Views/Shared/_HomeNavButtons.cshtml"); }
-<br />
+<div class="container-fluid games h-100">
 
-<h2>Gry</h2>
-<br />
+    @{ await Html.RenderPartialAsync("~/Views/Shared/Alerts/_AlertsList.cshtml", Model.Alerts);}
 
-<div class="table-wrapper-scroll-y">
-    <table class="table data-table-games">
-        <thead>
-            <tr>
-                <th scope="col">Nazwa gry</th>
-                <th scope="col">Rozpoczęcie</th>
-                <th scope="col">Status</th>
-                <th scope="col">Czas trwania</th>
-                <th scope="col">Akcje</th>
-            </tr>
-        </thead>
+    <p id="title">Aktualne gry</p>
 
-        @{
-            var now = DateTimeOffset.UtcNow;
-            string expiredText = "W trakcie!";
-        }
+    @{ await Html.RenderPartialAsync("~/Areas/Gry/Views/Shared/_HomeNavButtons.cshtml"); }
+    <br />
 
-        <tbody id="countdown_timer_data" data-expired-text="@expiredText" data-prefix-text="Start za ">
 
-            @for (int i = 0; i < Model.Games.Count; ++i)
-            {
+    <br />
+
+    <div class="table-wrapper-scroll-y">
+        <table class="table data-table-games">
+            <thead>
                 <tr>
-                    <td>@Model.Games[i].Settings.GameName</td>
-
-                    @* rozpoczęcie *@
-                    <td>@Model.Games[i].Settings.StartDateTime.ToLocalTime()</td>
-
-                    @*status*@
-                    @if (now < Model.Games[i].Settings.StartDateTime) // przed startem
-                    {
-
-                        // konwersja dla js
-                        var t = Model.Games[i].Settings.StartDateTime.ToUnixTimeMilliseconds();
-
-                        <td class="countdown-timer" data-countdown-date="@t">
-                            Oczekująca @* z jsem będzie wyświetlony timer do rozpoczęcia albo "w trakcie" *@
-                        </td>
-                    }
-                    else if (now < Model.Games[i].Settings.EndDateTime)
-                    {
-                        <td>
-                            @expiredText
-                        </td>
-                    }
-                    else
-                    {
-                        <td>
-                            Gra zakończona
-                        </td>
-                    }
-
-                    @*czas trwania*@
-                    <td>@TimeHelper.ReadableTimeSpan(Model.Games[i].Settings.Duration)</td>
-
-                    @*akcje*@
-                    <td>
-                        <a asp-action="@nameof(IHomeActions.GotoGameRead)" asp-route-gameId="@Model.Games[i].Id">Szczegóły</a> |
-                        <a asp-action="@nameof(IHomeActions.GotoGameUpdate)" asp-route-gameId="@Model.Games[i].Id">Edytuj</a> |
-                        <a asp-action="@nameof(IHomeActions.GotoGameDelete)" asp-route-gameId="@Model.Games[i].Id">Anuluj</a>
-                    </td>
-
+                    <th scope="col">Nazwa gry</th>
+                    <th scope="col">Rozpoczęcie</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Czas trwania</th>
+                    <th scope="col">Akcje</th>
                 </tr>
+            </thead>
+
+            @{
+                var now = DateTimeOffset.UtcNow;
+                string expiredText = "W trakcie!";
             }
 
+            <tbody id="countdown_timer_data" data-expired-text="@expiredText" data-prefix-text="Start za ">
 
-        </tbody>
-    </table>
+                @for (int i = 0; i < Model.Games.Count; ++i)
+                {
+                    <tr>
+                        <td>@Model.Games[i].Settings.GameName</td>
+
+                        @* rozpoczęcie *@
+                        <td>@Model.Games[i].Settings.StartDateTime.ToLocalTime()</td>
+
+                        @*status*@
+                        @if (now < Model.Games[i].Settings.StartDateTime) // przed startem
+                        {
+
+                            // konwersja dla js
+                            var t = Model.Games[i].Settings.StartDateTime.ToUnixTimeMilliseconds();
+
+                            <td class="countdown-timer" data-countdown-date="@t">
+                                Oczekująca @* z jsem będzie wyświetlony timer do rozpoczęcia albo "w trakcie" *@
+                            </td>
+                        }
+                        else if (now < Model.Games[i].Settings.EndDateTime)
+                        {
+                            <td>
+                                @expiredText
+                            </td>
+                        }
+                        else
+                        {
+                            <td>
+                                Gra zakończona
+                            </td>
+                        }
+
+                        @*czas trwania*@
+                        <td>@TimeHelper.ReadableTimeSpan(Model.Games[i].Settings.Duration)</td>
+
+                        @*akcje*@
+                        <td>
+                            <a asp-action="@nameof(IHomeActions.GotoGameRead)" asp-route-gameId="@Model.Games[i].Id">Szczegóły</a> |
+                            <a asp-action="@nameof(IHomeActions.GotoGameUpdate)" asp-route-gameId="@Model.Games[i].Id">Edytuj</a> |
+                            <a asp-action="@nameof(IHomeActions.GotoGameDelete)" asp-route-gameId="@Model.Games[i].Id">Anuluj</a>
+                        </td>
+
+                    </tr>
+                }
+
+
+            </tbody>
+        </table>
+    </div>
+
+    <br />
+
 </div>
-
-<br />
-

@@ -8,20 +8,15 @@
 @section Styles
 {
     <link rel="stylesheet" href="~/css/TrybyGry/GamemodeForGame.css" />
+    <link rel="stylesheet" href="~/css/Shared/Buttons.css" />
 }
+
+
+<div class="container-fluid gameMode h-100">
 
 @{ await Html.RenderPartialAsync("~/Views/Shared/Alerts/_AlertsList.cshtml", Model.Alerts);}
 
-<h2>Wybierz tryb gry</h2>
-<br />
-
-<a class="btn btn-primary"
-   asp-action="@nameof(IGamemodeForGameActions.GotoGameCreate)"
-   asp-route-gamemodeId="@Model.SelectedGamemode">
-    Dalej...
-</a>
-<br />
-<br />
+<p class="title">Wybierz tryb gry</p>
 
 <div class="table-wrapper-scroll-y">
     <table id="table_id" class="table table-bordered table-striped table-sm ">
@@ -60,12 +55,17 @@
     </table>
 </div>
 
-<br />
+    <a class="btn btn-primary mt-2 mb-5"
+       asp-action="@nameof(IGamemodeForGameActions.GotoGameCreate)"
+       asp-route-gamemodeId="@Model.SelectedGamemode">
+        Dalej...
+    </a>
+
+    <br />
 
 @if (User.IsInRole("Administrator"))
 {
-    <h2>Lub stwórz nowy</h2>
-    <br />
+    <p class="title">Lub stwórz nowy</p>
 
     <div>
         <a class="btn btn-primary"
@@ -75,3 +75,5 @@
     </div>
     <br />
 }
+
+</div>

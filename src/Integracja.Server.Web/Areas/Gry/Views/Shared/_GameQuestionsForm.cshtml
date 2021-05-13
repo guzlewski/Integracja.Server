@@ -1,53 +1,54 @@
 ﻿@using Integracja.Server.Web.Areas.Gry.Models.Shared
 @model GameQuestionsFormViewModel
 
-<form>
+    <form>
 
-    <h2>Pytania do wyboru</h2>
-    <br />
+        <p id="title"> Pytania do wyboru </p>
+        <br />
 
-    <div class="table-wrapper-scroll-y">
-        <table id="gameQuestionsTable" class="table">
-            <thead>
-                <tr>
-                    <th scope="col">Treść</th>
-                    <th scope="col">Kategoria</th>
-                    <th scope="col">Akcja</th>
-                </tr>
-            </thead>
-            <tbody>
-                @for (int i = 0; i < Model.Questions.Count; ++i)
-                {
+        <div class="table-wrapper-scroll-y">
+            <table id="gameQuestionsTable" class="table">
+                <thead>
                     <tr>
-                        <td class="d-lg-table-cell">@Model.Questions[i].Content</td>
-                        <td>@Model.Questions[i].CategoryName</td>
-                        <td>
-
-                            <input type="checkbox" class="form-control form-control-sm" name="gameQuestionCheckbox" data-question-id="@Model.Questions[i].Id" />
-                        </td>
+                        <th scope="col">Treść</th>
+                        <th scope="col">Kategoria</th>
+                        <th scope="col">Akcja</th>
                     </tr>
-                }
-            </tbody>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < Model.Questions.Count; ++i)
+                    {
+                        <tr>
+                            <td class="d-lg-table-cell">@Model.Questions[i].Content</td>
+                            <td>@Model.Questions[i].CategoryName</td>
+                            <td>
 
-            @* potrzebne do filtrowania kolumn! *@
-            <tfoot>
-                <tr>
-                    <th>Kategoria: </th>
-                    <th></th>
-                    <th></th>
-                </tr>
-            </tfoot>
+                                <input type="checkbox" class="form-control form-control-sm" name="gameQuestionCheckbox" data-question-id="@Model.Questions[i].Id" />
+                            </td>
+                        </tr>
+                    }
+                </tbody>
 
-        </table>
-    </div>
-    <br />
+                @* potrzebne do filtrowania kolumn! *@
+                <tfoot>
+                    <tr>
+                        <th>Kategoria: </th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </tfoot>
 
-    @{
-        string postUrl = Url.Action(nameof(IGameQuestionsFormActions.GameQuestionsCreate));
-        string redirectUrl = Url.Action("Index", "Home");
-            }
-    <button id="gameQuestionsCreateBtn" data-post-url="@postUrl" data-redirect-url="@redirectUrl" type="button" class="btn btn-primary">Zatwierdź pytania</button>
+            </table>
+        </div>
+        <br />
 
-</form>
+        @{
+            string postUrl = Url.Action(nameof(IGameQuestionsFormActions.GameQuestionsCreate));
+            string redirectUrl = Url.Action("Index", "Home");
+        }
+        <button id="gameQuestionsCreateBtn" data-post-url="@postUrl" data-redirect-url="@redirectUrl" type="button" class="btn btn-primary">Zatwierdź pytania</button>
+
+    </form>
+
 
 

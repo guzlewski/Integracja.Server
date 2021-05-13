@@ -36,17 +36,14 @@ namespace Integracja.Server.Web.Areas.Identity.Pages.Account.Manage
         {
             [Required(ErrorMessage = "Pole Obecne has³o jest wymagane")]
             [DataType(DataType.Password)]
-            [Display(Name = "Obecne has³o")]
             public string OldPassword { get; set; }
 
             [Required(ErrorMessage = "Pole Nowe has³o jest wymagane")]
             [StringLength(100, ErrorMessage = "Has³o musi mieæ przynajmnie 6 znaków i nie mo¿e przekraczaæ 100 znaków.", MinimumLength = 6)]
             [DataType(DataType.Password)]
-            [Display(Name = "Nowe has³o")]
             public string NewPassword { get; set; }
 
             [DataType(DataType.Password)]
-            [Display(Name = "PotwierdŸ nowe has³o")]
             [Compare("NewPassword", ErrorMessage = "Nowe has³o i potwierdzaj¹ce has³o nie s¹ takie same.")]
             public string ConfirmPassword { get; set; }
         }

@@ -1,6 +1,7 @@
 ﻿.btn-primary {
     background-color: #fed136 !important;
     border-color: #fed136 !important;
+    box-shadow: none !important;
 }
 
     .btn-primary:hover {
