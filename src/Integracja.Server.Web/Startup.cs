@@ -39,6 +39,7 @@ namespace Integracja.Server.Web
                 options.SignIn.RequireConfirmedAccount = false;
                 options.User.RequireUniqueEmail = true;
             })
+                .AddRoles<Role>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddClaimsPrincipalFactory<ProfilePicturesClaimsPrincipalFactory>();
 

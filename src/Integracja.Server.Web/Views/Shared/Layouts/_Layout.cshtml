@@ -30,9 +30,12 @@
 
                 @*<partial name="_LoginPartial" />*@
 
-                <li>
-                    <a asp-area="PanelAdmina" asp-controller="Home" asp-action="Index"><i class="bi-braces"></i> Panel admina </a>
-                </li>
+                @if (User.IsInRole("Administrator"))
+                {
+                    <li>
+                        <a asp-area="PanelAdmina" asp-controller="Home" asp-action="Index"><i class="bi-braces"></i> Panel admina </a>
+                    </li>
+                }
 
                 <li>
                     <a asp-area="Gry" asp-controller="Home" asp-action="Index"><i class="bi-clipboard-check"></i> Gry </a>
