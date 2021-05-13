@@ -57,13 +57,16 @@
 
 <br />
 
-<h2>Lub stwórz nowy</h2>
-<br />
+@if (User.IsInRole("Administrator"))
+{
+    <h2>Lub stwórz nowy</h2>
+    <br />
 
-<div>
-    <a class="btn btn-primary"
-       asp-action="@nameof(IGamemodeForGameActions.GamemodeCreateView)">
-        Stwórz nowy tryb gry
-    </a>
-</div>
-<br />
+    <div>
+        <a class="btn btn-primary"
+           asp-action="@nameof(IGamemodeForGameActions.GamemodeCreateView)">
+            Stwórz nowy tryb gry
+        </a>
+    </div>
+    <br />
+}
