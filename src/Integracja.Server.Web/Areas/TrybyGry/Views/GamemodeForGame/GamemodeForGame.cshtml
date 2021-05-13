@@ -2,6 +2,7 @@
 @using static Integracja.Server.Web.Areas.TrybyGry.Models.GamemodeForGame.GamemodeForGameViewModel
 @using static Integracja.Server.Web.Areas.TrybyGry.Models.GamemodeForGame.IGamemodeForGameActions
 @using static Integracja.Server.Web.Models.Shared.Time.TimeHelper
+@using System.Security.Claims
 @model GamemodeForGameViewModel
 
 @section Styles
@@ -43,11 +44,15 @@
                         </a>
                     </td>
                     <td>@Model.Gamemodes[i].NumberOfLives</td>
-                    <td>@if(Model.Gamemodes[i].TimeForFullQuiz != null) @ReadableSeconds(Model.Gamemodes[i].TimeForFullQuiz.Value)</td>
-                    <td>@if(Model.Gamemodes[i].TimeForOneQuestion != null) @ReadableSeconds(Model.Gamemodes[i].TimeForOneQuestion.Value)</td>
+                    <td>@if (Model.Gamemodes[i].TimeForFullQuiz != null)@ReadableSeconds(Model.Gamemodes[i].TimeForFullQuiz.Value)</td>
+                    <td>@if (Model.Gamemodes[i].TimeForOneQuestion != null)@ReadableSeconds(Model.Gamemodes[i].TimeForOneQuestion.Value)</td>
                     <td>
-                        <a asp-action="@nameof(IGamemodeForGameActions.GamemodeUpdateView)" asp-route-id="@Model.Gamemodes[i].Id">Edytuj</a> |
-                        <a asp-action="@nameof(IGamemodeForGameActions.GamemodeDelete)" asp-route-id="@Model.Gamemodes[i].Id">Usuń</a>
+                        @if (User.FindFirst(ClaimTypes.NameIdentifier).Value == Model.Gamemodes[i].OwnerId.ToString())
+                        {
+                            <a asp-action="@nameof(IGamemodeForGameActions.GamemodeUpdateView)" asp-route-id="@Model.Gamemodes[i].Id">Edytuj</a>
+                            @Html.Raw(" | ")
+                            <a asp-action="@nameof(IGamemodeForGameActions.GamemodeDelete)" asp-route-id="@Model.Gamemodes[i].Id">Usuń</a>
+                        }
                     </td>
                 </tr>
             }
