@@ -11,5 +11,6 @@ namespace Integracja.Server.Web.Models.Shared.Gamemode
         public int? TimeForFullQuiz { get; set; }
         public int? TimeForOneQuestion { get; set; }
         public int? NumberOfLives { get; set; }
+        public int OwnerId { get; set; }
     }
 }

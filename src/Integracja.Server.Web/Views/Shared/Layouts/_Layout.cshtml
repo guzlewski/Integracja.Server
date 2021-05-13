@@ -13,7 +13,7 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
     @await RenderSectionAsync("Styles", required: false)
 
-    <title>Integracja.Server.Web</title>
+    <title>Integracja</title>
 </head>
 
 <body>
@@ -30,9 +30,12 @@
 
                 @*<partial name="_LoginPartial" />*@
 
-                <li>
-                    <a asp-area="PanelAdmina" asp-controller="Home" asp-action="Index"><i class="bi-braces"></i> Panel admina </a>
-                </li>
+                @if (User.IsInRole("Administrator"))
+                {
+                    <li>
+                        <a asp-area="PanelAdmina" asp-controller="Home" asp-action="Index"><i class="bi-braces"></i> Panel admina </a>
+                    </li>
+                }
 
                 <li>
                     <a asp-area="Gry" asp-controller="Home" asp-action="Index"><i class="bi-clipboard-check"></i> Gry </a>
@@ -47,8 +50,8 @@
                 </li>
 
                 @*<li>
-                    <a class="nav-link" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage"><i class="bi-gear-fill"></i> Ustawienia</a>
-                </li>*@
+                        <a class="nav-link" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage"><i class="bi-gear-fill"></i> Ustawienia</a>
+                    </li>*@
 
                 <li>
                     <a asp-area="Identity"

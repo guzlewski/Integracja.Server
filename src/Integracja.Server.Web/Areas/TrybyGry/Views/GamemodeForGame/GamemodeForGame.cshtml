@@ -2,6 +2,7 @@
 @using static Integracja.Server.Web.Areas.TrybyGry.Models.GamemodeForGame.GamemodeForGameViewModel
 @using static Integracja.Server.Web.Areas.TrybyGry.Models.GamemodeForGame.IGamemodeForGameActions
 @using static Integracja.Server.Web.Models.Shared.Time.TimeHelper
+@using System.Security.Claims
 @model GamemodeForGameViewModel
 
 @section Styles
@@ -13,42 +14,46 @@
 
 <div class="container-fluid gameMode h-100">
 
-    @{ await Html.RenderPartialAsync("~/Views/Shared/Alerts/_AlertsList.cshtml", Model.Alerts);}
+@{ await Html.RenderPartialAsync("~/Views/Shared/Alerts/_AlertsList.cshtml", Model.Alerts);}
 
-    <p class="title">Wybierz tryb gry</p>
+<p class="title">Wybierz tryb gry</p>
 
-    <div class="table-wrapper-scroll-y">
-        <table id="table_id" class="table table-bordered table-striped table-sm ">
-            <thead>
-                <tr>
-                    <th scope="col">Nazwa gry</th>
-                    <th scope="col">Liczba żyć</th>
-                    <th scope="col">Czas na quiz</th>
-                    <th scope="col">Czas na pytanie</th>
-                    <th scope="col">Akcje</th>
-                </tr>
-            </thead>
-            <tbody>
-                @for (int i = 0; i < Model.Gamemodes.Count; ++i)
-                {
-                    <tr class="@(Model.SelectedGamemode==Model.Gamemodes[i].Id ? "gamemode-selected" : "")">
-                        <td>
-                            <a class="name" asp-action="@nameof(IGamemodeForGameActions.GamemodeRead)" asp-route-id="@Model.Gamemodes[i].Id">
-                                @Model.Gamemodes[i].Name
-                            </a>
-                        </td>
-                        <td>@Model.Gamemodes[i].NumberOfLives</td>
-                        <td>@if (Model.Gamemodes[i].TimeForFullQuiz != null)@ReadableSeconds(Model.Gamemodes[i].TimeForFullQuiz.Value)</td>
-                        <td>@if (Model.Gamemodes[i].TimeForOneQuestion != null)@ReadableSeconds(Model.Gamemodes[i].TimeForOneQuestion.Value)</td>
-                        <td>
-                            <a asp-action="@nameof(IGamemodeForGameActions.GamemodeUpdateView)" asp-route-id="@Model.Gamemodes[i].Id">Edytuj</a> |
+<div class="table-wrapper-scroll-y">
+    <table id="table_id" class="table table-bordered table-striped table-sm ">
+        <thead>
+            <tr>
+                <th scope="col">Nazwa gry</th>
+                <th scope="col">Liczba żyć</th>
+                <th scope="col">Czas na quiz</th>
+                <th scope="col">Czas na pytanie</th>
+                <th scope="col">Akcje</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.Gamemodes.Count; ++i)
+            {
+                <tr class="@(Model.SelectedGamemode==Model.Gamemodes[i].Id ? "gamemode-selected" : "")">
+                    <td>
+                        <a asp-action="@nameof(IGamemodeForGameActions.GamemodeRead)" asp-route-id="@Model.Gamemodes[i].Id">
+                            @Model.Gamemodes[i].Name
+                        </a>
+                    </td>
+                    <td>@Model.Gamemodes[i].NumberOfLives</td>
+                    <td>@if (Model.Gamemodes[i].TimeForFullQuiz != null)@ReadableSeconds(Model.Gamemodes[i].TimeForFullQuiz.Value)</td>
+                    <td>@if (Model.Gamemodes[i].TimeForOneQuestion != null)@ReadableSeconds(Model.Gamemodes[i].TimeForOneQuestion.Value)</td>
+                    <td>
+                        @if (User.FindFirst(ClaimTypes.NameIdentifier).Value == Model.Gamemodes[i].OwnerId.ToString())
+                        {
+                            <a asp-action="@nameof(IGamemodeForGameActions.GamemodeUpdateView)" asp-route-id="@Model.Gamemodes[i].Id">Edytuj</a>
+                            @Html.Raw(" | ")
                             <a asp-action="@nameof(IGamemodeForGameActions.GamemodeDelete)" asp-route-id="@Model.Gamemodes[i].Id">Usuń</a>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
 
     <a class="btn btn-primary mt-2 mb-5"
        asp-action="@nameof(IGamemodeForGameActions.GotoGameCreate)"
@@ -58,6 +63,8 @@
 
     <br />
 
+@if (User.IsInRole("Administrator"))
+{
     <p class="title">Lub stwórz nowy</p>
 
     <div>
