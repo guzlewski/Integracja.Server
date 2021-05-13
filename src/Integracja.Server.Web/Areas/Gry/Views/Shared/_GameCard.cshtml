@@ -20,7 +20,7 @@
     </div>
 
     <div class="container">
-        @foreach (var question in Model.Game.Questions)
+        @foreach (var question in Model.Game.Questions.OrderBy(q => q.Index))
         {
             <div class="container border-bottom">
                 @{ await Html.RenderPartialAsync("~/Areas/Pytania/Views/Shared/_QuestionItem.cshtml", question); }
