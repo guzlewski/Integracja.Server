@@ -11,53 +11,58 @@
     <script src="~/js/Gry/Home.js"></script>
 }
 
-@{ await Html.RenderPartialAsync("~/Views/Shared/Alerts/_AlertsList.cshtml", Model.Alerts);}
+<link rel="stylesheet" href="~/css/Gry/Games.css" />
 
-@{ await Html.RenderPartialAsync("~/Areas/Gry/Views/Shared/_HomeNavButtons.cshtml"); }
-<br />
+<div class="container-fluid games h-100">
 
-<h2>Zakończone gry</h2>
-<br />
+    @{ await Html.RenderPartialAsync("~/Views/Shared/Alerts/_AlertsList.cshtml", Model.Alerts);}
 
-<div class="table-wrapper-scroll-y">
-    <table class="table data-table-games">
-        <thead>
-            <tr>
-                <th scope="col">Nazwa gry</th>
-                <th scope="col">Zakończenie</th>
-                <th scope="col">Czas trwania</th>
-                <th scope="col">Akcje</th>
-            </tr>
-        </thead>
+    <p id="title">Zakończone gry</p>
 
-        <tbody>
+    @{ await Html.RenderPartialAsync("~/Areas/Gry/Views/Shared/_HomeNavButtons.cshtml"); }
 
-            @for (int i = 0; i < Model.Games.Count; ++i)
-            {
+    <br /> <br />
+
+    <div class="table-wrapper-scroll-y">
+        <table class="table data-table-games">
+            <thead>
                 <tr>
-                    <td>
-                        @Model.Games[i].Settings.GameName
-                    </td>
-
-                    @* zakończenie *@
-                    <td>@Model.Games[i].Settings.EndDateTime.ToLocalTime()</td>
-
-                    @*czas trwania*@
-                    <td>@TimeHelper.ReadableTimeSpan(Model.Games[i].Settings.Duration)</td>
-
-                    @*akcje*@
-                    <td>
-                        <a asp-action="@nameof(IHomeActions.GotoGameHistory)" asp-route-gameId="@Model.Games[i].Id">Podsumowanie</a> | 
-                        <a asp-action="@nameof(IHomeActions.GotoGameDelete)" asp-route-gameId="@Model.Games[i].Id">Usuń</a>
-                    </td>
-
+                    <th scope="col">Nazwa gry</th>
+                    <th scope="col">Zakończenie</th>
+                    <th scope="col">Czas trwania</th>
+                    <th scope="col">Akcje</th>
                 </tr>
-            }
+            </thead>
+
+            <tbody>
+
+                @for (int i = 0; i < Model.Games.Count; ++i)
+                {
+                    <tr>
+                        <td>
+                            @Model.Games[i].Settings.GameName
+                        </td>
+
+                        @* zakończenie *@
+                        <td>@Model.Games[i].Settings.EndDateTime.ToLocalTime()</td>
+
+                        @*czas trwania*@
+                        <td>@TimeHelper.ReadableTimeSpan(Model.Games[i].Settings.Duration)</td>
+
+                        @*akcje*@
+                        <td>
+                            <a asp-action="@nameof(IHomeActions.GotoGameHistory)" asp-route-gameId="@Model.Games[i].Id">Podsumowanie</a> |
+                            <a asp-action="@nameof(IHomeActions.GotoGameDelete)" asp-route-gameId="@Model.Games[i].Id">Usuń</a>
+                        </td>
+
+                    </tr>
+                }
 
 
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+    </div>
+
+    <br />
+
 </div>
-
-<br />
-

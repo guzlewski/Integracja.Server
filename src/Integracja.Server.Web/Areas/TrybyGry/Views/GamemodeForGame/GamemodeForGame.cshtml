@@ -7,63 +7,65 @@
 @section Styles
 {
     <link rel="stylesheet" href="~/css/TrybyGry/GamemodeForGame.css" />
+    <link rel="stylesheet" href="~/css/Shared/Buttons.css" />
 }
 
-@{ await Html.RenderPartialAsync("~/Views/Shared/Alerts/_AlertsList.cshtml", Model.Alerts);}
 
-<h2>Wybierz tryb gry</h2>
-<br />
+<div class="container-fluid gameMode h-100">
 
-<a class="btn btn-primary"
-   asp-action="@nameof(IGamemodeForGameActions.GotoGameCreate)"
-   asp-route-gamemodeId="@Model.SelectedGamemode">
-    Dalej...
-</a>
-<br />
-<br />
+    @{ await Html.RenderPartialAsync("~/Views/Shared/Alerts/_AlertsList.cshtml", Model.Alerts);}
 
-<div class="table-wrapper-scroll-y">
-    <table id="table_id" class="table table-bordered table-striped table-sm ">
-        <thead>
-            <tr>
-                <th scope="col">Nazwa gry</th>
-                <th scope="col">Liczba żyć</th>
-                <th scope="col">Czas na quiz</th>
-                <th scope="col">Czas na pytanie</th>
-                <th scope="col">Akcje</th>
-            </tr>
-        </thead>
-        <tbody>
-            @for (int i = 0; i < Model.Gamemodes.Count; ++i)
-            {
-                <tr class="@(Model.SelectedGamemode==Model.Gamemodes[i].Id ? "gamemode-selected" : "")">
-                    <td>
-                        <a asp-action="@nameof(IGamemodeForGameActions.GamemodeRead)" asp-route-id="@Model.Gamemodes[i].Id">
-                            @Model.Gamemodes[i].Name
-                        </a>
-                    </td>
-                    <td>@Model.Gamemodes[i].NumberOfLives</td>
-                    <td>@if(Model.Gamemodes[i].TimeForFullQuiz != null) @ReadableSeconds(Model.Gamemodes[i].TimeForFullQuiz.Value)</td>
-                    <td>@if(Model.Gamemodes[i].TimeForOneQuestion != null) @ReadableSeconds(Model.Gamemodes[i].TimeForOneQuestion.Value)</td>
-                    <td>
-                        <a asp-action="@nameof(IGamemodeForGameActions.GamemodeUpdateView)" asp-route-id="@Model.Gamemodes[i].Id">Edytuj</a> |
-                        <a asp-action="@nameof(IGamemodeForGameActions.GamemodeDelete)" asp-route-id="@Model.Gamemodes[i].Id">Usuń</a>
-                    </td>
+    <p class="title">Wybierz tryb gry</p>
+
+    <div class="table-wrapper-scroll-y">
+        <table id="table_id" class="table table-bordered table-striped table-sm ">
+            <thead>
+                <tr>
+                    <th scope="col">Nazwa gry</th>
+                    <th scope="col">Liczba żyć</th>
+                    <th scope="col">Czas na quiz</th>
+                    <th scope="col">Czas na pytanie</th>
+                    <th scope="col">Akcje</th>
                 </tr>
-            }
-        </tbody>
-    </table>
-</div>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < Model.Gamemodes.Count; ++i)
+                {
+                    <tr class="@(Model.SelectedGamemode==Model.Gamemodes[i].Id ? "gamemode-selected" : "")">
+                        <td>
+                            <a class="name" asp-action="@nameof(IGamemodeForGameActions.GamemodeRead)" asp-route-id="@Model.Gamemodes[i].Id">
+                                @Model.Gamemodes[i].Name
+                            </a>
+                        </td>
+                        <td>@Model.Gamemodes[i].NumberOfLives</td>
+                        <td>@if (Model.Gamemodes[i].TimeForFullQuiz != null)@ReadableSeconds(Model.Gamemodes[i].TimeForFullQuiz.Value)</td>
+                        <td>@if (Model.Gamemodes[i].TimeForOneQuestion != null)@ReadableSeconds(Model.Gamemodes[i].TimeForOneQuestion.Value)</td>
+                        <td>
+                            <a asp-action="@nameof(IGamemodeForGameActions.GamemodeUpdateView)" asp-route-id="@Model.Gamemodes[i].Id">Edytuj</a> |
+                            <a asp-action="@nameof(IGamemodeForGameActions.GamemodeDelete)" asp-route-id="@Model.Gamemodes[i].Id">Usuń</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 
-<br />
-
-<h2>Lub stwórz nowy</h2>
-<br />
-
-<div>
-    <a class="btn btn-primary"
-       asp-action="@nameof(IGamemodeForGameActions.GamemodeCreateView)">
-        Stwórz nowy tryb gry
+    <a class="btn btn-primary mt-2 mb-5"
+       asp-action="@nameof(IGamemodeForGameActions.GotoGameCreate)"
+       asp-route-gamemodeId="@Model.SelectedGamemode">
+        Dalej...
     </a>
+
+    <br />
+
+    <p class="title">Lub stwórz nowy</p>
+
+    <div>
+        <a class="btn btn-primary"
+           asp-action="@nameof(IGamemodeForGameActions.GamemodeCreateView)">
+            Stwórz nowy tryb gry
+        </a>
+    </div>
+    <br />
+
 </div>
-<br />

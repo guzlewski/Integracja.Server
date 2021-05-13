@@ -1,7 +1,14 @@
 ﻿@using Integracja.Server.Web.Areas.Gry.Models.Shared
 
-<div class="container-fluid">
-    <a asp-action="@nameof(IHomeNav.CurrentGames)" class="btn btn-primary">Aktualne gry</a>
-    <a asp-action="@nameof(IHomeNav.EndedGames)" class="btn btn-primary">Zakończone gry</a>
-    <a asp-action="@nameof(IHomeNav.GotoGameCreate)" class="btn btn-primary">Stwórz nową grę</a>
+<link rel="stylesheet" href="~/css/Shared/Buttons.css" />
+
+<div class="row">
+    <div class="col-6">
+        <a asp-action="@nameof(IHomeNav.CurrentGames)" class="btn btn-primary">Aktualne gry</a>
+        <a asp-action="@nameof(IHomeNav.EndedGames)" class="btn btn-primary">Zakończone gry</a>
+    </div>
+    <div class="col-6">
+        <a asp-action="@nameof(IHomeNav.GotoGameCreate)" class="btn btn-primary float-right">Stwórz nową grę</a>
+    </div>
 </div>
+

@@ -7,49 +7,79 @@
         <input asp-for="Gamemode.Id" type="hidden" />
     </div>
 
-    <div class="row">
-        <div class="col-md-3 form-group">
-            <h4>Nazwa trybu</h4>
-            <input asp-for="Gamemode.Name" class="form-control" />
-            <span asp-validation-for="Gamemode.Name" class="text-danger"/>
-        </div>
-    </div>
+    <div class="row form-group">
+        <div class="col-6 pr-5">
+            <div class="float-right">
+                <div class="row mb-3">
+                    <div class="col-6">
+                        <p class="titles m-0"> Nazwa trybu: </p>
+                    </div>
+                    <div class="col-6 p-0 d-flex flex-column justify-content-center">
+                        <input asp-for="Gamemode.Name" class="form-control name" />
+                        <span asp-validation-for="Gamemode.Name" class="text-danger" />
+                    </div>
+                </div>
 
-    <div class="row">
-        <div class="col-md-3 form-group">
-            <h4>
-                Czy publiczny ?
-            </h4>
-            <div class="">
-                <input asp-for="Gamemode.IsPublic" class="form-control" />
+                <div class="row mb-3">
+                    <div class="col-6 pr-0">
+                        <p class="titles float-left m-0"> Czy publiczny? </p>
+                    </div>
+                    <div class="col-6 p-0 d-flex flex-column justify-content-center">
+                        <input asp-for="Gamemode.IsPublic" class="form-control checkbox float-left" />
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-6">
+                        <p class="titles m-0"> Liczba żyć: </p>
+                    </div>
+                    <div class="col-6 p-0 d-flex flex-column justify-content-center">
+                        <input asp-for="Gamemode.NumberOfLives" type="number" class="form-control input-number" />
+                    </div>
+                </div>
+
+                <div>
+                    @if (Model.ViewMode == Creating)
+                    {
+
+                        <button type="submit" class="btn btn-primary mt-4" asp-action="@nameof(IGamemodeFormActions.GamemodeCreate)">
+                            Stwórz
+                        </button>
+
+                    }
+                    else if (Model.ViewMode == Updating)
+                    {
+                        <button type="submit" class="btn btn-primary mt-4" asp-action="@nameof(IGamemodeFormActions.GamemodeUpdate)">
+                            Zaktualizuj
+                        </button>
+                    }
+                </div>
+
             </div>
         </div>
-    </div>
 
-    <div class="row">
-        <div class="col-md-3 form-group">
-            <h4>Liczba żyć</h4>
-            <input asp-for="Gamemode.NumberOfLives" type="number" class="form-control form-control-lg input-number" />
-            <h4>Czas na quiz</h4>
-            <input asp-for="Gamemode.TimeForFullQuiz" type="number" class="form-control form-control-lg input-number" />
-            <h4>Czas na jedno pytanie</h4>
-            <input asp-for="Gamemode.TimeForOneQuestion" type="number" class="form-control form-control-lg input-number" />
+        <div class="col-6">
+
+            <div class="row mb-3">
+                <div class="mr-3">
+                    <p class="titles"> Czas na jedno pytanie: </p>
+                </div>
+                <div>
+                    <input asp-for="Gamemode.TimeForOneQuestion" type="number" class="form-control input-number" />
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="mr-3">
+                    <p class="titles"> Czas na quiz: </p>
+                </div>
+                <div>
+                    <input asp-for="Gamemode.TimeForFullQuiz" type="number" class="form-control input-number" />
+                </div>
+            </div>
+
         </div>
     </div>
 
 
-    <div class="form-group">
-        @if (Model.ViewMode == Creating)
-        {
-            <button type="submit" class="btn btn-primary" asp-action="@nameof(IGamemodeFormActions.GamemodeCreate)">
-                Stwórz
-            </button>
-        }
-        else if (Model.ViewMode == Updating)
-        {
-            <button type="submit" class="btn btn-primary" asp-action="@nameof(IGamemodeFormActions.GamemodeUpdate)">
-                Zaaktualizuj
-            </button>
-        }
-    </div>
 </form>

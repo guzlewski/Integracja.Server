@@ -1,9 +1,17 @@
 ﻿@using Integracja.Server.Web.Areas.Gry.Models.Shared
 @model GameSettingsFormViewModel
 
-<h2>Ustawienia gry</h2>
-<br />
+@section Styles
+{
+    <link rel="stylesheet" href="~/css/Gry/GameSettings.css" />
+    <link rel="stylesheet" href="~/css/Shared/Buttons.css" />
+}
 
-<div class="col-md-10">
+<div class="container-fluid gameSettings h-100">
+
+    <p id="title">Ustawienia gry</p>
+    <br />
+
     @{ await Html.RenderPartialAsync("~/Areas/Gry/Views/Shared/_GameSettingsForm.cshtml", Model);}
+
 </div>
