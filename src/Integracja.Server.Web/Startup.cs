@@ -42,9 +42,7 @@ namespace Integracja.Server.Web
             })
                 .AddRoles<Role>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddClaimsPrincipalFactory<ProfilePicturesClaimsPrincipalFactory>();
-
-            services.AddScoped<IUserClaimsPrincipalFactory<User>, UserClaimsPrincipalFactory<User, Role>>();
+                .AddClaimsPrincipalFactory<UserClaimsPrincipalFactory>();
 
             services.Configure<SmtpSettings>(Configuration.GetSection("SmtpSettings"));
             services.AddTransient<IEmailSender, SmtpEmailSender>();
