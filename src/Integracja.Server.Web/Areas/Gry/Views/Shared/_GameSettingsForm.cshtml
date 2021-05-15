@@ -1,6 +1,5 @@
 ﻿@using Integracja.Server.Web.Areas.Gry.Models.Shared
 @model GameSettingsFormViewModel
-
 @*Pozostałe proste parametry gry*@
 
 <form asp-controller="Game" asp-area="Gry" asp-action="@nameof(IGameSettingsFormActions.GameSettingsCreate)" method="post">
@@ -44,27 +43,26 @@
         <div class="col-6">
 
             <div class="row mb-3">
-                    <div class="mr-3 startdate">
-                        <p class="titles m-0"> Czas rozpoczęcia: </p>
-                    </div>
-                    <div>
-                        <input asp-for="Settings.StartDate" value="@DateTime.Now" class="form-control" />
-                        <span asp-validation-for="Settings.StartDate" class="text-danger"></span>
-                        <input asp-for="Settings.StartTime" value="@DateTime.Now" class="form-control" />
-                        <span asp-validation-for="Settings.StartTime" class="text-danger"></span>
-                    </div>
+                <div class="mr-3 startdate">
+                    <p class="titles m-0"> Czas rozpoczęcia: </p>
+                </div>
+                <div>
+                    <input asp-for="Settings.StartDate" value="@DateTime.Now" class="form-control" />
+                    <input asp-for="Settings.StartTime" value="@DateTime.Now" class="form-control" />
+                </div>
             </div>
 
             <div class="row mb-3">
-                    <div class="mr-3">
-                        <p class="titles m-0"> Czas zakończenia: </p>
-                    </div>
-                    <div>
-                        <input asp-for="Settings.EndDate" value="@DateTime.Now" class="form-control" />
-                        <span asp-validation-for="Settings.EndDate" class="text-danger"></span>
-                        <input asp-for="Settings.EndTime" value="@DateTime.Now" class="form-control" />
-                        <span asp-validation-for="Settings.EndTime" class="text-danger"></span>
-                    </div>
+                <div class="mr-3">
+                    <p class="titles m-0"> Czas zakończenia: </p>
+                </div>
+                <div>
+                    <input asp-for="Settings.EndDate" value="@DateTime.Now" class="form-control" />
+                    <input asp-for="Settings.EndTime" value="@DateTime.Now" class="form-control" />
+                </div>
+            </div>
+            <div class="row mb-3">
+                <span asp-validation-for="Settings.StartDate" class="text-danger"></span>
             </div>
 
         </div>

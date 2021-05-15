@@ -10,6 +10,7 @@ namespace Integracja.Server.Web.Models.Shared.Game
 {
     public class GameSettingsModel
     {
+        [Required]
         public string GameName { get; set; }
         public GamemodeModel Gamemode { get; set; } = new GamemodeModel();
         public bool RandomizeQuestionOrder { get; set; }
