@@ -47,8 +47,8 @@
                     <p class="titles m-0"> Czas rozpoczęcia: </p>
                 </div>
                 <div>
-                    <input asp-for="Settings.StartDate" value="@DateTime.Now" class="form-control" />
-                    <input asp-for="Settings.StartTime" value="@DateTime.Now" class="form-control" />
+                    <input id="startDate" asp-for="Settings.StartDate" value="" class="form-control" />
+                    <input id="startTime" asp-for="Settings.StartTime" value="" class="form-control" />
                 </div>
             </div>
 
@@ -57,8 +57,8 @@
                     <p class="titles m-0"> Czas zakończenia: </p>
                 </div>
                 <div>
-                    <input asp-for="Settings.EndDate" value="@DateTime.Now" class="form-control" />
-                    <input asp-for="Settings.EndTime" value="@DateTime.Now" class="form-control" />
+                    <input id="endDate" asp-for="Settings.EndDate" value="" class="form-control" />
+                    <input id="endTime" asp-for="Settings.EndTime" value="" class="form-control" />
                 </div>
             </div>
             <div class="row mb-3">
