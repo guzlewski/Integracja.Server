@@ -33,7 +33,8 @@
     $("#gameQuestionsCreateBtn").on("click", function () {
 
         if ($('[name="gameQuestionCheckbox"]:checked').length <= 0) {
-            alert('Please select minimum one data');
+            //alert('Please select minimum one data');
+            $("#gameQuestionsValidationMessage").text("Wybierz przynajmniej jedno pytanie");
         }
         else {
 
