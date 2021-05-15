@@ -51,7 +51,7 @@
                         <td>@Model.Games[i].Settings.GameName</td>
 
                         @* rozpoczęcie *@
-                        <td>@Model.Games[i].Settings.StartDateTime.ToLocalTime()</td>
+                        <td>@Model.Games[i].Settings.StartDateTime.LocalDateTime</td>
 
                         @*status*@
                         @if (now < Model.Games[i].Settings.StartDateTime) // przed startem

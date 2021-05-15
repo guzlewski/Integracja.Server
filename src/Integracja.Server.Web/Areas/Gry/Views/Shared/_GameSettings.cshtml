@@ -9,7 +9,7 @@
         <div class="col-lg-4">
             <h3>Czas rozpoczęcia</h3>
             <p class="card-text">
-                @Model.StartDateTime.ToLocalTime()
+                @Model.StartDateTime.LocalDateTime
             </p>
         </div>
 
@@ -48,7 +48,7 @@
         <div class="col-lg-4">
             <h3>Czas zakończenia</h3>
             <p class="card-text">
-                @Model.EndDateTime.ToLocalTime()
+                @Model.EndDateTime.LocalDateTime
             </p>
         </div>
     </div>
