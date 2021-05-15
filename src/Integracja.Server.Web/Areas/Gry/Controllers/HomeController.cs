@@ -26,6 +26,9 @@ namespace Integracja.Server.Web.Areas.Gry.Controllers
 
         public Task<IActionResult> Index()
         {
+            string referer = Request.Headers["Referer"].ToString();
+            if (referer.Contains(nameof(EndedGames)))
+                return Task.FromResult<IActionResult>(RedirectToAction(nameof(IHomeNav.EndedGames)));
             return Task.FromResult<IActionResult>(RedirectToAction(nameof(IHomeNav.CurrentGames)));
         }
 
