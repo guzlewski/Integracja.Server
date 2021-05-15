@@ -4,11 +4,11 @@
 @using Integracja.Server.Web.Areas.Kategorie.Models.Shared
 @model CategoryFormViewModel
 
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#categoryForm">
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#categoryCreateForm">
     Nowa kategoria
 </button>
 
-<div class="modal fade" id="categoryForm" tabindex="-1" role="dialog" aria-labelledby="categoryFormLabel" aria-hidden="true">
+<div class="modal fade" id="categoryCreateForm" tabindex="-1" role="dialog" aria-labelledby="categoryFormLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <form>
             <div class="modal-content">
@@ -29,13 +29,6 @@
                         <span asp-validation-for="Category.Name" class="text-danger"></span>
                     </div>
 
-                    @if (Model.ViewMode == Updating)
-                    {
-                        <p>Stara nazwa: @Model.Category.Name</p>
-                    }
-
-                    @* można użyć ~"inject usermanager" żeby sprawdzić czy użytkownik jest adminem
-                        albo po prostu w kontrolerze przekazać takie info do modelu *@
                     <div class="form-group">
                         <h4>Czy publiczna ?</h4>
                         <input asp-for="Category.IsPublic" class="form-check" type="checkbox" />
@@ -45,22 +38,10 @@
 
                 <div class="modal-footer">
 
-                    @if (Model.ViewMode == Creating)
-                    {
-                        <button type="submit" class="btn btn-primary" asp-action="@nameof(ICategoryFormActions.CategoryCreate)">
-                            Stwórz
-                        </button>
-                        <button type="reset" class="btn btn-danger ">Wyczyść</button>
-                    }
-                    else if (Model.ViewMode == Updating)
-                    {
-                        <button type="submit" class="btn btn-primary" asp-action="@nameof(ICategoryFormActions.CategoryUpdate)">
-                            Zaaktualizuj
-                        </button>
-                        <button type="submit" class="btn btn-primary" asp-action="@nameof(ICategoryFormActions.CategoryCreate)">
-                            Dodaj jako nową
-                        </button>
-                    }
+                    <button type="submit" class="btn btn-primary" asp-action="@nameof(ICategoryFormActions.CategoryCreate)">
+                        Stwórz
+                    </button>
+                    <button type="reset" class="btn btn-danger ">Wyczyść</button>
 
                 </div>
             </div>
