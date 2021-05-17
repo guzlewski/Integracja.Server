@@ -15,7 +15,7 @@
                 <tr class="@(Model.CategorySelected==Model.Categories[i].Id ? "category-selected" : "")">
                     <td>
 
-                        <a class="btn btn-light"
+                        <a class="btn btn-light save-scroll"
                            asp-action="@nameof(ICategorySelectTableActions.CategoryRead)"
                            asp-route-id="@Model.Categories[i].Id">
                             @Model.Categories[i].Name

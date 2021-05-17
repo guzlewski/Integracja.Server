@@ -42,8 +42,8 @@
     </div>
 
     <div class="form-group mb-5">
-        <input type="submit" asp-action="@nameof(IQuestionFormActions.AddAnswerField)" asp-route-categoryId="@Model.Question.CategoryId" formnovalidate value="Dodaj odpowiedź" class="btn btn-light" />
-        <input type="submit" asp-action="@nameof(IQuestionFormActions.RemoveAnswerField)" asp-route-categoryId="@Model.Question.CategoryId" formnovalidate value="Usuń odpowiedź" class="btn btn-light" />
+        <input type="submit" asp-action="@nameof(IQuestionFormActions.AddAnswerField)" asp-route-categoryId="@Model.Question.CategoryId" formnovalidate value="Dodaj odpowiedź" class="btn btn-light save-scroll" />
+        <input type="submit" asp-action="@nameof(IQuestionFormActions.RemoveAnswerField)" asp-route-categoryId="@Model.Question.CategoryId" formnovalidate value="Usuń odpowiedź" class="btn btn-light save-scroll" />
     </div>
 
     <h2>Punktacja</h2>

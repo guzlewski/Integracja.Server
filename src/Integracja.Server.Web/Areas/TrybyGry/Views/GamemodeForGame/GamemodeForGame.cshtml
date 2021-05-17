@@ -37,7 +37,7 @@
                 {
                     <tr class="@(Model.SelectedGamemode==Model.Gamemodes[i].Id ? "gamemode-selected" : "")">
                         <td>
-                            <a asp-action="@nameof(IGamemodeForGameActions.GamemodeRead)" asp-route-id="@Model.Gamemodes[i].Id">
+                            <a asp-action="@nameof(IGamemodeForGameActions.GamemodeRead)" asp-route-id="@Model.Gamemodes[i].Id" class="save-scroll">
                                 @Model.Gamemodes[i].Name
                             </a>
                         </td>
