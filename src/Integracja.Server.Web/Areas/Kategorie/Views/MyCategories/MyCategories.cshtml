@@ -6,6 +6,8 @@
 
 <div class="container-fluid categories h-100">
 
+    @{ await Html.RenderPartialAsync("~/Views/Shared/Alerts/_AlertsList.cshtml", Model.Alerts);}
+
     <p id="title">Moje kategorie</p>
     <br />
 
