@@ -8,24 +8,25 @@
 @{ await Html.RenderPartialAsync("~/Views/Shared/Alerts/_AlertsList.cshtml", Model.Alerts);}
 
 <link rel="stylesheet" href="~/css/Pytania/Question.css" />
+<link rel="stylesheet" href="~/css/Shared/Buttons.css" />
 
 <div class="container-fluid dodaj_pytanie mb-5 p-4">
 
-    <a asp-action="@Model.GoBackActionName" asp-route-categoryId="@Model.Form.Question.CategoryId">
-    Wyjdź
-    </a>
-    <br />
+    <div class="row bord">
+        <div class="col-2 d-flex flex-row justify-content-between">
+            <a class="btn btn-primary" asp-action="@Model.GoBackActionName" asp-route-categoryId="@Model.Form.Question.CategoryId">
+                Wyjdź
+            </a>
+        </div>
+        <p class="title col-8 mt-2">Pytanie</p>
+    </div>
     <br />
 
-    <h2>Pytanie</h2>
-    <br />
-
-    <h4>Kategoria: @Model.Form.Question.CategoryName</h4>
-    <br />
+    <h4>Kategoria: <span id="category">@Model.Form.Question.CategoryName</span></h4>
 
     @if (Model.Form.ViewMode == Integracja.Server.Web.Models.Shared.Enums.ViewMode.Creating)
     {
-        <a class="btn btn-primary"
+        <a class="btn btn-primary mt-2"
            asp-action="@nameof(IQuestionActions.QuestionCreateCategoryUpdate)"
            asp-route-categoryId="@Model.Form.Question.CategoryId">
             Zmień kategorię
@@ -33,12 +34,12 @@
         <br />
     }
 
-    <div class="row">
-        <div class="col-md-10">
-            @{ await Html.RenderPartialAsync("~/Areas/Pytania/Views/Shared/_QuestionForm.cshtml", Model.Form);
-            }
-        </div>
+
+    <div>
+        @{ await Html.RenderPartialAsync("~/Areas/Pytania/Views/Shared/_QuestionForm.cshtml", Model.Form);
+        }
     </div>
+
 
 </div>
 

@@ -15,13 +15,20 @@
     <script src="~/js/Shared/TableCardLayout.js"></script>
 }
 
-@{ await Html.RenderPartialAsync("~/Views/Shared/Alerts/_AlertsList.cshtml", Model.Alerts);}
+<div class="container-fluid questions h-100">
 
-@{ await Html.RenderPartialAsync("../Shared/_HomeNavButtons.cshtml"); }
+    @{ await Html.RenderPartialAsync("~/Views/Shared/Alerts/_AlertsList.cshtml", Model.Alerts);}
 
-<h2>@Model.Title</h2>
+    <p id="title">@Model.Title</p>
+    <br />
+
+    @{ await Html.RenderPartialAsync("../Shared/_HomeNavButtons.cshtml"); }
+
+</div>
+
+<br /> <br />
+
+@{ await Html.RenderPartialAsync("../Shared/_QuestionTable.cshtml", Model.Questions); }
+
 <br />
 
-@{ await Html.RenderPartialAsync("../Shared/_QuestionTable.cshtml", Model.Questions ); }
-
-<br />

@@ -1,8 +1,16 @@
 ﻿@using Integracja.Server.Web.Areas.Pytania.Models.MyCategory
 @model MyCategoryViewModel
 
-@{ await Html.RenderPartialAsync("../Shared/_HomeNavButtons.cshtml"); }
+<link rel="stylesheet" href="~/css/Pytania/MyCategory.css" />
 
-<h2>Pytania z kategorii</h2>
+<div class="container-fluid myCategory h-100">
 
-@{ await Html.RenderPartialAsync("../Shared/_QuestionTable.cshtml", Model.Questions); }
+    <p id="title">Pytania z kategorii</p>
+    <br/>
+
+    @{ await Html.RenderPartialAsync("../Shared/_HomeNavButtons.cshtml"); }
+    <br/>
+
+    @{ await Html.RenderPartialAsync("../Shared/_QuestionTable2.cshtml", Model.Questions); }
+
+</div>

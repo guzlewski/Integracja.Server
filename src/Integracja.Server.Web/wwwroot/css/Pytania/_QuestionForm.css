@@ -52,3 +52,13 @@
         display: block;
     }
 }
+
+#label {
+    font-size: 2rem !important;
+    font-weight: 500 !important;
+    color: #707070 !important;
+}
+
+#bord2 {
+    border-top: 2px solid #F0F0F0 !important;
+}

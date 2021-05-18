@@ -1,16 +1,12 @@
-﻿.dodaj_pytanie {
+﻿.categories {
     padding: 2.5em;
     background: #fff;
     border: 1px solid #F0F0F0;
     box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-.title {
+#title {
     text-align: center;
     font-size: 2.5em;
-    color: #fed136;   
-}
-
-#category {
-    font-weight: 300;
+    color: #fed136;
 }

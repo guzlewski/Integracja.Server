@@ -1,9 +1,15 @@
 ﻿@using Integracja.Server.Web.Areas.Pytania.Models.Shared
 
-<div class="container-fluid">
-    <a asp-action="@nameof(IHomeNav.MyQuestions)" class="btn btn-primary">Moje pytania</a>
-    <a asp-action="@nameof(IHomeNav.MyCategories)" class="btn btn-primary">Moje kategorie</a>
-    <a asp-action="@nameof(IHomeNav.AllQuestions)" class="btn btn-primary">Wszystkie pytania</a>
-    <a asp-action="@nameof(IHomeNav.GotoQuestionCreate)" class="btn btn-primary">Stwórz nowe pytanie</a>
+<link rel="stylesheet" href="~/css/Shared/Buttons.css" />
+
+<div class="row">
+    <div class="col-6">
+        <a asp-action="@nameof(IHomeNav.MyQuestions)" class="btn btn-primary">Moje pytania</a>
+        <a asp-action="@nameof(IHomeNav.MyCategories)" class="btn btn-primary">Moje kategorie</a>
+        <a asp-action="@nameof(IHomeNav.AllQuestions)" class="btn btn-primary">Wszystkie pytania</a>
+    </div>
+    <div class="col-6">
+        <a asp-action="@nameof(IHomeNav.GotoQuestionCreate)" class="btn btn-primary float-right">Stwórz nowe pytanie</a>
+    </div>
 </div>
 <br />

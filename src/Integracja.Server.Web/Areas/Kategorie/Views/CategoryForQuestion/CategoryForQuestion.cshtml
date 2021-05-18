@@ -4,6 +4,9 @@
 @section Styles
 {
     <link rel="stylesheet" href="~/css/Kategorie/_CategorySelect.css" />
+    <link rel="stylesheet" href="~/css/Kategorie/CategoryForQuestion.css" />
+    <link rel="stylesheet" href="~/css/Shared/Buttons.css" />
+    <link rel="stylesheet" href="~/css/Shared/Inputs.css" />
 }
 
 @section Scripts
@@ -13,30 +16,26 @@
     <script src="~/js/Shared/DataTables.js"></script>
 }
 
-@{ await Html.RenderPartialAsync("~/Views/Shared/Alerts/_AlertsList.cshtml", Model.Alerts);}
+<div class="container-fluid categoryFor h-100">
 
-@*wybór i dodawanie kategorii*@
-<div class="row">
-    <div class="col-md-10">
-        <h2>Wybierz kategorię...</h2>
-        <br />
+    @{ await Html.RenderPartialAsync("~/Views/Shared/Alerts/_AlertsList.cshtml", Model.Alerts);}
 
-        <a class="btn btn-primary"
-           asp-action="@nameof(ICategoryForQuestionActions.GotoQuestionCreate)"
-           asp-route-id="@Model.CategoryFormModel.Category.Id">
-            Dalej...
-        </a>
-        <br />
-        <br />
+    @*wybór i dodawanie kategorii*@
+    <p class="title">Wybierz kategorię</p>
 
-        @{ Model.CategorySelectModel.CategorySelected = Model.CategoryFormModel.Category.Id;} @*do kontrolera*@
-        @{ await Html.RenderPartialAsync("~/Areas/Kategorie/Views/Shared/_CategorySelectTable.cshtml", Model.CategorySelectModel);}
+    @{ Model.CategorySelectModel.CategorySelected = Model.CategoryFormModel.Category.Id;} @*do kontrolera*@
+    @{ await Html.RenderPartialAsync("~/Areas/Kategorie/Views/Shared/_CategorySelectTable.cshtml", Model.CategorySelectModel);}
 
-        @*dodawanie kategorii*@
-        <h2>Lub stwórz nową</h2>
-        <br />
+    <a class="btn btn-primary"
+       asp-action="@nameof(ICategoryForQuestionActions.GotoQuestionCreate)"
+       asp-route-id="@Model.CategoryFormModel.Category.Id">
+        Dalej...
+    </a>
+    <br /> <br />
 
-        @{ await Html.RenderPartialAsync("~/Areas/Kategorie/Views/Shared/_CategoryCreateModal.cshtml", Model.CategoryFormModel);}
+    @*dodawanie kategorii*@
+    <p class="title">Lub stwórz nową</p>
 
-    </div>
+    @{ await Html.RenderPartialAsync("~/Areas/Kategorie/Views/Shared/_CategoryCreateModal.cshtml", Model.CategoryFormModel);}
+
 </div>

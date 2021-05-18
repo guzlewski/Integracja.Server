@@ -1,0 +1,40 @@
+﻿@using Integracja.Server.Web.Models.Shared.Question
+@using Integracja.Server.Web.Areas.Pytania.Models.Shared
+@model List<QuestionModel>
+
+<div class="table-wrapper-scroll-y">
+    <table class="table data-table-games">
+        <thead>
+            <tr>
+                <th scope="col">Kategoria: </th>
+                <th scope="col">Treść: </th>
+                <th scope="col">Rodzaj punktacji: </th>
+                <th scope="col">Akcje: </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var question in Model)
+            {
+                <tr>
+                    <td>@question.CategoryName</td>
+                    <td class="d-lg-table-cell">@question.Content</td>
+                    <td>
+                        @if (question.Scoring == Integracja.Server.Core.Enums.QuestionScoring.ScoreIfFullyCorrect)
+                        {
+                            <text>Za pytanie</text>
+                        }
+                        else
+                        {
+                            <text>Za odpowiedzi</text>
+                        }
+                    </td>
+                    <td>
+                        <a asp-action="@nameof(IQuestionTableActions.GotoQuestionRead)" asp-route-questionId="@question.Id">Szczegóły</a> |
+                        <a asp-action="@nameof(IQuestionTableActions.GotoQuestionUpdate)" asp-route-questionId="@question.Id">Edycja</a> |
+                        <a asp-action="@nameof(IQuestionTableActions.GotoQuestionDelete)" asp-route-questionId="@question.Id" asp-route-categoryId="@question.CategoryId">Usuń</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
