@@ -91,6 +91,8 @@ namespace Integracja.Server.Web.Areas.Gry.Controllers
 
             await GameService.Add(createGameDto, UserId);
 
+            SetAlert(GameAlert.CreateSuccess());
+
             return Ok();
         }
 
