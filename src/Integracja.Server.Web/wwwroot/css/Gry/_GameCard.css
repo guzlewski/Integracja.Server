@@ -1,4 +1,4 @@
-﻿.historia {
+﻿.gameCard {
     background: #fff;
     border: 1px solid #F0F0F0;
     box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
@@ -7,7 +7,17 @@
 #back {
     position: absolute;
     left: 67px;
-    top: 142px;
+    top: 140px;
+}
+
+.status {
+    text-align: center;
+    font-size: 1.3em;
+    font-weight: 600;
+}
+
+.question {
+    font-weight: 500;
 }
 
 .title {
@@ -30,6 +40,6 @@ p {
     color: #777777;
 }
 
-/*.link {
-    color: #fed136 !important;
-}*/
+.bord {
+    border-bottom: 2px solid #DFDFDF !important;
+}

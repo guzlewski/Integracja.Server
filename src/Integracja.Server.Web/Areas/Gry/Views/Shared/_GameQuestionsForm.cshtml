@@ -7,7 +7,12 @@
         <br />
 
         <div class="table-wrapper-scroll-y">
-            <table id="gameQuestionsTable" class="table">
+            <table id="gameQuestionsTable" class="table" style="table-layout: fixed; width: 100%">
+                <colgroup>
+                    <col style="word-wrap: break-word; width: 75%;">
+                    <col style="word-wrap: break-word; width: 15%;">
+                    <col style="word-wrap: break-word; width: 10%;">
+                </colgroup>
                 <thead>
                     <tr>
                         <th scope="col">Treść</th>
@@ -19,8 +24,8 @@
                     @for (int i = 0; i < Model.Questions.Count; ++i)
                     {
                         <tr>
-                            <td class="d-lg-table-cell">@Model.Questions[i].Content</td>
-                            <td>@Model.Questions[i].CategoryName</td>
+                            <td class="d-lg-table-cell" style="word-wrap: break-word;">@Model.Questions[i].Content</td>
+                            <td style="word-wrap: break-word;">@Model.Questions[i].CategoryName</td>
                             <td>
 
                                 <input type="checkbox" class="form-control form-control-sm" name="gameQuestionCheckbox" data-question-id="@Model.Questions[i].Id" />

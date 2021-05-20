@@ -7,11 +7,11 @@
     <script src="~/js/Shared/CountdownTimer.js"></script>
 }
 
-<div class="card">
+<link rel="stylesheet" href="~/css/Gry/_GameCard.css" />
+<link rel="stylesheet" href="~/css/Shared/Buttons.css" />
 
-    <div>
-        <a href="@Url.Action(nameof(IHomeNav.CurrentGames),HomeController.Name)">Wróć</a>
-    </div>
 
-    @{ await Html.RenderPartialAsync("~/Areas/Gry/Views/Shared/_GameCard.cshtml", Model);}
-</div>
+    <a id="back" class="btn btn-primary" href="@Url.Action(nameof(IHomeNav.CurrentGames),HomeController.Name)">Wróć</a>
+
+
+@{ await Html.RenderPartialAsync("~/Areas/Gry/Views/Shared/_GameCard.cshtml", Model);}

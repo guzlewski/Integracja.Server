@@ -4,6 +4,12 @@
 <link rel="stylesheet" href="~/css/Kategorie/MyCategories.css" />
 <link rel="stylesheet" href="~/css/Shared/Inputs.css" />
 
+@section Scripts
+{
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
+    <script src="~/js/Shared/DataTables.js"></script>
+}
+
 <div class="container-fluid categories h-100">
 
     @{ await Html.RenderPartialAsync("~/Views/Shared/Alerts/_AlertsList.cshtml", Model.Alerts);}
@@ -12,7 +18,7 @@
     <br />
 
     @{ await Html.RenderPartialAsync("~/Areas/Pytania/Views/Shared/_HomeNavButtons.cshtml"); }
-    
+
     <br />
 
     @{ await Html.RenderPartialAsync("~/Areas/Kategorie/Views/Shared/_CategoryTable.cshtml", Model.Categories); }
