@@ -1,6 +1,12 @@
 ﻿@using Integracja.Server.Web.Areas.Pytania.Models.MyCategory
 @model MyCategoryViewModel
 
+@section Scripts
+{
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
+    <script src="~/js/Shared/DataTables.js"></script>
+}
+
 <link rel="stylesheet" href="~/css/Pytania/MyCategory.css" />
 
 <div class="container-fluid myCategory h-100">
@@ -8,10 +14,10 @@
     @{ await Html.RenderPartialAsync("~/Views/Shared/Alerts/_AlertsList.cshtml", Model.Alerts);}
 
     <p id="title">Pytania z kategorii</p>
-    <br/>
+    <br />
 
     @{ await Html.RenderPartialAsync("../Shared/_HomeNavButtons.cshtml"); }
-    <br/>
+    <br />
 
     @{ await Html.RenderPartialAsync("../Shared/_QuestionTable2.cshtml", Model.Questions); }
 

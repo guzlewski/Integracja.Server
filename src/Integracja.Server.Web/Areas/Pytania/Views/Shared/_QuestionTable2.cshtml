@@ -2,8 +2,15 @@
 @using Integracja.Server.Web.Areas.Pytania.Models.Shared
 @model List<QuestionModel>
 
+
 <div class="table-wrapper-scroll-y">
-    <table class="table data-table-games">
+    <table class="table table-bordered data-table" style="table-layout: fixed; width: 100%">
+        <colgroup>
+            <col style="word-wrap: break-word; width: 20%;">
+            <col style="word-wrap: break-word; width: 40%;">
+            <col style="word-wrap: break-word; width: 20%;">
+            <col style="word-wrap: break-word; width: 20%;">
+        </colgroup>
         <thead>
             <tr>
                 <th scope="col">Kategoria: </th>
@@ -16,9 +23,9 @@
             @foreach (var question in Model)
             {
                 <tr>
-                    <td>@question.CategoryName</td>
-                    <td class="d-lg-table-cell">@question.Content</td>
-                    <td>
+                    <td style="word-wrap: break-word;">@question.CategoryName</td>
+                    <td style="word-wrap: break-word;">@question.Content</td>
+                    <td >
                         @if (question.Scoring == Integracja.Server.Core.Enums.QuestionScoring.ScoreIfFullyCorrect)
                         {
                             <text>Za pytanie</text>
