@@ -11,10 +11,11 @@
     <link rel="stylesheet" href="~/css/Shared/Buttons.css" />
 }
 
-
 <div class="container-fluid gameMode h-100">
 
     @{ await Html.RenderPartialAsync("~/Views/Shared/Alerts/_AlertsList.cshtml", Model.Alerts);}
+
+    @*<a id="back" class="btn btn-primary" href="@Url.Action("Index", "", new { area = "Gry" })"> Wróć </a>*@
 
     <p class="title">Wybierz tryb gry</p>
 
@@ -22,7 +23,7 @@
         <table id="table_id" class="table table-bordered table-striped table-sm ">
             <thead>
                 <tr>
-                    <th scope="col">Nazwa gry</th>
+                    <th scope="col">Tryb gry</th>
                     <th scope="col">Liczba żyć</th>
                     <th scope="col">Czas na quiz</th>
                     <th scope="col">Czas na pytanie</th>
@@ -37,7 +38,7 @@
                 {
                     <tr class="@(Model.SelectedGamemode==Model.Gamemodes[i].Id ? "gamemode-selected" : "")">
                         <td>
-                            <a asp-action="@nameof(IGamemodeForGameActions.GamemodeRead)" asp-route-id="@Model.Gamemodes[i].Id" class="save-scroll">
+                            <a asp-action="@nameof(IGamemodeForGameActions.GamemodeRead)" asp-route-id="@Model.Gamemodes[i].Id" class="btn btn-light save-scroll">
                                 @Model.Gamemodes[i].Name
                             </a>
                         </td>

@@ -1,0 +1,83 @@
+﻿@using Integracja.Server.Web.Models.Shared.Game
+@using Integracja.Server.Web.Models.Shared.Time
+@model GameSettingsModel
+
+<p class="title mb-4"> Informacje o grze </p>
+
+@{
+    DateTimeOffset now = DateTimeOffset.UtcNow;
+    string expiredText = "W trakcie!";
+}
+<p id="countdown_timer_data" class="status" data-expired-text="@expiredText" data-prefix-text="Start za ">
+</p>
+@if (now < Model.StartDateTime) // przed startem
+{
+
+    // konwersja dla js
+    var t = Model.StartDateTime.ToUnixTimeMilliseconds();
+
+    <p class="card-text countdown-timer status" data-countdown-date="@t">
+        Oczekująca @* z jsem będzie wyświetlony timer do rozpoczęcia albo "w trakcie" *@
+    </p>
+}
+else if (now < Model.EndDateTime)
+{
+    <p class="card-text status">
+        @expiredText
+    </p>
+}
+else
+{
+    <p class="card-text status">
+        Gra zakończona
+    </p>
+}
+
+<div class="info">
+    <div class="row">
+        <div class="col-6 pr-5">
+            <div class="float-right">
+                <p> <span class="titles"> Nazwa gry: </span> @Model.GameName </p>
+                <p> <span class="titles"> Tryb gry: </span> @Model.Gamemode.Name </p>
+                @if (@Model.Gamemode.TimeForFullQuiz == null)
+                {
+                    <p> <span class="titles"> Czas na quiz: </span> nieograniczony </p>
+                }
+                else
+                {
+                    <p> <span class="titles"> Czas na quiz: </span> @Model.Gamemode.TimeForFullQuiz min </p>
+                }
+                @if (@Model.Gamemode.TimeForOneQuestion == null)
+                {
+                    <p> <span class="titles"> Czas na quiz: </span> nieograniczony </p>
+                }
+                else
+                {
+                    <p> <span class="titles"> Czas na quiz: </span> @Model.Gamemode.TimeForOneQuestion min </p>
+                }
+            </div>
+        </div>
+        <div class="col-6">
+            <p> <span class="titles"> Czas rozpoczęcia: </span> @Model.StartDateTime.LocalDateTime </p>
+            <p> <span class="titles"> Czas zakończenia: </span> @Model.EndDateTime.LocalDateTime </p>
+            @if (@Model.Gamemode.NumberOfLives == 0 || @Model.Gamemode.NumberOfLives == null)
+            {
+                <p> <span class="titles"> Liczba żyć: </span> bez limitu </p>
+            }
+            else
+            {
+                <p> <span class="titles"> Liczba żyć: </span> @Model.Gamemode.NumberOfLives </p>
+            }
+
+            @{
+                var playerCount = @Model.MaxPlayersCount;
+                string playerCountText = playerCount.ToString();
+                if (playerCount == 0)
+                    playerCountText = "Nieograniczona";
+            }
+
+            <p> <span class="titles"> Maksymalna liczba graczy: </span> @playerCountText </p>
+
+        </div>
+    </div>
+</div>

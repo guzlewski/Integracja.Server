@@ -1,8 +1,13 @@
 ﻿@using Integracja.Server.Web.Areas.Kategorie.Models.Shared
 @model CategorySelectTableViewModel
 
+
 <div class="table-wrapper-scroll-y">
-    <table class="table table-bordered table-striped data-table">
+    <table class="table table-bordered table-striped data-table text-wrap">
+        <colgroup>
+            <col style="word-wrap: break-word; width: 85%;">
+            <col style="word-wrap: break-word; width: 15%;">
+        </colgroup>
         <thead>
             <tr>
                 <th>Nazwa</th>
@@ -27,3 +32,4 @@
         </tbody>
     </table>
 </div>
+

@@ -3,6 +3,7 @@ using Integracja.Server.Core.Models.Identity;
 using Integracja.Server.Infrastructure.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace Integracja.Server.Web.Areas.Pytania.Controllers
 {
@@ -18,6 +19,11 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
         public override IActionResult Index(int categoryId)
         {
             return IndexResult("Index", AllQuestionsController.Name);
+        }
+
+        public override Task<IActionResult> QuestionReadView(int questionId)
+        {
+            return QuestionReadViewResult(questionId, true);
         }
     }
 }

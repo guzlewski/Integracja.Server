@@ -26,7 +26,8 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
         {
             HomeViewModel model = new HomeViewModel();
             model.Alerts = GetAlerts();
-            model.Questions = (List<QuestionModel>)await QuestionService.GetAll<QuestionModel>(UserId);
+            model.QuestionTable.Questions = (List<QuestionModel>)await QuestionService.GetAll<QuestionModel>(UserId);
+            model.QuestionTable.ReadActionsOnly = true;
             model.Title = "Wszystkie pytania";
             return View(IndexViewPath, model);
         }
