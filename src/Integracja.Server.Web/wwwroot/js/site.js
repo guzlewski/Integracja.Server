@@ -12,7 +12,7 @@ $(document).ready(function() {
     }
 
     // When a button is clicked...
-    $('.btn').on("click", function() {
+    $('.save-scroll').on("click", function() {
 
         // Set a cookie that holds the scroll position.
         Cookies.set("scroll", $(document).scrollTop() );

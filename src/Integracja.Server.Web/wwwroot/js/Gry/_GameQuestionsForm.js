@@ -1,11 +1,18 @@
 ﻿$(document).ready(function () {
 
+    // https://datatables.net/plug-ins/sorting/custom-data-source/dom-checkbox
+    $.fn.dataTable.ext.order['dom-checkbox'] = function (settings, col) {
+        return this.api().column(col, { order: 'index' }).nodes().map(function (td, i) {
+            return $('input', td).prop('checked') ? '1' : '0';
+        });
+    };
+
     $('#gameQuestionsTable').DataTable({
         initComplete: function () {
             this.api().columns(1).every(function () {
                 var column = this;
                 var select = $('<select><option value=""></option></select>')
-                    .appendTo($(column.footer()).empty())
+                    .appendTo($(column.header()).empty())
                     .on('change', function () {
                         var val = $.fn.dataTable.util.escapeRegex(
                             $(this).val()
@@ -26,14 +33,15 @@
             });
         },
         "aoColumnDefs": [
-            { "aTargets": [2], "orderDataType": "dom-text", type: 'string' },
+            { "aTargets": [2], "orderDataType": "dom-checkbox" },
         ]
     });
 
     $("#gameQuestionsCreateBtn").on("click", function () {
 
         if ($('[name="gameQuestionCheckbox"]:checked').length <= 0) {
-            alert('Please select minimum one data');
+            //alert('Please select minimum one data');
+            $("#gameQuestionsValidationMessage").text("Wybierz przynajmniej jedno pytanie");
         }
         else {
 

@@ -5,22 +5,24 @@
 @model QuestionFormViewModel
 
 <link rel="stylesheet" href="~/css/Pytania/_QuestionForm.css" />
+<link rel="stylesheet" href="~/css/Shared/Inputs.css" />
 
 <form id="@Ids.Form" asp-route-categoryId="@Model.Question.CategoryId">
 
     <input type="hidden" asp-for="Question.Id" />
     <input type="hidden" asp-for="Question.CategoryId" />
+    <input type="hidden" asp-for="Question.CategoryName" />
 
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="form-group mt-5">
-        <label asp-for="Question.Content" class="control-label"></label>
+        <label asp-for="Question.Content" class="control-label"> <span id="label"> Treść </span> </label>
         <textarea asp-for="Question.Content" class="form-control"></textarea>
         <span asp-validation-for="Question.Content" class="text-danger"></span>
     </div>
+    <br/>
 
     @*tworzenie odpowiedzi do pytania*@
     <h2>Odpowiedzi</h2>
-    <br />
 
     <div class="row">
         @for (int i = 0; i < Model.Question.Answers.Count; ++i)
@@ -42,30 +44,18 @@
     </div>
 
     <div class="form-group mb-5">
-        <input type="submit" asp-action="@nameof(IQuestionFormActions.AddAnswerField)" asp-route-categoryId="@Model.Question.CategoryId" formnovalidate value="Dodaj odpowiedź" class="btn btn-light" />
-        <input type="submit" asp-action="@nameof(IQuestionFormActions.RemoveAnswerField)" asp-route-categoryId="@Model.Question.CategoryId" formnovalidate value="Usuń odpowiedź" class="btn btn-light" />
+        <input type="submit" asp-action="@nameof(IQuestionFormActions.AddAnswerField)" asp-route-categoryId="@Model.Question.CategoryId" formnovalidate value="Dodaj odpowiedź" class="btn btn-light save-scroll" />
+        <input type="submit" asp-action="@nameof(IQuestionFormActions.RemoveAnswerField)" asp-route-categoryId="@Model.Question.CategoryId" formnovalidate value="Usuń odpowiedź" class="btn btn-light save-scroll" />
+        @if (!String.IsNullOrEmpty(@Model.Question.AnswersValidationMessage))
+        {
+            <br />
+            <span class="text-danger">@Model.Question.AnswersValidationMessage</span>
+        }
+
     </div>
 
-    <h2>Punktacja</h2>
+    <p id="bord2" class="title pt-3">Punktacja</p>
     <br />
-
-    @*
-        <div class="form-group">
-                <h4>Za dobrą odpowiedź</h4>
-                <input asp-for="Question.PositivePoints" type="number" class="form-control input-number"
-                       step="1"
-                       min="1"
-                       max="10" />
-            </div>
-
-            <div class="form-group">
-                <h4>Za złą odpowiedź</h4>
-                <input asp-for="Question.NegativePoints" type="number" class="form-control input-number"
-                       step="1"
-                       min="-10"
-                       max="0" />
-            </div>
-    *@
 
     <div class="points-form form-group">
 

@@ -47,6 +47,10 @@
             string redirectUrl = Url.Action("Index", "Home");
         }
         <button id="gameQuestionsCreateBtn" data-post-url="@postUrl" data-redirect-url="@redirectUrl" type="button" class="btn btn-primary">Zatwierdź pytania</button>
+        <div>
+            <span id="gameQuestionsValidationMessage" class="text-danger"></span>
+        </div>
+        
 
     </form>
 

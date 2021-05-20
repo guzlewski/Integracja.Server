@@ -44,7 +44,7 @@
                         </td>
 
                         @* zakończenie *@
-                        <td>@Model.Games[i].Settings.EndDateTime.ToLocalTime()</td>
+                        <td>@Model.Games[i].Settings.EndDateTime.LocalDateTime</td>
 
                         @*czas trwania*@
                         <td>@TimeHelper.ReadableTimeSpan(Model.Games[i].Settings.Duration)</td>

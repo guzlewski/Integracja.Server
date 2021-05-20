@@ -1,0 +1,11 @@
+﻿input:focus {
+    outline: 0 0 0 0 !important;
+    box-shadow: 0 0 0 0 !important;
+    border: 1px solid #fed136 !important;
+}
+
+textarea:focus {
+    outline: 0 0 0 0 !important;
+    box-shadow: 0 0 0 0 !important;
+    border: 1px solid #fed136 !important;
+}

@@ -1,16 +1,24 @@
 ﻿@using Integracja.Server.Web.Areas.Kategorie.Models.MyCategories
 @model MyCategoriesViewModel
 
+<link rel="stylesheet" href="~/css/Kategorie/MyCategories.css" />
+<link rel="stylesheet" href="~/css/Shared/Inputs.css" />
 
+<div class="container-fluid categories h-100">
 
-@{ await Html.RenderPartialAsync("~/Areas/Pytania/Views/Shared/_HomeNavButtons.cshtml"); }
+    @{ await Html.RenderPartialAsync("~/Views/Shared/Alerts/_AlertsList.cshtml", Model.Alerts);}
 
+    <p id="title">Moje kategorie</p>
+    <br />
 
-<h2>Moje kategorie</h2>
-<br />
+    @{ await Html.RenderPartialAsync("~/Areas/Pytania/Views/Shared/_HomeNavButtons.cshtml"); }
+    
+    <br />
 
-@{ await Html.RenderPartialAsync("~/Areas/Kategorie/Views/Shared/_CategoryTable.cshtml", Model.Categories); }
+    @{ await Html.RenderPartialAsync("~/Areas/Kategorie/Views/Shared/_CategoryTable.cshtml", Model.Categories); }
 
-<br />
+    <br />
 
-@{ await Html.RenderPartialAsync("~/Areas/Kategorie/Views/Shared/_CategoryFormModal.cshtml", Model.Form);}
+    @{ await Html.RenderPartialAsync("~/Areas/Kategorie/Views/Shared/_CategoryCreateModal.cshtml", Model.Form);}
+
+</div>

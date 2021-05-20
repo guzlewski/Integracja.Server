@@ -25,6 +25,7 @@ namespace Integracja.Server.Web.Areas.Kategorie.Controllers
         {
             MyCategoriesViewModel model = new();
             model.Categories = (System.Collections.Generic.List<CategoryModel>)await CategoryService.GetOwned<CategoryModel>(UserId);
+            model.Alerts = GetAlerts();
             return View("MyCategories", model);
         }
 
@@ -36,12 +37,14 @@ namespace Integracja.Server.Web.Areas.Kategorie.Controllers
         public async Task<IActionResult> GotoCategoryDelete(int id)
         {
             await CategoryService.Delete(id, UserId );
+            SetAlert(CategoryAlert.DeleteSuccess());
             return RedirectToAction("Index");
         }
 
         public async Task<IActionResult> CategoryCreate(CategoryModel category)
         {
             await CategoryService.Add(Mapper.Map<CreateCategoryDto>(category), UserId);
+            SetAlert(CategoryAlert.CreateSuccess());
             return RedirectToAction("Index");
         }
 

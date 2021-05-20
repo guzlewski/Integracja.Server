@@ -120,7 +120,10 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
 
         public Task<IActionResult> AddAnswerField(QuestionModel question)
         {
-            question.AddAnswer();
+            const int MaxAnswers = 8;
+            if (question.Answers.Count < MaxAnswers)
+                question.AddAnswer();
+            else question.AnswersValidationMessage = "Pytanie może mieć najwyżej "+MaxAnswers+" odpowiedzi";
 
             SaveToTempData(question);
 
@@ -128,7 +131,10 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
         }
         public Task<IActionResult> RemoveAnswerField(QuestionModel question)
         {
-            question.RemoveAnswer();
+            const int MinAnswers = 2;
+            if ( question.Answers.Count > MinAnswers)
+                question.RemoveAnswer();
+            else question.AnswersValidationMessage = "Pytanie musi mieć przynajmniej " + MinAnswers + " odpowiedzi";
 
             SaveToTempData(question);
 

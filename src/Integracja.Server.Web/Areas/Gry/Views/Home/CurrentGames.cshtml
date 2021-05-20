@@ -51,7 +51,7 @@
                         <td>@Model.Games[i].Settings.GameName</td>
 
                         @* rozpoczęcie *@
-                        <td>@Model.Games[i].Settings.StartDateTime.ToLocalTime()</td>
+                        <td>@Model.Games[i].Settings.StartDateTime.LocalDateTime</td>
 
                         @*status*@
                         @if (now < Model.Games[i].Settings.StartDateTime) // przed startem
@@ -83,7 +83,6 @@
                         @*akcje*@
                         <td>
                             <a asp-action="@nameof(IHomeActions.GotoGameRead)" asp-route-gameId="@Model.Games[i].Id">Szczegóły</a> |
-                            <a asp-action="@nameof(IHomeActions.GotoGameUpdate)" asp-route-gameId="@Model.Games[i].Id">Edytuj</a> |
                             <a asp-action="@nameof(IHomeActions.GotoGameDelete)" asp-route-gameId="@Model.Games[i].Id">Anuluj</a>
                         </td>
 

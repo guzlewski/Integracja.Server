@@ -29,6 +29,7 @@ namespace Integracja.Server.Web.Models.Shared.Question
         public bool IsPublic { get; set; }
         public bool IsPersisted { get => Id.HasValue; }
         public int Index { get; set; }
+        public string AnswersValidationMessage { get; set; }
 
         public const int DefaultAnswerCount = 4;
 
@@ -49,7 +50,7 @@ namespace Integracja.Server.Web.Models.Shared.Question
 
         public void RemoveAnswer()
         {
-            if (this.Answers.Count > 2)
+            if (this.Answers.Count > 0)
                 this.Answers.RemoveAt(this.Answers.Count - 1);
         }
 
