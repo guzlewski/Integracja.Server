@@ -89,12 +89,19 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
 
         }
 
-        public async Task<IActionResult> QuestionReadView(int questionId )
+        virtual public async Task<IActionResult> QuestionReadView(int questionId)
+        {
+            return await QuestionReadViewResult(questionId, false);
+        }
+
+        protected async Task<IActionResult> QuestionReadViewResult( int questionId, bool readActionsOnly )
         {
             QuestionDetailsViewModel model = new();
             model.Question = await QuestionService.Get<QuestionModel>(questionId, UserId);
+            model.ReadActionsOnly = readActionsOnly;
             return View("QuestionCard", model);
         }
+
         public async Task<IActionResult> QuestionUpdate(QuestionModel question)
         {
             int questionId = await QuestionService.Update(question.Id.Value, Mapper.Map<EditQuestionDto>(question), UserId);

@@ -1,6 +1,6 @@
 ﻿@using Integracja.Server.Web.Models.Shared.Question
 @using Integracja.Server.Web.Areas.Pytania.Models.Shared
-@model List<QuestionModel>
+@model QuestionTableViewModel
 
 <div class="table-wrapper-scroll-y">
     <table id="table_id" class="table table-sm data-table table-card-layout">
@@ -13,7 +13,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var question in Model)
+            @foreach (var question in Model.Questions)
             {
                 <tr>
                     <td>@question.CategoryName</td>
@@ -28,9 +28,14 @@
                         }
                     </td>
                     <td>
-                        <a asp-action="@nameof(IQuestionTableActions.GotoQuestionRead)" asp-route-questionId="@question.Id">Szczegóły</a> |
-                        <a asp-action="@nameof(IQuestionTableActions.GotoQuestionUpdate)" asp-route-questionId="@question.Id">Edycja</a> |
-                        <a asp-action="@nameof(IQuestionTableActions.GotoQuestionDelete)" asp-route-questionId="@question.Id" asp-route-categoryId="@question.CategoryId">Usuń</a>
+                        <a asp-action="@nameof(IQuestionTableActions.GotoQuestionRead)" asp-route-questionId="@question.Id">Szczegóły</a>
+                        @if (!Model.ReadActionsOnly || User.IsInRole("Administrator"))
+                        {
+                            @Html.Raw(" | ");
+                            <a asp-action = "@nameof(IQuestionTableActions.GotoQuestionUpdate)" asp-route-questionId = "@question.Id" > Edycja </a>
+                            @Html.Raw(" | ");
+                            <a asp-action = "@nameof(IQuestionTableActions.GotoQuestionDelete)" asp-route-questionId = "@question.Id" asp-route-categoryId = "@question.CategoryId" > Usuń </a>
+                        }
                     </td>
                     <td class="d-lg-table-cell">@question.Content</td>
                 </tr>

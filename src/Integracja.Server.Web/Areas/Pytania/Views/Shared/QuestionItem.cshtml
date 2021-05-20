@@ -6,10 +6,13 @@
 
             @{ await Html.RenderPartialAsync("~/Areas/Pytania/Views/Shared/_QuestionItem.cshtml", Model); }
 
-            <div class="container">
-                <a asp-action="@Model.GoBackActionName" asp-route-categoryId="@Model.Question.CategoryId">Wróć</a>
-                <a asp-action="@nameof(IQuestionCardActions.GotoQuestionUpdate)" asp-route-questionId="@Model.Question.Id" class="card-link">Edytuj</a>
-                <a asp-action="@nameof(IQuestionCardActions.GotoQuestionDelete)" asp-route-questionId="@Model.Question.Id" asp-route-categoryId="@Model.Question.CategoryId" class="card-link">Usuń</a>
-            </div>
+    <div class="container">
+        <a asp-action="@Model.GoBackActionName" asp-route-categoryId="@Model.Question.CategoryId">Wróć</a>
+        @if (!Model.ReadActionsOnly || User.IsInRole("Administrator"))
+        {
+            <a asp-action="@nameof(IQuestionCardActions.GotoQuestionUpdate)" asp-route-questionId="@Model.Question.Id" class="card-link">Edytuj</a>
+            <a asp-action="@nameof(IQuestionCardActions.GotoQuestionDelete)" asp-route-questionId="@Model.Question.Id" asp-route-categoryId="@Model.Question.CategoryId" class="card-link">Usuń</a>
+        }
+    </div>
 
 </div>
