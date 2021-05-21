@@ -5,6 +5,12 @@
 @using System.Security.Claims
 @model GamemodeForGameViewModel
 
+@section Scripts {
+
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
+    <script src="~/js/Shared/DataTables.js"></script>
+}
+
 @section Styles
 {
     <link rel="stylesheet" href="~/css/TrybyGry/GamemodeForGame.css" />
@@ -20,7 +26,7 @@
     <p class="title">Wybierz tryb gry</p>
 
     <div class="table-wrapper-scroll-y">
-        <table id="table_id" class="table table-bordered table-striped table-sm ">
+        <table id="table_id" class="table table-bordered table-striped table-sm data-table">
             <thead>
                 <tr>
                     <th scope="col">Tryb gry</th>

@@ -5,9 +5,14 @@
 {
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
     <script src="~/js/Shared/DataTables.js"></script>
+    <script src="~/js/Shared/TableCardLayout.js"></script>
 }
 
-<link rel="stylesheet" href="~/css/Pytania/MyCategory.css" />
+@section Styles
+{
+    <link rel="stylesheet" href="~/css/Shared/TableCardLayout.css" />
+    <link rel="stylesheet" href="~/css/Pytania/MyCategory.css" />
+}
 
 <div class="container-fluid myCategory h-100">
 
@@ -19,6 +24,11 @@
     @{ await Html.RenderPartialAsync("../Shared/_HomeNavButtons.cshtml"); }
     <br />
 
-    @{ await Html.RenderPartialAsync("../Shared/_QuestionTable2.cshtml", Model.Questions); }
-
 </div>
+
+<br />
+<br />
+
+@{ await Html.RenderPartialAsync("../Shared/_QuestionTable2.cshtml", Model.Questions); }
+
+<br />
