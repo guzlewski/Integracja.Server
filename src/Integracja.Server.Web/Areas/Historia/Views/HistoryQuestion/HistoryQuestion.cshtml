@@ -26,11 +26,11 @@
                 <p> <span class="titles"> Kategoria: </span> @Model.question.CategoryName </p>
                 @if (@Model.question.Scoring == Integracja.Server.Core.Enums.QuestionScoring.ScoreIfFullyCorrect)
                 {
-                    <p> <span class="titles"> Sposób punktacji: </span> Punkty przyznawane za pełną poprawność </p>
+                    <p> <span class="titles"> Rodzaj punktacji: </span> Całkowita </p>
                 }
                 else
                 {
-                    <p> <span class="titles"> Sposób punktacji: </span> Punkty przyznawane za częściową poprawność </p>
+                    <p> <span class="titles"> Rodzaj punktacji: </span> Cząstkowa </p>
                 }
             </div>
         </div>
