@@ -62,3 +62,13 @@
 #bord2 {
     border-top: 2px solid #E7E7E7 !important;
 }
+
+input[type=checkbox] {
+    outline: 0 0 0 0 !important;
+    box-shadow: 0 0 0 0 !important;
+    -ms-transform: scale(1.5); /* IE */
+    -moz-transform: scale(1.5); /* FF */
+    -webkit-transform: scale(1.5); /* Safari and Chrome */
+    -o-transform: scale(1.5); /* Opera */
+    transform: scale(1.5);
+}

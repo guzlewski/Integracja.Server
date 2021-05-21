@@ -2,37 +2,29 @@
 @using Integracja.Server.Web.Areas.Pytania.Models.Shared
 @model List<QuestionModel>
 
-
 <div class="table-wrapper-scroll-y">
-    <table class="table table-bordered data-table" style="table-layout: fixed; width: 100%">
-        <colgroup>
-            <col style="word-wrap: break-word; width: 20%;">
-            <col style="word-wrap: break-word; width: 40%;">
-            <col style="word-wrap: break-word; width: 20%;">
-            <col style="word-wrap: break-word; width: 20%;">
-        </colgroup>
+    <table id="table_id" class="table table-sm data-table table-card-layout" style="table-layout: fixed; width: 100%">
         <thead>
             <tr>
                 <th scope="col">Kategoria: </th>
-                <th scope="col">Treść: </th>
                 <th scope="col">Rodzaj punktacji: </th>
                 <th scope="col">Akcje: </th>
+                <th scope="col">Treść: </th>
             </tr>
         </thead>
         <tbody>
             @foreach (var question in Model)
             {
                 <tr>
-                    <td style="word-wrap: break-word;">@question.CategoryName</td>
-                    <td style="word-wrap: break-word;">@question.Content</td>
-                    <td >
+                    <td>@question.CategoryName</td>
+                    <td>
                         @if (question.Scoring == Integracja.Server.Core.Enums.QuestionScoring.ScoreIfFullyCorrect)
                         {
-                            <text>Za pytanie</text>
+                            <text>Całkowita</text>
                         }
                         else
                         {
-                            <text>Za odpowiedzi</text>
+                            <text>Cząstkowa</text>
                         }
                     </td>
                     <td>
@@ -40,6 +32,7 @@
                         <a asp-action="@nameof(IQuestionTableActions.GotoQuestionUpdate)" asp-route-questionId="@question.Id">Edycja</a> |
                         <a asp-action="@nameof(IQuestionTableActions.GotoQuestionDelete)" asp-route-questionId="@question.Id" asp-route-categoryId="@question.CategoryId">Usuń</a>
                     </td>
+                    <td class="d-lg-table-cell">@question.Content</td>
                 </tr>
             }
         </tbody>

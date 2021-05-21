@@ -27,7 +27,9 @@ namespace Integracja.Server.Web.Areas.Kategorie.Controllers
         public async Task<IActionResult> Index(int? id)
         {
             var model = new CategoryForQuestionViewModel();
-            model.CategorySelectModel.Categories = (List<CategoryModel>)await CategoryService.GetAll<CategoryModel>(UserId);
+            if( User.IsInRole("Administrator") )
+                model.CategorySelectModel.Categories = (List<CategoryModel>)await CategoryService.GetAll<CategoryModel>(UserId);
+            else model.CategorySelectModel.Categories = (List<CategoryModel>)await CategoryService.GetOwned<CategoryModel>(UserId);
             model.Alerts = GetAlerts();
 
             if (id.HasValue)

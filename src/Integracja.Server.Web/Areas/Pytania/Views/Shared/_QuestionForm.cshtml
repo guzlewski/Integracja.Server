@@ -12,6 +12,7 @@
     <input type="hidden" asp-for="Question.Id" />
     <input type="hidden" asp-for="Question.CategoryId" />
     <input type="hidden" asp-for="Question.CategoryName" />
+    <input type="hidden" asp-for="Question.IsPublic" />
 
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="form-group mt-5">
@@ -19,7 +20,7 @@
         <textarea asp-for="Question.Content" class="form-control"></textarea>
         <span asp-validation-for="Question.Content" class="text-danger"></span>
     </div>
-    <br/>
+    <br />
 
     @*tworzenie odpowiedzi do pytania*@
     <h2>Odpowiedzi</h2>
