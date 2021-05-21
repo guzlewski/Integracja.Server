@@ -61,6 +61,7 @@ namespace Integracja.Server.Web.Areas.Pytania.Controllers
             var category = await CategoryService.Get<CategoryModel>(categoryId, UserId);
             question.CategoryName = category.Name;
             question.CategoryId = categoryId;
+            question.IsPublic = category.IsPublic;
 
             SaveToTempData(question);
 
