@@ -91,7 +91,7 @@ namespace Integracja.Server.Infrastructure.Repositories
         public async Task Delete(Game game, bool skipUserVerification = false)
         {
             var entity = await _dbContext.Games
-                .Where(g => g.Id == game.Id && (g.OwnerId == game.OwnerId || skipUserVerification) && g.GameState == GameState.Normal)
+                .Where(g => g.Id == game.Id && (g.OwnerId == game.OwnerId || skipUserVerification) && g.GameState != GameState.Deleted)
                 .Select(g => new
                 {
                     Game = g,
