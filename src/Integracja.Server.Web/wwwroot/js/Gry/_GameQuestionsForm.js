@@ -7,7 +7,8 @@
         });
     };
 
-    $('#gameQuestionsTable').DataTable({
+    var gameQuestionTable = $('#gameQuestionsTable').DataTable({
+        stateSave: false,
         initComplete: function () {
             this.api().columns(1).every(function () {
                 var column = this;
@@ -39,20 +40,22 @@
 
     $("#gameQuestionsCreateBtn").on("click", function () {
 
-        if ($('[name="gameQuestionCheckbox"]:checked').length <= 0) {
-            //alert('Please select minimum one data');
+        var questionIds = new Array();
+        $("input", gameQuestionTable.rows().nodes()).each(function () {
+
+            var prop = $(this).prop("checked");
+            if (prop) {
+                var questionId = $(this).data("question-id");
+                questionIds.push(questionId);
+            }   
+        });
+
+        //console.log("length: " + questionIds.length);
+
+        if (questionIds.length <= 0) {
             $("#gameQuestionsValidationMessage").text("Wybierz przynajmniej jedno pytanie");
         }
         else {
-
-            var questionIds = new Array();
-            $('[name="gameQuestionCheckbox"]:checked').each(function (data) {
-
-                var questionId = $(this).data("question-id");
-
-                questionIds.push(questionId);
-            });
-
             var url = $(this).data("post-url");
 
             $.ajax({

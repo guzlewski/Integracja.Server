@@ -43,7 +43,7 @@ namespace Integracja.Server.Infrastructure.Services.Implementations
         {
             return await _gameUserRepository.GetAll(userId)
                 .Where(gu => gu.GameUserState != GameUserState.Left &&
-                    gu.Game.GameState != GameState.Deleted &&
+                    gu.Game.GameState == GameState.Normal &&
                     gu.Game.EndTime > DateTimeOffset.Now &&
                     gu.AnsweredQuestions != gu.Game.QuestionsCount &&
                     !gu.GameOver)
