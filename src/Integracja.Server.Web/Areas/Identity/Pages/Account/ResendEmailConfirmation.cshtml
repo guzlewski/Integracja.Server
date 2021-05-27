@@ -1,23 +1,40 @@
-@page
+﻿@page
 @model ResendEmailConfirmationModel
 @{
     ViewData["Title"] = "Resend email confirmation";
 }
 
-<h1>@ViewData["Title"]</h1>
-<h4>Enter your email.</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form method="post">
-            <div asp-validation-summary="All" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Input.Email"></label>
-                <input asp-for="Input.Email" class="form-control" />
-                <span asp-validation-for="Input.Email" class="text-danger"></span>
+<div class="picture h-100">
+    <div class="container h-100">
+        <div class="d-flex flex-column justify-content-center h-100">
+            <div class="logo">inte<span id="integration">GRA</span>cja</div>
+            <div class="login d-flex flex-row justify-content-center">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-center mt-2">
+                        <h2>Nie przyszedł mail aktywacyjny</h2>
+                    </div>
+                    <div class="card-body">
+                        <form id="account" method="post">
+                            <div asp-validation-summary="All" class="text-danger"></div>
+                            <div class="input-group form-group data">
+                                <div class="input-group-prepend input-icon">
+                                    <span class="input-group-text "><i class="fas fa-envelope"></i></span>
+                                </div>
+                                <input asp-for="Input.Email" class="form-control" placeholder="adres e-mail">
+                            </div>
+                            <div class="form-group d-flex justify-content-center mt-4 mb-2 button">
+                                <input type="submit" value="Wyślij ponownie" class="btn btn-primary float-right log_in">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="card-footer">
+                        <div class="d-flex justify-content-center links">
+                            <a asp-page="./Login">Wróć do strony logowania</a>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <button type="submit" class="btn btn-primary">Resend</button>
-        </form>
+        </div>
     </div>
 </div>
 
