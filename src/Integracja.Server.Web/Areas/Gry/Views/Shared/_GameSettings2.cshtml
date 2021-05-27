@@ -18,15 +18,15 @@
                     }
                     else
                     {
-                        <p> <span class="titles"> Czas na quiz: </span> @Model.Gamemode.TimeForFullQuiz min </p>
+                        <p> <span class="titles"> Czas na quiz: </span> @TimeHelper.ReadableSeconds(Model.Gamemode.TimeForFullQuiz.Value) </p>
                     }
                     @if (@Model.Gamemode.TimeForOneQuestion == null)
                     {
-                        <p> <span class="titles"> Czas na quiz: </span> nieograniczony </p>
+                        <p> <span class="titles"> Czas na pytanie: </span> nieograniczony </p>
                     }
                     else
                     {
-                        <p> <span class="titles"> Czas na quiz: </span> @Model.Gamemode.TimeForOneQuestion min </p>
+                        <p> <span class="titles"> Czas na pytanie: </span> @TimeHelper.ReadableSeconds(Model.Gamemode.TimeForOneQuestion.Value) </p>
                     }
                 </div>
             </div>
