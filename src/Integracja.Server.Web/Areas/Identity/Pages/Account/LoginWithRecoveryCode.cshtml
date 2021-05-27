@@ -1,14 +1,46 @@
 ﻿@page
 @model LoginWithRecoveryCodeModel
 @{
-    ViewData["Title"] = "Recovery code verification";
+    ViewData["Title"] = "Werfyfikacja kodu odzyskującego";
 }
 
-<h1>@ViewData["Title"]</h1>
+<div class="picture h-100">
+    <div class="container h-100">
+        <div class="d-flex flex-column justify-content-center h-100">
+            <div class="logo">inte<span id="integration">GRA</span>cja</div>
+            <div class="login d-flex flex-row justify-content-center">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-center mt-2">
+                        <h2 class="text-center">@ViewData["Title"]</h2>
+                    </div>
+                    <p class="pr-4 pl-4 mb-0" style="color: white;">
+                        Zażądano logowania używając kodu odzyskującego. To logowanie nie będzie zapamiętane dopóki kod z aplikacji uwierzytelniającej
+                        nie zostanie użyty przy logowaniu lub dwuskładnikowe uwierzytelnianie nie zostanie wyłączone.
+                    </p>
+                    <div class="card-body">
+                        <form method="post">
+                            <div asp-validation-summary="All" class="text-danger"></div>
+                            <div class="form-group">
+                                <label style="color: white;" asp-for="Input.RecoveryCode"></label>
+                                <input asp-for="Input.RecoveryCode" class="form-control" autocomplete="off" />
+                                <span asp-validation-for="Input.RecoveryCode" class="text-danger"></span>
+                            </div>
+                            <div class="form-group d-flex justify-content-center mt-4 mb-2 button">
+                                <input type="submit" value="Zaloguj się" class="btn btn-primary float-right log_in">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*<h1>@ViewData["Title"]</h1>
 <hr />
 <p>
-    You have requested to log in with a recovery code. This login will not be remembered until you provide
-    an authenticator app code at log in or disable 2FA and log in again.
+    Zażądano logowania używając kodu odzyskującego. To logowanie nie będzie zapamiętane dopóki kod z aplikacji uwierzytelniającej
+    nie zostanie użyty przy logowaniu lub dwuskładnikowe uwierzytelnianie nie zostanie wyłączone
 </p>
 <div class="row">
     <div class="col-md-4">
@@ -19,10 +51,10 @@
                 <input asp-for="Input.RecoveryCode" class="form-control" autocomplete="off" />
                 <span asp-validation-for="Input.RecoveryCode" class="text-danger"></span>
             </div>
-            <button type="submit" class="btn btn-primary">Log in</button>
+            <button type="submit" class="btn btn-primary">Zaloguj się</button>
         </form>
     </div>
-</div>
+</div>*@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
