@@ -29,7 +29,7 @@ namespace Integracja.Server.Web.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            [Required]
+            [Required(ErrorMessage = "Pole adres e-mail jest wymagane.")]
             [EmailAddress]
             public string Email { get; set; }
         }

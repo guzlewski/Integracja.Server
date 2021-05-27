@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -36,10 +36,10 @@ namespace Integracja.Server.Web.Areas.Identity.Pages.Account
             [Required]
             [StringLength(7, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
             [DataType(DataType.Text)]
-            [Display(Name = "Kod uwierzytelniaj¹cy")]
+            [Display(Name = "Kod uwierzytelniajÄ…cy")]
             public string TwoFactorCode { get; set; }
 
-            [Display(Name = "Zapamiêtaj to urz¹dzenie")]
+            [Display(Name = "ZapamiÄ™taj to urzÄ…dzenie")]
             public bool RememberMachine { get; set; }
         }
 
@@ -91,7 +91,7 @@ namespace Integracja.Server.Web.Areas.Identity.Pages.Account
             else
             {
                 _logger.LogWarning("Invalid authenticator code entered for user with ID '{UserId}'.", user.Id);
-                ModelState.AddModelError(string.Empty, "Wprowadzony kod uwierzytelniaj¹cy jest niepoprawny.");
+                ModelState.AddModelError(string.Empty, "Wprowadzony kod uwierzytelniajÄ…cy jest niepoprawny.");
                 return Page();
             }
         }
