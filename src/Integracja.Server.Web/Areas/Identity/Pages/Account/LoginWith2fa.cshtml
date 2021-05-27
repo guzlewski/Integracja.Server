@@ -1,40 +1,53 @@
 ﻿@page
 @model LoginWith2faModel
 @{
-    ViewData["Title"] = "Two-factor authentication";
+    ViewData["Title"] = "Uwierzytelnianie dwuskładnikowe";
 }
 
-<h1>@ViewData["Title"]</h1>
-<hr />
-<p>Your login is protected with an authenticator app. Enter your authenticator code below.</p>
-<div class="row">
-    <div class="col-md-4">
-        <form method="post" asp-route-returnUrl="@Model.ReturnUrl">
-            <input asp-for="RememberMe" type="hidden" />
-            <div asp-validation-summary="All" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Input.TwoFactorCode"></label>
-                <input asp-for="Input.TwoFactorCode" class="form-control" autocomplete="off" />
-                <span asp-validation-for="Input.TwoFactorCode" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <div class="checkbox">
-                    <label asp-for="Input.RememberMachine">
-                        <input asp-for="Input.RememberMachine" />
-                        @Html.DisplayNameFor(m => m.Input.RememberMachine)
-                    </label>
+<div class="picture h-100">
+    <div class="container h-100">
+        <div class="d-flex flex-column justify-content-center h-100">
+            <div class="logo">inte<span id="integration">GRA</span>cja</div>
+            <div class="login d-flex flex-row justify-content-center">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-center mt-2">
+                        <h2 class="text-center">@ViewData["Title"]</h2>
+                    </div>
+                    <p class="pl-5" style="color: white;">Twoje logowanie jest chronione przez aplikację uwierzytelniającą. Wprowadź poniżej kod uwierzytelniający z aplikacji.</p>
+                    <div class="card-body">
+                        <form method="post" asp-route-returnUrl="@Model.ReturnUrl">
+                            <input asp-for="RememberMe" type="hidden" />
+                            <div asp-validation-summary="All" class="text-danger"></div>
+                            <div class="form-group">
+                                <label style="color: white;" asp-for="Input.TwoFactorCode"></label>
+                                <input asp-for="Input.TwoFactorCode" class="form-control" autocomplete="off" />
+                                <span asp-validation-for="Input.TwoFactorCode" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <div class="checkbox">
+                                    <label style="color: white;" asp-for="Input.RememberMachine">
+                                        <input asp-for="Input.RememberMachine" />
+                                        @Html.DisplayNameFor(m => m.Input.RememberMachine)
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group d-flex justify-content-center mt-4 mb-2 button">
+                                <input type="submit" value="Zaloguj się" class="btn btn-primary float-right log_in">
+                            </div>
+                        </form>
+                        <div class="card-footer">
+                            <div class="links">
+                                Nie masz dostępu do swojego urządzenia uwierzytelniającego?
+                                <a id="recovery-code-login" asp-page="./LoginWithRecoveryCode" asp-route-returnUrl="@Model.ReturnUrl">Zaloguj się za pomocą kodu odzyskującego</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary">Log in</button>
-            </div>
-        </form>
+        </div>
     </div>
 </div>
-<p>
-    Don't have access to your authenticator device? You can
-    <a id="recovery-code-login" asp-page="./LoginWithRecoveryCode" asp-route-returnUrl="@Model.ReturnUrl">log in with a recovery code</a>.
-</p>
+
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
