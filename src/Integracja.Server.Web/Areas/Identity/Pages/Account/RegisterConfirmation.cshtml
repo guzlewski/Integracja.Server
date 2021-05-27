@@ -4,19 +4,38 @@
     ViewData["Title"] = "Register confirmation";
 }
 
-<h1>@ViewData["Title"]</h1>
 @{
     if (@Model.DisplayConfirmAccountLink)
     {
-<p>
-    This app does not currently have a real email sender registered, see <a href="https://aka.ms/aspaccountconf">these docs</a> for how to configure a real email sender.
-    Normally this would be emailed: <a id="confirm-link" href="@Model.EmailConfirmationUrl">Click here to confirm your account</a>
-</p>
+        <p>
+            This app does not currently have a real email sender registered, see <a href="https://aka.ms/aspaccountconf">these docs</a> for how to configure a real email sender.
+            Normally this would be emailed: <a id="confirm-link" href="@Model.EmailConfirmationUrl">Click here to confirm your account</a>
+        </p>
     }
     else
     {
-<p>
-        Please check your email to confirm your account.
-</p>
+        <div class="picture h-100">
+            <div class="container h-100">
+                <div class="d-flex flex-column justify-content-center h-100">
+                    <div class="logo">inte<span id="integration">GRA</span>cja</div>
+                    <div class="login d-flex flex-row justify-content-center">
+                        <div class="card">
+                            <div class="card-header d-flex justify-content-center mt-2">
+                                <h2>Wymagane jest potwierdzenie konta, sprawdź email i kliknij w link aktywacyjny.</h2>
+                            </div>
+
+                            <div class="card-footer">
+                                <div class="d-flex justify-content-center links">
+                                    Nie masz konta?<a asp-page="./Register">Zarejestruj się</a>
+                                </div>
+                                <div class="d-flex justify-content-center links">
+                                    <a asp-page="./ForgotPassword">Nie pamiętasz hasła?</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     }
 }
