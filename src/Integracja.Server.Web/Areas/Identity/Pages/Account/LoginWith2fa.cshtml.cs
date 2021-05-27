@@ -36,10 +36,10 @@ namespace Integracja.Server.Web.Areas.Identity.Pages.Account
             [Required]
             [StringLength(7, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
             [DataType(DataType.Text)]
-            [Display(Name = "Authenticator code")]
+            [Display(Name = "Kod uwierzytelniaj¹cy")]
             public string TwoFactorCode { get; set; }
 
-            [Display(Name = "Remember this machine")]
+            [Display(Name = "Zapamiêtaj to urz¹dzenie")]
             public bool RememberMachine { get; set; }
         }
 
@@ -91,7 +91,7 @@ namespace Integracja.Server.Web.Areas.Identity.Pages.Account
             else
             {
                 _logger.LogWarning("Invalid authenticator code entered for user with ID '{UserId}'.", user.Id);
-                ModelState.AddModelError(string.Empty, "Invalid authenticator code.");
+                ModelState.AddModelError(string.Empty, "Wprowadzony kod uwierzytelniaj¹cy jest niepoprawny.");
                 return Page();
             }
         }
