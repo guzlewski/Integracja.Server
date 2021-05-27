@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -34,7 +34,7 @@ namespace Integracja.Server.Web.Areas.Identity.Pages.Account
             [BindProperty]
             [Required]
             [DataType(DataType.Text)]
-            [Display(Name = "Kod odzyskuj¹cy")]
+            [Display(Name = "Kod odzyskujÄ…cy")]
             public string RecoveryCode { get; set; }
         }
 
@@ -82,7 +82,7 @@ namespace Integracja.Server.Web.Areas.Identity.Pages.Account
             else
             {
                 _logger.LogWarning("Invalid recovery code entered for user with ID '{UserId}' ", user.Id);
-                ModelState.AddModelError(string.Empty, "Wprowadzony kod odzyskuj¹cy jest niepoprawny.");
+                ModelState.AddModelError(string.Empty, "Wprowadzony kod odzyskujÄ…cy jest niepoprawny.");
                 return Page();
             }
         }
