@@ -26,10 +26,7 @@
 
                             <div class="card-footer">
                                 <div class="d-flex justify-content-center links">
-                                    Nie masz konta?<a asp-page="./Register">Zarejestruj się</a>
-                                </div>
-                                <div class="d-flex justify-content-center links">
-                                    <a asp-page="./ForgotPassword">Nie pamiętasz hasła?</a>
+                                    <a asp-page="./Login" asp-route-returnUrl="@Model.ReturnUrl">Wróć do strony logowania</a>
                                 </div>
                             </div>
                         </div>
