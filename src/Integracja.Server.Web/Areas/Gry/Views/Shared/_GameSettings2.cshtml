@@ -33,7 +33,7 @@
             <div class="col-6">
                 <p> <span class="titles"> Czas rozpoczęcia: </span> @Model.StartDateTime.LocalDateTime </p>
                 <p> <span class="titles"> Czas zakończenia: </span> @Model.EndDateTime.LocalDateTime </p>
-                @if (@Model.Gamemode.NumberOfLives == 0 || @Model.Gamemode.NumberOfLives == null)
+                @if (@Model.Gamemode.NumberOfLives == null)
                 {
                     <p> <span class="titles"> Liczba żyć: </span> bez limitu </p>
                 }
